@@ -6,5 +6,6 @@ public class Main {
         //Live long and prosper
         //Oh Happy Day!!//
         //test push from Norway
+        //The magic is real
         }
 }
