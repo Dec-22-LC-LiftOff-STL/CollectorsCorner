@@ -1,10 +1,12 @@
 package com.collectorscorner.demo.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,29 +14,32 @@ import java.util.List;
 public class Book extends AbstractEntity {
     @ManyToMany(mappedBy = "books")
     private List<BookCollection> collectionsWithThisBook = new ArrayList<>();
-
+    @Column(name = "dateAdded")
+    private Date dateAdded;
+    @Column(name = "title")
     private String title;
-
+    @Column(name = "genre")
     private String genre;
 
-
+    @Column(name = "author")
     private String author;
-
+    @Column(name = "year")
     private int year;
 
 
-
+    @Column(name = "synopsis")
     private String synopsis;
 
     public Book() {
     }
 
-    public Book(String title, String genre, String author, int year, String synopsis) {
+    public Book(String title, String genre, String author, int year, String synopsis, Date dateAdded) {
         this.title = title;
         this.genre = genre;
         this.author = author;
         this.year = year;
         this.synopsis = synopsis;
+        this.dateAdded = dateAdded;
     }
 
     public String getAuthor() {
@@ -77,11 +82,28 @@ public class Book extends AbstractEntity {
         this.genre = genre;
     }
 
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public List<BookCollection> getCollectionsWithThisBook() {
+        return collectionsWithThisBook;
+    }
+
+    public void setCollectionsWithThisBook(List<BookCollection> collectionsWithThisBook) {
+        this.collectionsWithThisBook = collectionsWithThisBook;
+    }
 
     @Override
     public String toString() {
         return "Book{" +
-                "title='" + title + '\'' +
+                "collectionsWithThisBook=" + collectionsWithThisBook +
+                ", dateAdded=" + dateAdded +
+                ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
                 ", author='" + author + '\'' +
                 ", year=" + year +

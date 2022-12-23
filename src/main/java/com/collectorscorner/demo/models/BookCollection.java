@@ -1,6 +1,8 @@
 package com.collectorscorner.demo.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import org.springframework.stereotype.Component;
 
@@ -10,16 +12,17 @@ import java.util.List;
 @Entity
 @Component
 public class BookCollection extends AbstractEntity {
-    @OneToMany()
+    @ManyToMany
     private List<Book> books = new ArrayList<>();
-
+    @Column(name = "name")
     private String name;
-
+    @Column(name = "desc")
     private String description;
 
-    public BookCollection(String name, String description) {
+    public BookCollection(String name, String description, List books) {
         this.name = name;
         this.description = description;
+        this.books = books;
     }
 
     public BookCollection() {

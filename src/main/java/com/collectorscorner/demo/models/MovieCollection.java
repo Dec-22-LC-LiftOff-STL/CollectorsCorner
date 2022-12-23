@@ -2,10 +2,7 @@ package com.collectorscorner.demo.models;
 
 import java.lang.Class;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 import com.collectorscorner.demo.models.Movie;
 
@@ -18,14 +15,14 @@ import java.util.List;
 public class MovieCollection extends AbstractEntity {
 //@Column(name="Movie")
 
-    @OneToMany()
+    @ManyToMany
     private List<Movie> movies = new ArrayList<>();
-
+    @Column(name = "name")
     private String name;
-
+    @Column(name = "desc")
     private String description;
 
-    public MovieCollection(String name, String description) {
+    public MovieCollection(String name, String description, List movies) {
         this.name = name;
         this.description = description;
     }
@@ -52,7 +49,8 @@ public class MovieCollection extends AbstractEntity {
     @Override
     public String toString() {
         return "MovieCollection{" +
-                "name='" + name + '\'' +
+                "movies=" + movies +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }
