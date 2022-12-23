@@ -16,7 +16,7 @@ public class BookCollection extends AbstractEntity {
     private List<Book> books = new ArrayList<>();
     @Column(name = "name")
     private String name;
-    @Column(name = "desc")
+    @Column(name = "description")
     private String description;
 
     public BookCollection(String name, String description, List books) {

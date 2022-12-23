@@ -19,7 +19,7 @@ public class MovieCollection extends AbstractEntity {
     private List<Movie> movies = new ArrayList<>();
     @Column(name = "name")
     private String name;
-    @Column(name = "desc")
+    @Column(name = "description")
     private String description;
 
     public MovieCollection(String name, String description, List movies) {
