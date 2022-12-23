@@ -25,6 +25,7 @@ public class MovieCollection extends AbstractEntity {
     public MovieCollection(String name, String description, List movies) {
         this.name = name;
         this.description = description;
+        this.movies = movies;
     }
 
     public MovieCollection() {
