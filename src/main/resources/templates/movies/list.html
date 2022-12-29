@@ -28,6 +28,7 @@
 
 <!--Property userID below will be the ID/username the user is logged in as once we get authentication up and running-->
 <form method="post">
+    <input th:field="${movie.dateAdded}" id="">
     <input th:field="${movie.title}" id="titleSubmission" >
     <input th:field="${movie.genre}" id="genreSubmission" >
     <input th:field="${movie.genre2}" id="genre2Submission" >
@@ -36,7 +37,6 @@
     <input th:field="${movie.year}" id="yearSubmission" >
     <input th:field="${movie.synopsis}" id="synopsisSubmission" >
     <input th:field="${movie.userID}" id="userIDSubmission" >
-    <center><button type="submit">Add to Collection</button></center>
 </form>
 
 </body>
