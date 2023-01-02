@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>Books - Search</title>
+  <script type="text/javascript" th:src="@{../javascript/books-search.js}"></script>
+  <link rel="stylesheet" th:href="@{../CSS/books-search.css}">
+
+<body>
+
+<label for="userSearchTerm">Title</label><br>
+<input id="userSearchTerm" type="search" ><br>
+<button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button>
+
+<form id="filters">
+
+</form>
+<button onclick="filter(userYearMin, userYearMax)">Filter</button>
+
+<form method="post" id="databaseInformation" hidden>
+  <input th:field="${book.title}" id="titleSubmission" >
+  <input th:field="${book.dateAdded}" id="dateSubmission" >
+  <input th:field="${book.genre}" id="genreSubmission" >
+  <input th:field="${book.author}" id="authorSubmission" >
+  <input th:field="${book.year}" id="yearSubmission" >
+  <input th:field="${book.synopsis}" id="synopsisSubmission" >
+</form>
+
+  <div id="resultsTable"></div>
+
+</body>
+
+</html>
