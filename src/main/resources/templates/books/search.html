@@ -5,17 +5,39 @@
   <title>Books - Search</title>
   <script type="text/javascript" th:src="@{../javascript/books-search.js}"></script>
   <link rel="stylesheet" th:href="@{../CSS/books-search.css}">
+</head>
 
 <body>
 
 <label for="userSearchTerm">Title</label><br>
 <input id="userSearchTerm" type="search" ><br>
-<button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button>
+<button value="userSearchTerm" onclick="searchTitle(userSearchTerm);">Search</button><hr>
 
-<form id="filters">
+<button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML()">Show Filters</button><br>
 
+<div id="filtersSection" style="display:none;">
+  <button id="newSearchButton"><a href="http://localhost:8080/books/search">New Search</a></button>
+<form id="yearFilters" >
+  <h3>Year Range:</h3>
+  <input type="number" id="userYearMin">
+  <input type="number" id="userYearMax">
+  </form>
+<button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button>
+
+<form id="authorFilters">
+  <h3>Author:</h3>
+  <div id="authorCheckboxes"></div>
 </form>
-<button onclick="filter(userYearMin, userYearMax)">Filter</button>
+<button id="filterAuthorsButton" onclick="handleAuthorCheckboxFilters()">Filter Authors</button>
+
+<form id="genreFilters">
+  <h3>Genre:</h3>
+  <div id="genreCheckboxes"></div>
+</form>
+<button id="filterGenresButton" onclick="handleGenreCheckboxFilters()">Filter Genres</button>
+</div>
+
+
 
 <form method="post" id="databaseInformation" hidden>
   <input th:field="${book.title}" id="titleSubmission" >

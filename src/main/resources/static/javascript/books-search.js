@@ -11,7 +11,8 @@ function searchTitle() {
     let url = urlBeginning + searchTerm + urlEnding;
 
     buildHTMLResultsTable(url);
-
+    //Only display the "Show Filters" button after someone searches
+    document.getElementById("showFiltersButton").style.display = "block";
 }
 
 function buildHTMLResultsTable(url) {
@@ -19,8 +20,8 @@ function buildHTMLResultsTable(url) {
     .then(function(response) {
     response.json().then(function(json) {
         const arrayOfBookObjects = json.items;
-        const resultsTable = document.getElementById("resultsTable"); //See search.html template
-        const filters = document.getElementById("filters"); //See search.html template
+        const resultsTableDiv = document.getElementById("resultsTable"); //Lives on search.html template
+        const filtersDiv = document.getElementById("filters"); //Lives on search.html template
         let tableBeginning = `
             <table>
                 <thead>
@@ -29,32 +30,25 @@ function buildHTMLResultsTable(url) {
                         <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
                         <th id="authorColumnHeader" onclick="sortTableByAuthor">Author</th>
                         <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
-                        <th id="genre1ColumnHeader" onclick="sortTableByGenre1()">Genre</th>
+                        <th id="genreColumnHeader" onclick="sortTableByGenre()">Genre</th>
                         <th id="synopsisColumnHeader">Synopsis</th>
                     </tr>
                 </thead>
                 <tbody>
         `;
         let tableRows = "";
-        //Generate Filter HTML
-        let yearFilterHTML = `
-            <input type="number" id="userYearMin">
-            <input type="number" id="userYearMax">
-        `
-        let authorsListItems = "";
+        //Validation - clean up results by skipping books where the author/image/year/genre is missing from its JSON data
+        const arrayOfValidatedBookObjects = [];
         for (let i = 0; i < arrayOfBookObjects.length; i++) {
-            const book = arrayOfBookObjects[i];
-            if (book.volumeInfo.publishedDate === null) {
-                break;
+            const unvalidatedBook = arrayOfBookObjects[i];
+            if (unvalidatedBook.volumeInfo.authors && unvalidatedBook.volumeInfo.imageLinks && unvalidatedBook.volumeInfo.publishedDate !== null && unvalidatedBook.volumeInfo.categories) {
+                arrayOfValidatedBookObjects.push(unvalidatedBook);
             }
-            if (!authorArray.includes(book.volumeInfo.authors[0])){
-                authorArray.push(book.volumeInfo.authors[0]);
-                authorsListItems += `<input type="checkbox" value="${book.volumeInfo.authors[0]}">${book.volumeInfo.authors[0]}</input>`
-            }
-            if (!book.volumeInfo.imageLinks) {
-                break;
-            }
-
+        }
+        //Loop through array of book objects that passed the validation
+        for (let i = 0; i < arrayOfValidatedBookObjects.length; i++) {
+        const book = arrayOfValidatedBookObjects[i];
+        const year = book.volumeInfo.publishedDate.slice(0, 4);
         //Generate Results Table Rows
         tableRows += `
             <tr id="rowIndex${i}">
@@ -62,7 +56,7 @@ function buildHTMLResultsTable(url) {
                     <img class="poster" src="${book.volumeInfo.imageLinks.thumbnail}"><br>
                 </th>
                 <th class="titleCell">
-                    <a id="bookTitle${i}" href="/books/details/${book.title}">${book.volumeInfo.title}</a><br><br>
+                    <a id="bookTitle${i}" href="/books/details/${book.volumeInfo.title}">${book.volumeInfo.title}</a><br><br>
                     <button id="dropdown-button${i}" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
                     <p id="googleBooksApiId${i}" hidden>${book.id}</p>
                     <form id="userCollectionDropdown${i}" style="display:none;"><hr>
@@ -79,7 +73,7 @@ function buildHTMLResultsTable(url) {
                     <p id="bookAuthor${i}">${book.volumeInfo.authors[0]}</p>
                 </th>
                 <th class="yearCell">
-                    <p id="bookDate${i}">${book.volumeInfo.publishedDate}</p>
+                    <p id="bookDate${i}">${year}</p>
                 </th>
                 <th class="genre1Cell">
                     <p id="bookGenres${i}">${book.volumeInfo.categories}</p>
@@ -90,9 +84,8 @@ function buildHTMLResultsTable(url) {
             </tr>
         `;
         }
-        filters.innerHTML = yearFilterHTML + authorsListItems;
         let tableEnding = `</tbody></table>`;
-        resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
+        resultsTableDiv.innerHTML = tableBeginning + tableRows + tableEnding;
     });
     });
 }
@@ -125,48 +118,113 @@ function prepareDatabaseInformationForm(i) {
     document.getElementById("synopsisSubmission").value = bookSynopsis.slice(0,250);
 }
 
-function filter (userYearMin, userYearMax) {
-    //Author Filtering - Checkboxes
-    let checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    let checkedBoxes = [];
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            checkedBoxes.push(checkboxes[i].value);
-        }
-    }
+function filterYears (userYearMin, userYearMax) {
 
-    //Date Filtering - Year Range
     let yearMin = userYearMin.value;
     let yearMax = userYearMax.value;
 
-    for (let i=0; i<100; i++) {
+    let i=0;
+    while (document.getElementById(`rowIndex${i}`) !== null) {
         let author = document.getElementById(`bookAuthor${i}`);
-        let year;
-        let yearElement = document.getElementById(`bookDate${i}`);
-        if (yearElement === null) {
-            break;
-        } else {
-            year = yearElement.innerHTML;
-        }
-        let year1 = parseInt(year.slice(0,4));
-        console.log(year1)
-        console.log(typeof year1)
-        console.log(yearMin.value)
-        console.log(yearMax.value)
-        if (author !== null && author.innerHTML !== undefined) {
-            let array = Object.keys(checkedBoxes).map(key => checkedBoxes[key]);
-            if (!array.includes(author.innerHTML)) {
-                document.getElementById(`rowIndex${i}`).style.display = "none";
-            } else {
-                document.getElementById(`rowIndex${i}`).style.display = "";
-            }
-        if (year1 < yearMin || year1 > yearMax) {
+        let yearString = document.getElementById(`bookDate${i}`).innerHTML;
+        let year = parseInt(yearString);
+
+        if (year < yearMin || year > yearMax) {
             document.getElementById(`rowIndex${i}`).style.display = "none";
         } else {
             document.getElementById(`rowIndex${i}`).style.display = "";
         }
+        i++;
+    }
+}
+
+function toggleShowHideFilters() {
+    //Toggle button text between Show Filters & Hide Filters
+    if (document.getElementById("showFiltersButton").innerHTML === "Show Filters") {
+        document.getElementById("showFiltersButton").innerHTML = "Hide Filters";
+    } else {
+        document.getElementById("showFiltersButton").innerHTML = "Show Filters"
+    }
+    //Toggle between showing/hiding <div id="filtersSection"> on search.html
+    if (document.getElementById("filtersSection").style.display === "block") {
+        document.getElementById("filtersSection").style.display = "none";
+    } else {
+        document.getElementById("filtersSection").style.display = "block";
+    }
+}
+
+function generateAuthorCheckboxHTML() {
+    //Generate HTML
+    let authors = [];
+    let authorsWithCheckbox = "";
+    let i = 0;
+    while (document.getElementById(`rowIndex${i}`) !== null) {
+        if (document.getElementById(`rowIndex${i}`).style.display !== "none") {
+            author = document.getElementById(`bookAuthor${i}`).innerHTML;
+            if (!authors.includes(author)) {
+                authors.push(author);
+                authorsWithCheckbox += `<input type="checkbox" name="author" value="${author}"> ${author}`;
+            }
+        }
+        i++;
+    }
+    document.getElementById("authorCheckboxes").innerHTML = authorsWithCheckbox;
+
+}
+
+function handleAuthorCheckboxFilters() {
+    let selectedAuthors = [];
+    const checkboxContainer = document.querySelector('#authorCheckboxes');
+    const checkboxes = checkboxContainer.querySelectorAll('input[type=checkbox]');
+
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+        selectedAuthors.push(checkboxes[i].value);
+        }
+
+    }
+    for (let i=0; i<20; i++) {
+        if (!selectedAuthors.includes(document.getElementById(`bookAuthor${i}`).innerHTML)) {
+            document.getElementById(`rowIndex${i}`).style.display = "none";
+        } else {
+            document.getElementById(`rowIndex${i}`).style.display = "";
         }
     }
+}
 
-    //Year Range Filtering
+function generateGenreCheckboxHTML() {
+    let genres = [];
+    let genresWithCheckbox = "";
+    let i = 0;
+
+    while (document.getElementById(`rowIndex${i}`) !== null) {
+        if (document.getElementById(`rowIndex${i}`).style.display !== "none") {
+            genre = document.getElementById(`bookGenres${i}`).innerHTML;
+            if (!genres.includes(genre)) {
+                genres.push(genre);
+                genresWithCheckbox += `<input type="checkbox" name="genre" value="${genre}"> ${genre}`;
+            }
+        }
+        i++;
+    }
+    document.getElementById("genreCheckboxes").innerHTML = genresWithCheckbox;
+}
+
+function handleGenreCheckboxFilters() {
+    let selectedGenres = [];
+    const checkboxContainer = document.querySelector('#genreCheckboxes');
+    const checkboxes = checkboxContainer.querySelectorAll('input[type=checkbox]');
+
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+        selectedGenres.push(checkboxes[i].value);
+        }
+    }
+    for (let i=0; i<20; i++) {
+        if (!selectedGenres.includes(document.getElementById(`bookGenres${i}`).innerHTML)) {
+            document.getElementById(`rowIndex${i}`).style.display = "none";
+        } else {
+            document.getElementById(`rowIndex${i}`).style.display = "";
+        }
+    }
 }
