@@ -1,31 +1,44 @@
 package com.collectorscorner.demo.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Component
 public class Movie extends AbstractEntity {
 
+    @ManyToMany(mappedBy = "movies")
+    private List<MovieCollection> collectionsWithThisMovie = new ArrayList<>();
+    @Column(name = "dateAdded")
+    private Date dateAdded;
+    @Column(name = "title")
     private String title;
-
+    @Column(name = "year")
     private int year;
-
+    @Column(name = "director")
     private String director;
-
+    @Column(name = "genre")
     private String genre;
 
     private String genre2;
 
     private String genre3;
 
+    @Column(name = "synopsis")
     private String synopsis;
 
     private int userID;
 
     public Movie() {}
 
-    public Movie(String title, int year, String director, String genre, String genre2, String genre3, String synopsis, int userID) {
+    public Movie(String title, int year, String director, String genre, String genre2, String genre3, String synopsis, int userID, Date dateAdded) {
         this.title = title;
         this.year = year;
         this.director = director;
@@ -34,6 +47,7 @@ public class Movie extends AbstractEntity {
         this.genre3 = genre3;
         this.synopsis = synopsis;
         this.userID = userID;
+        this.dateAdded = dateAdded;
     }
 
     public String getTitle() {
@@ -103,15 +117,24 @@ public class Movie extends AbstractEntity {
     @Override
     public String toString() {
         return "Movie{" +
-                "title='" + title + '\'' +
+                "collectionsWithThisMovie=" + collectionsWithThisMovie +
+                ", dateAdded=" + dateAdded +
+                ", title='" + title + '\'' +
                 ", year=" + year +
                 ", director='" + director + '\'' +
                 ", genre='" + genre + '\'' +
                 ", genre2='" + genre2 + '\'' +
                 ", genre3='" + genre3 + '\'' +
                 ", synopsis='" + synopsis + '\'' +
-                ", userID=" + userID +
                 '}';
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
     }
 }
 
