@@ -8,84 +8,40 @@ link.href = '../css/movies-list.css'
 //movies with a long synopsis from being added to the database.
 
 function genericFetch(url) {
+  fetch(url).then(function(response) {
+    response.json().then(function(json) {
+      console.log(json.results);
+      const resultsTable = document.getElementById("resultsTable");
 
-       fetch(url).then(function(response) {
-           response.json().then( function(json) {
-               console.log(json.results);
-               const resultsTable = document.getElementById("resultsTable");
-               resultsTable.innerHTML = `
+      let tableStart = `<table>`
 
-                <table>
-                    <tr>
-                        <th>Title/Poster</th>
-                        <th>Description</th>
-                        <th>Rating</th>
-                    </tr>
+      let html = "";
+      for (let i = 0; i < json.results.length; i++) {
+        const result = json.results[i];
+        html += `
                     <tr>
                         <th>
-                            <img class="poster" src="https://image.tmdb.org/t/p/w500${json.results[0].poster_path}"><br>
-                            <a id="firstResultTitle" href="/movies/details/${json.results[0].title}">${json.results[0].title}</a>
-                            <p id="firstResultDate">${json.results[0].release_date}</p>
-                            <p id="firstResultApiId" hidden>${json.results[0].id}</p>
+                            <img class="poster" src="https://image.tmdb.org/t/p/w500${result.poster_path}"><br>
+                            <a id="resultTitle${i}" href="/movies/details/${result.title}">${result.title}</a>
+                            <p id="resultDate${i}">${result.release_date}</p>
+                            <p id="resultApiId${i}" hidden>${result.id}</p>
                         </th>
                         <th>
-                            <p id="firstResultSynopsis">${json.results[0].overview}</p>
-                            <p id="firstResultGenres" hidden>${json.results[0].genre_ids}</p>
+                            <p id="resultSynopsis${i}">${result.overview}</p>
+                            <p id="resultGenres${i}" hidden>${result.genre_ids}</p>
                         </th>
                         <th>
-                            <button onclick="addFirstResultToDatabase()">Select Movie</button>
+                            <button onclick="addResultToDatabase(${i})">Select Movie</button>
                         </th>
                     </tr>
-                    <tr>
-                        <th>
-                            <img class="poster" src="https://image.tmdb.org/t/p/w500${json.results[1].poster_path}"><br>
-                            <a id="secondResultTitle" href="/movies/details/${json.results[1].title}">${json.results[1].title}</a>
-                            <p id="secondResultDate">${json.results[1].release_date}</p>
-                            <p id="secondResultApiId" hidden>${json.results[1].id}</p>
-                        </th>
-                        <th>
-                            <p id="secondResultSynopsis">${json.results[1].overview}</p>
-                            <p id="secondResultGenres" hidden>${json.results[1].genre_ids}</p>
-                        </th>
-                        <th>
-                            <button onclick="addSecondResultToDatabase()">Select Movie</button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <img class="poster" src="https://image.tmdb.org/t/p/w500${json.results[2].poster_path}"><br>
-                            <a id="thirdResultTitle" href="/movies/details/${json.results[2].title}">${json.results[2].title}</a>
-                            <p id="thirdResultDate">${json.results[2].release_date.trim()}</p>
-                            <p id="thirdResultApiId" hidden>${json.results[2].id}</p>
-                        </th>
-                        <th>
-                            <p id="thirdResultSynopsis">${json.results[2].overview}</p>
-                            <p id="thirdResultGenres" hidden>${json.results[2].genre_ids}</p>
-                        </th>
-                        <th>
-                            <button onclick="addThirdResultToDatabase()">Select Movie</button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            <img class="poster" src="https://image.tmdb.org/t/p/w500${json.results[3].poster_path}"><br>
-                            <a id="fourthResultTitle" href="/movies/details/${json.results[3].title}">${json.results[3].title}</a>
-                            <p id="fourthResultDate">${json.results[3].release_date.trim()}</p>
-                            <p id="fourthResultApiId" hidden>${json.results[3].id}</p>
-                        </th>
-                        <th>
-                            <p id="fourthResultSynopsis">${json.results[3].overview}</p>
-                            <p id="fourthResultGenres" hidden>${json.results[3].genre_ids}</p>
-                        </th>
-                        <th>
-                            <button onclick="addFourthResultToDatabase()">Select Movie</button>
-                        </th>
-                    </tr>
-                </table>
-               `
-           })
-       });
+                 `
+      }
+      let tableClose = `</table>`
+      resultsTable.innerHTML = tableStart + html + tableClose;
+    });
+  });
 }
+
 
 function fetchAction() {
     let url = "https://api.themoviedb.org/3/discover/movie?with_genres=28&api_key=16012a33d67f443093071edcbcdfc9d0";

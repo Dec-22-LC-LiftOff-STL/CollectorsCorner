@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
 
-
+    boolean existsByTitleAndYearAndDirector(String title, int year, String director);
 }
