@@ -172,7 +172,7 @@ function generateAuthorCheckboxHTML() {
 
 }
 
-function handleAuthorCheckboxFilters() {
+function showOrHideRowsBasedOnAuthorCheckboxFilters() {
     let selectedAuthors = [];
     const checkboxContainer = document.querySelector('#authorCheckboxes');
     const checkboxes = checkboxContainer.querySelectorAll('input[type=checkbox]');
@@ -211,7 +211,7 @@ function generateGenreCheckboxHTML() {
     document.getElementById("genreCheckboxes").innerHTML = genresWithCheckbox;
 }
 
-function handleGenreCheckboxFilters() {
+function showOrHideRowsBasedOnGenreCheckboxFilters() {
     let selectedGenres = [];
     const checkboxContainer = document.querySelector('#genreCheckboxes');
     const checkboxes = checkboxContainer.querySelectorAll('input[type=checkbox]');

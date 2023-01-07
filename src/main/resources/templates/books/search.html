@@ -28,13 +28,13 @@
   <h3>Author:</h3>
   <div id="authorCheckboxes"></div>
 </form>
-<button id="filterAuthorsButton" onclick="handleAuthorCheckboxFilters()">Filter Authors</button>
+<button id="filterAuthorsButton" onclick="showOrHideRowsBasedOnAuthorCheckboxFilters(); generateGenreCheckboxHTML()">Filter Authors</button>
 
 <form id="genreFilters">
   <h3>Genre:</h3>
   <div id="genreCheckboxes"></div>
 </form>
-<button id="filterGenresButton" onclick="handleGenreCheckboxFilters()">Filter Genres</button>
+<button id="filterGenresButton" onclick="showOrHideRowsBasedOnGenreCheckboxFilters(); generateAuthorCheckboxHTML()">Filter Genres</button>
 </div>
 
 
