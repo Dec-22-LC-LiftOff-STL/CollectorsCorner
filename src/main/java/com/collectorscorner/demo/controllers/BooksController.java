@@ -19,6 +19,7 @@ public class BooksController {
     @Autowired
     private BookRepository bookRepository;
 
+
     @GetMapping("search")
     public String displaySearchPage(Model model) {
         model.addAttribute(new Book());
@@ -27,7 +28,11 @@ public class BooksController {
 
     @PostMapping("search")
     public String processAddMovieFormOnSearchPage(@ModelAttribute Book book) {
-        bookRepository.save(book);
+
+        if (bookRepository.existsByTitleAndSynopsis(book.getTitle(), book.getSynopsis())) {
+        } else {
+            bookRepository.save(book);
+        }
         return "redirect:/books/search";
     }
 
