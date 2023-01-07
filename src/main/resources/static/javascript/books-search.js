@@ -123,11 +123,20 @@ function filterYears (userYearMin, userYearMax) {
     let yearMin = userYearMin.value;
     let yearMax = userYearMax.value;
 
+    if (userYearMin.value === '') {
+        yearMin = 0;
+    }
+
+    if (userYearMax.value === '') {
+        yearMax = 2100;
+    }
+        console.log(yearMin, yearMax);
     let i=0;
     while (document.getElementById(`rowIndex${i}`) !== null) {
         let author = document.getElementById(`bookAuthor${i}`);
         let yearString = document.getElementById(`bookDate${i}`).innerHTML;
         let year = parseInt(yearString);
+
 
         if (year < yearMin || year > yearMax) {
             document.getElementById(`rowIndex${i}`).style.display = "none";
