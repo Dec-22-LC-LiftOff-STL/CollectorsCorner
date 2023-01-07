@@ -4,16 +4,33 @@ let isAscendingAuthor = true;
 let isAscendingYear = true;
 let isAscendingGenre = true;
 
+
+
 function searchTitle() {
 
     let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=";
     let searchTerm;
     let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=20";
 
-    searchTerm = document.getElementById("userSearchTerm").value;
+    searchTerm = document.getElementById("textbox").value;
 
     let url = urlBeginning + searchTerm + urlEnding;
 
+    buildHTMLResultsTable(url);
+    //Only display the "Show Filters" button after someone searches
+    document.getElementById("showFiltersButton").style.display = "block";
+}
+
+function searchAuthor() {
+
+    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=inauthor:";
+    let searchTerm;
+    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=20";
+
+    searchTerm = document.getElementById("textbox").value;
+
+    let url = urlBeginning + searchTerm + urlEnding;
+    console.log(url);
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";

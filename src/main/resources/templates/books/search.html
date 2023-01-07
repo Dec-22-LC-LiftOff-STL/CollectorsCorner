@@ -9,9 +9,14 @@
 
 <body>
 
-<label for="userSearchTerm">Title</label><br>
-<input id="userSearchTerm" type="search" ><br>
-<button value="userSearchTerm" onclick="searchTitle(userSearchTerm);">Search</button><hr>
+<form>
+  <input type="text" id="textbox">
+  <select id="searchTypeDropdown">
+    <option value="title">Title</option>
+    <option value="author">Author</option>
+  </select>
+  <button type="button" id="searchTermAndType">Submit</button>
+</form>
 
 <button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML()">Show Filters</button><br>
 
@@ -38,8 +43,26 @@
 </div>
 
 
+<script>
+ const searchTermAndType = document.getElementById('searchTermAndType');
+const searchTypeDropdown = document.getElementById('searchTypeDropdown');
 
-<form method="post" id="databaseInformation" >
+searchTermAndType.addEventListener('click', function() {
+  // Get the selected value from the dropdown
+  const searchTerm = searchTypeDropdown.value;
+
+  // Run a different function depending on the selected value
+  if (searchTerm === 'title') {
+        searchTitle(textbox);
+  } else if (searchTerm === 'author') {
+        searchAuthor(textbox);
+  }
+
+});
+</script>
+
+
+<form method="post" id="databaseInformation" hidden>
   <input th:field="${book.title}" id="titleSubmission" >
   <input th:field="${book.dateAdded}" id="dateSubmission" >
   <input th:field="${book.genre}" id="genreSubmission" >
