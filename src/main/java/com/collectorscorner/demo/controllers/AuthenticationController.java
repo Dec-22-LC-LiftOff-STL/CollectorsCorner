@@ -119,10 +119,11 @@ public class AuthenticationController {
             model.addAttribute("title", "Log In");
             return "login";
         }
-
+        
+        model.addAttribute("userId", theUser.getId());
         setUserInSession(request.getSession(), theUser);
 
-        return "redirect:";
+        return "login";
     }
 
     @GetMapping("/logout")
