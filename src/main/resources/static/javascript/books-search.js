@@ -181,22 +181,23 @@ function handleAuthorCheckboxFilters() {
         if (checkboxes[i].checked) {
         selectedAuthors.push(checkboxes[i].value);
         }
-
     }
-    for (let i=0; i<20; i++) {
+    let i=0;
+    while (document.getElementById(`rowIndex${i}`) !== null) {
         if (!selectedAuthors.includes(document.getElementById(`bookAuthor${i}`).innerHTML)) {
             document.getElementById(`rowIndex${i}`).style.display = "none";
         } else {
             document.getElementById(`rowIndex${i}`).style.display = "";
         }
+        i++;
     }
 }
 
 function generateGenreCheckboxHTML() {
     let genres = [];
     let genresWithCheckbox = "";
-    let i = 0;
 
+    let i = 0;
     while (document.getElementById(`rowIndex${i}`) !== null) {
         if (document.getElementById(`rowIndex${i}`).style.display !== "none") {
             genre = document.getElementById(`bookGenres${i}`).innerHTML;
@@ -220,11 +221,13 @@ function handleGenreCheckboxFilters() {
         selectedGenres.push(checkboxes[i].value);
         }
     }
-    for (let i=0; i<20; i++) {
+    let i=0;
+    while (document.getElementById(`rowIndex${i}`) !== null) {
         if (!selectedGenres.includes(document.getElementById(`bookGenres${i}`).innerHTML)) {
             document.getElementById(`rowIndex${i}`).style.display = "none";
         } else {
             document.getElementById(`rowIndex${i}`).style.display = "";
         }
+        i++;
     }
 }
