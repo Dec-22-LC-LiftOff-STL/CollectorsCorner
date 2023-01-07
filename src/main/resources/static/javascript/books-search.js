@@ -70,7 +70,7 @@ function buildHTMLResultsTable(url) {
                             <option value="collection2">Collection 2</option>
                             <option value="collection3">Collection 3</option>
                         </select>
-                        <button type="button" onclick="addNewMovieToDatabase();">Submit</button>
+                        <button type="button" onclick="addNewBookToDatabase();">Submit</button>
                     </form>
                 </th>
                 <th class="authorCell">
@@ -94,6 +94,15 @@ function buildHTMLResultsTable(url) {
     });
 }
 
+function toggleAddToCollectionDropdownForm(i) {
+    const dropdownForm = document.getElementById(`userCollectionDropdown${i}`);
+    if (dropdownForm.style.display === "none") {
+        dropdownForm.style.display = "block";
+    } else {
+        dropdownForm.style.display = "none";
+    }
+}
+
 function prepareDatabaseInformationForm(i) {
     const googleBooksApiIdApiId = document.getElementById(`googleBooksApiId${i}`).textContent;
     const bookTitle = document.getElementById(`bookTitle${i}`).textContent;
@@ -106,7 +115,7 @@ function prepareDatabaseInformationForm(i) {
     document.getElementById("titleSubmission").value = bookTitle;
 
     //Fills in the author on the form on search.html form
-    document.getElementById("titleSubmission").value = bookAuthor;
+    document.getElementById("authorSubmission").value = bookAuthor;
 
     //Fills in the date on the form on search.html
     document.getElementById("dateSubmission").value = new Date();
@@ -119,7 +128,13 @@ function prepareDatabaseInformationForm(i) {
 
     //Fills in the release year on the form on search.html form
     //The string is sliced to abide by the MySQL VARCHAR character limit
-    document.getElementById("synopsisSubmission").value = bookSynopsis.slice(0,250);
+    document.getElementById("synopsisSubmission").value = bookSynopsis
+}
+
+function addNewBookToDatabase() {
+
+    document.getElementById("databaseInformation").submit();
+
 }
 
 function filterYears (userYearMin, userYearMax) {
