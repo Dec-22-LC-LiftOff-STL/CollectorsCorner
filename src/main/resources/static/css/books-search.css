@@ -3,6 +3,11 @@ body {
     color: white;
 }
 
+.synopsisText {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
 button {
     background-color: gray;
     color: white;
@@ -31,8 +36,9 @@ a {
     width: 15%;
 }
 
-.authorColumnHeader {
+#authorColumnHeader {
     width: 15%;
+    cursor: pointer;
 }
 
 .authorCell {
@@ -48,12 +54,12 @@ a {
     width: 5%;
 }
 
-#genre1ColumnHeader {
+#genreColumnHeader {
     width: 15%;
     cursor: pointer;
 }
 
-.genre1Cell {
+.genreCell {
     width: 15%;
 }
 

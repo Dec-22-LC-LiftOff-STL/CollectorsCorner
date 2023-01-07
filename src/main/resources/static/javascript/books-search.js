@@ -1,4 +1,8 @@
 let authorArray = [];
+let isAscendingTitle = true;
+let isAscendingAuthor = true;
+let isAscendingYear = true;
+let isAscendingGenre = true;
 
 function searchTitle() {
 
@@ -28,7 +32,7 @@ function buildHTMLResultsTable(url) {
                     <tr>
                         <th id="posterColumnHeader"></th>
                         <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
-                        <th id="authorColumnHeader" onclick="sortTableByAuthor">Author</th>
+                        <th id="authorColumnHeader" onclick="sortTableByAuthor()">Author</th>
                         <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
                         <th id="genreColumnHeader" onclick="sortTableByGenre()">Genre</th>
                         <th id="synopsisColumnHeader">Synopsis</th>
@@ -79,7 +83,7 @@ function buildHTMLResultsTable(url) {
                     <p id="bookGenres${i}">${book.volumeInfo.categories}</p>
                 </th>
                 <th class="synopsisCell">
-                    <p id="bookSynopsis${i}">${book.volumeInfo.description}</p>
+                    <p id="bookSynopsis${i}" class="synopsisText">${book.volumeInfo.description}</p>
                 </th>
             </tr>
         `;
@@ -239,4 +243,106 @@ function showOrHideRowsBasedOnGenreCheckboxFilters() {
         }
         i++;
     }
+}
+
+function sortTableByTitle() {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const titleA = rowA.querySelector('[id^="bookTitle"]').textContent;
+    const titleB = rowB.querySelector('[id^="bookTitle"]').textContent;
+    if (titleA < titleB) {
+        return -1;
+    } else if (titleA > titleB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingTitle) {
+        rows.reverse();
+    }
+
+    isAscendingTitle = !isAscendingTitle;
+    table.tBodies[0].append(...rows);
+}
+
+//Sort by author LAST name
+function sortTableByAuthor() {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const nameArrayAuthorA = rowA.querySelector('[id^="bookAuthor"]').textContent.split(' ');
+    const authorA = nameArrayAuthorA[nameArrayAuthorA.length - 1]
+    console.log(typeof authorA)
+    console.log(authorA)
+
+    const nameArrayAuthorB = rowB.querySelector('[id^="bookAuthor"]').textContent.split(' ');
+    const authorB = nameArrayAuthorB[nameArrayAuthorB.length - 1]
+    if (authorA < authorB) {
+        return -1;
+    } else if (authorA > authorB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingAuthor) {
+        rows.reverse();
+    }
+
+    isAscendingAuthor = !isAscendingAuthor;
+    table.tBodies[0].append(...rows);
+}
+
+function sortTableByYear() {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const yearA = rowA.querySelector('[id^="bookDate"]').textContent;
+    const yearB = rowB.querySelector('[id^="bookDate"]').textContent;
+    if (yearA < yearB) {
+        return -1;
+    } else if (yearA > yearB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingYear) {
+        rows.reverse();
+    }
+
+    isAscendingYear = !isAscendingYear;
+    table.tBodies[0].append(...rows);
+}
+
+function sortTableByGenre() {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const genreA = rowA.querySelector('[id^="bookGenre"]').textContent;
+    const genreB = rowB.querySelector('[id^="bookGenre"]').textContent;
+    if (genreA < genreB) {
+        return -1;
+    } else if (genreA > genreB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingGenre) {
+        rows.reverse();
+    }
+
+    isAscendingGenre = !isAscendingGenre;
+    table.tBodies[0].append(...rows);
 }
