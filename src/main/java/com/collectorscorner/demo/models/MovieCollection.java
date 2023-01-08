@@ -50,7 +50,7 @@ public class MovieCollection extends AbstractEntity {
     @Override
     public String toString() {
         return "MovieCollection{" +
-                "movies=" + movies +
+//                "movies=" + movies +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
@@ -78,5 +78,8 @@ public class MovieCollection extends AbstractEntity {
 Originally getting the error could not determine JDBC type. the issue came from the Collection specific repositories, because there was no way to tie the list fields books movies and games back to each individual book, movie, or game.... Need to add a field that tracks all collections that have a specific book, movie, or game.
 Added fields collectionsWithThisBook, collectionsWithThisMovie, and collectionsWithThisGame to the book, movie, and game class respectively. These will have a many to many relationship with the collections of each users, represented and mappedBy the fields books, movies, and games in the collection Classes. These individual lists will have a One to Many relationship with movies.
 
+
+1/6/22
+Commented out the lists in each collection constructor.. causing a recursion error when building
 
  */

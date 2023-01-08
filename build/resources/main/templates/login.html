@@ -21,5 +21,25 @@
 
 <p>Don't have an account? <a href="/register">Register for one.</a></p>
 
+<!--Creates a cookie that persists across all pages. Cookie is null if user is logged out-->
+<!--Use: window.location.href = ""; to set where a successful login redirects a user to-->
+<!--View all of this in Chrome: Inspect Element -> Application -> Storage -> Cookies -> http://localhost:8080 -->    
+<script th:inline="javascript">
+document.cookie = "userId=[[${userId}]]";
+const userId = getCookie("userId");
+
+if (userId) {
+  window.location.href = "/movies/search";
+}
+
+function getCookie() {
+  const cookie = document.cookie;
+  if (cookie.length > 0) {
+    return parseInt(cookie.split("=")[1]);
+  }
+  return null;
+}
+</script>    
+    
 </body>
 </html>

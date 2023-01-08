@@ -68,7 +68,7 @@ public class GameCollection extends AbstractEntity{
     @Override
     public String toString() {
         return "GameCollection{" +
-                "games=" + games +
+//                "games=" + games +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
