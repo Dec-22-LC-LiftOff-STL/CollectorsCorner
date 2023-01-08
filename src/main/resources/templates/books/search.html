@@ -10,41 +10,50 @@
 <body>
 
 <form>
-  <input type="text" id="textbox">
+  <input type="text" id="userSearchTerm">
   <select id="searchTypeDropdown">
     <option value="title">Title</option>
     <option value="author">Author</option>
+    <option value="isbn">ISBN</option>
   </select>
-  <button type="button" id="searchTermAndType">Submit</button>
+  <button type="button" id="searchTermAndType">Search</button>
 </form>
 
-<button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML()">Show Filters</button><br>
+<hr>
+<button id="newSearchButton"><a href="http://localhost:8080/books/search">New Search</a></button><br><br>
+<button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); checkAllAuthorBoxes()">Show Filters</button>
+
 
 <div id="filtersSection" style="display:none;">
-  <button id="newSearchButton"><a href="http://localhost:8080/books/search">New Search</a></button>
+<br><hr>
 <form id="yearFilters" >
   <h3>Year Range:</h3>
   <input type="number" id="userYearMin">
   <input type="number" id="userYearMax">
   </form>
-<button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button>
+<button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button><br><br><hr>
 
 <form id="authorFilters">
   <h3>Author:</h3>
   <div id="authorCheckboxes"></div>
 </form>
 <button id="filterAuthorsButton" onclick="showOrHideRowsBasedOnAuthorCheckboxFilters(); generateGenreCheckboxHTML()">Filter Authors</button>
+  <button id="selectAllAuthorsButton" onclick="checkAllAuthorBoxes()">Select All</button>
+  <button id="unselectAllAuthorsButton" onclick="checkAllAuthorBoxes()">Unselect All</button><br><br><hr>
 
 <form id="genreFilters">
   <h3>Genre:</h3>
   <div id="genreCheckboxes"></div>
 </form>
 <button id="filterGenresButton" onclick="showOrHideRowsBasedOnGenreCheckboxFilters(); generateAuthorCheckboxHTML()">Filter Genres</button>
-</div>
+  <button id="selectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Select All</button>
+  <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button><br><br><hr>
 
+</div>
+<br>
 
 <script>
- const searchTermAndType = document.getElementById('searchTermAndType');
+const searchTermAndType = document.getElementById('searchTermAndType');
 const searchTypeDropdown = document.getElementById('searchTypeDropdown');
 
 searchTermAndType.addEventListener('click', function() {
@@ -53,9 +62,11 @@ searchTermAndType.addEventListener('click', function() {
 
   // Run a different function depending on the selected value
   if (searchTerm === 'title') {
-        searchTitle(textbox);
+        searchTitle();
   } else if (searchTerm === 'author') {
-        searchAuthor(textbox);
+        searchAuthor();
+  } else if (searchTerm === 'isbn') {
+        searchIsbn();
   }
 
 });

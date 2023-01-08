@@ -1,39 +1,58 @@
-let authorArray = [];
 let isAscendingTitle = true;
 let isAscendingAuthor = true;
 let isAscendingYear = true;
 let isAscendingGenre = true;
 
 
-
 function searchTitle() {
 
     let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=";
     let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=20";
+    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
 
-    searchTerm = document.getElementById("textbox").value;
+    searchTerm = document.getElementById("userSearchTerm").value;
 
     let url = urlBeginning + searchTerm + urlEnding;
 
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
+    //Hides submit button after first search
+    document.getElementById("searchTermAndType").style.display = "none";
 }
 
 function searchAuthor() {
 
     let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=inauthor:";
     let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=20";
+    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
 
-    searchTerm = document.getElementById("textbox").value;
+    searchTerm = document.getElementById("userSearchTerm").value;
 
     let url = urlBeginning + searchTerm + urlEnding;
     console.log(url);
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
+    //Hides submit button after first search
+    document.getElementById("searchTermAndType").style.display = "none";
+}
+
+function searchIsbn() {
+
+    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
+    let searchTerm;
+    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=10";
+
+    searchTerm = document.getElementById("userSearchTerm").value;
+
+    let url = urlBeginning + searchTerm + urlEnding;
+    console.log(url);
+    buildHTMLResultsTable(url);
+    //Only display the "Show Filters" button after someone searches
+    document.getElementById("showFiltersButton").style.display = "block";
+    //Hides submit button after first search
+    document.getElementById("searchTermAndType").style.display = "none";
 }
 
 function buildHTMLResultsTable(url) {
@@ -62,7 +81,8 @@ function buildHTMLResultsTable(url) {
         const arrayOfValidatedBookObjects = [];
         for (let i = 0; i < arrayOfBookObjects.length; i++) {
             const unvalidatedBook = arrayOfBookObjects[i];
-            if (unvalidatedBook.volumeInfo.authors && unvalidatedBook.volumeInfo.imageLinks && unvalidatedBook.volumeInfo.publishedDate !== null && unvalidatedBook.volumeInfo.categories) {
+            if (unvalidatedBook.volumeInfo.authors && unvalidatedBook.volumeInfo.imageLinks && unvalidatedBook.volumeInfo.publishedDate !== null && unvalidatedBook.volumeInfo.categories
+                && unvalidatedBook.volumeInfo.description) {
                 arrayOfValidatedBookObjects.push(unvalidatedBook);
             }
         }
@@ -208,7 +228,7 @@ function generateAuthorCheckboxHTML() {
             author = document.getElementById(`bookAuthor${i}`).innerHTML;
             if (!authors.includes(author)) {
                 authors.push(author);
-                authorsWithCheckbox += `<input type="checkbox" name="author" value="${author}"> ${author}`;
+                authorsWithCheckbox += `<input type="checkbox" name="author" value="${author}" checked> ${author}`;
             }
         }
         i++;
@@ -248,7 +268,7 @@ function generateGenreCheckboxHTML() {
             genre = document.getElementById(`bookGenres${i}`).innerHTML;
             if (!genres.includes(genre)) {
                 genres.push(genre);
-                genresWithCheckbox += `<input type="checkbox" name="genre" value="${genre}"> ${genre}`;
+                genresWithCheckbox += `<input type="checkbox" name="genre" value="${genre}" checked> ${genre}`;
             }
         }
         i++;
@@ -377,4 +397,48 @@ function sortTableByGenre() {
 
     isAscendingGenre = !isAscendingGenre;
     table.tBodies[0].append(...rows);
+}
+
+function checkAllAuthorBoxes() {
+    const selectAllAuthorsButton = document.getElementById('selectAllAuthorsButton');
+    const unselectAllAuthorsButton = document.getElementById('unselectAllAuthorsButton');
+    const authorCheckboxes = document.getElementById('authorCheckboxes');
+    let checkboxState = false;
+
+    selectAllAuthorsButton.addEventListener('click', function() {
+        checkboxState = true;
+        const checkboxes = authorCheckboxes.querySelectorAll('input[type=checkbox]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = checkboxState;
+        });
+    });
+    unselectAllAuthorsButton.addEventListener('click', function() {
+        checkboxState = false;
+        const checkboxes = authorCheckboxes.querySelectorAll('input[type=checkbox]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = checkboxState;
+        });
+    });
+}
+
+function toggleCheckUncheckGenreBoxes() {
+    const selectAllGenresButton = document.getElementById('selectAllGenresButton');
+    const unselectAllGenresButton = document.getElementById('unselectAllGenresButton');
+    const genreCheckboxes = document.getElementById('genreCheckboxes');
+    let checkboxState = false;
+
+    selectAllGenresButton.addEventListener('click', function() {
+        checkboxState = true;
+        const checkboxes = genreCheckboxes.querySelectorAll('input[type=checkbox]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = checkboxState;
+        });
+    });
+    unselectAllGenresButton.addEventListener('click', function() {
+        checkboxState = false;
+        const checkboxes = genreCheckboxes.querySelectorAll('input[type=checkbox]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = checkboxState;
+        });
+    });
 }
