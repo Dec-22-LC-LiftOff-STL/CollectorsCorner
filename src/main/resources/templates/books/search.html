@@ -17,50 +17,47 @@
     <option value="isbn">ISBN</option>
   </select>
   <button type="button" id="searchTermAndType">Search</button>
-</form>
+</form> <hr>
 
-<hr>
-<button id="newSearchButton"><a href="http://localhost:8080/books/search">New Search</a></button><br><br>
-<button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); checkAllAuthorBoxes()">Show Filters</button>
+<button id="newSearchButton"><a href="http://localhost:8080/books/search">New Search</a></button> <br> <br>
+<button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes">Show Filters</button>
 
+<div id="filtersSection" style="display:none;"> <br> <hr>
 
-<div id="filtersSection" style="display:none;">
-<br><hr>
-<form id="yearFilters" >
-  <h3>Year Range:</h3>
-  <input type="number" id="userYearMin">
-  <input type="number" id="userYearMax">
+  <form id="yearFilters" >
+    <h3>Year Range:</h3>
+    <input type="number" id="userYearMin">
+    <input type="number" id="userYearMax">
   </form>
-<button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button><br><br><hr>
+  <button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button> <br> <br> <hr>
 
-<form id="authorFilters">
-  <h3>Author:</h3>
-  <div id="authorCheckboxes"></div>
-</form>
-<button id="filterAuthorsButton" onclick="showOrHideRowsBasedOnAuthorCheckboxFilters(); generateGenreCheckboxHTML()">Filter Authors</button>
-  <button id="selectAllAuthorsButton" onclick="checkAllAuthorBoxes()">Select All</button>
-  <button id="unselectAllAuthorsButton" onclick="checkAllAuthorBoxes()">Unselect All</button><br><br><hr>
+  <form id="authorFilters">
+    <h3>Author:</h3>
+    <div id="authorCheckboxes"></div>
+  </form>
+  <button id="filterAuthorsButton" onclick="showOrHideRowsBasedOnAuthorCheckboxFilters(); generateGenreCheckboxHTML()">Filter Authors</button>
+  <button id="selectAllAuthorsButton" onclick="toggleCheckUncheckAuthorBoxes()">Select All</button>
+  <button id="unselectAllAuthorsButton" onclick="toggleCheckUncheckAuthorBoxes()">Unselect All</button> <br> <br> <hr>
 
-<form id="genreFilters">
-  <h3>Genre:</h3>
-  <div id="genreCheckboxes"></div>
-</form>
-<button id="filterGenresButton" onclick="showOrHideRowsBasedOnGenreCheckboxFilters(); generateAuthorCheckboxHTML()">Filter Genres</button>
+  <form id="genreFilters">
+    <h3>Genre:</h3>
+    <div id="genreCheckboxes"></div>
+  </form>
+  <button id="filterGenresButton" onclick="showOrHideRowsBasedOnGenreCheckboxFilters(); generateAuthorCheckboxHTML()">Filter Genres</button>
   <button id="selectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Select All</button>
-  <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button><br><br><hr>
+  <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <br> <hr>
 
-</div>
-<br>
+</div> <br>
 
+<!-- Handles the dropdown search options (title, author, isbn) -->
 <script>
 const searchTermAndType = document.getElementById('searchTermAndType');
 const searchTypeDropdown = document.getElementById('searchTypeDropdown');
 
 searchTermAndType.addEventListener('click', function() {
-  // Get the selected value from the dropdown
+
   const searchTerm = searchTypeDropdown.value;
 
-  // Run a different function depending on the selected value
   if (searchTerm === 'title') {
         searchTitle();
   } else if (searchTerm === 'author') {
@@ -68,21 +65,20 @@ searchTermAndType.addEventListener('click', function() {
   } else if (searchTerm === 'isbn') {
         searchIsbn();
   }
-
 });
 </script>
 
-
+<!-- Form that works with BooksController method processAddMovieFormOnSearchPage to add [new] books to the db -->
 <form method="post" id="databaseInformation" hidden>
-  <input th:field="${book.title}" id="titleSubmission" >
-  <input th:field="${book.dateAdded}" id="dateSubmission" >
-  <input th:field="${book.genre}" id="genreSubmission" >
-  <input th:field="${book.author}" id="authorSubmission" >
-  <input th:field="${book.year}" id="yearSubmission" >
-  <input th:field="${book.synopsis}" id="synopsisSubmission" >
+  <input th:field="${book.title}" id="titleSubmission">
+  <input th:field="${book.dateAdded}" id="dateSubmission">
+  <input th:field="${book.genre}" id="genreSubmission">
+  <input th:field="${book.author}" id="authorSubmission">
+  <input th:field="${book.year}" id="yearSubmission">
+  <input th:field="${book.synopsis}" id="synopsisSubmission">
 </form>
 
-  <div id="resultsTable"></div>
+<div id="resultsTable"></div>
 
 </body>
 
