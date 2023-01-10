@@ -98,10 +98,11 @@ public class Book extends AbstractEntity {
         this.collectionsWithThisBook = collectionsWithThisBook;
     }
 
+
     @Override
     public String toString() {
         return "Book{" +
-                "collectionsWithThisBook=" + collectionsWithThisBook +
+//                "collectionsWithThisBook=" + collectionsWithThisBook +
                 ", dateAdded=" + dateAdded +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
