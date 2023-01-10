@@ -31,3 +31,4 @@ bin/
 ### GIT ###
 .gradle/**/*.bin
 .gradle/**/*.lock
+.gradle/
