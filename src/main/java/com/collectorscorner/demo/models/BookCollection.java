@@ -63,7 +63,7 @@ public class BookCollection extends AbstractEntity {
     @Override
     public String toString() {
         return "BookCollection{" +
-                "books=" + books +
+//                "books=" + books +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
