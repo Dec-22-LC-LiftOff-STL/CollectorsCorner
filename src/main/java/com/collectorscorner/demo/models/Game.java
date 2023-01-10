@@ -27,9 +27,9 @@ public class Game extends AbstractEntity {
     private String genre;
 
     @Column(name = "numPlayers")
-    private int numberOfPlayers;
+    private String numberOfPlayers;
 
-    public Game(String creator, int numberOfPlayers, String genre, String title, Date dateAdded) {
+    public Game(String creator, String numberOfPlayers, String genre, String title, Date dateAdded) {
         super();
         this.creator = creator;
         this.numberOfPlayers = numberOfPlayers;
@@ -49,11 +49,11 @@ public class Game extends AbstractEntity {
         this.creator = creator;
     }
 
-    public int getNumberOfPlayers() {
+    public String getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
+    public void setNumberOfPlayers(String numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
 
@@ -84,12 +84,12 @@ public class Game extends AbstractEntity {
     @Override
     public String toString() {
         return "Game{" +
-                "collectionsWithThisGame=" + collectionsWithThisGame +
+//                "collectionsWithThisGame=" + collectionsWithThisGame +
                 ", dateAdded=" + dateAdded +
                 ", creator='" + creator + '\'' +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
-                ", numberOfPlayers=" + numberOfPlayers +
+                ", numPlayers=" + numberOfPlayers +
                 '}';
     }
 }

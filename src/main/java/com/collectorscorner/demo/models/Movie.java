@@ -117,7 +117,7 @@ public class Movie extends AbstractEntity {
     @Override
     public String toString() {
         return "Movie{" +
-                "collectionsWithThisMovie=" + collectionsWithThisMovie +
+//                "collectionsWithThisMovie=" + collectionsWithThisMovie +
                 ", dateAdded=" + dateAdded +
                 ", title='" + title + '\'' +
                 ", year=" + year +
