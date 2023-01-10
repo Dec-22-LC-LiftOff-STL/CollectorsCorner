@@ -27,7 +27,7 @@ public class Book extends AbstractEntity {
     private int year;
 
 
-    @Column(name = "synopsis")
+    @Column(name = "synopsis", length = 20000)
     private String synopsis;
 
     public Book() {
@@ -98,10 +98,11 @@ public class Book extends AbstractEntity {
         this.collectionsWithThisBook = collectionsWithThisBook;
     }
 
+
     @Override
     public String toString() {
         return "Book{" +
-                "collectionsWithThisBook=" + collectionsWithThisBook +
+//                "collectionsWithThisBook=" + collectionsWithThisBook +
                 ", dateAdded=" + dateAdded +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
