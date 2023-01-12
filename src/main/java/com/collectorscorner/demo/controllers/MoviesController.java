@@ -3,6 +3,7 @@ package com.collectorscorner.demo.controllers;
 import com.collectorscorner.demo.Services.MovieCollectionService;
 import com.collectorscorner.demo.data.MovieCollectionRepository;
 import com.collectorscorner.demo.data.MovieRepository;
+import com.collectorscorner.demo.models.Game;
 import com.collectorscorner.demo.models.Movie;
 import com.collectorscorner.demo.models.MovieCollection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +45,15 @@ public class MoviesController {
     }
 
     @GetMapping("search")
-    public String displaySearchPage(@CookieValue("userId") Integer myCookie, Model model) {
+    public String displaySearchPage(@CookieValue(name = "userId") String myCookie, Model model) {
         model.addAttribute(new Movie());
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
         Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
         model.addAttribute("movieCollections", iterableMovieCollection);
-        model.addAttribute("cookie", myCookie);
+        model.addAttribute("cookie", userId);
         System.out.print(myCookie);
         return "movies/search";
     }

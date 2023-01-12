@@ -27,11 +27,15 @@ public class BooksController {
     private BookCollectionService bookCollectionService;
 
     @GetMapping("search")
-    public String displaySearchPage(@CookieValue("userId") Integer myCookie, Model model) {
+    public String displaySearchPage(@CookieValue("userId") String myCookie, Model model) {
         model.addAttribute(new Book());
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
         Iterable<BookCollection> iterableBookCollection = bookCollectionRepository.findAll();
         model.addAttribute("bookCollections", iterableBookCollection);
-        model.addAttribute("cookie", myCookie);
+        model.addAttribute("cookie", userId);
         return "books/search";
     }
 
