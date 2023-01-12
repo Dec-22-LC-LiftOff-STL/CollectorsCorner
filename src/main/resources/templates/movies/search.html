@@ -12,7 +12,7 @@
 <label for="userSearchTerm">Title</label><br>
 <input id="userSearchTerm" type="search"><br>
 
-<button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button>
+<button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
 
 <form method="post" id="databaseInformation" hidden>
     <input th:field="${movie.title}" id="titleSubmission" >
@@ -23,10 +23,22 @@
     <input th:field="${movie.director}" id="directorSubmission" >
     <input th:field="${movie.year}" id="yearSubmission" >
     <input th:field="${movie.synopsis}" id="synopsisSubmission" >
+    <input type="text" name="collectionId" id="collectionId">
+</form>
+
+<label>User Collection:</label><br>
+<form>
+    <select id="collectionNamesDropdown">
+        <option value="">Select a collection</option>
+        <th:block th:each="collection : ${movieCollections}">
+        <span th:if="${collection.user.id == cookie}">
+            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
+        </span>
+        </th:block>
+    </select>
 </form>
 
 <div id="resultsTable"></div>
-
 
 </body>
 

@@ -12,7 +12,8 @@ import java.util.List;
 @Entity
 @Component
 public class Book extends AbstractEntity {
-    @ManyToMany(mappedBy = "books")
+
+    @ManyToMany
     private List<BookCollection> collectionsWithThisBook = new ArrayList<>();
     @Column(name = "dateAdded")
     private Date dateAdded;
@@ -20,26 +21,55 @@ public class Book extends AbstractEntity {
     private String title;
     @Column(name = "genre")
     private String genre;
-
     @Column(name = "author")
     private String author;
     @Column(name = "year")
     private int year;
-
-
     @Column(name = "synopsis", length = 20000)
     private String synopsis;
 
-    public Book() {
-    }
+    public Book() { }
 
-    public Book(String title, String genre, String author, int year, String synopsis, Date dateAdded) {
+    public Book(List<BookCollection> collectionsWithThisBook, Date dateAdded, String title, String genre, String author, int year, String synopsis) {
+        this.collectionsWithThisBook = collectionsWithThisBook;
+        this.dateAdded = dateAdded;
         this.title = title;
         this.genre = genre;
         this.author = author;
         this.year = year;
         this.synopsis = synopsis;
+    }
+
+    public List<BookCollection> getCollectionsWithThisBook() {
+        return collectionsWithThisBook;
+    }
+
+    public void setCollectionsWithThisBook(List<BookCollection> collectionsWithThisBook) {
+        this.collectionsWithThisBook = collectionsWithThisBook;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
         this.dateAdded = dateAdded;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getAuthor() {
@@ -66,43 +96,10 @@ public class Book extends AbstractEntity {
         this.synopsis = synopsis;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public Date getDateAdded() {
-        return dateAdded;
-    }
-
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
-    public List<BookCollection> getCollectionsWithThisBook() {
-        return collectionsWithThisBook;
-    }
-
-    public void setCollectionsWithThisBook(List<BookCollection> collectionsWithThisBook) {
-        this.collectionsWithThisBook = collectionsWithThisBook;
-    }
-
-
     @Override
     public String toString() {
         return "Book{" +
-//                "collectionsWithThisBook=" + collectionsWithThisBook +
+                "collectionsWithThisBook=" + collectionsWithThisBook +
                 ", dateAdded=" + dateAdded +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +

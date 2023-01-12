@@ -1,11 +1,16 @@
 package com.collectorscorner.demo.controllers;
 
+import com.collectorscorner.demo.Services.MovieCollectionService;
+import com.collectorscorner.demo.data.MovieCollectionRepository;
 import com.collectorscorner.demo.data.MovieRepository;
 import com.collectorscorner.demo.models.Movie;
+import com.collectorscorner.demo.models.MovieCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("movies")
@@ -13,6 +18,12 @@ public class MoviesController {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private MovieCollectionRepository movieCollectionRepository;
+
+    @Autowired
+    private MovieCollectionService movieCollectionService;
 
     @GetMapping("feed")
     private String displayFeedPage(Model model) {
@@ -33,17 +44,31 @@ public class MoviesController {
     }
 
     @GetMapping("search")
-    public String displaySearchPage(Model model) {
+    public String displaySearchPage(@CookieValue("userId") Integer myCookie, Model model) {
         model.addAttribute(new Movie());
+        Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
+        model.addAttribute("movieCollections", iterableMovieCollection);
+        model.addAttribute("cookie", myCookie);
+        System.out.print(myCookie);
         return "movies/search";
     }
 
     @PostMapping("search")
-    public String processAddMovieFormOnSearchPage(@ModelAttribute Movie movie) {
-            if (movieRepository.existsByTitleAndYearAndDirector(movie.getTitle(), movie.getYear(), movie.getDirector())) {
-            } else {
-                movieRepository.save(movie);
+    public String processAddMovieFormOnSearchPage(@ModelAttribute Movie movie, @RequestParam("collectionId") Integer collectionId) {
+        Optional<Movie> existingMovie = movieRepository.findByTitleAndYearAndDirector(movie.getTitle(), movie.getYear(), movie.getDirector());
+        if (existingMovie.isPresent()) {
+            Optional<MovieCollection> optionalMovieCollection = movieCollectionRepository.findById(collectionId);
+            if (optionalMovieCollection.isPresent()) {
+                MovieCollection movieCollection = (MovieCollection) optionalMovieCollection.get();
+                movieCollectionService.addMovie(movieCollection, existingMovie.get());
             }
+        } else {
+            Optional<MovieCollection> optionalMovieCollection = movieCollectionRepository.findById(collectionId);
+            if (optionalMovieCollection.isPresent()) {
+                MovieCollection movieCollection = (MovieCollection) optionalMovieCollection.get();
+                movieCollectionService.addMovie(movieCollection, movie);
+            }
+        }
         return "redirect:/movies/search";
     }
 
