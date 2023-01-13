@@ -1,7 +1,9 @@
 package com.collectorscorner.demo.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,23 +21,19 @@ public class User extends AbstractEntity{
 
     private String lastName;
 
-
-
     private String username;
 
     private String pwHash;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    @ManyToMany(mappedBy = "movies")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<MovieCollection> userMovieCollection = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "books")
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<BookCollection> userBookCollection = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "games")
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<GameCollection> userGameCollection = new ArrayList<>();
 
 

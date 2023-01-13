@@ -19,7 +19,7 @@
   <button type="button" id="searchTermAndType">Search</button>
 </form> <hr>
 
-<button id="newSearchButton"><a href="http://localhost:8080/books/search">New Search</a></button> <br> <br>
+<button id="newSearchButton"><a href="http://localhost:8080/books/search">New Search</a></button> <br>
 <button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes">Show Filters</button>
 
 <div id="filtersSection" style="display:none;"> <br> <hr>
@@ -68,7 +68,6 @@ searchTermAndType.addEventListener('click', function() {
 });
 </script>
 
-<!-- Form that works with BooksController method processAddMovieFormOnSearchPage to add [new] books to the db -->
 <form method="post" id="databaseInformation" hidden>
   <input th:field="${book.title}" id="titleSubmission">
   <input th:field="${book.dateAdded}" id="dateSubmission">
@@ -76,6 +75,19 @@ searchTermAndType.addEventListener('click', function() {
   <input th:field="${book.author}" id="authorSubmission">
   <input th:field="${book.year}" id="yearSubmission">
   <input th:field="${book.synopsis}" id="synopsisSubmission">
+  <input type="text" name="collectionId" id="collectionId">
+</form>
+
+<label>User Collection:</label><br>
+<form>
+  <select id="collectionNamesDropdown">
+    <option value="">Select a collection</option>
+    <th:block th:each="collection : ${bookCollections}">
+        <span th:if="${collection.user.id == cookie}">
+            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
+        </span>
+    </th:block>
+  </select>
 </form>
 
 <div id="resultsTable"></div>

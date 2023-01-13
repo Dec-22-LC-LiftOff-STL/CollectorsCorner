@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies - Search</title>
+    <script type="text/javascript" th:src="@{../javascript/games-search.js}"></script>
+    <link rel="stylesheet" th:href="@{../CSS/games-search.css}">
+</head>
+<body>
+
+
+    <input type="text" id="userSearchTerm">
+    <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
+
+    <div id="resultsTable"></div>
+
+<hr>
+
+</body>
+</html>
