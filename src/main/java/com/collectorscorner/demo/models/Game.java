@@ -27,7 +27,7 @@ public class Game extends AbstractEntity {
     private Integer minPlayers;
     @Column(name = "maxPlayers")
     private Integer maxPlayers;
-    @Column(name = "description")
+    @Column(name = "description", length = 20000)
     private String description;
 
 

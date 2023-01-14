@@ -12,6 +12,18 @@
     <input type="text" id="userSearchTerm">
     <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
 
+    <label>User Collection:</label><br>
+    <form>
+        <select id="collectionNamesDropdown">
+            <option value="">Select a collection</option>
+            <th:block th:each="collection : ${gameCollections}">
+        <span th:if="${collection.user.id == cookie}">
+            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
+        </span>
+            </th:block>
+        </select>
+    </form>
+
     <div id="resultsTable"></div>
 
     <form method="post" id="databaseInformation" >
@@ -19,6 +31,8 @@
         <input th:field="${game.creator}" id="creatorSubmission">
         <input th:field="${game.dateAdded}" id="dateSubmission">
         <input th:field="${game.genre}" id="genreSubmission">
+        <input th:field="${game.minPlayers}" id="minPlayersSubmission">
+        <input th:field="${game.maxPlayers}" id="maxPlayersSubmission">
         <input th:field="${game.description}" id="synopsisSubmission">
         <input type="text" name="collectionId" id="collectionId">
     </form>

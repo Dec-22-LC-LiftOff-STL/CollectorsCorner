@@ -1,3 +1,10 @@
+window.onload = function() {
+    document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
+        const selectedValue = this.value;
+        document.getElementById("collectionId").value = selectedValue;
+    });
+}
+
 function searchTitle() {
 
     let urlBeginning = "https://api.boardgameatlas.com/api/search?name=";
@@ -45,8 +52,6 @@ function buildHTMLResultsTable(url) {
 
                 arrayOfValidatedGameObjects.push(unvalidatedGame);
         }
-
-
     }
 
     for (let i = 0; i < arrayOfValidatedGameObjects.length; i++) {
@@ -64,7 +69,7 @@ function buildHTMLResultsTable(url) {
                     <p id="gameCreator${i}" hidden>${game.primary_publisher.name}</p>
                     <form id="userCollectionDropdown${i}" style="display:none;"><hr>
                         <div id="selectDropdownDiv"></div>
-                    <button type="button" onclick="addNewMovieToDatabase();">Submit</button>
+                    <button type="button" onclick="addNewGameToDatabase();">Submit</button>
                     </form>
                 </th>
                 <th class="yearCell">
@@ -81,7 +86,7 @@ function buildHTMLResultsTable(url) {
                     <p id="gameMaxPlayers${i}">${game.max_players}</p>
                 </th>
                 <th class="synopsisCell">
-                    <p id="gameSynopsis${i}">${game.description}</p>
+                    <p id="gameSynopsis${i}">${game.description_preview}</p>
                 </th>
 
             </tr>
@@ -101,6 +106,8 @@ function toggleAddToCollectionDropdownForm(i) {
         dropdownForm.style.display = "none";
     }
 }
+
+//DATABASE INTERACTION
 
 function prepareDatabaseInformationForm(i) {
     const boardGameAtlasApiId = document.getElementById(`boardGameAtlasApiId${i}`).textContent;
@@ -124,6 +131,18 @@ function prepareDatabaseInformationForm(i) {
     //Fills in the genres on the form on search.html
     document.getElementById("genreSubmission").value = primaryGenre;
 
+    //Fills in the minimum player amount on the form on search.html
+    document.getElementById("minPlayersSubmission").value = gameMinPlayers;
+
+    //Fills in the maximum player amount on the form on search.html
+    document.getElementById("maxPlayersSubmission").value = gameMaxPlayers;
+
     //Fills in the release year on the form on search.html form
     document.getElementById("synopsisSubmission").value = gameSynopsis;
+}
+
+function addNewGameToDatabase() {
+
+    document.getElementById("databaseInformation").submit();
+
 }

@@ -27,7 +27,7 @@ public class Movie extends AbstractEntity {
     private String genre2;
     @Column(name = "genre3")
     private String genre3;
-    @Column(name = "synopsis")
+    @Column(name = "synopsis", length = 20000)
     private String synopsis;
 
     public Movie() { }
