@@ -1,3 +1,7 @@
+let isAscendingTitle = true;
+let isAscendingYear= true;
+let isAscendingGenre = true;
+
 window.onload = function() {
     document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
         const selectedValue = this.value;
@@ -146,4 +150,32 @@ function addNewGameToDatabase() {
 
     document.getElementById("databaseInformation").submit();
 
+}
+
+//SORTING
+
+function sortTableByTitle() {
+
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const titleA = rowA.querySelector('[id^="gameTitle"]').textContent;
+    const titleB = rowB.querySelector('[id^="gameTitle"]').textContent;
+    if (titleA < titleB) {
+        return -1;
+    } else if (titleA > titleB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingTitle) {
+        rows.reverse();
+    }
+
+    isAscendingTitle = !isAscendingTitle;
+    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
+    table.tBodies[0].append(...rows);
 }
