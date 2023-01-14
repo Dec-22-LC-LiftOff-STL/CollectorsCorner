@@ -59,6 +59,7 @@ a {
 
 #minPlayersColumnHeader {
     width: 12.5%;
+    cursor: pointer;
 }
 
 .minPlayersCell {
@@ -67,6 +68,7 @@ a {
 
 #maxPlayersColumnHeader {
     width: 12.5%;
+    cursor: pointer;
 }
 
 .maxPlayersCell {

@@ -1,6 +1,8 @@
 let isAscendingTitle = true;
 let isAscendingYear= true;
 let isAscendingGenre = true;
+let isAscendingMinPlayers = true;
+let isAscendingMaxPlayers = true;
 
 window.onload = function() {
     document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
@@ -226,5 +228,55 @@ function sortTableByGenre1() {
     }
 
     isAscendingGenre = !isAscendingGenre;
+    table.tBodies[0].append(...rows);
+}
+
+function sortTableByMinPlayers() {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const minPlayersA = Number(rowA.querySelector('[id^="gameMinPlayers"]').textContent);
+    const minPlayersB = Number(rowB.querySelector('[id^="gameMinPlayers"]').textContent);
+    if (minPlayersA < minPlayersB) {
+        return -1;
+    } else if (minPlayersA > minPlayersB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingMinPlayers) {
+        rows.reverse();
+    }
+
+    isAscendingMinPlayers = !isAscendingMinPlayers;
+    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
+    table.tBodies[0].append(...rows);
+}
+
+function sortTableByMaxPlayers() {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const maxPlayersA = Number(rowA.querySelector('[id^="gameMaxPlayers"]').textContent);
+    const maxPlayersB = Number(rowB.querySelector('[id^="gameMaxPlayers"]').textContent);
+    if (maxPlayersA < maxPlayersB) {
+        return -1;
+    } else if (maxPlayersA > maxPlayersB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingMaxPlayers) {
+        rows.reverse();
+    }
+
+    isAscendingMaxPlayers = !isAscendingMaxPlayers;
+    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
     table.tBodies[0].append(...rows);
 }
