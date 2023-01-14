@@ -179,3 +179,52 @@ function sortTableByTitle() {
     //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
     table.tBodies[0].append(...rows);
 }
+
+function sortTableByYear() {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const yearA = rowA.querySelector('[id^="gameDate"]').textContent;
+    const yearB = rowB.querySelector('[id^="gameDate"]').textContent;
+    if (yearA < yearB) {
+        return -1;
+    } else if (yearA > yearB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingYear) {
+        rows.reverse();
+    }
+
+    isAscendingYear = !isAscendingYear;
+    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
+    table.tBodies[0].append(...rows);
+}
+
+function sortTableByGenre1() {
+    const table = document.querySelector("table");
+    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+
+    rows.sort((rowA, rowB) => {
+    const genreA = rowA.querySelector('[id^="primaryGenre"]').textContent;
+    const genreB = rowB.querySelector('[id^="primaryGenre"]').textContent;
+    if (genreA < genreB) {
+        return -1;
+    } else if (genreA > genreB) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+
+    if (!isAscendingGenre) {
+        rows.reverse();
+    }
+
+    isAscendingGenre = !isAscendingGenre;
+    table.tBodies[0].append(...rows);
+}
