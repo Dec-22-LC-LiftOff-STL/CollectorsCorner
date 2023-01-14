@@ -9,9 +9,7 @@ function searchTitle() {
     let url = urlBeginning + searchTerm + urlEnding;
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
-//    document.getElementById("showFiltersButton").style.display = "block";
-    //Hides Submit button after a search and has user use New Search button for a new search so filters are not mixed up
-//    document.getElementById("searchTermAndType").style.display = "none";
+    document.getElementById("showFiltersButton").style.display = "block";
 }
 
 function buildHTMLResultsTable(url) {
@@ -35,27 +33,25 @@ function buildHTMLResultsTable(url) {
         <tbody>
     `;
     let tableRows = "";
+    const arrayOfValidatedGameObjects = [];
     for (let i = 0; i < arrayOfGameObjects.length; i++) {
-        const game = arrayOfGameObjects[i];
-        console.log(game);
-//        if (!game.release_date) {
-//            break;
-//        }
-//        //Cleans up presentation by slicing only the year from "2012-12-12" date format
-//        movie.release_date = movie.release_date.slice(0,4);
-//        //Cleans up presentation by ignoring search results that do not have a movie poster
-//        if (movie.poster_path === null) {
-//            break;
-//        }
-//        //Cleans up results by removing movies provided without a genre
-//        if (movie.genre_ids[0] === undefined) {
-//            break;
-//        }
-//        //Cleans up results by removing movies provided without a synopsis
-//        if (movie.overview === "") {
-//            break;
-//        }
+        const unvalidatedGame = arrayOfGameObjects[i];
+        const blankCategory = [{ id: ' '}]
+        if (unvalidatedGame.categories.length === 0) {
+            unvalidatedGame.categories = blankCategory;
+        }
+        if (unvalidatedGame.thumb_url !== "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box+thumb.jpg" && !arrayOfValidatedGameObjects.includes(unvalidatedGame)
+            && unvalidatedGame.primary_publisher !== undefined && unvalidatedGame.primary_publisher.name !== undefined) {
 
+                arrayOfValidatedGameObjects.push(unvalidatedGame);
+        }
+
+
+    }
+
+    for (let i = 0; i < arrayOfValidatedGameObjects.length; i++) {
+    const game = arrayOfValidatedGameObjects[i];
+    console.log(arrayOfValidatedGameObjects)
         tableRows += `
             <tr>
                 <th class="posterCell">
@@ -63,21 +59,19 @@ function buildHTMLResultsTable(url) {
                 </th>
                 <th class="titleCell">
                     <a id="gameTitle${i}" href="${game.name}">${game.name}</a><br><br>
-
-                    <!-- For demonstration purposes only currently -->
                     <button id="dropdown-button${i}" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
                     <p id="boardGameAtlasApiId${i}" hidden>${game.id}</p>
+                    <p id="gameCreator${i}" hidden>${game.primary_publisher.name}</p>
                     <form id="userCollectionDropdown${i}" style="display:none;"><hr>
                         <div id="selectDropdownDiv"></div>
                     <button type="button" onclick="addNewMovieToDatabase();">Submit</button>
                     </form>
-                    <!-- -->
                 </th>
                 <th class="yearCell">
                     <p id="gameDate${i}">${game.year_published}</p>
                 </th>
                 <th class="genre1Cell">
-                    <p id="primaryGenre${i}">${game.categories[0]}</p>
+                    <p id="primaryGenre${i}">${game.categories[0].id}</p>
                     <p id="gameGenres${i}" hidden>${game.categories}</p>
                 </th>
                 <th class="minPlayersCell">
@@ -93,9 +87,43 @@ function buildHTMLResultsTable(url) {
             </tr>
             `;
     }
-
     let tableEnding = `</tbody></table>`;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
     });
     });
+}
+
+function toggleAddToCollectionDropdownForm(i) {
+    const dropdownForm = document.getElementById(`userCollectionDropdown${i}`);
+    if (dropdownForm.style.display === "none") {
+        dropdownForm.style.display = "block";
+    } else {
+        dropdownForm.style.display = "none";
+    }
+}
+
+function prepareDatabaseInformationForm(i) {
+    const boardGameAtlasApiId = document.getElementById(`boardGameAtlasApiId${i}`).textContent;
+    const gameTitle = document.getElementById(`gameTitle${i}`).textContent;
+    const gameCreator = document.getElementById(`gameCreator${i}`).textContent;
+    const gameDate = document.getElementById(`gameDate${i}`).textContent.slice(0,4);
+    const gameSynopsis = document.getElementById(`gameSynopsis${i}`).textContent;
+    const gameMinPlayers = document.getElementById(`gameMinPlayers${i}`).textContent;
+    const gameMaxPlayers = document.getElementById(`gameMaxPlayers${i}`).textContent;
+    const primaryGenre = document.getElementById(`primaryGenre${i}`).textContent;
+
+    //Fills in the title on the form on search.html
+    document.getElementById("titleSubmission").value = gameTitle;
+
+    //Fills in the author on the form on search.html form
+    document.getElementById("creatorSubmission").value = gameCreator;
+
+    //Fills in the date the book was first added to the database on the form on search.html
+    document.getElementById("dateSubmission").value = new Date();
+
+    //Fills in the genres on the form on search.html
+    document.getElementById("genreSubmission").value = primaryGenre;
+
+    //Fills in the release year on the form on search.html form
+    document.getElementById("synopsisSubmission").value = gameSynopsis;
 }

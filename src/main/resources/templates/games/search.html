@@ -14,7 +14,14 @@
 
     <div id="resultsTable"></div>
 
-<hr>
+    <form method="post" id="databaseInformation" >
+        <input th:field="${game.title}" id="titleSubmission">
+        <input th:field="${game.creator}" id="creatorSubmission">
+        <input th:field="${game.dateAdded}" id="dateSubmission">
+        <input th:field="${game.genre}" id="genreSubmission">
+        <input th:field="${game.description}" id="synopsisSubmission">
+        <input type="text" name="collectionId" id="collectionId">
+    </form>
 
 </body>
 </html>
