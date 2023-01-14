@@ -7,10 +7,7 @@ import com.collectorscorner.demo.models.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("books")
@@ -34,6 +31,13 @@ public class BooksController {
             bookRepository.save(book);
         }
         return "redirect:/books/search";
+    }
+
+    @GetMapping("details/{bookTitle}")
+    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle) {
+        model.addAttribute("bookTitle", bookTitle);
+        model.addAttribute("books", bookRepository.findAll());
+        return "books/details";
     }
 
 }
