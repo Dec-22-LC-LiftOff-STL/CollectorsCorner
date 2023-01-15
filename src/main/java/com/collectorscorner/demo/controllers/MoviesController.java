@@ -35,6 +35,7 @@ public class MoviesController {
     @GetMapping("list")
     public String displayListPage (Model model) {
         model.addAttribute(new Movie());
+        model.addAttribute("movieCollections", movieCollectionRepository.findAll());
         return "movies/list";
     }
 
