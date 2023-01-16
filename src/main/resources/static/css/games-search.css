@@ -87,7 +87,8 @@ a {
 }
 
 tr {
-    outline: 2px solid white;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .poster {
