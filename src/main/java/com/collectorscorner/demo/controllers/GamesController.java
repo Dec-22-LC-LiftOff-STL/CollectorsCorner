@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("games")
@@ -44,4 +44,22 @@ public class GamesController {
         return "games/search";
     }
 
+    @PostMapping("search")
+    public String processAddGameFormOnSearchPage(@ModelAttribute Game game, @RequestParam("collectionId") Integer collectionId) {
+        Optional<Game> existingGame = gameRepository.findByTitleAndDescription(game.getTitle(), game.getDescription());
+        if (existingGame.isPresent()) {
+            Optional<GameCollection> optionalGameCollection = gameCollectionRepository.findById(collectionId);
+            if (optionalGameCollection.isPresent()) {
+                GameCollection gameCollection = (GameCollection) optionalGameCollection.get();
+                gameCollectionService.addGame(gameCollection, existingGame.get());
+            }
+        } else {
+            Optional<GameCollection> optionalGameCollection = gameCollectionRepository.findById(collectionId);
+            if (optionalGameCollection.isPresent()) {
+                GameCollection gameCollection = (GameCollection) optionalGameCollection.get();
+                gameCollectionService.addGame(gameCollection, game);
+            }
+        }
+        return "redirect:/games/search";
+    }
 }
