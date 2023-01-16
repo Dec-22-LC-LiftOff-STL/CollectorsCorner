@@ -3,8 +3,11 @@ package com.collectorscorner.demo.controllers;
 import com.collectorscorner.demo.Services.MovieCollectionService;
 import com.collectorscorner.demo.data.MovieCollectionRepository;
 import com.collectorscorner.demo.data.MovieRepository;
+import com.collectorscorner.demo.data.UserRepository;
+import com.collectorscorner.demo.models.Game;
 import com.collectorscorner.demo.models.Movie;
 import com.collectorscorner.demo.models.MovieCollection;
+import com.collectorscorner.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +28,9 @@ public class MoviesController {
     @Autowired
     private MovieCollectionService movieCollectionService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("feed")
     private String displayFeedPage(Model model) {
         model.addAttribute("movies", movieRepository.findAll());
@@ -32,8 +38,14 @@ public class MoviesController {
     }
 
     @GetMapping("list")
-    public String displayListPage (Model model) {
+    public String displayListPage (Model model, @CookieValue(name = "userId") String myCookie) {
         model.addAttribute(new Movie());
+//        Integer userId = Integer.parseInt(myCookie);
+        Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
+//        Iterable<User> iterableUsers = userRepository.findAll();
+        model.addAttribute("movieCollections", iterableMovieCollection);
+//        model.addAttribute("cookie", userId);
+//        model.addAttribute("iterableUsers", iterableUsers);
         return "movies/list";
     }
 
@@ -44,17 +56,17 @@ public class MoviesController {
     }
 
     @GetMapping("search")
-    public String displaySearchPage(@CookieValue(name = "userId", defaultValue = "null") String myCookie, Model model) {
+    public String displaySearchPage(@CookieValue(name = "userId") String myCookie, Model model) {
         model.addAttribute(new Movie());
         if ("null".equals(myCookie)) {
-            System.out.println(myCookie);
             return "redirect:/login";
         }
         Integer userId = Integer.parseInt(myCookie);
-        System.out.println(myCookie);
         Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
+        Iterable<User> iterableUsers = userRepository.findAll();
         model.addAttribute("movieCollections", iterableMovieCollection);
         model.addAttribute("cookie", userId);
+        model.addAttribute("iterableUsers", iterableUsers);
         System.out.print(myCookie);
         return "movies/search";
     }
