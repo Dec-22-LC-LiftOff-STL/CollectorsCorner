@@ -36,8 +36,16 @@
     <input th:field="${movie.director}" id="directorSubmission" >
     <input th:field="${movie.year}" id="yearSubmission" >
     <input th:field="${movie.synopsis}" id="synopsisSubmission" >
-    <input th:field="${movie.userID}" id="userIDSubmission" >
+<!--    <input th:text="${collection.name}" th:value="${collection.}">-->
+<!--    <input th:field="${movie.userID}" id="userIDSubmission" >-->
 </form>
+<form>
+    <th:block th:each="collection : ${movieCollections}">
+    <tr th:text="${collection.movies}" th:value ="${collection.movies}">
+<!--        <tr th:each="movie : ${movieCollections.movies}"></tr>-->
+        <tr th:text="${collection.name}" th:value = "${collection.name}" ></tr>
 
+    </th:block>
+</form>
 </body>
 </html>
