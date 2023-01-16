@@ -15,7 +15,7 @@ import java.util.List;
 public class User extends AbstractEntity{
 
 
-    private String displayName;
+    private String screenName;
 
     private String firstName;
 
@@ -45,7 +45,7 @@ public class User extends AbstractEntity{
         this.userBookCollection = getUserBookCollection();
         this.userGameCollection = getUserGameCollection();
         this.userMovieCollection = getUserMovieCollection();
-        this.displayName = getDisplayName();
+        this.screenName = getScreenName();
     }
 
     public boolean isMatchingPassword(String password){
@@ -69,12 +69,12 @@ public class User extends AbstractEntity{
         this.lastName = lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getScreenName() {
+        return screenName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
     }
 
     @Override
@@ -110,11 +110,11 @@ public class User extends AbstractEntity{
         this.userGameCollection = userGameCollection;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -32,8 +32,10 @@
         <option value="">Select a collection</option>
         <th:block th:each="collection : ${movieCollections}">
         <span th:if="${collection.user.id == cookie}">
-            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
-        </span>
+            <option th:text="${collection.name}" th:value="${collection.id}"></option>
+<!--            <option th:text="${iterableUsers[0].username}" th:value="${iterableUsers[0].username}" ></option>-->
+<!--            <option th:text="${collection.user}" th:value="${collection.user}" ></option>-->
+                    </span>
         </th:block>
     </select>
 </form>
