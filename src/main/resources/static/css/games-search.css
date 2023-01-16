@@ -1,0 +1,94 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+button {
+    background-color: gray;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+#posterColumnHeader {
+    width: 15%;
+}
+
+.posterCell {
+    width: 15%
+}
+
+#titleColumnHeader {
+    width: 15%;
+    cursor: pointer;
+}
+
+
+.titleCell {
+    width: 15%;
+}
+
+#yearColumnHeader {
+    width: 5%;
+    cursor: pointer;
+}
+
+.yearCell {
+    width: 5%;
+}
+
+#genre1ColumnHeader {
+    width: 15%;
+    cursor: pointer;
+}
+
+.genre1Cell {
+    width: 15%;
+}
+
+#synopsisColumnHeader {
+    width: 25%;
+}
+
+.synopsisCell {
+    width: 25%
+}
+
+#minPlayersColumnHeader {
+    width: 12.5%;
+}
+
+.minPlayersCell {
+    width: 12.5%
+}
+
+#maxPlayersColumnHeader {
+    width: 12.5%;
+}
+
+.maxPlayersCell {
+    width: 12.5%
+}
+
+#userCollectionDropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+tr {
+    outline: 2px solid white;
+}
+
+.poster {
+    width:55%;
+}
+

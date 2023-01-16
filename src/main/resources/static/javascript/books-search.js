@@ -4,6 +4,13 @@ let isAscendingAuthor = true;
 let isAscendingYear = true;
 let isAscendingGenre = true;
 
+window.onload = function() {
+    document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
+        const selectedValue = this.value;
+        document.getElementById("collectionId").value = selectedValue;
+    });
+}
+
 function searchTitle() {
 
     let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=";
@@ -99,12 +106,6 @@ function buildHTMLResultsTable(url) {
                     <button id="dropdown-button${i}" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
                     <p id="googleBooksApiId${i}" hidden>${book.id}</p>
                     <form id="userCollectionDropdown${i}" style="display:none;"><hr>
-                        <label>User Collection:</label><br>
-                        <select>
-                            <option value="collection1" selected>Collection 1</option>
-                            <option value="collection2">Collection 2</option>
-                            <option value="collection3">Collection 3</option>
-                        </select>
                         <button type="button" onclick="addNewBookToDatabase();">Submit</button>
                     </form>
                 </th>
