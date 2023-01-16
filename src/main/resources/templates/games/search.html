@@ -2,19 +2,72 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Movies - Search</title>
+    <title>Games - Search</title>
     <script type="text/javascript" th:src="@{../javascript/games-search.js}"></script>
     <link rel="stylesheet" th:href="@{../CSS/games-search.css}">
+    <script type="text/javascript" th:src="@{/javascript/bootstrap.js}"></script>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
 </head>
 <body>
 
 
     <input type="text" id="userSearchTerm">
-    <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
+    <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><hr>
+
+    <button id="newSearchButton"><a href="http://localhost:8080/games/search">New Search</a></button> <br> <br>
+    <button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateCreatorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckCreatorBoxes(); toggleCheckUncheckGenreBoxes">Show Filters</button>
+
+    <div id="filtersSection" style="display:none;"> <br> <hr>
+        <form id="yearFilters" >
+            <h3>Year Range:</h3>
+            <input type="number" id="userYearMin">
+            <input type="number" id="userYearMax">
+        </form>
+        <button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateCreatorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button> <br> <br> <hr>
+
+        <form id="creatorFilters">
+            <h3>Creator:</h3>
+            <div id="creatorCheckboxes"></div>
+        </form>
+        <button id="filterCreatorsButton" onclick="showOrHideRowsBasedOnCreatorCheckboxFilters(); generateGenreCheckboxHTML()">Filter Creators</button>
+        <button id="selectAllCreatorsButton" onclick="toggleCheckUncheckCreatorBoxes()">Select All</button>
+        <button id="unselectAllCreatorsButton" onclick="toggleCheckUncheckCreatorBoxes()">Unselect All</button> <br> <br> <hr>
+
+        <form id="genreFilters">
+            <h3>Genre:</h3>
+            <div id="genreCheckboxes"></div>
+        </form>
+        <button id="filterGenresButton" onclick="showOrHideRowsBasedOnGenreCheckboxFilters(); generateCreatorCheckboxHTML()">Filter Genres</button>
+        <button id="selectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Select All</button>
+        <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <br> <hr>
+
+
+    </div> <br>
+
+    <label>User Collection:</label><br>
+    <form>
+        <select id="collectionNamesDropdown">
+            <option value="">Select a collection</option>
+            <th:block th:each="collection : ${gameCollections}">
+        <span th:if="${collection.user.id == cookie}">
+            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
+        </span>
+            </th:block>
+        </select>
+    </form>
 
     <div id="resultsTable"></div>
 
-<hr>
+    <form method="post" id="databaseInformation" hidden>
+        <input th:field="${game.title}" id="titleSubmission" readonly>
+        <input th:field="${game.creator}" id="creatorSubmission" readonly>
+        <input th:field="${game.dateAdded}" id="dateSubmission" readonly>
+        <input th:field="${game.genre}" id="genreSubmission" readonly>
+        <input th:field="${game.minPlayers}" id="minPlayersSubmission" readonly>
+        <input th:field="${game.maxPlayers}" id="maxPlayersSubmission" readonly>
+        <input th:field="${game.description}" id="synopsisSubmission" readonly>
+        <input type="text" name="collectionId" id="collectionId" readonly>
+    </form>
 
 </body>
 </html>

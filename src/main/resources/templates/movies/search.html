@@ -14,7 +14,7 @@
 
 <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
 
-<form method="post" id="databaseInformation" hidden>
+<form method="post" id="databaseInformation" >
     <input th:field="${movie.title}" id="titleSubmission" >
     <input th:field="${movie.dateAdded}" id="dateSubmission" >
     <input th:field="${movie.genre}" id="genreSubmission" >
