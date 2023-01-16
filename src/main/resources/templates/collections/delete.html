@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Collections</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{../javascript/collections-delete.js}"></script>
+    <link rel="stylesheet" th:href="@{../CSS/collections-delete.css}">
+</head>
+<body>
+<h1>Delete Collections</h1>
+<h2 th:text="${user.username}"></h2><br><br>
+
+<h3>Movie Collections</h3><hr>
+<form method="post">
+    <table class="table table-striped" id="table">
+        <thead>
+            <tr>
+                <th class="text-center">Delete</th>
+                <th onclick="sortTable(1)" id="collectionNameHeader">Collection Name</th>
+                <th onclick="sortTable(2)" id="collectionDescriptionHeader">Collection Description</th>
+            </tr>
+        </thead>
+            <tr th:each="collection : ${movieCollections}">
+                <td class="text-center">
+                    <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
+                </td>
+                <td th:if="${collection.user.id == cookie}">
+                    <span th:text="${collection.name}"></span>
+                </td>
+                <td>
+                    <span th:text="${collection.description}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+                <td></td>
+                <td></td>
+            </tr>
+    </table><hr>
+</form>
+
+</body>
+</html>
