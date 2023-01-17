@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Delete Collections</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <script type="text/javascript" th:src="@{../javascript/collections-delete.js}"></script>
     <link rel="stylesheet" th:href="@{../CSS/collections-delete.css}">
+    <script type="text/javascript" th:src="@{../javascript/collections-delete.js}"></script>
 </head>
 <body>
 <h1>Delete Collections</h1>
@@ -21,12 +21,12 @@
                 <th onclick="sortTable(2)" id="collectionDescriptionHeader">Collection Description</th>
             </tr>
         </thead>
-            <tr th:each="collection : ${movieCollections}">
+            <tr th:each="collection : ${thisUserMovieCollections}">
                 <td class="text-center">
                     <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
                 </td>
                 <td th:if="${collection.user.id == cookie}">
-                    <span th:text="${collection.name}"></span>
+                    <a th:href="@{/collections/delete/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
                 </td>
                 <td>
                     <span th:text="${collection.description}"></span>
