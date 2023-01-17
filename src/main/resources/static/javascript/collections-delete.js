@@ -20,21 +20,46 @@ function sortTable(n) {
         one from current row and one from the next: */
         x = rows[i].getElementsByTagName("TD")[n];
         y = rows[i + 1].getElementsByTagName("TD")[n];
+        /* NH: If we sort by director, pull ONLY the last name out of the <td> cell and sort by that */
+        if (n === 3) {
+            let allWordsInDirectorNameArrayX = x.innerHTML.split(">")[1].split("<")[0].split(" ");
+            let allWordsInDirectorNameArrayY = y.innerHTML.split(">")[1].split("<")[0].split(" ");
+            console.log(allWordsInDirectorNameArrayX, allWordsInDirectorNameArrayY)
+            x = allWordsInDirectorNameArrayX[allWordsInDirectorNameArrayX.length - 1];
+            y = allWordsInDirectorNameArrayY[allWordsInDirectorNameArrayY.length - 1];
+        }
         /* Check if the two rows should switch place,
         based on the direction, asc or desc: */
         if (dir == "asc") {
-            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            //Typical functionality
+            if (typeof x === "object") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            //Modified functionality - compare two STRINGS (two director last names).
+            if (x > y) {
                 // If so, mark as a switch and break the loop:
                 shouldSwitch = true;
                 break;
             }
         } else if (dir == "desc") {
-
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-            // If so, mark as a switch and break the loop:
-            shouldSwitch = true;
-            break;
-        }
+            //Typical functionality
+            if (typeof x === "object") {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            //Modified functionality - compare two STRINGS (two director last names).
+            if (x < y) {
+                // If so, mark as a switch and break the loop:
+                shouldSwitch = true;
+                break;
+            }
         }
     }
     if (shouldSwitch) {
