@@ -62,4 +62,10 @@ public class GamesController {
         }
         return "redirect:/games/search";
     }
+    @GetMapping("details/{gameTitle}")
+    public String displayViewGameDetailsPage(Model model, @PathVariable String gameTitle) {
+        model.addAttribute("gameTitle", gameTitle);
+        model.addAttribute("games", gameRepository.findAll());
+        return "games/details";
+    }
 }
