@@ -5,3 +5,23 @@
 #collectionDescriptionHeader {
     cursor: pointer;
 }
+
+#titleHeader {
+    cursor: pointer;
+}
+
+#yearHeader {
+    cursor: pointer;
+}
+
+#directorHeader {
+    cursor: pointer;
+}
+
+#primaryGenreHeader {
+    cursor: pointer;
+}
+
+#secondaryGenreHeader {
+    cursor: pointer;
+}

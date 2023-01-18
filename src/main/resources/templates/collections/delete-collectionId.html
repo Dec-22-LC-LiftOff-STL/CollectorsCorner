@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title th:text="${collection.name}">Title</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{../../CSS/collections-delete.css}">
     <script type="text/javascript" th:src="@{../../javascript/collections-delete.js}"></script>
 </head>
+
 <body>
 
 <h1 th:text="${collection.name}"></h1>
@@ -13,43 +15,43 @@
 <form method="post" th:action="@{/collections/delete/{collectionId}(collectionId=${collectionId})}">
     <table class="table table-striped" id="table">
         <thead>
-        <tr>
-            <th class="text-center">Delete</th>
-            <th onclick="sortTable(1)">Title</th>
-            <th onclick="sortTable(2)">Year</th>
-            <th onclick="sortTable(3)">Director</th>
-            <th onclick="sortTable(4)">Primary Genre</th>
-            <th onclick="sortTable(5)">Secondary Genre</th>
-        </tr>
+            <tr>
+                <th class="text-center">Delete</th>
+                <th onclick="sortTable(1)" id="titleHeader">Title</th>
+                <th onclick="sortTable(2)" id="yearHeader">Year</th>
+                <th onclick="sortTable(3)" id="directorHeader">Director</th>
+                <th onclick="sortTable(4)" id="primaryGenreHeader">Primary Genre</th>
+                <th onclick="sortTable(5)" id="secondaryGenreHeader">Secondary Genre</th>
+            </tr>
         </thead>
-        <tr th:each="movie : ${movies}">
-            <td class="text-center">
-                <input type="checkbox" name="movieIds" th:value="${movie.id}">
-            </td>
-            <td>
-                <a th:href="@{/movies/details/{movieTitle}(movieTitle=${movie.title})}"><p th:text="${movie.title}"></p></a>
-            </td>
-            <td>
-                <span th:text="${movie.year}"></span>
-            </td>
-            <td>
-                <span th:text="${movie.director}"></span>
-            </td>
-            <td>
-                <span th:text="${movie.genre}"></span>
-            </td>
-            <td>
-                <span th:text="${movie.genre2}"></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+            <tr th:each="movie : ${movies}">
+                <td class="text-center">
+                    <input type="checkbox" name="movieIds" th:value="${movie.id}">
+                </td>
+                <td>
+                    <a th:href="@{/movies/details/{movieTitle}(movieTitle=${movie.title})}"><p th:text="${movie.title}"></p></a>
+                </td>
+                <td>
+                    <span th:text="${movie.year}"></span>
+                </td>
+                <td>
+                    <span th:text="${movie.director}"></span>
+                </td>
+                <td>
+                    <span th:text="${movie.genre}"></span>
+                </td>
+                <td>
+                    <span th:text="${movie.genre2}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
     </table><hr>
 </form>
 

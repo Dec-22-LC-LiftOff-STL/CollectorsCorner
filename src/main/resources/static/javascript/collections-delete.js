@@ -20,7 +20,7 @@ function sortTable(n) {
         one from current row and one from the next: */
         x = rows[i].getElementsByTagName("TD")[n];
         y = rows[i + 1].getElementsByTagName("TD")[n];
-        /* NH: If we sort by director, pull ONLY the last name out of the <td> cell and sort by that */
+        /* NH: If we sort by director, pull ONLY the last name out of the <td> cell and sort by that below */
         if (n === 3) {
             let allWordsInDirectorNameArrayX = x.innerHTML.split(">")[1].split("<")[0].split(" ");
             let allWordsInDirectorNameArrayY = y.innerHTML.split(">")[1].split("<")[0].split(" ");
