@@ -2,12 +2,15 @@ package com.collectorscorner.demo.controllers;
 
 
 import com.collectorscorner.demo.data.BookCollectionRepository;
+import com.collectorscorner.demo.data.GameCollectionRepository;
 import com.collectorscorner.demo.data.MovieCollectionRepository;
 import com.collectorscorner.demo.data.UserRepository;
 import com.collectorscorner.demo.models.BookCollection;
+import com.collectorscorner.demo.models.GameCollection;
 import com.collectorscorner.demo.models.MovieCollection;
 import com.collectorscorner.demo.models.User;
 import com.collectorscorner.demo.models.dto.CreateBookCollectionDTO;
+import com.collectorscorner.demo.models.dto.CreateGameCollectionDTO;
 import com.collectorscorner.demo.models.dto.CreateMovieCollectionDTO;
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +35,9 @@ public class CollectionController {
 
     @Autowired
     BookCollectionRepository bookCollectionRepository;
+
+    @Autowired
+    GameCollectionRepository gameCollectionRepository;
 
     @GetMapping("/create-movie-collection")
     public String displayCreateMovieCollection(@CookieValue("userId") String myCookie, Model model){
@@ -114,6 +120,49 @@ public class CollectionController {
 //        }
 
         return "collections/create-book-collection";
+
+    }
+
+
+    @GetMapping("/create-game-collection")
+    public String displayCreateGameCollection(@CookieValue("userId") String myCookie, Model model){
+        Integer userId = Integer.parseInt(myCookie);
+        model.addAttribute(new CreateGameCollectionDTO());
+        model.addAttribute("title", "CreateGameCollection");
+        model.addAttribute("cookie", userId);
+        return "collections/create-game-collection";
+    }
+
+    @PostMapping("/create-game-collection")
+    public String processCreateGameCollection(@ModelAttribute @Valid CreateGameCollectionDTO createGameCollectionDTO,
+                                               @CookieValue("userId") String myCookie,
+                                               Errors errors,
+                                               HttpServletRequest request,
+                                               Model model
+    ) {
+
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> existingUser = userRepository.findById(userId);
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "CreateGameCollection");
+            return "collections/create-game-collection";
+        }
+
+//        Optional<User> existingUser = userRepository.findById(userId);
+        if(existingUser.isPresent()) {
+
+            User existingUserFound = existingUser.get();
+            GameCollection createGameCollection = new GameCollection(createGameCollectionDTO.getGames(), createGameCollectionDTO.getName(), createGameCollectionDTO.getDescription(), existingUserFound);
+            gameCollectionRepository.save(createGameCollection);
+        }
+
+//        if (optionalUser.isPresent()) {
+//            User existingUser = (User)  optionalUser.get();
+//                    MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), createMovieCollectionDTO.getUser());
+//            movieCollectionRepository.save(createMovieCollection);
+//        }
+
+        return "collections/create-game-collection";
 
     }
 }
