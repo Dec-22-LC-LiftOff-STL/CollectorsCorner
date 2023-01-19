@@ -30,6 +30,7 @@ public class CollectionController {
     @Autowired
     MovieCollectionRepository movieCollectionRepository;
 
+
     @Autowired
     MovieCollectionService movieCollectionService;
 
@@ -39,16 +40,19 @@ public class CollectionController {
     @Autowired
     BookCollectionRepository bookCollectionRepository;
 
-    @GetMapping("/create")
+    
+
+    @GetMapping("/create-movie-collection")
+
     public String displayCreateMovieCollection(@CookieValue("userId") String myCookie, Model model){
         Integer userId = Integer.parseInt(myCookie);
         model.addAttribute(new CreateMovieCollectionDTO());
         model.addAttribute("title", "CreateMovieCollection");
         model.addAttribute("cookie", userId);
-        return "collections/create";
+        return "collections/create-movie-collection";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/create-movie-collection")
     public String processCreateMovieCollection(@ModelAttribute @Valid CreateMovieCollectionDTO createMovieCollectionDTO,
                                                @CookieValue("userId") String myCookie,
                                                Errors errors,
@@ -60,7 +64,7 @@ public class CollectionController {
         Optional<User> existingUser = userRepository.findById(userId);
         if (errors.hasErrors()) {
             model.addAttribute("title", "CreateMovieCollection");
-            return "collections/create";
+            return "collections/create-movie-collection";
         }
 
 //        Optional<User> existingUser = userRepository.findById(userId);
@@ -77,7 +81,7 @@ public class CollectionController {
 //            movieCollectionRepository.save(createMovieCollection);
 //        }
 
-        return "collections/create";
+        return "collections/create-movie-collection";
 
     }
     //Created a collections package in templates and a create template inside of collections package. The Form just shows a basic name and a description section for the user to enter information on their collection. No validation currently set up, but as is, once the add button is clicked the collection is added to the SQL database

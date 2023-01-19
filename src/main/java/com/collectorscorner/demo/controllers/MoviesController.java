@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -91,9 +93,29 @@ public class MoviesController {
     }
 
     @GetMapping("details/{movieTitle}")
-    public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle) {
+    public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle/*,@CookieValue(name = "userId") String myCookie*/) {
+//        Integer userId = Integer.parseInt(myCookie);
+
+        Iterable<MovieCollection> allMovieCollections = movieCollectionRepository.findAll();
+        int foundMovieYear = 0;
+        String collectorName = "";
+        ArrayList<MovieCollection> foundMovies = new ArrayList<>();
+        for (MovieCollection collection : allMovieCollections){
+            for (int i = 0; i < collection.getMovies().size(); i++){
+                if (collection.getMovies().get(i).getTitle().equals(movieTitle)){
+                    foundMovies.add(collection);
+                    foundMovieYear = collection.getMovies().get(i).getYear();
+                    collectorName = collection.getUser().getUsername();
+                }
+            }
+
+        }
+        model.addAttribute("collectionsWithThisMovie", foundMovies);
         model.addAttribute("movieTitle", movieTitle);
         model.addAttribute("movies", movieRepository.findAll());
+        model.addAttribute("foundMovieYear", foundMovieYear);
+        model.addAttribute("collectorName", collectorName);
+
         return "movies/details";
     }
 }

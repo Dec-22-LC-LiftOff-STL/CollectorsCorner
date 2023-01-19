@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h1 th:href="@{'/movies/details/'}" th:text="${bookTitle}" id="bookTitle"></h1>
+<h1 th:href="@{'/books/details/'}" th:text="${bookTitle}" id="bookTitle"></h1>
 
 <div id="bookInfo"></div>
 
@@ -38,7 +38,7 @@ window.onload = function() {
 
     fetch(url).then(function(response) {
         response.json().then( function(json) {
-            console.log(json.results);
+            console.log(json.items);
 
             const div = document.getElementById("bookInfo");
             div.innerHTML = `
@@ -51,7 +51,7 @@ window.onload = function() {
                 shoplink.innerHTML = 'Shop Now';
                 shoplink.setAttribute('title', 'Shop Now');
                 shoplink.setAttribute('href', json.items[0].saleInfo.buyLink);
-                document.body.appendChild(shopl ink);
+                document.body.appendChild(shoplink);
 
         })
     });

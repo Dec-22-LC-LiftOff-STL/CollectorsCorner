@@ -57,14 +57,14 @@
             <th id="movieColGenreColumn", style="display:none">Genre: ></th>
             <th id="movieColGenre2Column", style="display:none">Genre: ></th>
             <th id="movieColGenre3Column", style="display:none">Genre: ></th>
+            <th id="movieColCollectorColumn", style="display:none">Collector: ></th>
         </span>
-
 
 
         <tr th:each="movieCollection : ${movieCollections}">
             <td>
                 <p>
-                    <a th:href="@{'/view/' + ${movieCollection.id}}" th:text="'Movie Collection Id: ' + ${movieCollection.id}"></a>
+                    <a th:href="@{'collection/view/' + ${movieCollection.id}}" th:text="'Movie Collection Id: ' + ${movieCollection.id}"></a>
                 </p>
 
                 <p th:text="${movieCollection.name}"></p>
@@ -86,7 +86,7 @@
                 <br>
 
                 <p>
-                <a th:href="@{'/movies/details/'}" th:text="${'Created by: ' + movieCollection.id}"></a>
+                <a th:href="@{'/collector/{collector}(collector=${collector.id})'}" th:text="${'Created by: ' + movieCollection.getUser().getUsername()}"></a>
                 </p>
 
             </td>
@@ -124,6 +124,15 @@
 
                     <li id="genre3FilterString", style="display:none"
                         th:text="${movie.genre3}">
+                    </li>
+                </ul>
+            </td>
+
+            <td id="movieColCollector", style="display:none">Collector in Collection:>
+                <ul th:each="movie : ${movieCollection.movies}">
+
+                    <li id="collectorFilterString", style="display:none"
+                        th:text="${movieCollection.getUser().getUsername()}">
                     </li>
                 </ul>
             </td>
@@ -215,7 +224,8 @@
             const movieFilterDataByValueMap = new Map([
                 ['keyword', [0]],
                 ['director', [1]],
-                ['genre', [2, 3, 4]]
+                ['genre', [2, 3, 4]],
+                ['collector', [5]]
             ]);
 
 
