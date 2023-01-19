@@ -15,7 +15,7 @@ import java.util.List;
 public class Game extends AbstractEntity {
 
     @ManyToMany
-    @NotEmpty(message = "Please Choose a Collection to add this to.")
+//    @NotEmpty(message = "Please Choose a Collection to add this to.")
     private List<GameCollection> collectionsWithThisGame = new ArrayList<>();
     @Column(name = "dateAdded")
     private Date dateAdded;
