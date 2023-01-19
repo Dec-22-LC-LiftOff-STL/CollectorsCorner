@@ -78,7 +78,7 @@ public class MoviesController {
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
             List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
-            for (MovieCollection movieCollection : thisUsersCollections){
+            for (MovieCollection movieCollection : thisUsersCollections) {
                 keys.add(movieCollection.getId());
                 String moviesString = movieCollection.getMovies().toString();
                 values.add(moviesString);
@@ -87,10 +87,8 @@ public class MoviesController {
             collectionIdsAndMovies.put(keys.get(i), values.get(i));
         }
         model.addAttribute("collectionIdsAndMovies", collectionIdsAndMovies);
-
         }
-
-        return "movies/search";
+    return "movies/search";
     }
 
     @PostMapping("search")
