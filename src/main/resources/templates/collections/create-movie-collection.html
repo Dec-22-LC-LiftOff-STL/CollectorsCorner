@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create Movie Collection</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
 </head>
+
+
+
 <body>
 <form method="post">
     <div>
@@ -20,7 +27,7 @@
     <p class="error" th:errors="${createMovieCollectionDTO.description}"></p>
     </div>
 
- <input type="submit" class="btn btn-primary" value="CreateMovieCollection" />
+ <input type="submit" class="btn btn-primary" value="Create Movie Collection" />
 
 
 </form>

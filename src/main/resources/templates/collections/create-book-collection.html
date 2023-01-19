@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create Book Collection</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+
 </head>
+
+
 <body>
 <form method="post" >
     <div>
@@ -20,7 +25,7 @@
         <p class="error" th:errors="${createBookCollectionDTO.description}"></p>
     </div>
 
-    <input type="submit" class="btn btn-primary" value="CreateBookCollection"/>
+    <input type="submit" class="btn btn-primary" value="Create Book Collection"/>
 
 </form>
 </body>
