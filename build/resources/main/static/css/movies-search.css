@@ -1,16 +1,14 @@
-body {
-    background-color: black;
-    color: white;
-}
-
 button {
     background-color: gray;
     color: white;
 }
 
 a {
-    text-decoration: none;
-    color: white;
+    font-size: 22px;
+}
+
+p {
+    font-size: 15px;
 }
 
 #posterColumnHeader {
@@ -22,18 +20,20 @@ a {
 }
 
 #titleColumnHeader {
-    width: 15%;
+    width: 20%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 
 .titleCell {
-    width: 15%;
+    width: 20%;
 }
 
 #yearColumnHeader {
     width: 5%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .yearCell {
@@ -41,16 +41,18 @@ a {
 }
 
 #genre1ColumnHeader {
-    width: 15%;
+    width: 10%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .genre1Cell {
-    width: 15%;
+    width: 10%;
 }
 
 #synopsisColumnHeader {
     width: 45%;
+    font-size: 16px;
 }
 
 .synopsisCell {
@@ -76,11 +78,8 @@ a {
     display: none;
 }
 
-tr {
-    outline: 2px solid white;
-}
 
 .poster {
-    width:55%;
+    width:131.84px
 }
 

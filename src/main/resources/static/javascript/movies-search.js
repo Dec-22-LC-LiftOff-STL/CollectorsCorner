@@ -4,10 +4,13 @@ link.rel = 'stylesheet';
 link.type = 'text/css';
 link.href = '../css/movies-search.css'
 
+// Boolean switch variables. Used when alternating between ASC/DESC sorting.
 let isAscendingTitle = true;
 let isAscendingYear= true;
 let isAscendingGenre = true;
 
+// Listens for changes in the "User Collection" dropdown menu. Collection names are displayed, but
+// the value for each option is linked to the Collection's ID.
 window.onload = function() {
     document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
         const selectedValue = this.value;
@@ -15,18 +18,18 @@ window.onload = function() {
     });
 }
 
+// Builds the API query string using input from the "Search for a Movie" box.
 function searchTitle() {
-
     let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
     let searchTerm;
     searchTerm = document.getElementById("userSearchTerm").value.replace(" ", "+");
 
     let url = urlBeginning + searchTerm;
-
+    //Call this function with the url that was built.
     buildHTMLResultsTable(url);
-
 }
 
+// Uses template literal backticks (``) and loops to construct the HTML for the results table <div>.
 function buildHTMLResultsTable(url) {
     fetch(url).then(function(response) {
     response.json().then(function(json) {
@@ -49,21 +52,21 @@ function buildHTMLResultsTable(url) {
     let tableRows = "";
     for (let i = 0; i < arrayOfMovieObjects.length; i++) {
         const movie = arrayOfMovieObjects[i];
-        console.log(movie);
+        //Validation - reject API query results without a release_date property.
         if (!movie.release_date) {
             break;
         }
-        //Cleans up presentation by slicing only the year from "2012-12-12" date format
+        //Validation - convert yyyy/mm/dd format to yyyy.
         movie.release_date = movie.release_date.slice(0,4);
-        //Cleans up presentation by ignoring search results that do not have a movie poster
+        //Validation - reject API query results without a poster_path property.
         if (movie.poster_path === null) {
             break;
         }
-        //Cleans up results by removing movies provided without a genre
+        //Validation - reject API query results without a genre_ids property.
         if (movie.genre_ids[0] === undefined) {
             break;
         }
-        //Cleans up results by removing movies provided without a synopsis
+        //Validation - reject API query results without an overview property.
         if (movie.overview === "") {
             break;
         }
@@ -72,9 +75,9 @@ function buildHTMLResultsTable(url) {
             <tr>
                 <th class="posterCell" style="vertical-align: middle">
                     <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}"><br>
-                    <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
+                    <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
                     <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
-                    <form id="userCollectionDropdown${i}" style="display:none;"><br>
+                    <form id="confirmButtonDropdown${i}" style="display:none;"><br>
                         <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
                     </form>
                 </th>
@@ -94,18 +97,19 @@ function buildHTMLResultsTable(url) {
                 </th>
                 <th class="streamingPlatformsCell" style="vertical-align: middle">
                     <button class="btn btn-dark" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
-                    <div id="streamingDiv${i}" class="hidden"></div>
+                    <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
                 </th>
             </tr>
             `;
     }
-
     let tableEnding = `</tbody></table>`;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
     });
     });
 }
 
+//Called when the "Add to Collection" button is clicked. Fills out the hidden form with id="databaseInformation"
+//This information is submitted and processed if everything passes the validation in place.
 function prepareDatabaseInformationForm(i) {
     const themoviedbApiId = document.getElementById(`themoviedbApiId${i}`).textContent;
     const movieTitle = document.getElementById(`movieTitle${i}`).textContent;
@@ -120,7 +124,6 @@ function prepareDatabaseInformationForm(i) {
     document.getElementById("dateSubmission").value = new Date();
 
     //Fills in the genres on the form on search.html
-    //uses .replace to convert genres given as integer IDs from TheMovieDatabase API to the matching string genre.
     document.getElementById("genreSubmission").value = movieGenres.split(",")[0].replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western");
 
     if (movieGenres.split(",")[1] !== undefined) {
@@ -129,6 +132,7 @@ function prepareDatabaseInformationForm(i) {
     if (movieGenres.split(",")[2] !== undefined) {
         document.getElementById("genre3Submission").value = movieGenres.split(",")[2].replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western");
     }
+    //If there is <3 genres, make the missing ones an empty string.
     if (movieGenres.split(",")[1] === undefined) {
         document.getElementById("genre2Submission").value = "";
     }
@@ -136,7 +140,7 @@ function prepareDatabaseInformationForm(i) {
         document.getElementById("genre3Submission").value = "";
     }
 
-    //Fills in the director on the form on search.html form -- director is NOT a property on movie objects
+    //Fills in the director on the form on search.html form -- director is NOT a default property on the API movie objects
     //This property must be retrieved via a separate fetch using *TheMovieDatabase's* ID for the movie.
     let directorFetchURLBeginning = "https://api.themoviedb.org/3/movie/"
     let movieId = themoviedbApiId;
@@ -157,14 +161,39 @@ function prepareDatabaseInformationForm(i) {
     document.getElementById("yearSubmission").value = movieDate.slice(0,4);
 
     //Fills in the release year on the form on search.html form
-    //The string is sliced to abide by the MySQL VARCHAR character limit
-    document.getElementById("synopsisSubmission").value = movieSynopsis.slice(0,250);
+    document.getElementById("synopsisSubmission").value = movieSynopsis;
 }
 
+//Includes alerts if the movie already exists in the collection, or if the user
+//forgot to select a collection.
 function addNewMovieToDatabase() {
 
+    let collectionDropdown = document.getElementById("collectionNamesDropdown");
+        let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
+        let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
+        if (collectionDropdown.value === '') {
+            alert("Don't forget to select the collection you want to add to!")
+            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
+            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+        }
+        for (let i=0; i<collectionIdsAndMoviesArray.length; i++) {
+            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
+            let id = collectionIdsAndMoviesArray[i].split('=[Movie{')[0];
+            let text = collectionIdsAndMoviesArray[i].split('=[Movie{')[1];
+            //If the collection is empty, allow any addition.
+            if (text === undefined) {
+                break;
+            }
+            // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
+            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
+            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+            if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
+                alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
+                return;
+            }
+        }
     document.getElementById("databaseInformation").submit();
-
 }
 
 function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
@@ -187,7 +216,6 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
                 streamingServicesHTML += html;
             }
         }
-
         document.getElementById(streamingDivId.id).innerHTML = streamingServicesHTML;
         });
         })
@@ -203,8 +231,8 @@ function toggleStreamingServicesDiv(chosenMovie) {
     }
 }
 
-function toggleAddToCollectionDropdownForm(i) {
-    const dropdownForm = document.getElementById(`userCollectionDropdown${i}`);
+function toggleConfirmButtonDropdownForm(i) {
+    const dropdownForm = document.getElementById(`confirmButtonDropdown${i}`);
     if (dropdownForm.style.display === "none") {
         dropdownForm.style.display = "block";
     } else {
@@ -284,6 +312,9 @@ function sortTableByGenre1() {
     isAscendingGenre = !isAscendingGenre;
     table.tBodies[0].append(...rows);
 }
+
+
+
 
 
 

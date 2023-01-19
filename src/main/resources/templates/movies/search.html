@@ -14,11 +14,11 @@
 <h1>Movie Search</h1><hr><br>
 
 <label for="userSearchTerm">Search for a Movie:</label><br>
-<input id="userSearchTerm" type="search"><br>
+<input id="userSearchTerm" type="search" onkeyup="if (event.keyCode === 13) { searchTitle(userSearchTerm); }"><br>
 
 <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
 
-<form method="post" id="databaseInformation" hidden>
+<form method="post" id="databaseInformation" hidden readonly>
     <input th:field="${movie.title}" id="titleSubmission" >
     <input th:field="${movie.dateAdded}" id="dateSubmission" >
     <input th:field="${movie.genre}" id="genreSubmission" >
@@ -30,7 +30,7 @@
     <input type="text" name="collectionId" id="collectionId">
 </form>
 
-<label>User Collection:</label><br>
+<label id="collectionNameDropdownLabel">User Collection:</label><br>
 <form>
     <select id="collectionNamesDropdown">
         <option value="">Select a collection</option>
@@ -44,8 +44,11 @@
     </select>
 </form>
 
+
+<p th:text="${collectionIdsAndMovies}" id="collectionIdsAndMovies" hidden></p>
+
 <div class="container-fluid">
-    <div id="resultsTable" ></div>
+    <div id="resultsTable"></div>
 </div>
 
 </body>
