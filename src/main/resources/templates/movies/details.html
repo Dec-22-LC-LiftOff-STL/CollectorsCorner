@@ -7,14 +7,25 @@
 <body>
 
 <h1 th:text="${movieTitle}" id="movieTitle"></h1>
+    <p id="movieYear", style="display:none"
+        th:text="${foundMovieYear}">
+    </p>
+    <p id="collectorName", style="display:none"
+       th:text="${collectorName}">
+    </p>
+
+
 <div id="movieInfo"></div>
 
-<h3>In The Collection Of:</h3>
-<th-block th:each="movie : ${movies}">
-    <ol th:if="${movie.title} == ${movieTitle}">
-        <h3 th:text="${movie.userID}"></h3>
-    </ol>
-</th-block>
+<h3>Collections With This Movie:</h3>
+<ol >
+    <span th:each="collection: ${collectionsWithThisMovie}">
+        <li>
+        <a th:href="@{'collection/view/' + ${collection.id}}" th:text="${collection.name + '  Created by: ' + collection.getUser().getUsername()}"></a>
+        </li>
+
+    </span>
+</ol>
 
 </body>
 </html>
@@ -24,12 +35,13 @@
 window.onload = function() {
 
     movieTitle = document.getElementById("movieTitle").innerHTML;
+    movieYear = document.getElementById("movieYear").innerHTML;
     console.log(movieTitle);
 
     let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
     let searchTerm;
 
-    searchTerm = movieTitle;
+    searchTerm = movieTitle + "&primary_release_year=" + movieYear;
 
     let url = urlBeginning + searchTerm;
     let posterURLBeginning = "https://image.tmdb.org/t/p/w500";
@@ -49,6 +61,7 @@ window.onload = function() {
             <h3>Synopsis: ${json.results[0].overview}</h3>
             <img src=${posterURL}>
             `
+
         })
     });
 };
