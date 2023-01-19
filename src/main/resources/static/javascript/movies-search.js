@@ -33,7 +33,7 @@ function buildHTMLResultsTable(url) {
     const arrayOfMovieObjects = json.results;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
     let tableBeginning = `
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th id="posterColumnHeader"></th>
@@ -70,34 +70,30 @@ function buildHTMLResultsTable(url) {
 
         tableRows += `
             <tr>
-                <th class="posterCell">
+                <th class="posterCell" style="vertical-align: middle">
                     <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}"><br>
-                </th>
-                <th class="titleCell">
-                    <a id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br><br>
-
-                    <!-- For demonstration purposes only currently -->
-                    <button id="dropdown-button${i}" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
+                    <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
                     <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
-                    <form id="userCollectionDropdown${i}" style="display:none;"><hr>
-                        <div id="selectDropdownDiv"></div>
-                    <button type="button" onclick="addNewMovieToDatabase();">Submit</button>
+                    <form id="userCollectionDropdown${i}" style="display:none;"><br>
+                        <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
                     </form>
-                    <!-- -->
                 </th>
-                <th class="yearCell">
+                <th class="titleCell" style="vertical-align: middle">
+                    <a id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
+                </th>
+                <th class="yearCell" style="vertical-align: middle">
                     <p id="movieDate${i}">${movie.release_date}</p>
                 </th>
-                <th class="genre1Cell">
+                <th class="genre1Cell" style="vertical-align: middle">
                     <p id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                     <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                 </th>
-                <th class="synopsisCell">
+                <th class="synopsisCell" style="vertical-align: middle">
                     <p id="movieSynopsis${i}">${movie.overview}</p>
 
                 </th>
-                <th class="streamingPlatformsCell">
-                    <button onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
+                <th class="streamingPlatformsCell" style="vertical-align: middle">
+                    <button class="btn btn-dark" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
                     <div id="streamingDiv${i}" class="hidden"></div>
                 </th>
             </tr>
@@ -249,17 +245,21 @@ function sortTableByYear() {
         const yearB = rowB.querySelector('[id^="movieDate"]').textContent;
 
     if (yearA < yearB) {
-        return isAscendingYear ? -1 : 1;
+        return -1;
     } else if (yearA > yearB) {
-        return isAscendingYear ? 1 : -1;
+        return 1;
     } else {
         return 0;
-        }
+    }
     });
 
+    if (!isAscendingYear) {
+        rows.reverse();
+    }
+
     isAscendingYear = !isAscendingYear;
-    rows.forEach(row => table.appendChild(row));
-}
+    table.tBodies[0].append(...rows);
+    }
 
 function sortTableByGenre1() {
     const table = document.querySelector("table");

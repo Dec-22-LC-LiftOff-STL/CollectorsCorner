@@ -9,12 +9,6 @@
 <h1 th:text="${movieTitle}" id="movieTitle"></h1>
 <div id="movieInfo"></div>
 
-<h3>In The Collection Of:</h3>
-<th-block th:each="movie : ${movies}">
-    <ol th:if="${movie.title} == ${movieTitle}">
-        <h3 th:text="${movie.userID}"></h3>
-    </ol>
-</th-block>
 
 </body>
 </html>
