@@ -1,10 +1,13 @@
 package com.collectorscorner.demo.controllers;
 
 
+
 import com.collectorscorner.demo.Services.MovieCollectionService;
 import com.collectorscorner.demo.data.*;
 import com.collectorscorner.demo.models.*;
+
 import com.collectorscorner.demo.models.dto.CreateMovieCollectionDTO;
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,9 @@ public class CollectionController {
     MovieCollectionRepository movieCollectionRepository;
 
 
+
+
+
     @Autowired
     MovieCollectionService movieCollectionService;
 
@@ -41,6 +47,7 @@ public class CollectionController {
     BookCollectionRepository bookCollectionRepository;
 
     
+
 
     @GetMapping("/create-movie-collection")
 
@@ -84,6 +91,51 @@ public class CollectionController {
         return "collections/create-movie-collection";
 
     }
+
+
+    @GetMapping("/create-book-collection")
+    public String displayCreateBookCollection(@CookieValue("userId") String myCookie, Model model){
+        Integer userId = Integer.parseInt(myCookie);
+        model.addAttribute(new CreateBookCollectionDTO());
+        model.addAttribute("title", "CreateBookCollection");
+        model.addAttribute("cookie", userId);
+        return "collections/create-book-collection";
+    }
+
+    @PostMapping("/create-book-collection")
+    public String processCreateBookCollection(@ModelAttribute @Valid CreateBookCollectionDTO createBookCollectionDTO,
+                                               @CookieValue("userId") String myCookie,
+                                               Errors errors,
+                                               HttpServletRequest request,
+                                               Model model
+    ) {
+
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> existingUser = userRepository.findById(userId);
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "CreateBookCollection");
+            return "collections/create-book-collection";
+        }
+
+//        Optional<User> existingUser = userRepository.findById(userId);
+        if(existingUser.isPresent()) {
+
+            User existingUserFound = existingUser.get();
+            BookCollection createBookCollection = new BookCollection(createBookCollectionDTO.getBooks(), createBookCollectionDTO.getName(), createBookCollectionDTO.getDescription(), existingUserFound);
+            bookCollectionRepository.save(createBookCollection);
+        }
+
+//        if (optionalUser.isPresent()) {
+//            User existingUser = (User)  optionalUser.get();
+//                    MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), createMovieCollectionDTO.getUser());
+//            movieCollectionRepository.save(createMovieCollection);
+//        }
+
+        return "collections/create-book-collection";
+
+    }
+}
+
     //Created a collections package in templates and a create template inside of collections package. The Form just shows a basic name and a description section for the user to enter information on their collection. No validation currently set up, but as is, once the add button is clicked the collection is added to the SQL database
 
 
@@ -177,5 +229,6 @@ public class CollectionController {
         }
         return "redirect:/collections/delete/{collectionId}";
     }
+
 
 }
