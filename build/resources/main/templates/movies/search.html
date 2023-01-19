@@ -18,16 +18,16 @@
 
 <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
 
-<form method="post" id="databaseInformation" hidden readonly>
-    <input th:field="${movie.title}" id="titleSubmission" >
-    <input th:field="${movie.dateAdded}" id="dateSubmission" >
-    <input th:field="${movie.genre}" id="genreSubmission" >
-    <input th:field="${movie.genre2}" id="genre2Submission" >
-    <input th:field="${movie.genre3}" id="genre3Submission" >
-    <input th:field="${movie.director}" id="directorSubmission" >
-    <input th:field="${movie.year}" id="yearSubmission" >
-    <input th:field="${movie.synopsis}" id="synopsisSubmission" >
-    <input type="text" name="collectionId" id="collectionId">
+<form method="post" id="databaseInformation" hidden >
+    <input th:field="${movie.title}" id="titleSubmission" readonly>
+    <input th:field="${movie.dateAdded}" id="dateSubmission" readonly>
+    <input th:field="${movie.genre}" id="genreSubmission" readonly>
+    <input th:field="${movie.genre2}" id="genre2Submission" readonly>
+    <input th:field="${movie.genre3}" id="genre3Submission" readonly>
+    <input th:field="${movie.director}" id="directorSubmission" readonly>
+    <input th:field="${movie.year}" id="yearSubmission" readonly>
+    <input th:field="${movie.synopsis}" id="synopsisSubmission" readonly>
+    <input type="text" name="collectionId" id="collectionId" readonly>
 </form>
 
 <label id="collectionNameDropdownLabel">User Collection:</label><br>
