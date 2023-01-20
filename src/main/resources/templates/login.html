@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 
-<head th:replace="~{fragments :: head}">
-</head>
+<head th:replace="~{fragments :: head}"></head>
 
-<div th:replace="fragments :: page-header"></div>
+<div th:replace="~{fragments :: page-header}"></div>
 
-<div class="container body-content">
 
-<body>
+
+
+<body class="container body-content">
 
 
 <form method="post">
@@ -52,5 +52,5 @@ function getCookie() {
 
 
 </body>
-</div>
+
 </html>

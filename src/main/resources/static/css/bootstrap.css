@@ -1,9 +1,4 @@
-/*!
- * Bootstrap v3.3.7 (http://getbootstrap.com)
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -1904,8 +1899,7 @@ pre code {
   .col-sm-offset-9 {
     margin-left: 75%;
   }
-  .col-sm-offset-8 {
-    margin-left: 66.66666667%;
+  .col-sm-offset-8 {f    margin-left: 66.66666667%;
   }
   .col-sm-offset-7 {
     margin-left: 58.33333333%;
@@ -6754,4 +6748,4 @@ button.close {
     display: none !important;
   }
 }
-/*# sourceMappingURL=bootstrap.css.map */
+# sourceMappingURL=bootstrap.css.map
