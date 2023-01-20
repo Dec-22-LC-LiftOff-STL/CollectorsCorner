@@ -190,7 +190,6 @@ public class CollectionController {
         return "collections/create-game-collection";
 
     }
-}
 
     //Created a collections package in templates and a create template inside of collections package. The Form just shows a basic name and a description section for the user to enter information on their collection. No validation currently set up, but as is, once the add button is clicked the collection is added to the SQL database
 

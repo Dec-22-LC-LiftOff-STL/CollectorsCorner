@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${bookTitle}"></title>
-</head>
-<body>
+<head th:replace="~{fragments :: head}"></head>
+
+<div th:replace="fragments :: page-header"></div>
+
+
+<body class="container body-content">
 
 <h1 th:href="@{'/books/details/'}" th:text="${bookTitle}" id="bookTitle"></h1>
 

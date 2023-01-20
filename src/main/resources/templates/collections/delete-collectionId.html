@@ -8,7 +8,11 @@
     <script type="text/javascript" th:src="@{../../javascript/collections-delete.js}"></script>
 </head>
 
-<body>
+<div th:replace="fragments :: page-header"></div>
+
+
+<body class="container body-content">
+<br><br><br><br>
 
 <h1 th:text="${collection.name}"></h1>
 
