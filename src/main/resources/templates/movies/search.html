@@ -5,43 +5,50 @@
     <title>Movies - Search</title>
     <script type="text/javascript" th:src="@{../javascript/movies-search.js}"></script>
     <link rel="stylesheet" th:href="@{../CSS/movies-search.css}">
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+<link th:href="@{/css/collectors-corner.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 </head>
 
-<body>
 
-<label for="userSearchTerm">Title</label><br>
-<input id="userSearchTerm" type="search"><br>
+<div th:replace="fragments :: page-header"></div>
 
-<button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
+<body class="container body-content">
 
-<form method="post" id="databaseInformation" >
-    <input th:field="${movie.title}" id="titleSubmission" >
-    <input th:field="${movie.dateAdded}" id="dateSubmission" >
-    <input th:field="${movie.genre}" id="genreSubmission" >
-    <input th:field="${movie.genre2}" id="genre2Submission" >
-    <input th:field="${movie.genre3}" id="genre3Submission" >
-    <input th:field="${movie.director}" id="directorSubmission" >
-    <input th:field="${movie.year}" id="yearSubmission" >
-    <input th:field="${movie.synopsis}" id="synopsisSubmission" >
-    <input type="text" name="collectionId" id="collectionId">
-</form>
+    <label for="userSearchTerm">Title</label><br>
+    <input id="userSearchTerm" type="search"><br>
 
-<label>User Collection:</label><br>
-<form>
-    <select id="collectionNamesDropdown">
-        <option value="">Select a collection</option>
-        <th:block th:each="collection : ${movieCollections}">
-        <span th:if="${collection.user.id == cookie}">
-            <option th:text="${collection.name}" th:value="${collection.id}"></option>
-<!--            <option th:text="${iterableUsers[0].username}" th:value="${iterableUsers[0].username}" ></option>-->
-<!--            <option th:text="${collection.user}" th:value="${collection.user}" ></option>-->
-                    </span>
-        </th:block>
-    </select>
-</form>
+    <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
 
-<div id="resultsTable"></div>
+    <form method="post" id="databaseInformation" >
+        <input th:field="${movie.title}" id="titleSubmission" >
+        <input th:field="${movie.dateAdded}" id="dateSubmission" >
+        <input th:field="${movie.genre}" id="genreSubmission" >
+        <input th:field="${movie.genre2}" id="genre2Submission" >
+        <input th:field="${movie.genre3}" id="genre3Submission" >
+        <input th:field="${movie.director}" id="directorSubmission" >
+        <input th:field="${movie.year}" id="yearSubmission" >
+        <input th:field="${movie.synopsis}" id="synopsisSubmission" >
+        <input type="text" name="collectionId" id="collectionId">
+    </form>
 
-</body>
+    <label>User Collection:</label><br>
+    <form>
+        <select id="collectionNamesDropdown">
+            <option value="">Select a collection</option>
+            <th:block th:each="collection : ${movieCollections}">
+            <span th:if="${collection.user.id == cookie}">
+                <option th:text="${collection.name}" th:value="${collection.id}"></option>
+    <!--            <option th:text="${iterableUsers[0].username}" th:value="${iterableUsers[0].username}" ></option>-->
+    <!--            <option th:text="${collection.user}" th:value="${collection.user}" ></option>-->
+                        </span>
+            </th:block>
+        </select>
+    </form>
+
+    <div id="resultsTable"></div>
+
+    </body>
+
 
 </html>
