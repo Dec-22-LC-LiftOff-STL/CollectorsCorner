@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post">
+    <div>
+        <label>Name
+            <input class="control" th:field="${createGameCollectionDTO.name}" />
+        </label>
+        <p class="error" th:errors="${createGameCollectionDTO.name}"></p>
+    </div>
+
+    <div>
+        <label>Description
+            <input class="control" th:field="${createGameCollectionDTO.description}">
+        </label>
+        <p class="error" th:errors="${createGameCollectionDTO.description}"></p>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="CreateGameCollection" />
+
+
+</form>
+
+</body>
+</html>

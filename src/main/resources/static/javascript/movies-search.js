@@ -93,7 +93,6 @@ function buildHTMLResultsTable(url) {
                 </th>
                 <th class="synopsisCell" style="vertical-align: middle">
                     <p id="movieSynopsis${i}">${movie.overview}</p>
-
                 </th>
                 <th class="streamingPlatformsCell" style="vertical-align: middle">
                     <button class="btn btn-dark" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>

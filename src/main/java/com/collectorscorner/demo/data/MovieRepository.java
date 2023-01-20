@@ -11,4 +11,6 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
     Optional<Movie> findByTitleAndYearAndDirector(String title, int year, String director);
 
+    Optional<Movie> findByTitle(String title);
+
 }

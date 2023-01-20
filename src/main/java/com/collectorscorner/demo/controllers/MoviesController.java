@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,29 +69,12 @@ public class MoviesController {
         model.addAttribute("movieCollections", iterableMovieCollection);
         model.addAttribute("cookie", userId);
         model.addAttribute("iterableUsers", iterableUsers);
-        //Create HashMap to be interpreted by JS as an object. Key = collectionId, Value = Movies in that collection
-        List<Integer> keys = new ArrayList<>();
-        List<String> values = new ArrayList<>();
-        HashMap<Integer, String> collectionIdsAndMovies = new HashMap<>();
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User thisUser = optionalUser.get();
-            List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
-            for (MovieCollection movieCollection : thisUsersCollections) {
-                keys.add(movieCollection.getId());
-                String moviesString = movieCollection.getMovies().toString();
-                values.add(moviesString);
-            }
-        for (int i=0; i<keys.size(); i++) {
-            collectionIdsAndMovies.put(keys.get(i), values.get(i));
-        }
-        model.addAttribute("collectionIdsAndMovies", collectionIdsAndMovies);
-        }
-    return "movies/search";
+        System.out.print(myCookie);
+        return "movies/search";
     }
 
     @PostMapping("search")
-    public String processAddMovieFormOnSearchPage(Model model,@ModelAttribute Movie movie, @RequestParam("collectionId") Integer collectionId) {
+    public String processAddMovieFormOnSearchPage(@ModelAttribute Movie movie, @RequestParam("collectionId") Integer collectionId) {
         Optional<Movie> existingMovie = movieRepository.findByTitleAndYearAndDirector(movie.getTitle(), movie.getYear(), movie.getDirector());
         if (existingMovie.isPresent()) {
             Optional<MovieCollection> optionalMovieCollection = movieCollectionRepository.findById(collectionId);
@@ -111,9 +93,29 @@ public class MoviesController {
     }
 
     @GetMapping("details/{movieTitle}")
-    public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle) {
+    public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle/*,@CookieValue(name = "userId") String myCookie*/) {
+//        Integer userId = Integer.parseInt(myCookie);
+
+        Iterable<MovieCollection> allMovieCollections = movieCollectionRepository.findAll();
+        int foundMovieYear = 0;
+        String collectorName = "";
+        ArrayList<MovieCollection> foundMovies = new ArrayList<>();
+        for (MovieCollection collection : allMovieCollections){
+            for (int i = 0; i < collection.getMovies().size(); i++){
+                if (collection.getMovies().get(i).getTitle().equals(movieTitle)){
+                    foundMovies.add(collection);
+                    foundMovieYear = collection.getMovies().get(i).getYear();
+                    collectorName = collection.getUser().getUsername();
+                }
+            }
+
+        }
+        model.addAttribute("collectionsWithThisMovie", foundMovies);
         model.addAttribute("movieTitle", movieTitle);
         model.addAttribute("movies", movieRepository.findAll());
+        model.addAttribute("foundMovieYear", foundMovieYear);
+        model.addAttribute("collectorName", collectorName);
+
         return "movies/details";
     }
 }

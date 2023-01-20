@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.List;
 public class Game extends AbstractEntity {
 
     @ManyToMany
+//    @NotEmpty(message = "Please Choose a Collection to add this to.")
     private List<GameCollection> collectionsWithThisGame = new ArrayList<>();
     @Column(name = "dateAdded")
     private Date dateAdded;
