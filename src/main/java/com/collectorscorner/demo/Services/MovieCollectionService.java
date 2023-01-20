@@ -4,6 +4,7 @@ import com.collectorscorner.demo.data.MovieCollectionRepository;
 import com.collectorscorner.demo.data.MovieRepository;
 import com.collectorscorner.demo.models.Movie;
 import com.collectorscorner.demo.models.MovieCollection;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class MovieCollectionService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public void addMovie(MovieCollection movieCollection, Movie movie) {
+    public void addMovie(@NotNull MovieCollection movieCollection, Movie movie) {
 
         Optional<Movie> existingMovie = movieRepository.findByTitleAndYearAndDirector(movie.getTitle(), movie.getYear(), movie.getDirector());
         if (existingMovie.isPresent()) {

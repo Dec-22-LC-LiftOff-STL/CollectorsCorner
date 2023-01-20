@@ -5,9 +5,15 @@
   <title>Books - Search</title>
   <script type="text/javascript" th:src="@{../javascript/books-search.js}"></script>
   <link rel="stylesheet" th:href="@{../CSS/books-search.css}">
+  <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+  <link th:href="@{/css/collectors-corner.css}" rel="stylesheet" />
+  <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 </head>
 
-<body>
+
+<div th:replace="fragments :: page-header"></div>
+
+<body class="container body-content">
 
 <form>
   <input type="text" id="userSearchTerm">
@@ -92,6 +98,8 @@ searchTermAndType.addEventListener('click', function() {
 
 <div id="resultsTable"></div>
 
+
 </body>
+
 
 </html>

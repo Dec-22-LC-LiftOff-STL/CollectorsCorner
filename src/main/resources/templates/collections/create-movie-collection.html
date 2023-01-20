@@ -2,16 +2,14 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 
 
+<head th:replace="~{fragments :: head}"></head>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Create Movie Collection</title>
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-</head>
+<div th:replace="fragments :: page-header"></div>
 
 
+<body class="container body-content">
+<br><br>
 
-<body>
 <form method="post">
     <div>
     <label>Name
