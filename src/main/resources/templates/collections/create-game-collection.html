@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+
 <head th:replace="~{fragments :: head}"></head>
 
 <div th:replace="fragments :: page-header"></div>
@@ -7,6 +9,7 @@
 
 <body class="container body-content">
 <br><br>
+
 
 <form method="post">
     <div>
@@ -23,7 +26,7 @@
         <p class="error" th:errors="${createGameCollectionDTO.description}"></p>
     </div>
 
-    <input type="submit" class="btn btn-primary" value="CreateGameCollection" />
+    <input type="submit" class="btn btn-primary" value="Create Game Collection" />
 
 
 </form>

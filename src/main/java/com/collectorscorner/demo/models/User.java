@@ -39,13 +39,15 @@ public class User extends AbstractEntity{
 
     public User(){}
 
-    public User(String username, String password){
+    public User(String username, String password, String screenName, String firstName, String lastName){
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.userBookCollection = getUserBookCollection();
         this.userGameCollection = getUserGameCollection();
         this.userMovieCollection = getUserMovieCollection();
-        this.screenName = getScreenName();
+        this.screenName = screenName;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public boolean isMatchingPassword(String password){

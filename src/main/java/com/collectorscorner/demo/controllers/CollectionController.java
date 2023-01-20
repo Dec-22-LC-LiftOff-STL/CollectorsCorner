@@ -47,9 +47,6 @@ public class CollectionController {
     MovieCollectionRepository movieCollectionRepository;
 
 
-
-
-
     @Autowired
     MovieCollectionService movieCollectionService;
 
@@ -60,11 +57,9 @@ public class CollectionController {
     BookCollectionRepository bookCollectionRepository;
 
 
-
-
     @GetMapping("/create-movie-collection")
 
-    public String displayCreateMovieCollection(@CookieValue("userId") String myCookie, Model model){
+    public String displayCreateMovieCollection(@CookieValue("userId") String myCookie, Model model) {
         Integer userId = Integer.parseInt(myCookie);
         model.addAttribute(new CreateMovieCollectionDTO());
         model.addAttribute("title", "CreateMovieCollection");
@@ -78,7 +73,7 @@ public class CollectionController {
                                                Errors errors,
                                                HttpServletRequest request,
                                                Model model
-                                               ) {
+    ) {
 
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> existingUser = userRepository.findById(userId);
@@ -88,9 +83,9 @@ public class CollectionController {
         }
 
 //        Optional<User> existingUser = userRepository.findById(userId);
-        if(existingUser.isPresent()) {
+        if (existingUser.isPresent()) {
 
-        User existingUserFound = existingUser.get();
+            User existingUserFound = existingUser.get();
             MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), existingUserFound);
             movieCollectionRepository.save(createMovieCollection);
         }
@@ -107,7 +102,7 @@ public class CollectionController {
 
 
     @GetMapping("/create-book-collection")
-    public String displayCreateBookCollection(@CookieValue("userId") String myCookie, Model model){
+    public String displayCreateBookCollection(@CookieValue("userId") String myCookie, Model model) {
         Integer userId = Integer.parseInt(myCookie);
         model.addAttribute(new CreateBookCollectionDTO());
         model.addAttribute("title", "CreateBookCollection");
@@ -117,10 +112,10 @@ public class CollectionController {
 
     @PostMapping("/create-book-collection")
     public String processCreateBookCollection(@ModelAttribute @Valid CreateBookCollectionDTO createBookCollectionDTO,
-                                               @CookieValue("userId") String myCookie,
-                                               Errors errors,
-                                               HttpServletRequest request,
-                                               Model model
+                                              @CookieValue("userId") String myCookie,
+                                              Errors errors,
+                                              HttpServletRequest request,
+                                              Model model
     ) {
 
         Integer userId = Integer.parseInt(myCookie);
@@ -131,7 +126,7 @@ public class CollectionController {
         }
 
 //        Optional<User> existingUser = userRepository.findById(userId);
-        if(existingUser.isPresent()) {
+        if (existingUser.isPresent()) {
 
             User existingUserFound = existingUser.get();
             BookCollection createBookCollection = new BookCollection(createBookCollectionDTO.getBooks(), createBookCollectionDTO.getName(), createBookCollectionDTO.getDescription(), existingUserFound);
@@ -150,7 +145,7 @@ public class CollectionController {
 
 
     @GetMapping("/create-game-collection")
-    public String displayCreateGameCollection(@CookieValue("userId") String myCookie, Model model){
+    public String displayCreateGameCollection(@CookieValue("userId") String myCookie, Model model) {
         Integer userId = Integer.parseInt(myCookie);
         model.addAttribute(new CreateGameCollectionDTO());
         model.addAttribute("title", "CreateGameCollection");
@@ -160,10 +155,10 @@ public class CollectionController {
 
     @PostMapping("/create-game-collection")
     public String processCreateGameCollection(@ModelAttribute @Valid CreateGameCollectionDTO createGameCollectionDTO,
-                                               @CookieValue("userId") String myCookie,
-                                               Errors errors,
-                                               HttpServletRequest request,
-                                               Model model
+                                              @CookieValue("userId") String myCookie,
+                                              Errors errors,
+                                              HttpServletRequest request,
+                                              Model model
     ) {
 
         Integer userId = Integer.parseInt(myCookie);
@@ -174,7 +169,7 @@ public class CollectionController {
         }
 
 //        Optional<User> existingUser = userRepository.findById(userId);
-        if(existingUser.isPresent()) {
+        if (existingUser.isPresent()) {
 
             User existingUserFound = existingUser.get();
             GameCollection createGameCollection = new GameCollection(createGameCollectionDTO.getGames(), createGameCollectionDTO.getName(), createGameCollectionDTO.getDescription(), existingUserFound);
@@ -190,6 +185,7 @@ public class CollectionController {
         return "collections/create-game-collection";
 
     }
+
 
     //Created a collections package in templates and a create template inside of collections package. The Form just shows a basic name and a description section for the user to enter information on their collection. No validation currently set up, but as is, once the add button is clicked the collection is added to the SQL database
 
