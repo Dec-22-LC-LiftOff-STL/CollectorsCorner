@@ -5,50 +5,52 @@
     <title>Movies - Search</title>
     <script type="text/javascript" th:src="@{../javascript/movies-search.js}"></script>
     <link rel="stylesheet" th:href="@{../CSS/movies-search.css}">
-<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-<link th:href="@{/css/collectors-corner.css}" rel="stylesheet" />
-<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 </head>
 
+<body>
 
-<div th:replace="fragments :: page-header"></div>
+<h1>Movie Search</h1><hr><br>
 
-<body class="container body-content">
+<label for="userSearchTerm">Search for a Movie:</label><br>
+<input id="userSearchTerm" type="search" onkeyup="if (event.keyCode === 13) { searchTitle(userSearchTerm); }"><br>
 
-    <label for="userSearchTerm">Title</label><br>
-    <input id="userSearchTerm" type="search"><br>
+<button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
 
-    <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br>
+<form method="post" id="databaseInformation" hidden>
+    <input th:field="${movie.title}" id="titleSubmission" readonly>
+    <input th:field="${movie.dateAdded}" id="dateSubmission" readonly>
+    <input th:field="${movie.genre}" id="genreSubmission" readonly>
+    <input th:field="${movie.genre2}" id="genre2Submission" readonly>
+    <input th:field="${movie.genre3}" id="genre3Submission" readonly>
+    <input th:field="${movie.director}" id="directorSubmission" readonly>
+    <input th:field="${movie.year}" id="yearSubmission" readonly>
+    <input th:field="${movie.synopsis}" id="synopsisSubmission" readonly>
+    <input type="text" name="collectionId" id="collectionId" readonly>
+</form>
 
-    <form method="post" id="databaseInformation" >
-        <input th:field="${movie.title}" id="titleSubmission" >
-        <input th:field="${movie.dateAdded}" id="dateSubmission" >
-        <input th:field="${movie.genre}" id="genreSubmission" >
-        <input th:field="${movie.genre2}" id="genre2Submission" >
-        <input th:field="${movie.genre3}" id="genre3Submission" >
-        <input th:field="${movie.director}" id="directorSubmission" >
-        <input th:field="${movie.year}" id="yearSubmission" >
-        <input th:field="${movie.synopsis}" id="synopsisSubmission" >
-        <input type="text" name="collectionId" id="collectionId">
-    </form>
+<label id="collectionNameDropdownLabel">User Collection:</label><br>
+<form>
+    <select id="collectionNamesDropdown">
+        <option value="">Select a collection</option>
+        <th:block th:each="collection : ${movieCollections}">
+        <span th:if="${collection.user.id == cookie}">
+            <option th:text="${collection.name}" th:value="${collection.id}"></option>
+<!--            <option th:text="${iterableUsers[0].username}" th:value="${iterableUsers[0].username}" ></option>-->
+<!--            <option th:text="${collection.user}" th:value="${collection.user}" ></option>-->
+                    </span>
+        </th:block>
+    </select>
+</form>
 
-    <label>User Collection:</label><br>
-    <form>
-        <select id="collectionNamesDropdown">
-            <option value="">Select a collection</option>
-            <th:block th:each="collection : ${movieCollections}">
-            <span th:if="${collection.user.id == cookie}">
-                <option th:text="${collection.name}" th:value="${collection.id}"></option>
-    <!--            <option th:text="${iterableUsers[0].username}" th:value="${iterableUsers[0].username}" ></option>-->
-    <!--            <option th:text="${collection.user}" th:value="${collection.user}" ></option>-->
-                        </span>
-            </th:block>
-        </select>
-    </form>
 
+<p th:text="${collectionIdsAndMovies}" id="collectionIdsAndMovies" hidden></p>
+
+<div class="container-fluid">
     <div id="resultsTable"></div>
+</div>
 
-    </body>
-
+</body>
 
 </html>
