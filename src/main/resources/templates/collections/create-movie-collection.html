@@ -30,22 +30,22 @@
 
 </form>
 
-<script th:inline="javascript">
-document.cookie = "userId=[[${userId}]]";
-const userId = getCookie("userId");
+<!--<script th:inline="javascript">-->
+<!--document.cookie = "userId=[[${userId}]]";-->
+<!--const userId = getCookie("userId");-->
 
-if (userId) {
-  window.location.href = "/movies/search";
-}
+<!--if (userId) {-->
+<!--  window.location.href = "/movies/search";-->
+<!--}-->
 
-function getCookie() {
-  const cookie = document.cookie;
-  if (cookie.length > 0) {
-    return parseInt(cookie.split("=")[1]);
-  }
-  return null;
-}
-</script>
+<!--function getCookie() {-->
+<!--  const cookie = document.cookie;-->
+<!--  if (cookie.length > 0) {-->
+<!--    return parseInt(cookie.split("=")[1]);-->
+<!--  }-->
+<!--  return null;-->
+<!--}-->
+<!--</script>-->
 
 </body>
 </html>
