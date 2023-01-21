@@ -14,8 +14,8 @@ body {
 }
 
 .synopsisText {
-  max-height: 100px;
-  overflow-y: scroll;
+    max-height: 100px;
+    overflow-y: scroll;
 }
 
 button {
@@ -44,6 +44,7 @@ a {
 
 .titleCell {
     width: 15%;
+    font-size: 18px;
 }
 
 #authorColumnHeader {
