@@ -3,6 +3,16 @@ body {
     color: white;
 }
 
+#authorCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+}
+
+#genreCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+}
+
 .synopsisText {
   max-height: 100px;
   overflow-y: scroll;

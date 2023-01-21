@@ -334,7 +334,7 @@ function generateAuthorCheckboxHTML() {
             author = document.getElementById(`bookAuthor${i}`).innerHTML;
             if (!authors.includes(author)) {
                 authors.push(author);
-                authorsWithCheckbox += `<input type="checkbox" name="author" value="${author}" checked> ${author}`;
+                authorsWithCheckbox += `<label><input type="checkbox" name="author" value="${author}" checked> ${author}</label>`;
             }
         }
         i++;
@@ -354,7 +354,7 @@ function generateGenreCheckboxHTML() {
             genre = document.getElementById(`bookGenres${i}`).innerHTML;
             if (!genres.includes(genre)) {
                 genres.push(genre);
-                genresWithCheckbox += `<input type="checkbox" name="genre" value="${genre}" checked> ${genre}`;
+                genresWithCheckbox += `<label><input type="checkbox" name="genre" value="${genre}" checked> ${genre}</label>`;
             }
         }
         i++;

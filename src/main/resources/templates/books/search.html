@@ -10,7 +10,6 @@
 <!--  <script type="text/javascript" th:src="@{/javascript/bootstrap.js}"></script>-->
 </head>
 
-
 <div th:replace="fragments :: page-header"></div>
 
 <body class="container body-content">
@@ -27,8 +26,8 @@
   <button type="button" id="searchTermAndType">Search</button>
 </form> <hr>
 
-<button id="newSearchButton"><a href="http://localhost:8080/books/search" style="color:inherit;">New Search</a></button> <br>
-<button id="showFiltersButton" style="display:none" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes">Show Filters</button>
+<button id="newSearchButton"><a href="http://localhost:8080/books/search" style="color:inherit; float:left;">New Search</a></button>&nbsp;&nbsp;
+<button id="showFiltersButton" style="display:none; float:left;" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes">Show Filters</button>
 
 <div id="filtersSection" style="display:none;"> <br> <hr>
 
@@ -37,7 +36,7 @@
     <input type="number" id="userYearMin">
     <input type="number" id="userYearMax">
   </form>
-  <button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button> <br> <br> <hr>
+  <button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button> <br> <hr>
 
   <form id="authorFilters">
     <h3>Author:</h3>
@@ -45,7 +44,7 @@
   </form>
   <button id="filterAuthorsButton" onclick="showOrHideRowsBasedOnAuthorCheckboxFilters(); generateGenreCheckboxHTML()">Filter Authors</button>
   <button id="selectAllAuthorsButton" onclick="toggleCheckUncheckAuthorBoxes()">Select All</button>
-  <button id="unselectAllAuthorsButton" onclick="toggleCheckUncheckAuthorBoxes()">Unselect All</button> <br> <br> <hr>
+  <button id="unselectAllAuthorsButton" onclick="toggleCheckUncheckAuthorBoxes()">Unselect All</button> <br> <hr>
 
   <form id="genreFilters">
     <h3>Genre:</h3>
@@ -53,7 +52,7 @@
   </form>
   <button id="filterGenresButton" onclick="showOrHideRowsBasedOnGenreCheckboxFilters(); generateAuthorCheckboxHTML()">Filter Genres</button>
   <button id="selectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Select All</button>
-  <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <br> <hr>
+  <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <hr>
 
 </div>
 
@@ -98,7 +97,7 @@ searchTermAndType.addEventListener('click', function() {
         </span>
     </th:block>
   </select>
-</form>
+</form><hr>
 
 <div id="resultsTable"></div>
 
