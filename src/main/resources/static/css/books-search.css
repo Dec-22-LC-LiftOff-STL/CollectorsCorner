@@ -14,9 +14,10 @@ body {
 }
 
 .synopsisText {
-    max-height: 100px;
+    max-height: 150px;
     overflow-y: scroll;
 }
+
 
 button {
     background-color: gray;

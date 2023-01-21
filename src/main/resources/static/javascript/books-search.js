@@ -130,6 +130,7 @@ function buildHTMLResultsTable(url) {
     });
 }
 
+
 function toggleAddToCollectionDropdownForm(i) {
     const dropdownForm = document.getElementById(`userCollectionDropdown${i}`);
     if (dropdownForm.style.display === "none") {
