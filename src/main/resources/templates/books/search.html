@@ -15,6 +15,8 @@
 
 <body class="container body-content">
 
+<p th:text="${collectionIdsAndBooks}" id="collectionIdsAndBooks" hidden></p>
+
 <form>
   <input type="text" id="userSearchTerm">
   <select id="searchTypeDropdown">
@@ -53,7 +55,9 @@
   <button id="selectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Select All</button>
   <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <br> <hr>
 
-</div> <br>
+</div>
+
+
 
 <!-- Handles the dropdown search options (title, author, isbn) -->
 <script>
@@ -84,7 +88,7 @@ searchTermAndType.addEventListener('click', function() {
   <input type="text" name="collectionId" id="collectionId">
 </form>
 
-<label>User Collection:</label><br>
+<h3 id="collectionNameDropdownLabel">User Collection:</h3><br>
 <form>
   <select id="collectionNamesDropdown">
     <option value="">Select a collection</option>
@@ -98,8 +102,6 @@ searchTermAndType.addEventListener('click', function() {
 
 <div id="resultsTable"></div>
 
-
 </body>
-
 
 </html>

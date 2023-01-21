@@ -3,14 +3,19 @@ package com.collectorscorner.demo.controllers;
 import com.collectorscorner.demo.Services.BookCollectionService;
 import com.collectorscorner.demo.data.BookCollectionRepository;
 import com.collectorscorner.demo.data.BookRepository;
+import com.collectorscorner.demo.data.UserRepository;
 import com.collectorscorner.demo.models.Book;
 import com.collectorscorner.demo.models.BookCollection;
 import com.collectorscorner.demo.models.MovieCollection;
+import com.collectorscorner.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -19,6 +24,9 @@ public class BooksController {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private BookCollectionRepository bookCollectionRepository;
@@ -34,8 +42,28 @@ public class BooksController {
         }
         Integer userId = Integer.parseInt(myCookie);
         Iterable<BookCollection> iterableBookCollection = bookCollectionRepository.findAll();
+        Iterable<User> iterableUsers = userRepository.findAll();
         model.addAttribute("bookCollections", iterableBookCollection);
         model.addAttribute("cookie", userId);
+        model.addAttribute("iterableUsers", iterableUsers);
+        //Create HashMap to be interpreted by JS as an object. Key = collectionId, Value = Movies in that collection
+        List<Integer> keys = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+        HashMap<Integer, String> collectionIdsAndBooks = new HashMap<>();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User thisUser = optionalUser.get();
+            List<BookCollection> thisUsersCollections = thisUser.getUserBookCollection();
+            for (BookCollection bookCollection : thisUsersCollections){
+                keys.add(bookCollection.getId());
+                String booksString = bookCollection.getBooks().toString();
+                values.add(booksString);
+            }
+            for (int i=0; i<keys.size(); i++) {
+                collectionIdsAndBooks.put(keys.get(i), values.get(i));
+            }
+            model.addAttribute("collectionIdsAndBooks", collectionIdsAndBooks);
+        }
         return "books/search";
     }
 
