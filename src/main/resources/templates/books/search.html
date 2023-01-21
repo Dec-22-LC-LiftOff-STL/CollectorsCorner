@@ -26,33 +26,35 @@
   <button type="button" id="searchTermAndType">Search</button>
 </form> <hr>
 
-<button id="newSearchButton"><a href="http://localhost:8080/books/search" style="color:inherit; float:left;">New Search</a></button>&nbsp;&nbsp;
-<button id="showFiltersButton" style="display:none; float:left;" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes">Show Filters</button>
+<button id="newSearchButton" class="btn btn-primary"><a href="http://localhost:8080/books/search" style="color:inherit;">New Search</a></button><br><br>
+<button id="showFiltersButton" style="display:none;" class="btn btn-primary" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes">Show Filters</button>
 
-<div id="filtersSection" style="display:none;"> <br> <hr>
+<hr>
+
+<div id="filtersSection" style="display:none;">
 
   <form id="yearFilters" >
     <h3>Year Range:</h3>
     <input type="number" id="userYearMin">
     <input type="number" id="userYearMax">
   </form>
-  <button id="filterYearsButton" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button> <br> <hr>
+  <button id="filterYearsButton" class="btn btn-primary btn-sm" onclick="filterYears(userYearMin, userYearMax); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); ">Filter Years</button> <br> <hr>
 
   <form id="authorFilters">
     <h3>Author:</h3>
     <div id="authorCheckboxes"></div>
   </form>
-  <button id="filterAuthorsButton" onclick="showOrHideRowsBasedOnAuthorCheckboxFilters(); generateGenreCheckboxHTML()">Filter Authors</button>
-  <button id="selectAllAuthorsButton" onclick="toggleCheckUncheckAuthorBoxes()">Select All</button>
-  <button id="unselectAllAuthorsButton" onclick="toggleCheckUncheckAuthorBoxes()">Unselect All</button> <br> <hr>
+  <button id="filterAuthorsButton" class="btn btn-primary btn-sm" onclick="showOrHideRowsBasedOnAuthorCheckboxFilters(); generateGenreCheckboxHTML()">Filter Authors</button>
+  <button id="selectAllAuthorsButton" class="btn btn-secondary btn-sm"  onclick="toggleCheckUncheckAuthorBoxes()">Select All</button>
+  <button id="unselectAllAuthorsButton" class="btn btn-light btn-sm" onclick="toggleCheckUncheckAuthorBoxes()">Unselect All</button> <br> <hr>
 
   <form id="genreFilters">
     <h3>Genre:</h3>
     <div id="genreCheckboxes"></div>
   </form>
-  <button id="filterGenresButton" onclick="showOrHideRowsBasedOnGenreCheckboxFilters(); generateAuthorCheckboxHTML()">Filter Genres</button>
-  <button id="selectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Select All</button>
-  <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <hr>
+  <button id="filterGenresButton" class="btn btn-primary btn-sm" onclick="showOrHideRowsBasedOnGenreCheckboxFilters(); generateAuthorCheckboxHTML()">Filter Genres</button>
+  <button id="selectAllGenresButton" class="btn btn-secondary btn-sm" onclick="toggleCheckUncheckGenreBoxes()">Select All</button>
+  <button id="unselectAllGenresButton" class="btn btn-light btn-sm" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <hr>
 
 </div>
 

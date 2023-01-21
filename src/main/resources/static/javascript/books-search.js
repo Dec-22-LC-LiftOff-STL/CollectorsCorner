@@ -143,8 +143,10 @@ function toggleShowHideFilters() {
     //Toggle button text between Show Filters & Hide Filters
     if (document.getElementById("showFiltersButton").innerHTML === "Show Filters") {
         document.getElementById("showFiltersButton").innerHTML = "Hide Filters";
+        document.getElementById("showFiltersButton").className = "btn btn-danger";
     } else {
         document.getElementById("showFiltersButton").innerHTML = "Show Filters"
+        document.getElementById("showFiltersButton").className = "btn btn-primary";
     }
     //Toggle between showing/hiding <div id="filtersSection"> on search.html
     if (document.getElementById("filtersSection").style.display === "block") {
