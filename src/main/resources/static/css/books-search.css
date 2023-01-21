@@ -47,12 +47,12 @@ a {
 }
 
 #authorColumnHeader {
-    width: 15%;
+    width: 10%;
     cursor: pointer;
 }
 
 .authorCell {
-    width: 15%;
+    width: 10%;
 }
 
 #yearColumnHeader {
@@ -102,6 +102,6 @@ tr {
 }
 
 .poster {
-    width:55%;
+    width:131.89 px;
 }
 

@@ -100,14 +100,14 @@ function buildHTMLResultsTable(url) {
             <tr id="rowIndex${i}">
                 <th class="posterCell">
                     <img class="poster" src="${book.volumeInfo.imageLinks.thumbnail}"><br>
+                    <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
+                    <form id="userCollectionDropdown${i}" style="display:none;"><br>
+                        <button type="button" class="btn btn-success" onclick="addNewBookToDatabase();" style="width:131.84px">Confirm</button>
+                    </form>
                 </th>
                 <th class="titleCell">
                     <a id="bookTitle${i}" href="/books/details/${book.volumeInfo.title}">${book.volumeInfo.title}</a><br><br>
-                    <button id="dropdown-button${i}" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
                     <p id="googleBooksApiId${i}" hidden>${book.id}</p>
-                    <form id="userCollectionDropdown${i}" style="display:none;"><hr>
-                        <button type="button" onclick="addNewBookToDatabase();">Submit</button>
-                    </form>
                 </th>
                 <th class="authorCell">
                     <p id="bookAuthor${i}">${book.volumeInfo.authors[0]}</p>
