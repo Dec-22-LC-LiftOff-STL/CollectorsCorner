@@ -3,6 +3,13 @@ body {
     color: white;
 }
 
+#userCollectionDropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+}
+
 #authorCheckboxes {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
@@ -13,22 +20,6 @@ body {
     grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
 }
 
-.synopsisText {
-    max-height: 150px;
-    overflow-y: scroll;
-}
-
-
-button {
-    background-color: gray;
-    color: white;
-}
-
-a {
-    text-decoration: none;
-    color: white;
-}
-
 #posterColumnHeader {
     width: 15%;
 }
@@ -37,15 +28,17 @@ a {
     width: 15%
 }
 
+.poster {
+    width:131.89 px;
+}
+
 #titleColumnHeader {
     width: 15%;
     cursor: pointer;
 }
 
-
 .titleCell {
     width: 15%;
-    font-size: 18px;
 }
 
 #authorColumnHeader {
@@ -76,34 +69,22 @@ a {
 }
 
 #synopsisColumnHeader {
-    width: 45%;
+    width: 40%;
 }
 
 .synopsisCell {
-    width: 45%
+    width: 40%
 }
 
-#addToCollectionHeader {
-    width: 15%;
-}
-
-
-#userCollectionDropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
+.synopsisText {
+    max-height: 150px;
+    overflow-y: scroll;
 }
 
 .hidden {
     display: none;
 }
 
-tr {
-    outline: 2px solid white;
-}
 
-.poster {
-    width:131.89 px;
-}
+
 
