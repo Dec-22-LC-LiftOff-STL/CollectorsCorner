@@ -7,6 +7,8 @@
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
     <link th:href="@{/css/collectors-corner.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/javascript/bootstrap.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
     <title th:text="'CollectorsCorner' + ${title == null ? '' : ' :: ' + title}">Collector's Corner</title>
 </head>
@@ -15,96 +17,51 @@
 
 <div th:fragment="page-header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
+
         <div class="navbar-header">
-            <a th:href="@{/}" class="navbar-brand">Collector's Corner</a>
+            <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50" ></a>
+
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
 <!--                <li><a th:href="@{/list-collections}">List</a></li>-->
+
+
+
                 <li><a th:href="@{/search-collections}">Search-Collections</a></li>
-                <li><a th:href="@{/collections/create-movie-collection}">Add Collections: Movies</a></li>
-                <li><a th:href="@{/collections/create-book-collection}">Books</a></li>
-                <li><a th:href="@{/collections/create-game-collection}">Games</a></li>
-                <li><a th:href="@{/movies/search}">Search: Movies</a></li>
-                <li><a th:href="@{/books/search}">Books</a></li>
-                <li><a th:href="@{/games/search}">Games</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Add Collections
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/collections/create-movie-collection}">Add Movie Collection</a></li>
+                        <li><a th:href="@{/collections/create-book-collection}">Add Book Collection</a></li>
+                        <li><a th:href="@{/collections/create-game-collection}">Add Game Collection</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Add Items to Your Collections
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/movies/search}">Search Movies</a></li>
+                        <li><a th:href="@{/books/search}">Search Books</a></li>
+                        <li><a th:href="@{/games/search}">Search Games</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class=""><a th:href="@{/collections/delete}">Delete Collections</a></li>
             </ul>
         </div>
     </div>
 </div>
 
-<div th:fragment="sub-header" class="navbar navbar-inverse navbar-fixed-top">
+<div th:fragment="login-header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a th:href="@{/collections/create-movie-collection}">Search Movies</a></li>
-                <li><a th:href="@{/collections/create-book-collection}">Search Books</a></li>
-                <li><a th:href="@{/collections/create-game-collection}">Search Games</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-
-<div th:fragment="test=page-header" class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
         <div class="navbar-header">
             <a th:href="@{/}" class="navbar-brand">Collector's Corner</a>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <!--                <li><a th:href="@{/list-collections}">List</a></li>-->
-                <li><a th:href="@{/search-collections}">Search-Collections</a></li>
-<!--                <li><a th:href="@{/collections/create-movie-collection}">Add Collections: Movies</a></li>-->
-<!--                <li><a th:href="@{/collections/create-book-collection}">Books</a></li>-->
-<!--                <li><a th:href="@{/collections/create-game-collection}">Games</a></li>-->
-                    <!-- Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a
-                                class="dropdown-toggle"
-                                href="/collections/create-movie-collection"
-                                id="navbarDropdownMenuLink"
-                                role="button"
-                                data-mdb-toggle="dropdown"
-                                aria-expanded="false"
-                        >
-                            Add Collection
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" href="/collections/create-movie-collection">Action</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/collections/create-movie-collection">Another action</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/collections/create-movie-collection">Something else here</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
-
-
-                <li><a th:href="@{/movies/search}">Search: Movies</a></li>
-                <li><a th:href="@{/books/search}">Books</a></li>
-                <li><a th:href="@{/games/search}">Games</a></li>
-            </ul>
-        </div>
     </div>
 </div>
-
 
 
 

@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="~{fragments :: head}">
-</head>
+<head th:replace="~{fragments :: head}"></head>
 
 <div th:replace="fragments :: page-header"></div>
 
-<div class="container body-content">
-
-    <body>
-
+<body class="container body-content">
 
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
 
@@ -30,5 +26,5 @@
             </tr>
         </table>
     </body>
-</div>
+
 </html>
