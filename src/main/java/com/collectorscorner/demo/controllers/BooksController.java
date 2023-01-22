@@ -58,13 +58,7 @@ public class BooksController {
         }
         return "redirect:/books/search";
     }
-//
-//    @GetMapping("details/{bookTitle}")
-//    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle) {
-//        model.addAttribute("bookTitle", bookTitle);
-//        model.addAttribute("books", bookRepository.findAll());
-//        return "books/details";
-//    }
+
 
     @GetMapping("details/{bookTitle}")
     public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle/*,@CookieValue(name = "userId") String myCookie*/) {
