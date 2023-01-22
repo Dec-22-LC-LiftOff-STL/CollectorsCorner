@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${gameTitle}"></title>
-</head>
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title th:text="${gameTitle}"></title>-->
+<!--</head>-->
+
+<head th:replace="~{fragments :: head}"></head>
 
 <div th:replace="fragments :: page-header"></div>
 
-<div class="container body-content">
+<body class="container body-content">
 
-<body>
 
 <h1 th:href="@{'/games/details/'}" th:text="${gameTitle}" id="gameTitle"></h1>
 
 <div id="gameInfo"></div>
 
-<h3>In The Collection Of:</h3>
-<th-block th:each="game : ${games}">
-    <ol th:if="${game.title} == ${gameTitle}">
-<!--        <h3 th:text="${game.userID.userName}"></h3>-->
-    </ol>
-</th-block>
+<h3>Collections With This Game:</h3>
+<ol >
+    <span th:each="collection: ${collectionsWithThisGame}">
+        <li>
+        <a th:href="@{'collection/view/' + ${collection.id}}" th:text="${collection.name + '  Created by: ' + collection.getUser().getUsername()}"></a>
+        </li>
+
+    </span>
+</ol>
 
 </body>
-</div>
 </html>
 
 
