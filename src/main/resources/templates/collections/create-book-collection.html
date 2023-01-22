@@ -9,18 +9,23 @@
 <body class="container body-content">
 <br><br>
 
-<form method="post" >
+<form method="post">
     <div>
-        <label>Name
-            <input class="control" th:field="${createBookCollectionDTO.name}" />
+        <label>Name This Book Collection:
+            <p><input class="control" th:field="${createBookCollectionDTO.name}" /></p>
         </label>
         <p class="error" th:errors="${createBookCollectionDTO.name}"></p>
     </div>
 
     <div>
-        <label>Description
-            <input class="control" th:field="${createBookCollectionDTO.description}">
-        </label>
+        <label>Description:</label>
+        <p>
+            Create a description that will draw the interest of other users.
+        </p>
+
+        <p>
+            <textarea name="textarea" style="width:250px;height:150px;" th:field="${createBookCollectionDTO.description}"></textarea>
+        </p>
         <p class="error" th:errors="${createBookCollectionDTO.description}"></p>
     </div>
 

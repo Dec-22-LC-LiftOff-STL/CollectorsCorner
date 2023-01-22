@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="~{fragments :: head}">
-</head>
+<head th:replace="~{fragments :: head}"></head>
 
 <div th:replace="fragments :: page-header"></div>
 
-<div class="container body-content"></div>
-
-    <body>
+    <body class="container body-content">
 
 
     <h1 th:text="${mainTitle}"></h1>
@@ -88,7 +85,7 @@
                 <br>
 
                 <p>
-                <a th:href="@{'/collector/{collector}(collector=${collector.id})'}" th:text="${'Created by: ' + movieCollection.getUser().getUsername()}"></a>
+                <a th:href="@{'/collector/{collector}(collector=${collector.id})'}" th:text="${'Created by: ' + movieCollection.getUser().getScreenName()}"></a>
                 </p>
 
             </td>
@@ -133,8 +130,8 @@
             <td id="movieColCollector", style="display:none">Collector in Collection:>
                 <ul th:each="movie : ${movieCollection.movies}">
 
-                    <li id="collectorFilterString", style="display:none"
-                        th:text="${movieCollection.getUser().getUsername()}">
+                    <li id="movieCollectorFilterString", style="display:none"
+                        th:text="${movieCollection.getUser().getScreenName}">
                     </li>
                 </ul>
             </td>
@@ -302,7 +299,7 @@
                 </ul>
                 <br>
                 <p>
-                    <a th:href="@{'/books/details/'}" th:text="${'Created by: '}"></a>
+                    <a th:href="@{'/books/details/'}" th:text="${'Created by: ' + bookCollection.getUser().getScreenName()}"></a>
                 </p>
             </td>
 
@@ -319,6 +316,14 @@
                 <ul th:each="book : ${bookCollection.books}">
                     <li id="bookFilterString", style="display:none"
                         th:text="${book.genre}">
+                    </li>
+                </ul>
+            </td>
+            <td id="bookColCollector", style="display:none">Collector in Collection:>
+                <ul th:each="book : ${bookCollection.books}">
+
+                    <li id="bookCollectorFilterString", style="display:none"
+                        th:text="${bookCollection.getUser().getScreenName}">
                     </li>
                 </ul>
             </td>
@@ -366,7 +371,7 @@
 <!--        }-->
 <!--    }-->
 
-           function bookCollectionFilter() {
+function bookCollectionFilter() {
 
             // Retrieves the selected radio button
 
@@ -459,7 +464,7 @@
                 </ul>
                 <br>
                 <p>
-                    <a th:href="@{'/games/details/'}" th:text="${'Created by: '}"></a>
+                    <a th:href="@{'/games/details/'}" th:text="${'Created by: ' + gameCollection.getUser().getScreenName()}"></a>
                 </p>
             </td>
 
@@ -484,60 +489,58 @@
 
 <script>
 
-       function gameCollectionFilter() {
+function gameCollectionFilter() {
+    // Retrieves the selected radio button
 
-            // Retrieves the selected radio button
+    let choice = "keyword"
+    let choiceList = document.getElementsByName('gameFilter');
+    for(i = 0; i < choiceList.length; i++){
+        if(choiceList[i].checked)
+            choice = choiceList[i].value;
+    }
 
-            let choice = "keyword"
-            let choiceList = document.getElementsByName('gameFilter');
-            for(i = 0; i < choiceList.length; i++){
-                if(choiceList[i].checked)
-                    choice = choiceList[i].value;
-            }
+    let input = document.getElementById("gameInput");
+    let table = document.getElementById("gameCollectionTable");
+    let row = table.getElementsByTagName("tr");
 
-            let input = document.getElementById("gameInput");
-            let table = document.getElementById("gameCollectionTable");
-            let row = table.getElementsByTagName("tr");
+    //Creates a map of possible columns corresponding to the filter choices
 
-//Creates a map of possible columns corresponding to the filter choices
+    const gameFilterDataByValueMap = new Map([
+        ['keyword', [0]],
+        ['creator', [1]],
+        ['genre', [2]]
+    ]);
 
-            const gameFilterDataByValueMap = new Map([
-                ['keyword', [0]],
-                ['creator', [1]],
-                ['genre', [2]]
-            ]);
+    //for each row (beginning after the table header at row [0]) we check if the selected column(s) contains the search term data that our user has input
 
-//for each row (beginning after the table header at row [0]) we check if the selected column(s) contains the search term data that our user has input
-
-            for (let i = 1; i < row.length; i++) {
-                let columnsChosen = gameFilterDataByValueMap.get(choice);
-                let columnHasValue = false;
-                for (let j = 0; j < columnsChosen.length; j++){
-                    let tableData = row[i].getElementsByTagName("td")[columnsChosen[j]];
-                    let textValue = tableData.textContent || tableData.innerText;
-                    if (textValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1) {
-                        columnHasValue = true;
-                    }
-                }
-                if (columnHasValue == true) {
-                    row[i].style.display = "";
-                } else {
-                    row[i].style.display = "none";
-                }
-
+    for (let i = 1; i < row.length; i++) {
+        let columnsChosen = gameFilterDataByValueMap.get(choice);
+        let columnHasValue = false;
+        for (let j = 0; j < columnsChosen.length; j++){
+            let tableData = row[i].getElementsByTagName("td")[columnsChosen[j]];
+            let textValue = tableData.textContent || tableData.innerText;
+            if (textValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1) {
+                columnHasValue = true;
             }
         }
+        if (columnHasValue == true) {
+            row[i].style.display = "";
+        } else {
+            row[i].style.display = "none";
+        }
+
+    }
+}
 
 </script>
 
 
-</div>
+
 
 <script>
 
 function toggleMovieTableDisplay(){
 let movieTable = document.getElementById("movieCollectionTable");
-<!--console.log("movieTable.rows.length= " + movieTable.rows.length);-->
     if (movieTable.rows.length < 2) {
         document.getElementById("movieCollectionTable").style.display = "none";
         document.getElementById("movieFilterBlock").style.display = "none";

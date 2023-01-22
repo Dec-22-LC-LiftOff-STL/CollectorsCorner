@@ -96,7 +96,7 @@ public class CollectionController {
 //            movieCollectionRepository.save(createMovieCollection);
 //        }
 
-        return "collections/create-movie-collection";
+        return "redirect:../movies/search";
 
     }
 
@@ -139,7 +139,7 @@ public class CollectionController {
 //            movieCollectionRepository.save(createMovieCollection);
 //        }
 
-        return "collections/create-book-collection";
+        return "redirect:../books/search";
 
     }
 
@@ -182,7 +182,7 @@ public class CollectionController {
 //            movieCollectionRepository.save(createMovieCollection);
 //        }
 
-        return "collections/create-game-collection";
+        return "redirect:../games/search";
 
     }
 

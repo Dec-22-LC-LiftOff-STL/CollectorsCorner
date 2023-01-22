@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-</head>
-<body>
+    <head th:replace="~{fragments :: head}"></head>
+
+    <div th:replace="fragments :: page-header"></div>
+
+<body class="container body-content">
 
 </body>
 </html>
