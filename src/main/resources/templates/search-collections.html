@@ -293,7 +293,7 @@
 
                 <ul th:each="book : ${bookCollection.books}">
                     <li>
-                        <a th:href="@{'/book/view/' + ${book.id}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
+                        <a th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
                     </li>
 
                 </ul>
@@ -459,7 +459,7 @@ function bookCollectionFilter() {
 
                 <ul th:each="game : ${gameCollection.games}">
                     <li>
-                        <a th:href="@{'/game/view/' + ${game.id}}" th:text="${game.title}"></a>
+                        <a th:href="@{'/games/details/' + ${game.title}}" th:text="${game.title}"></a>
                     </li>
                 </ul>
                 <br>

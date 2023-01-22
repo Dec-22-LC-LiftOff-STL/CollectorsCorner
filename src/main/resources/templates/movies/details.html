@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <head th:replace="fragments :: head">
-    </head>
-<body>
-
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <head th:replace="fragments :: head">-->
+<!--    </head>-->
+<head th:replace="~{fragments :: head}"></head>
 
 <div th:replace="fragments :: page-header"></div>
-<div class="container body-content">
+
+<body class="container body-content">
 
 <h1 th:text="${movieTitle}" id="movieTitle"></h1>
     <p id="movieYear", style="display:none"
@@ -31,7 +31,6 @@
 
     </span>
 </ol>
-</div>
 
 </body>
 </html>
