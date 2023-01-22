@@ -16,8 +16,7 @@
 
 <div th:fragment="page-header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
-        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50
-"></a>
+        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
     </div>
     <div class="navbar-header">
         <a th:href="@{/search-collections}" class="navbar-brand">Collector's Corner</a>
@@ -46,17 +45,25 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li class=""><a th:href="@{/logout}">Log Out</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
                 <li class=""><a th:href="@{/collections/delete}">Delete Collections</a></li>
             </ul>
         </div>
     </div>
+
 </div>
+
+
+
+
 
 <div th:fragment="login-header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
         <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
     </div>
-    <div class="navbar-header">
+    <div class="navbar-collapse collapse">
         <a th:href="@{/register}" class="navbar-brand">Collector's Corner</a>
     </div>
 </div>
