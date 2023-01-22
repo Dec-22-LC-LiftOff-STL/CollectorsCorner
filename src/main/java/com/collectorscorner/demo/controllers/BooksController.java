@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -57,12 +58,47 @@ public class BooksController {
         }
         return "redirect:/books/search";
     }
+//
+//    @GetMapping("details/{bookTitle}")
+//    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle) {
+//        model.addAttribute("bookTitle", bookTitle);
+//        model.addAttribute("books", bookRepository.findAll());
+//        return "books/details";
+//    }
 
     @GetMapping("details/{bookTitle}")
-    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle) {
+    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle/*,@CookieValue(name = "userId") String myCookie*/) {
+//        Integer userId = Integer.parseInt(myCookie);
+
+        Iterable<BookCollection> allBookCollections = bookCollectionRepository.findAll();
+        int foundBookYear = 0;
+        String collectorName = "";
+        ArrayList<BookCollection> foundBooks = new ArrayList<>();
+        for (BookCollection collection : allBookCollections){
+            for (int i = 0; i < collection.getBooks().size(); i++){
+                if (collection.getBooks().get(i).getTitle().equals(bookTitle)){
+                    foundBooks.add(collection);
+                    foundBookYear = collection.getBooks().get(i).getYear();
+                    collectorName = collection.getUser().getUsername();
+                }
+            }
+
+        }
+        model.addAttribute("collectionsWithThisBook", foundBooks);
         model.addAttribute("bookTitle", bookTitle);
         model.addAttribute("books", bookRepository.findAll());
+        model.addAttribute("foundBookYear", foundBookYear);
+        model.addAttribute("collectorName", collectorName);
+
         return "books/details";
     }
+
+
+
+
+
+
+
+
 
 }
