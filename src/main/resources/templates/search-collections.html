@@ -66,7 +66,7 @@
         <tr th:each="movieCollection : ${movieCollections}">
             <td>
                 <p>
-                    <a th:href="@{'collection/view/' + ${movieCollection.id}}" th:text="'Movie Collection Id: ' + ${movieCollection.id}"></a>
+                    <a th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="'Movie Collection Id: ' + ${movieCollection.id}"></a>
                 </p>
 
                 <p th:text="${movieCollection.name}"></p>
@@ -282,7 +282,7 @@
         <tr th:each="bookCollection : ${bookCollections}">
             <td id="bookDataFilter">
                 <p>
-                    <a th:href="@{'/view/' + ${bookCollection.id}}" th:text="'Book Collection Id: ' + ${bookCollection.id}"></a>
+                    <a th:href="@{'/collections/view-book-collection/' + ${bookCollection.id}}" th:text="'Book Collection Id: ' + ${bookCollection.id}"></a>
                 </p>
 
                 <p th:text="${bookCollection.name}"></p>
@@ -442,7 +442,7 @@
         <tr th:each="gameCollection : ${gameCollections}">
             <td id="gameDataFilter">
                 <p>
-                    <a th:href="@{'/view/' + ${gameCollection.id}}" th:text="'Game Collection Id: ' + ${gameCollection.id}"></a>
+                    <a th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="'Game Collection Id: ' + ${gameCollection.id}"></a>
                 </p>
 
                 <p th:text="${gameCollection.name}"></p>

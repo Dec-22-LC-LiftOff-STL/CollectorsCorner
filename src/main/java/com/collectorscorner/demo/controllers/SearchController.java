@@ -93,7 +93,7 @@ public class SearchController {
         }
 
         else if (searchType.equals("game collections") && (searchTerm.equalsIgnoreCase("all") || searchTerm.equals(""))){
-           gameCollections = GameCollectionData.findByColumnAndValue(searchType, searchTerm, gameCollectionRepository.findAll());
+            gameCollections = GameCollectionData.findByColumnAndValue(searchType, searchTerm, gameCollectionRepository.findAll());
 
             model.addAttribute("columns", columnChoices);
             model.addAttribute("mainTitle", "All Game Collections:");
