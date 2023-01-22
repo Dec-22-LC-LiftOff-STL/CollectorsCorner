@@ -3107,6 +3107,16 @@ fieldset[disabled] .btn-default.focus {
   color: #fff;
   background-color: #333;
 }
+
+.btn-books {
+  color: #a04824;
+  background-color: #fdecc4;
+  border-color: #696969;
+  opacity: .92;
+}
+
+
+
 .btn-primary {
   color: #fff;
   background-color: #337ab7;

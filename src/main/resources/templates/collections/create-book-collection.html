@@ -7,30 +7,32 @@
 
 
 <body class="container body-content">
+
+<div class="vh=100" style="background-image: url('http://localhost:8080/images/bookCollection.jpg'); background-size: cover;">
+
 <br><br>
 
 <form method="post">
     <div>
-        <label>Name This Book Collection:
+        <label class="btn btn-books" >Name This Book Collection:
             <p><input class="control" th:field="${createBookCollectionDTO.name}" /></p>
+
+            <p> Create a description that will draw the interest of other users.</p>
+
+            <p>
+                <textarea name="textarea" style="width:250px;height:150px;" th:field="${createBookCollectionDTO.description}"></textarea></p>
+
+            <p class="error" th:errors="${createBookCollectionDTO.description}"></p>
         </label>
-        <p class="error" th:errors="${createBookCollectionDTO.name}"></p>
     </div>
 
-    <div>
-        <label>Description:</label>
-        <p>
-            Create a description that will draw the interest of other users.
-        </p>
-
-        <p>
-            <textarea name="textarea" style="width:250px;height:150px;" th:field="${createBookCollectionDTO.description}"></textarea>
-        </p>
-        <p class="error" th:errors="${createBookCollectionDTO.description}"></p>
-    </div>
 
     <input type="submit" class="btn btn-primary" value="Create Book Collection"/>
 
 </form>
-
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
 </body>
+
+
+</html>
