@@ -281,5 +281,45 @@ public class CollectionController {
         return "redirect:/collections/delete/{collectionId}";
     }
 
+    @GetMapping("view-movie-collection/{movieCollectionId}")
+    public String displayViewMovieCollection(Model model, @PathVariable int movieCollectionId) {
+
+        Optional optMovieCollection = movieCollectionRepository.findById(movieCollectionId);
+        if (optMovieCollection.isPresent()) {
+            MovieCollection movieCollection = (MovieCollection) optMovieCollection.get();
+            model.addAttribute("movieCollection", movieCollection);
+            return "collections/view-movie-collection";
+        } else {
+            return "redirect:../";
+        }
+    }
+
+
+    @GetMapping("view-book-collection/{bookCollectionId}")
+    public String displayViewBookCollection(Model model, @PathVariable int bookCollectionId) {
+
+        Optional optBookCollection = bookCollectionRepository.findById(bookCollectionId);
+        if (optBookCollection.isPresent()) {
+            BookCollection bookCollection = (BookCollection) optBookCollection.get();
+            model.addAttribute("bookCollection", bookCollection);
+            return "collections/view-book-collection";
+        } else {
+            return "redirect:../";
+        }
+    }
+
+
+    @GetMapping("view-game-collection/{gameCollectionId}")
+    public String displayViewGameCollection(Model model, @PathVariable int gameCollectionId) {
+
+        Optional optGameCollection = bookCollectionRepository.findById(gameCollectionId);
+        if (optGameCollection.isPresent()) {
+            GameCollection gameCollection = (GameCollection) optGameCollection.get();
+            model.addAttribute("gameCollection", gameCollection);
+            return "collections/view-game-collection";
+        } else {
+            return "redirect:../";
+        }
+    }
 
 }
