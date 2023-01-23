@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${collection.name}">Title</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{../../CSS/collections-delete.css}">
+    <script type="text/javascript" th:src="@{../../../javascript/collections-delete.js}"></script>
+</head>
+
+<div th:replace="fragments :: page-header"></div>
+
+
+<body class="container body-content">
+<br><br><br><br>
+
+<a href="/collections/delete">Back</a>
+<h1 th:text="'Book Collection: ' + ${collection.name}"></h1>
+
+<form method="post" th:action="@{/collections/delete/books/{collectionId}(collectionId=${collectionId})}">
+    <table class="table table-striped" id="table">
+        <thead>
+            <tr>
+                <th class="text-center">Delete</th>
+                <th onclick="sortTable(1)" id="titleHeader">Title</th>
+                <th onclick="sortTable(2)" id="yearHeader">Year</th>
+                <th onclick="sortTable(3)" id="authorHeader">Author</th>
+                <th onclick="sortTable(4)" id="primaryGenreHeader">Genre</th>
+            </tr>
+        </thead>
+        <tr th:each="book : ${books}">
+            <td class="text-center">
+                <input type="checkbox" name="bookIds" th:value="${book.id}">
+            </td>
+            <td>
+                <a th:href="@{/books/details/{bookTitle}(bookTitle=${book.title})}"><p th:text="${book.title}"></p></a>
+            </td>
+            <td>
+                <span th:text="${book.year}"></span>
+            </td>
+            <td>
+                <span th:text="${book.author}"></span>
+            </td>
+            <td>
+                <span th:text="${book.genre}"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table><hr>
+</form>
+
+</body>
+</html>

@@ -24,6 +24,15 @@
     cursor: pointer;
 }
 
+#authorHeader {
+    cursor: pointer;
+}
+
+#creatorHeader {
+    cursor: pointer;
+}
+
+
 #primaryGenreHeader {
     cursor: pointer;
 }

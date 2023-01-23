@@ -2,6 +2,8 @@ package com.collectorscorner.demo.controllers;
 
 
 
+import com.collectorscorner.demo.Services.BookCollectionService;
+import com.collectorscorner.demo.Services.GameCollectionService;
 import com.collectorscorner.demo.data.BookCollectionRepository;
 import com.collectorscorner.demo.data.GameCollectionRepository;
 import com.collectorscorner.demo.data.MovieCollectionRepository;
@@ -44,11 +46,22 @@ public class CollectionController {
     MovieRepository movieRepository;
 
     @Autowired
-    MovieCollectionRepository movieCollectionRepository;
+    BookRepository bookRepository;
 
+    @Autowired
+    GameRepository gameRepository;
+
+    @Autowired
+    MovieCollectionRepository movieCollectionRepository;
 
     @Autowired
     MovieCollectionService movieCollectionService;
+
+    @Autowired
+    BookCollectionService bookCollectionService;
+
+    @Autowired
+    GameCollectionService gameCollectionService;
 
     @Autowired
     GameCollectionRepository gameCollectionRepository;
@@ -318,7 +331,7 @@ public class CollectionController {
             if (bookCollection.getUser().getId() != userId) {
                 return "redirect:";
             }
-            model.addAttribute("movies", bookCollection.getBooks());
+            model.addAttribute("books", bookCollection.getBooks());
             model.addAttribute("collection", bookCollection);
         }
         return "collections/delete-from-book-collection.html";
@@ -333,10 +346,10 @@ public class CollectionController {
             if (gameCollection.getUser().getId() != userId) {
                 return "redirect:";
             }
-            model.addAttribute("movies", gameCollection.getGames());
+            model.addAttribute("games", gameCollection.getGames());
             model.addAttribute("collection", gameCollection);
         }
-        return "collections/delete-collectionId";
+        return "collections/delete-from-game-collection";
     }
 
     @PostMapping("delete/movies/{collectionId}")
@@ -367,6 +380,66 @@ public class CollectionController {
             }
         }
         return "redirect:/collections/delete/movies/{collectionId}";
+    }
+
+    @PostMapping("delete/books/{collectionId}")
+    public String processDeleteBookCollectionItem(@PathVariable int collectionId, @CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] bookIds, Model model) {
+        BookCollection bookCollection = new BookCollection();
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            model.addAttribute("user", optionalUser.get());
+        }
+        Optional optBookCollection = bookCollectionRepository.findById(collectionId);
+        if (optBookCollection.isPresent()){
+            bookCollection = (BookCollection) optBookCollection.get();
+            model.addAttribute("bookCollection", bookCollection);
+        }
+
+        if (bookIds != null) {
+            for (int id : bookIds) {
+                Book book = new Book();
+                Optional<Book> optionalBook = bookRepository.findById(id);
+                if (optionalBook.isPresent()) {
+                    book = (Book) optionalBook.get();
+                }
+                bookCollectionService.removeBook(bookCollection, book);
+            }
+        }
+        return "redirect:/collections/delete/books/{collectionId}";
+    }
+
+    @PostMapping("delete/games/{collectionId}")
+    public String processDeleteGameCollectionItem(@PathVariable int collectionId, @CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] gameIds, Model model) {
+        GameCollection gameCollection = new GameCollection();
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            model.addAttribute("user", optionalUser.get());
+        }
+        Optional optGameCollection = gameCollectionRepository.findById(collectionId);
+        if (optGameCollection.isPresent()){
+            gameCollection = (GameCollection) optGameCollection.get();
+            model.addAttribute("gameCollection", gameCollection);
+        }
+
+        if (gameIds != null) {
+            for (int id : gameIds) {
+                Game game = new Game();
+                Optional<Game> optionalGame = gameRepository.findById(id);
+                if (optionalGame.isPresent()) {
+                    game = (Game) optionalGame.get();
+                }
+                gameCollectionService.removeGame(gameCollection, game);
+            }
+        }
+        return "redirect:/collections/delete/games/{collectionId}";
     }
 
     @GetMapping("view-movie-collection/{movieCollectionId}")

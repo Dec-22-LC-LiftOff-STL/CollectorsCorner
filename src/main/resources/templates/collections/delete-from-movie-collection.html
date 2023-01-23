@@ -14,7 +14,8 @@
 <body class="container body-content">
 <br><br><br><br>
 
-<h1 th:text="${collection.name}"></h1>
+<a href="/collections/delete">Back</a>
+<h1 th:text="'Movie Collection: ' + ${collection.name}"></h1>
 
 <form method="post" th:action="@{/collections/delete/movies/{collectionId}(collectionId=${collectionId})}">
     <table class="table table-striped" id="table">
