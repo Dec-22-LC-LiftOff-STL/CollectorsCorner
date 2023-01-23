@@ -3,6 +3,10 @@ body {
     color: white;
 }
 
+p {
+  margin-bottom: 0 !important;
+}
+
 #userCollectionDropdown {
     display: none;
     position: absolute;
@@ -75,6 +79,7 @@ body {
 .synopsisCell {
     width: 40%
 }
+
 
 .synopsisText {
     max-height: 150px;
