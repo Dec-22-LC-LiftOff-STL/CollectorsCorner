@@ -257,7 +257,7 @@ public class CollectionController {
     }
 
     @PostMapping("delete-books")
-    public String processDeleteBooksCollectionForm(@CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] bookCollectionIds, Model model) {
+    public String processDeleteBookCollectionForm(@CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] bookCollectionIds, Model model) {
         if ("null".equals(myCookie)) {
             return "redirect:/login";
         }
@@ -276,7 +276,7 @@ public class CollectionController {
     }
 
     @PostMapping("delete-games")
-    public String processDeleteGamesCollectionForm(@CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] gameCollectionIds, Model model) {
+    public String processDeleteGameCollectionForm(@CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] gameCollectionIds, Model model) {
         if ("null".equals(myCookie)) {
             return "redirect:/login";
         }
@@ -295,7 +295,7 @@ public class CollectionController {
     }
 
     @GetMapping("delete/movies/{collectionId}")
-    public String displayDeleteItemsFromCollectionPage(Model model, @PathVariable int collectionId, @CookieValue(name = "userId") String myCookie){
+    public String displayDeleteItemsFromMoviesCollectionPage(Model model, @PathVariable int collectionId, @CookieValue(name = "userId") String myCookie) {
         Integer userId = Integer.parseInt(myCookie);
         Optional optCollection = movieCollectionRepository.findById(collectionId);
         if (optCollection.isPresent()) {
@@ -306,10 +306,40 @@ public class CollectionController {
             model.addAttribute("movies", movieCollection.getMovies());
             model.addAttribute("collection", movieCollection);
         }
+        return "collections/delete-from-movie-collection.html";
+    }
+
+    @GetMapping("delete/books/{collectionId}")
+    public String displayDeleteItemsFromBookCollectionPage(Model model, @PathVariable int collectionId, @CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional optCollection = bookCollectionRepository.findById(collectionId);
+        if (optCollection.isPresent()) {
+            BookCollection bookCollection = (BookCollection) optCollection.get();
+            if (bookCollection.getUser().getId() != userId) {
+                return "redirect:";
+            }
+            model.addAttribute("movies", bookCollection.getBooks());
+            model.addAttribute("collection", bookCollection);
+        }
+        return "collections/delete-from-book-collection.html";
+    }
+
+    @GetMapping("delete/games/{collectionId}")
+    public String displayDeleteGamesFromCollectionPage(Model model, @PathVariable int collectionId, @CookieValue(name = "userId") String myCookie){
+        Integer userId = Integer.parseInt(myCookie);
+        Optional optCollection = gameCollectionRepository.findById(collectionId);
+        if (optCollection.isPresent()) {
+            GameCollection gameCollection = (GameCollection) optCollection.get();
+            if (gameCollection.getUser().getId() != userId) {
+                return "redirect:";
+            }
+            model.addAttribute("movies", gameCollection.getGames());
+            model.addAttribute("collection", gameCollection);
+        }
         return "collections/delete-collectionId";
     }
 
-    @PostMapping("delete/{collectionId}")
+    @PostMapping("delete/movies/{collectionId}")
     public String processDeleteMovieCollectionItem(@PathVariable int collectionId, @CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] movieIds, Model model) {
         MovieCollection movieCollection = new MovieCollection();
         if ("null".equals(myCookie)) {

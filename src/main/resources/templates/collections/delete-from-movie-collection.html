@@ -16,7 +16,7 @@
 
 <h1 th:text="${collection.name}"></h1>
 
-<form method="post" th:action="@{/collections/delete/{collectionId}(collectionId=${collectionId})}">
+<form method="post" th:action="@{/collections/delete/movies/{collectionId}(collectionId=${collectionId})}">
     <table class="table table-striped" id="table">
         <thead>
             <tr>

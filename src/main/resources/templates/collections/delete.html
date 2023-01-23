@@ -62,7 +62,7 @@
                 <input type="checkbox" name="bookCollectionIds" th:value="${collection.id}">
             </td>
             <td th:if="${collection.user.id == cookie}">
-                <a th:href="@{/collections/delete/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
+                <a th:href="@{/collections/delete/books/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
             </td>
             <td>
                 <span th:text="${collection.description}"></span>
@@ -92,7 +92,7 @@
                 <input type="checkbox" name="gameCollectionIds" th:value="${collection.id}">
             </td>
             <td th:if="${collection.user.id == cookie}">
-                <a th:href="@{/collections/delete/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
+                <a th:href="@{/collections/delete/games/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
             </td>
             <td>
                 <span th:text="${collection.description}"></span>
