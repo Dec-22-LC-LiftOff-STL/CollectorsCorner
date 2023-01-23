@@ -199,7 +199,7 @@ public class CollectionController {
         }
         Integer userId = Integer.parseInt(myCookie);
         model.addAttribute("cookie", userId);
-
+        //Movies
         ArrayList<MovieCollection> thisUserMovieCollections = new ArrayList<>();
         Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
         for (MovieCollection movieCollection : iterableMovieCollection) {
@@ -209,7 +209,27 @@ public class CollectionController {
             model.addAttribute("thisUserMovieCollections", thisUserMovieCollections);
         }
         model.addAttribute("movieCollections", iterableMovieCollection);
-
+        //Books
+        ArrayList<BookCollection> thisUserBookCollections = new ArrayList<>();
+        Iterable<BookCollection> iterableBookCollection = bookCollectionRepository.findAll();
+        for (BookCollection bookCollection : iterableBookCollection) {
+            if (bookCollection.getUser().getId() == userId) {
+                thisUserBookCollections.add(bookCollection);
+            }
+            model.addAttribute("thisUserBookCollections", thisUserBookCollections);
+        }
+        model.addAttribute("bookCollections", iterableBookCollection);
+        //Games
+        ArrayList<GameCollection> thisUserGameCollections = new ArrayList<>();
+        Iterable<GameCollection> iterableGameCollection = gameCollectionRepository.findAll();
+        for (GameCollection gameCollection : iterableGameCollection) {
+            if (gameCollection.getUser().getId() == userId) {
+                thisUserGameCollections.add(gameCollection);
+            }
+            model.addAttribute("thisUserGameCollections", thisUserGameCollections);
+        }
+        model.addAttribute("gameCollections", iterableGameCollection);
+        //User
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             model.addAttribute("user", optionalUser.get());
@@ -217,7 +237,7 @@ public class CollectionController {
         return "collections/delete";
     }
 
-    @PostMapping("delete")
+    @PostMapping("delete-movies")
     public String processDeleteMovieCollectionForm(@CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] movieCollectionIds, Model model) {
         if ("null".equals(myCookie)) {
             return "redirect:/login";
@@ -231,6 +251,44 @@ public class CollectionController {
         if (movieCollectionIds != null) {
             for (int id : movieCollectionIds) {
                 movieCollectionRepository.deleteById(id);
+            }
+        }
+        return "redirect:delete";
+    }
+
+    @PostMapping("delete-books")
+    public String processDeleteBooksCollectionForm(@CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] bookCollectionIds, Model model) {
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            model.addAttribute("user", optionalUser.get());
+        }
+
+        if (bookCollectionIds != null) {
+            for (int id : bookCollectionIds) {
+                bookCollectionRepository.deleteById(id);
+            }
+        }
+        return "redirect:delete";
+    }
+
+    @PostMapping("delete-games")
+    public String processDeleteGamesCollectionForm(@CookieValue("userId") String myCookie, @RequestParam(required = false) Integer[] gameCollectionIds, Model model) {
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            model.addAttribute("user", optionalUser.get());
+        }
+
+        if (gameCollectionIds != null) {
+            for (int id : gameCollectionIds) {
+                gameCollectionRepository.deleteById(id);
             }
         }
         return "redirect:delete";

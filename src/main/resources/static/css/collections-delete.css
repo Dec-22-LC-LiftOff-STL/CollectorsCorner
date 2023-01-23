@@ -1,9 +1,15 @@
-#collectionNameHeader {
+.collectionNameHeader {
     cursor: pointer;
+    width: 45%;
 }
 
-#collectionDescriptionHeader {
+.collectionDescriptionHeader {
     cursor: pointer;
+    width: 45%;
+}
+
+.deleteColumn {
+    width: 10%;
 }
 
 #titleHeader {
