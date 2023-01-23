@@ -19,12 +19,12 @@
 <h3>Movie Collections</h3><hr>
 
 <form method="post" th:action="@{/collections/delete-movies}">
-    <table class="table table-striped" id="table">
+    <table class="table table-striped" id="moviesTable">
         <thead>
         <tr>
             <th class="deleteColumn text-center">Delete</th>
-            <th onclick="sortTable(1)" class="collectionNameHeader">Collection Name</th>
-            <th onclick="sortTable(2)" class="collectionDescriptionHeader">Collection Description</th>
+            <th onclick="sortTable(1, 'moviesTable')" class="collectionNameHeader">Collection Name</th>
+            <th onclick="sortTable(2, 'moviesTable')" class="collectionDescriptionHeader">Collection Description</th>
         </tr>
         </thead>
         <tr th:each="collection : ${thisUserMovieCollections}">
@@ -32,7 +32,7 @@
                 <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
             </td>
             <td th:if="${collection.user.id == cookie}">
-                <a th:href="@{/collections/delete/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
+                <a th:href="@{/collections/delete/movies/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
             </td>
             <td>
                 <span th:text="${collection.description}"></span>
@@ -53,8 +53,8 @@
         <thead>
         <tr>
             <th class="deleteColumn text-center">Delete</th>
-            <th onclick="sortTable(1)" class="collectionNameHeader">Collection Name</th>
-            <th onclick="sortTable(2)" class="collectionDescriptionHeader">Collection Description</th>
+            <th onclick="sortTable(1, 'booksTable')" class="collectionNameHeader">Collection Name</th>
+            <th onclick="sortTable(2, 'booksTable')" class="collectionDescriptionHeader">Collection Description</th>
         </tr>
         </thead>
         <tr th:each="collection : ${thisUserBookCollections}">
@@ -83,8 +83,8 @@
         <thead>
         <tr>
             <th class="deleteColumn text-center">Delete</th>
-            <th onclick="sortTable(1)" class="collectionNameHeader">Collection Name</th>
-            <th onclick="sortTable(2)" class="collectionDescriptionHeader">Collection Description</th>
+            <th onclick="sortTable(1, 'gamesTable')" class="collectionNameHeader">Collection Name</th>
+            <th onclick="sortTable(2, 'gamesTable')" class="collectionDescriptionHeader">Collection Description</th>
         </tr>
         </thead>
         <tr th:each="collection : ${thisUserGameCollections}">

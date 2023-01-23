@@ -1,6 +1,6 @@
-function sortTable(n) {
+function sortTable(n, table) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("table");
+    table = document.getElementById(table);
     switching = true;
     // Set the sorting direction to ascending:
     dir = "asc";

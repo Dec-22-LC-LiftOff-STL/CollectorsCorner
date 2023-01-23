@@ -294,7 +294,7 @@ public class CollectionController {
         return "redirect:delete";
     }
 
-    @GetMapping("delete/{collectionId}")
+    @GetMapping("delete/movies/{collectionId}")
     public String displayDeleteItemsFromCollectionPage(Model model, @PathVariable int collectionId, @CookieValue(name = "userId") String myCookie){
         Integer userId = Integer.parseInt(myCookie);
         Optional optCollection = movieCollectionRepository.findById(collectionId);
@@ -336,7 +336,7 @@ public class CollectionController {
                 movieCollectionService.removeMovie(movieCollection, movie);
             }
         }
-        return "redirect:/collections/delete/{collectionId}";
+        return "redirect:/collections/delete/movies/{collectionId}";
     }
 
     @GetMapping("view-movie-collection/{movieCollectionId}")
