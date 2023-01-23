@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title th:text="${collection.name}">Title</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{../../CSS/collections-delete.css}">
+    <link rel="stylesheet" th:href="@{../../../CSS/collections-delete.css}">
     <script type="text/javascript" th:src="@{../../../javascript/collections-delete.js}"></script>
 </head>
 
@@ -18,15 +18,15 @@
 <h1 th:text="'Game Collection: ' + ${collection.name}"></h1>
 
 <form method="post" th:action="@{/collections/delete/games/{collectionId}(collectionId=${collectionId})}">
-    <table class="table table-striped" id="table">
+    <table class="table table-striped" id="gameTable">
         <thead>
             <tr>
                 <th class="text-center">Delete</th>
-                <th onclick="sortTable(1)" id="titleHeader">Title</th>
-                <th onclick="sortTable(3)" id="creatorHeader">Creator</th>
-                <th onclick="sortTable(4)" id="primaryGenreHeader">Genre</th>
-                <th onclick="sortTable(5)" id="minPlayers">Min. Players</th>
-                <th onclick="sortTable(6)" id="maxPlayers">Max. Players</th>
+                <th onclick="sortTable(1, 'gameTable')" class="titleHeader">Title</th>
+                <th onclick="sortTable(2, 'gameTable')" class="creatorHeader">Creator</th>
+                <th onclick="sortTable(3, 'gameTable')" class="genreHeader">Genre</th>
+                <th onclick="sortTable(4, 'gameTable')" class="minPlayersHeader">Min. Players</th>
+                <th onclick="sortTable(5, 'gameTable')" class="maxPlayersHeader">Max. Players</th>
             </tr>
         </thead>
         <tr th:each="game : ${games}">

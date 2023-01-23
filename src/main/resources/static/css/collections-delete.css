@@ -12,31 +12,42 @@
     width: 10%;
 }
 
-#titleHeader {
+.titleHeader {
     cursor: pointer;
 }
 
-#yearHeader {
+.yearHeader {
     cursor: pointer;
 }
 
-#directorHeader {
+.directorHeader {
     cursor: pointer;
 }
 
-#authorHeader {
+.authorHeader {
     cursor: pointer;
 }
 
-#creatorHeader {
+.creatorHeader {
     cursor: pointer;
 }
 
-
-#primaryGenreHeader {
+.genreHeader {
     cursor: pointer;
 }
 
-#secondaryGenreHeader {
+.primaryGenreHeader {
+    cursor: pointer;
+}
+
+.secondaryGenreHeader {
+    cursor: pointer;
+}
+
+.minPlayersHeader {
+    cursor: pointer;
+}
+
+.maxPlayersHeader {
     cursor: pointer;
 }

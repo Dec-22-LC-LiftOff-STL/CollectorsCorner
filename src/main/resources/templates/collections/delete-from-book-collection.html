@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title th:text="${collection.name}">Title</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{../../CSS/collections-delete.css}">
+    <link rel="stylesheet" th:href="@{../../../CSS/collections-delete.css}">
     <script type="text/javascript" th:src="@{../../../javascript/collections-delete.js}"></script>
 </head>
 
@@ -18,14 +18,14 @@
 <h1 th:text="'Book Collection: ' + ${collection.name}"></h1>
 
 <form method="post" th:action="@{/collections/delete/books/{collectionId}(collectionId=${collectionId})}">
-    <table class="table table-striped" id="table">
+    <table class="table table-striped" id="bookTable">
         <thead>
             <tr>
                 <th class="text-center">Delete</th>
-                <th onclick="sortTable(1)" id="titleHeader">Title</th>
-                <th onclick="sortTable(2)" id="yearHeader">Year</th>
-                <th onclick="sortTable(3)" id="authorHeader">Author</th>
-                <th onclick="sortTable(4)" id="primaryGenreHeader">Genre</th>
+                <th onclick="sortTable(1, 'bookTable')" class="titleHeader">Title</th>
+                <th onclick="sortTable(2, 'bookTable')" class="yearHeader">Year</th>
+                <th onclick="sortTable(3, 'bookTable')" class="authorHeader">Author</th>
+                <th onclick="sortTable(4, 'bookTable')" class="primaryGenreHeader">Genre</th>
             </tr>
         </thead>
         <tr th:each="book : ${books}">
