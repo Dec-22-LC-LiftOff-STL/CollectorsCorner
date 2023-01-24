@@ -3109,9 +3109,22 @@ fieldset[disabled] .btn-default.focus {
 }
 
 .btn-books {
+  padding-left: 0px;
+  padding-right: 28px;
+  margin: 0px;
   color: #a04824;
   background-color: #fdecc4;
   border-color: #696969;
+  opacity: .92;
+}
+
+.btn-movies {
+  padding-left: 0px;
+  padding-right: 28px;
+  margin: 0px;
+  color: #a04824;
+  background-color: #87a0c7;
+  border-color: #87a0c7;
   opacity: .92;
 }
 

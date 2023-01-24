@@ -1,27 +1,53 @@
-#collectionNameHeader {
+.collectionNameHeader {
+    cursor: pointer;
+    width: 45%;
+}
+
+.collectionDescriptionHeader {
+    cursor: pointer;
+    width: 45%;
+}
+
+.deleteColumn {
+    width: 10%;
+}
+
+.titleHeader {
     cursor: pointer;
 }
 
-#collectionDescriptionHeader {
+.yearHeader {
     cursor: pointer;
 }
 
-#titleHeader {
+.directorHeader {
     cursor: pointer;
 }
 
-#yearHeader {
+.authorHeader {
     cursor: pointer;
 }
 
-#directorHeader {
+.creatorHeader {
     cursor: pointer;
 }
 
-#primaryGenreHeader {
+.genreHeader {
     cursor: pointer;
 }
 
-#secondaryGenreHeader {
+.primaryGenreHeader {
+    cursor: pointer;
+}
+
+.secondaryGenreHeader {
+    cursor: pointer;
+}
+
+.minPlayersHeader {
+    cursor: pointer;
+}
+
+.maxPlayersHeader {
     cursor: pointer;
 }

@@ -1,6 +1,7 @@
-function sortTable(n) {
+function sortTable(n, table) {
+    let tableName = table;
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("table");
+    table = document.getElementById(table);
     switching = true;
     // Set the sorting direction to ascending:
     dir = "asc";
@@ -21,10 +22,9 @@ function sortTable(n) {
         x = rows[i].getElementsByTagName("TD")[n];
         y = rows[i + 1].getElementsByTagName("TD")[n];
         /* NH: If we sort by director, pull ONLY the last name out of the <td> cell and sort by that below */
-        if (n === 3) {
+        if ((n === 3 && tableName === 'movieTable') || (n===3 && tableName === 'bookTable')) {
             let allWordsInDirectorNameArrayX = x.innerHTML.split(">")[1].split("<")[0].split(" ");
             let allWordsInDirectorNameArrayY = y.innerHTML.split(">")[1].split("<")[0].split(" ");
-            console.log(allWordsInDirectorNameArrayX, allWordsInDirectorNameArrayY)
             x = allWordsInDirectorNameArrayX[allWordsInDirectorNameArrayX.length - 1];
             y = allWordsInDirectorNameArrayY[allWordsInDirectorNameArrayY.length - 1];
         }

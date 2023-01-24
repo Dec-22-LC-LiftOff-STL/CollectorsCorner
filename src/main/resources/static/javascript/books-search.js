@@ -11,8 +11,9 @@ window.onload = function() {
     });
 }
 
-function searchTitle() {
+//SEARCH AND BUILD HTML
 
+function searchTitle() {
     let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=";
     let searchTerm;
     let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
@@ -23,8 +24,6 @@ function searchTitle() {
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
-    //Hides Submit button after a search and has user use New Search button for a new search so filters are not mixed up
-    document.getElementById("searchTermAndType").style.display = "none";
 }
 
 function searchAuthor() {
@@ -57,6 +56,17 @@ function searchIsbn() {
     document.getElementById("showFiltersButton").style.display = "block";
     //Hides Submit button after a search and has user use New Search button for a new search so filters are not mixed up
     document.getElementById("searchTermAndType").style.display = "none";
+}
+
+function handleSearch() {
+    const searchTerm = searchTypeDropdown.value;
+      if (searchTerm === 'title') {
+        searchTitle();
+      } else if (searchTerm === 'author') {
+        searchAuthor();
+      } else if (searchTerm === 'isbn') {
+        searchIsbn();
+      }
 }
 
 function buildHTMLResultsTable(url) {
@@ -100,26 +110,26 @@ function buildHTMLResultsTable(url) {
             <tr id="rowIndex${i}">
                 <th class="posterCell">
                     <img class="poster" src="${book.volumeInfo.imageLinks.thumbnail}"><br>
-                </th>
-                <th class="titleCell">
-                    <a id="bookTitle${i}" href="/books/details/${book.volumeInfo.title}">${book.volumeInfo.title}</a><br><br>
-                    <button id="dropdown-button${i}" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
-                    <p id="googleBooksApiId${i}" hidden>${book.id}</p>
-                    <form id="userCollectionDropdown${i}" style="display:none;"><hr>
-                        <button type="button" onclick="addNewBookToDatabase();">Submit</button>
+                    <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
+                    <form id="userCollectionDropdown${i}" style="display:none;"><br>
+                        <button type="button" class="btn btn-success" onclick="addNewBookToDatabase();" style="width:131.84px">Confirm</button>
                     </form>
                 </th>
+                <th class="titleCell">
+                    <a id="bookTitle${i}" href="/books/details/${book.volumeInfo.title}">${book.volumeInfo.title}</a>
+                    <p id="googleBooksApiId${i}" hidden>${book.id}</p>
+                </th>
                 <th class="authorCell">
-                    <p id="bookAuthor${i}">${book.volumeInfo.authors[0]}</p>
+                    <p id="bookAuthor${i}" style="margin-left:0px;">${book.volumeInfo.authors[0]}</p>
                 </th>
                 <th class="yearCell">
-                    <p id="bookDate${i}">${year}</p>
+                    <p id="bookDate${i}" style="margin-left:0px;">${year}</p>
                 </th>
                 <th class="genre1Cell">
-                    <p id="bookGenres${i}">${book.volumeInfo.categories}</p>
+                    <p id="bookGenres${i}" style="margin-left:0px;">${book.volumeInfo.categories}</p>
                 </th>
                 <th class="synopsisCell">
-                    <p id="bookSynopsis${i}" class="synopsisText">${book.volumeInfo.description}</p>
+                    <p id="bookSynopsis${i}" style="margin-left:0px;" class="synopsisText">${book.volumeInfo.description}</p>
                 </th>
             </tr>
         `;
@@ -143,8 +153,10 @@ function toggleShowHideFilters() {
     //Toggle button text between Show Filters & Hide Filters
     if (document.getElementById("showFiltersButton").innerHTML === "Show Filters") {
         document.getElementById("showFiltersButton").innerHTML = "Hide Filters";
+        document.getElementById("showFiltersButton").className = "btn btn-danger";
     } else {
         document.getElementById("showFiltersButton").innerHTML = "Show Filters"
+        document.getElementById("showFiltersButton").className = "btn btn-primary";
     }
     //Toggle between showing/hiding <div id="filtersSection"> on search.html
     if (document.getElementById("filtersSection").style.display === "block") {
@@ -184,15 +196,37 @@ function prepareDatabaseInformationForm(i) {
 }
 
 function addNewBookToDatabase() {
-
+    let collectionDropdown = document.getElementById("collectionNamesDropdown");
+    let collectionIdsAndBooks = document.getElementById("collectionIdsAndBooks");
+    let collectionIdsAndBooksArray = collectionIdsAndBooks.innerHTML.split('}],');
+        if (collectionDropdown.value === '') {
+            alert("Don't forget to select the collection you want to add to!")
+            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
+            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+        }
+        for (let i=0; i<collectionIdsAndBooksArray.length; i++) {
+            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
+            let id = collectionIdsAndBooksArray[i].split('=[Book{')[0];
+            let text = collectionIdsAndBooksArray[i].split('=[Book{')[1];
+            //If the collection is empty, allow any addition.
+            if (text === undefined) {
+                break;
+            }
+            // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
+            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
+            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+            if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
+                alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
+                return;
+            }
+        }
     document.getElementById("databaseInformation").submit();
-
 }
 
 //SORTING
 
 function sortTableByTitle() {
-
     const table = document.querySelector("table");
     const rows = Array.from(table.rows).slice(1); // skip the first row (header)
 
@@ -218,7 +252,6 @@ function sortTableByTitle() {
 }
 
 function sortTableByAuthor() {
-
     const table = document.querySelector("table");
     const rows = Array.from(table.rows).slice(1); // skip the first row (header)
 
@@ -300,7 +333,6 @@ function sortTableByGenre() {
 //FILTERS - CHECKBOXES
 
 function generateAuthorCheckboxHTML() {
-
     let authors = [];
     let authorsWithCheckbox = "";
     let i = 0;
@@ -309,17 +341,15 @@ function generateAuthorCheckboxHTML() {
             author = document.getElementById(`bookAuthor${i}`).innerHTML;
             if (!authors.includes(author)) {
                 authors.push(author);
-                authorsWithCheckbox += `<input type="checkbox" name="author" value="${author}" checked> ${author}`;
+                authorsWithCheckbox += `<label><input type="checkbox" name="author" value="${author}" checked> ${author}</label>`;
             }
         }
         i++;
     }
     document.getElementById("authorCheckboxes").innerHTML = authorsWithCheckbox;
-
 }
 
 function generateGenreCheckboxHTML() {
-
     let genres = [];
     let genresWithCheckbox = "";
 
@@ -329,7 +359,7 @@ function generateGenreCheckboxHTML() {
             genre = document.getElementById(`bookGenres${i}`).innerHTML;
             if (!genres.includes(genre)) {
                 genres.push(genre);
-                genresWithCheckbox += `<input type="checkbox" name="genre" value="${genre}" checked> ${genre}`;
+                genresWithCheckbox += `<label><input type="checkbox" name="genre" value="${genre}" checked> ${genre}</label>`;
             }
         }
         i++;
@@ -338,7 +368,6 @@ function generateGenreCheckboxHTML() {
 }
 
 function showOrHideRowsBasedOnAuthorCheckboxFilters() {
-
     let selectedAuthors = [];
     const checkboxContainer = document.querySelector('#authorCheckboxes');
     const checkboxes = checkboxContainer.querySelectorAll('input[type=checkbox]');
@@ -360,14 +389,13 @@ function showOrHideRowsBasedOnAuthorCheckboxFilters() {
 }
 
 function showOrHideRowsBasedOnGenreCheckboxFilters() {
-
     let selectedGenres = [];
     const checkboxContainer = document.querySelector('#genreCheckboxes');
     const checkboxes = checkboxContainer.querySelectorAll('input[type=checkbox]');
 
     for (let i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
-        selectedGenres.push(checkboxes[i].value);
+            selectedGenres.push(checkboxes[i].value);
         }
     }
     let i=0;
@@ -382,7 +410,6 @@ function showOrHideRowsBasedOnGenreCheckboxFilters() {
 }
 
 function toggleCheckUncheckAuthorBoxes() {
-
     const selectAllAuthorsButton = document.getElementById('selectAllAuthorsButton');
     const unselectAllAuthorsButton = document.getElementById('unselectAllAuthorsButton');
     const authorCheckboxes = document.getElementById('authorCheckboxes');
@@ -425,14 +452,13 @@ function toggleCheckUncheckGenreBoxes() {
         });
     });
 }
+
 //Fixes a bug that requires two clicks of the Unselect All button for Genres
 window.addEventListener('load', toggleCheckUncheckGenreBoxes);
-
 
 //FILTERS - YEARS
 
 function filterYears (userYearMin, userYearMax) {
-
     let yearMin = userYearMin.value;
     let yearMax = userYearMax.value;
 

@@ -5,17 +5,15 @@
 
 <div th:replace="fragments :: page-header"></div>
 
-
 <body class="container body-content">
 
 <div class="vh=100" style="background-image: url('http://localhost:8080/images/bookCollection.jpg'); background-size: cover;">
-
-<br><br>
+    <br><br>
 
 <form method="post">
-    <div>
+    <div class="center">
         <label class="btn btn-books" >Name This Book Collection:
-            <p><input class="control" th:field="${createBookCollectionDTO.name}" /></p>
+            <p><input class="control"  th:field="${createBookCollectionDTO.name}" /></p>
 
             <p> Create a description that will draw the interest of other users.</p>
 
@@ -26,11 +24,12 @@
         </label>
     </div>
 
-
+<div class="center">
     <input type="submit" class="btn btn-primary" value="Create Book Collection"/>
+</div>
 
 </form>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>
 </body>
 

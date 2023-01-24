@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
+
+
+<div th:replace="fragments :: page-header"></div>
+
+<div class="container body-content">
+
+
 <body>
 
 <form method="post">
@@ -25,9 +29,31 @@
         </label>
     </div>
 
+    <div class="form-group">
+        <label>Screen Name
+            <input class="form-control" th:field="${registerFormDTO.screenName}" />
+        </label>
+        <p class="error" th:errors="${registerFormDTO.screenName}"></p>
+    </div>
+
+    <div class="form-group">
+        <label>First Name
+            <input class="form-control" th:field="${registerFormDTO.firstName}" />
+        </label>
+        <p class="error" th:errors="${registerFormDTO.firstName}"></p>
+    </div>
+
+    <div class="form-group">
+        <label>Last Name
+            <input class="form-control" th:field="${registerFormDTO.lastName}" />
+        </label>
+        <p class="error" th:errors="${registerFormDTO.lastName}"></p>
+    </div>
+
     <input type="submit" class="btn btn-primary" value="Register" />
 </form>
 
 
 </body>
+</div>
 </html>

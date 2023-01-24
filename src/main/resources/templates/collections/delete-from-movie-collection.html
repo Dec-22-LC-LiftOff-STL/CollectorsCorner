@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title th:text="${collection.name}">Title</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{../../CSS/collections-delete.css}">
-    <script type="text/javascript" th:src="@{../../javascript/collections-delete.js}"></script>
+    <link rel="stylesheet" th:href="@{../../../CSS/collections-delete.css}">
+    <script type="text/javascript" th:src="@{../../../javascript/collections-delete.js}"></script>
 </head>
 
 <div th:replace="fragments :: page-header"></div>
@@ -14,18 +14,19 @@
 <body class="container body-content">
 <br><br><br><br>
 
-<h1 th:text="${collection.name}"></h1>
+<a href="/collections/delete">Back</a>
+<h1 th:text="'Movie Collection: ' + ${collection.name}"></h1>
 
-<form method="post" th:action="@{/collections/delete/{collectionId}(collectionId=${collectionId})}">
-    <table class="table table-striped" id="table">
+<form method="post" th:action="@{/collections/delete/movies/{collectionId}(collectionId=${collectionId})}">
+    <table class="table table-striped" id="movieTable">
         <thead>
             <tr>
                 <th class="text-center">Delete</th>
-                <th onclick="sortTable(1)" id="titleHeader">Title</th>
-                <th onclick="sortTable(2)" id="yearHeader">Year</th>
-                <th onclick="sortTable(3)" id="directorHeader">Director</th>
-                <th onclick="sortTable(4)" id="primaryGenreHeader">Primary Genre</th>
-                <th onclick="sortTable(5)" id="secondaryGenreHeader">Secondary Genre</th>
+                <th onclick="sortTable(1, 'movieTable')" class="titleHeader">Title</th>
+                <th onclick="sortTable(2, 'movieTable')" class="yearHeader">Year</th>
+                <th onclick="sortTable(3, 'movieTable')" class="directorHeader">Director</th>
+                <th onclick="sortTable(4, 'movieTable')" class="primaryGenreHeader">Primary Genre</th>
+                <th onclick="sortTable(5, 'movieTable')" class="secondaryGenreHeader">Secondary Genre</th>
             </tr>
         </thead>
             <tr th:each="movie : ${movies}">

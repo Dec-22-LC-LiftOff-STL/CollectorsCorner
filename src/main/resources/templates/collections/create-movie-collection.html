@@ -1,57 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 
-
 <head th:replace="~{fragments :: head}"></head>
 
 <div th:replace="fragments :: page-header"></div>
 
-
 <body class="container body-content">
-<br><br>
 
-<form method="post">
-    <div>
-    <label>Name This Movie Collection:
-        <p><input class="control" th:field="${createMovieCollectionDTO.name}" /></p>
-    </label>
-    <p class="error" th:errors="${createMovieCollectionDTO.name}"></p>
+<div class="vh=100" style="background-image: url('http://localhost:8080/images/movieCollection.jpg'); background-size: cover;">
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <form method="post">
+        <div class="center">
+            <label class="btn btn-movies" >Name This Movie Collection:
+                <p><input class="control" th:field="${createMovieCollectionDTO.name}" /></p>
+
+                <p> Create a description that will draw the interest of other users.</p>
+
+                <p>
+                    <textarea name="textarea" style="width:250px;height:150px;" th:field="${createMovieCollectionDTO.description}"></textarea></p>
+
+                <p class="error" th:errors="${createMovieCollectionDTO.description}"></p>
+            </label>
+        </div>
+
+        <div class="center">
+            <input type="submit" class="btn btn-primary" value="Create Movie Collection"/>
+        </div>
+
+    </form>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>
 
-    <div>
-    <label>Description:</label>
-    <p>
-        Create a description that will draw the interest of other users.
-    </p>
-
-    <p>
-    <textarea name="textarea" style="width:250px;height:150px;" th:field="${createMovieCollectionDTO.description}"></textarea>
-    </p>
-<!--        <input class="form-control input-lg" th:field="${createMovieCollectionDTO.description}">-->
-
-    <p class="error" th:errors="${createMovieCollectionDTO.description}"></p>
-    </div>
-    <input type="submit" class="btn btn-primary" value="Create Movie Collection" />
-
-
-</form>
-
-<!--<script th:inline="javascript">-->
-<!--document.cookie = "userId=[[${userId}]]";-->
-<!--const userId = getCookie("userId");-->
-
-<!--if (userId) {-->
-<!--  window.location.href = "/movies/search";-->
-<!--}-->
-
-<!--function getCookie() {-->
-<!--  const cookie = document.cookie;-->
-<!--  if (cookie.length > 0) {-->
-<!--    return parseInt(cookie.split("=")[1]);-->
-<!--  }-->
-<!--  return null;-->
-<!--}-->
-<!--</script>-->
-
 </body>
+
 </html>
