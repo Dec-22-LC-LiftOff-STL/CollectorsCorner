@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <title>Collectors Corner Feed</title>
 </head>
-<body>
+
+<div th:replace="fragments :: page-header"></div>
+
+<div class="container body-content">
+
+    <body>
 
 <h1>All Movies</h1>
 <th-block th:each="movie : ${movies}">
@@ -43,4 +48,5 @@
 
 
 </body>
+</div>
 </html>

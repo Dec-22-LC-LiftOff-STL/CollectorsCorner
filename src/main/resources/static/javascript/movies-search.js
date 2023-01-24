@@ -167,7 +167,7 @@ function prepareDatabaseInformationForm(i) {
 //forgot to select a collection.
 function addNewMovieToDatabase() {
 
-    let collectionDropdown = document.getElementById("collectionNamesDropdown");
+        let collectionDropdown = document.getElementById("collectionNamesDropdown");
         let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
         let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
         if (collectionDropdown.value === '') {
