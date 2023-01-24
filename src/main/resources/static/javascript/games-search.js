@@ -119,8 +119,10 @@ function toggleShowHideFilters() {
     //Toggle button text between Show Filters & Hide Filters
     if (document.getElementById("showFiltersButton").innerHTML === "Show Filters") {
         document.getElementById("showFiltersButton").innerHTML = "Hide Filters";
+        document.getElementById("showFiltersButton").className = "btn btn-danger";
     } else {
         document.getElementById("showFiltersButton").innerHTML = "Show Filters"
+        document.getElementById("showFiltersButton").className = "btn btn-primary";
     }
     //Toggle between showing/hiding <div id="filtersSection"> on search.html
     if (document.getElementById("filtersSection").style.display === "block") {
@@ -331,7 +333,7 @@ function generateCreatorCheckboxHTML() {
             if (!creators.includes(creator)) {
                 creators.push(creator);
                 console.log(creators);
-                creatorsWithCheckbox += `<input type="checkbox" name="creator" value="${creator}" checked> ${creator}`;
+                creatorsWithCheckbox += `<label><input type="checkbox" name="creator" value="${creator}" checked> ${creator}</label>`;
             }
         }
         i++;
@@ -351,7 +353,7 @@ function generateGenreCheckboxHTML() {
             genre = document.getElementById(`primaryGenre${i}`).innerHTML;
             if (!genres.includes(genre)) {
                 genres.push(genre);
-                genresWithCheckbox += `<input type="checkbox" name="genre" value="${genre}" checked> ${genre}`;
+                genresWithCheckbox += `<label><input type="checkbox" name="genre" value="${genre}" checked> ${genre}</label>`;
             }
         }
         i++;

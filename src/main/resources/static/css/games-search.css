@@ -14,6 +14,16 @@ p {
     background-color: #e4e4e4 !important;
 }
 
+#creatorCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
+}
+
+#genreCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
+}
+
 #newSearchButtonLink {
     color: white !important;
 }
