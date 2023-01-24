@@ -93,7 +93,8 @@ function buildHTMLResultsTable(url) {
                     <p id="gameMaxPlayers${i}">${game.max_players}</p>
                 </th>
                 <th class="synopsisCell" style="vertical-align: middle;">
-                    <p id="gameSynopsis${i}">${game.description_preview}</p>
+                    <p id="gameSynopsis${i}" class="synopsisText">${game.description_preview}</p>
+                    <a href="/game/details/${game.name}" class="readMore">Read more</a>
                 </th>
 
             </tr>
