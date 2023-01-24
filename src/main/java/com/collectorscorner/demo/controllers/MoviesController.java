@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.DocFlavor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,7 +70,26 @@ public class MoviesController {
         model.addAttribute("movieCollections", iterableMovieCollection);
         model.addAttribute("cookie", userId);
         model.addAttribute("iterableUsers", iterableUsers);
-        System.out.print(myCookie);
+        //Create HashMap to be interpreted by JS as an object. Key = collectionId, Value = Movies in that collection
+        List<Integer> keys = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+        HashMap<Integer, String> collectionIdsAndMovies = new HashMap<>();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User thisUser = optionalUser.get();
+            List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
+            for (MovieCollection movieCollection : thisUsersCollections){
+                keys.add(movieCollection.getId());
+                String moviesString = movieCollection.getMovies().toString();
+                values.add(moviesString);
+            }
+            for (int i=0; i<keys.size(); i++) {
+                collectionIdsAndMovies.put(keys.get(i), values.get(i));
+            }
+            model.addAttribute("collectionIdsAndMovies", collectionIdsAndMovies);
+
+        }
+
         return "movies/search";
     }
 
