@@ -5,77 +5,10 @@
 
 <div th:replace="fragments :: page-header"></div>
 
-<div class="container body-content"></div>
-
 <body class="container body-content">
 
 <h1>Hello World!</h1>
 Hello World!
-
-
-
-
-<table id="bookCollectionTable",  class="collection-listing">
-
-
-    <span id="bookColumnBlock">
-            <th id="bookCollectionColumn", style="display:">Book Collections: </th>
-            <th id="bookColAuthorColumn", style="display:none">Author: ></th>
-            <th id="bookColGenreColumn", style="display:none">Genre: ></th>
-        </span>
-
-    <p th:text="${bookCollection.name}"></p>
-    <p th:text="${bookCollection.description}"></p>
-
-    <tr th:each="bookCollection : ${bookCollections}">
-        <td id="bookDataFilter">
-            <p>
-                <a th:href="@{'/collections/view-book-collection/' + ${bookCollection.id}}" th:text="'Book Collection Id: ' + ${bookCollection.id}"></a>
-            </p>
-
-            <p th:text="${bookCollection.name}"></p>
-
-            <i>
-                <p th:text="${bookCollection.description}"></p>
-            </i>
-            <br>
-
-            <!--                <p>Books:</p>-->
-
-            <ul th:each="book : ${bookCollection.books}">
-                <li>
-                    <a th:href="@{'/book/view/' + ${book.id}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
-                </li>
-
-            </ul>
-            <br>
-            <p>
-                <a th:href="@{'/books/details/'}" th:text="${'Created by: '}"></a>
-            </p>
-        </td>
-
-        <td id="bookColDirectors", style="display:none">Authors in Collection:>
-            <ul th:each="book : ${bookCollection.books}">
-
-                <li id="authorFilterString", style="display:none"
-                    th:text="${book.author}">
-                </li>
-            </ul>
-        </td>
-
-        <td id="bookColGenre", style="display:none">Genres in Collection:>
-            <ul th:each="book : ${bookCollection.books}">
-                <li id="bookFilterString", style="display:none"
-                    th:text="${book.genre}">
-                </li>
-            </ul>
-        </td>
-    </tr>
-</table>
-
-
-
-
 
 
 </body>

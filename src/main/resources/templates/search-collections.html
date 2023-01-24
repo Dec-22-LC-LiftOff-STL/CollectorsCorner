@@ -51,7 +51,7 @@
         </span>
 
         <span id="movieColumnBlock">
-            <th id="movieCollectionColumn", style="display:">Movie Collections: </th>
+            <th id="movieCollectionColumn", style="font-size:36px;">Movie Collections: </th>
             <th id="movieColDirectorColumn", style="display:none">Director: ></th>
             <th id="movieColGenreColumn", style="display:none">Genre: ></th>
             <th id="movieColGenre2Column", style="display:none">Genre: ></th>
@@ -62,11 +62,9 @@
 
         <tr th:each="movieCollection : ${movieCollections}">
             <td>
-                <p>
-                    <a th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="'Movie Collection Id: ' + ${movieCollection.id}"></a>
-                </p>
-
-                <p th:text="${movieCollection.name}"></p>
+                <h3 style="text-align: center; background: #b50a0a" >
+                <a  style="color: orange; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="${movieCollection.name}"></a>
+                </h3>
 
                 <i>
                 <p th:text="${movieCollection.description}"></p>
@@ -269,7 +267,7 @@
         </span>
 
         <span id="bookColumnBlock">
-            <th id="bookCollectionColumn", style="display:">Book Collections: </th>
+            <th id="bookCollectionColumn", style="font-size:36px;">Book Collections: </th>
             <th id="bookColAuthorColumn", style="display:none">Author: ></th>
             <th id="bookColGenreColumn", style="display:none">Genre: ></th>
         </span>
@@ -278,17 +276,16 @@
 
         <tr th:each="bookCollection : ${bookCollections}">
             <td id="bookDataFilter">
-                <p>
-                    <a th:href="@{'/collections/view-book-collection/' + ${bookCollection.id}}" th:text="'Book Collection Id: ' + ${bookCollection.id}"></a>
-                </p>
 
-                <p th:text="${bookCollection.name}"></p>
+                <h3 style="text-align: center; background: #005d85" >
+                    <a  style="color: WhiteSmoke; text-shadow: white 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-book-collection/' + ${bookCollection.id}}" th:text="${bookCollection.name}"></a>
+                </h3>
 
                 <i>
-                    <p th:text="${bookCollection.description}"></p>
+                    <p  th:text="${bookCollection.description}"></p>
                 </i>
-                <br>
 
+                <br>
                 <!--                <p>Books:</p>-->
 
                 <ul th:each="book : ${bookCollection.books}">
@@ -437,7 +434,7 @@ function bookCollectionFilter() {
         </span>
 
         <span id="gameColumnBlock">
-            <th id="gameCollectionColumn", style="display:">Game Collections: </th>
+            <th id="gameCollectionColumn", style="font-size:36px;">Game Collections: </th>
             <th id="gameColCreatorColumn", style="display:none">Creator: ></th>
             <th id="gameColGenreColumn", style="display:none">Genre: ></th>
         </span>
@@ -446,15 +443,14 @@ function bookCollectionFilter() {
 
         <tr th:each="gameCollection : ${gameCollections}">
             <td id="gameDataFilter">
-                <p>
-                    <a th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="'Game Collection Id: ' + ${gameCollection.id}"></a>
-                </p>
-
-                <p th:text="${gameCollection.name}"></p>
+                <h3 style="text-align: center; background: #57a65f" >
+                    <a  style="color: Gold; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="${gameCollection.name}"></a>
+                </h3>
 
                 <i>
-                    <p th:text="${gameCollection.description}"></p>
+                    <p  th:text="${gameCollection.description}"></p>
                 </i>
+
                 <br>
 
                 <ul th:each="game : ${gameCollection.games}">
