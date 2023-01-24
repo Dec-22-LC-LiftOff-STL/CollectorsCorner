@@ -38,8 +38,6 @@ function searchAuthor() {
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
-    //Hides Submit button after a search and has user use New Search button for a new search so filters are not mixed up
-    document.getElementById("searchTermAndType").style.display = "none";
 }
 
 function searchIsbn() {
@@ -54,19 +52,20 @@ function searchIsbn() {
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
-    //Hides Submit button after a search and has user use New Search button for a new search so filters are not mixed up
-    document.getElementById("searchTermAndType").style.display = "none";
 }
 
 function handleSearch() {
     const searchTerm = searchTypeDropdown.value;
-      if (searchTerm === 'title') {
+    if (searchTerm === 'title') {
         searchTitle();
-      } else if (searchTerm === 'author') {
+        event.preventDefault();
+     } else if (searchTerm === 'author') {
         searchAuthor();
-      } else if (searchTerm === 'isbn') {
+        event.preventDefault();
+     } else if (searchTerm === 'isbn') {
         searchIsbn();
-      }
+        event.preventDefault();
+     }
 }
 
 function buildHTMLResultsTable(url) {
@@ -77,9 +76,9 @@ function buildHTMLResultsTable(url) {
         const resultsTableDiv = document.getElementById("resultsTable"); //Lives on search.html template
         const filtersDiv = document.getElementById("filters"); //Lives on search.html template
         let tableBeginning = `
-            <table>
+            <table id="booksResultsTable">
                 <thead>
-                    <tr>
+                    <tr class="booksResultsHeaderRow">
                         <th id="posterColumnHeader"></th>
                         <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
                         <th id="authorColumnHeader" onclick="sortTableByAuthor()">Author</th>
@@ -107,7 +106,7 @@ function buildHTMLResultsTable(url) {
         const year = book.volumeInfo.publishedDate.slice(0, 4);
         //Generate Results Table Rows
         tableRows += `
-            <tr id="rowIndex${i}">
+            <tr id="rowIndex${i}" class="booksResultsTableRows">
                 <th class="posterCell">
                     <img class="poster" src="${book.volumeInfo.imageLinks.thumbnail}"><br>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
@@ -130,6 +129,7 @@ function buildHTMLResultsTable(url) {
                 </th>
                 <th class="synopsisCell">
                     <p id="bookSynopsis${i}" style="margin-left:0px;" class="synopsisText">${book.volumeInfo.description}</p>
+                    <a href="/books/details/${book.volumeInfo.title}" class="readMore">Read more</a>
                 </th>
             </tr>
         `;
