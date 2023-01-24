@@ -15,7 +15,7 @@
 <ol >
     <span th:each="collection: ${collectionsWithThisBook}">
         <li>
-        <a th:href="@{'collection/view/' + ${collection.id}}" th:text="${collection.name + '  Created by: ' + collection.getUser().getUsername()}"></a>
+        <a th:href="@{'collection/view/' + ${collection.id}}" th:text="${collection.name + '  Created by: ' + collection.getUser().getScreenName()}"></a>
         </li>
 
     </span>

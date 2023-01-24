@@ -4,7 +4,6 @@ import com.collectorscorner.demo.Services.MovieCollectionService;
 import com.collectorscorner.demo.data.MovieCollectionRepository;
 import com.collectorscorner.demo.data.MovieRepository;
 import com.collectorscorner.demo.data.UserRepository;
-import com.collectorscorner.demo.models.Game;
 import com.collectorscorner.demo.models.Movie;
 import com.collectorscorner.demo.models.MovieCollection;
 import com.collectorscorner.demo.models.User;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -117,5 +117,32 @@ public class MoviesController {
         model.addAttribute("collectorName", collectorName);
 
         return "movies/details";
+    }
+
+    @GetMapping("/collections/view-movie-collection")
+    public String displayViewMovieCollectionsPage(Model model, @PathVariable String movieTitle/*,@CookieValue(name = "userId") String myCookie*/) {
+//        Integer userId = Integer.parseInt(myCookie);
+
+        Iterable<MovieCollection> allMovieCollections = movieCollectionRepository.findAll();
+        int foundMovieYear = 0;
+        String collectorName = "";
+        ArrayList<MovieCollection> foundMovies = new ArrayList<>();
+        for (MovieCollection collection : allMovieCollections){
+            for (int i = 0; i < collection.getMovies().size(); i++){
+                if (collection.getMovies().get(i).getTitle().equals(movieTitle)){
+                    foundMovies.add(collection);
+                    foundMovieYear = collection.getMovies().get(i).getYear();
+                    collectorName = collection.getUser().getUsername();
+                }
+            }
+
+        }
+        model.addAttribute("collectionsWithThisMovie", foundMovies);
+        model.addAttribute("movieTitle", movieTitle);
+        model.addAttribute("movies", movieRepository.findAll());
+        model.addAttribute("foundMovieYear", foundMovieYear);
+        model.addAttribute("collectorName", collectorName);
+
+        return "collections/view-movie-collection";
     }
 }

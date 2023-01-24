@@ -5,12 +5,193 @@
 
 <div th:replace="fragments :: page-header"></div>
 
-<div class="container body-content"></div>
-
 <body class="container body-content">
 
-<h1>Hello World!</h1>
-Hello World!
+<h1 class="font-weight-bolder" th:text="'Collection Name: ' +${movieCollection.name}"></h1>
+<H4 th:text="'Collection Description: ' + ${movieCollection.description}"></H4>
+<H2 th:text="'Collector Name: ' +${movieCollection.getUser().getScreenName()}"></H2>
 
+
+<ul th:each="movie : ${movieCollection.movies}">
+
+
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th id="movieTitleHeader">Movie</th>
+            <th id="movieYearHeader">Year</th>
+            <th id="movieDirectorHeader">Director</th>
+            <th id="movieGenreHeader">Genre(s)</th>
+            <th id="movieImageHeader">Image</th>
+        </tr>
+        </thead>
+        <tr>
+            <td  class="text-center">
+                <span th:text="${movie.title}"></span>
+            </td>
+            <td  class="text-center">
+                <span th:text="${movie.year}"></span>
+            </td>
+            <td class="text-center">
+                <span th:text="${movie.director}"></span>
+            </td>
+            <td class="text-center">
+                <span th:text="${movie.genre}"></span> <br/>
+                <span th:text="${movie.genre2}"></span><br/>
+                <span th:text="${movie.genre3}"></span>
+            </td>
+            <td class="text-center">
+            <a id="movieImage"></a>
+            </td>
+        </tr>
+    </table><hr>
+
+
+    <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    function findImage() {
+
+    movieTitle = [[${movie.title}]];
+    movieYear = [[${movie.year}]];
+    console.log(movieTitle);
+    console.log([[${movieCollection.name}]]);
+
+    let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
+    let searchTerm = movieTitle + "&primary_release_year=" + movieYear;
+    let url = urlBeginning + searchTerm;
+
+
+
+    fetch(url).then(function(response) {
+        response.json().then( function(json) {
+            console.log(json.results);
+
+            const posterURLBeginning = "https://image.tmdb.org/t/p/w500";
+            let posterURLEnding= json.results[0].poster_path;
+            let posterURL = posterURLBeginning + posterURLEnding;
+
+            const div = document.getElementById("movieImage");
+            div.innerHTML = `<img src=${posterURL} height="150px">`
+
+        })
+    });
+};
+
+/*]]>*/
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+findImage();
+/*]]>*/
+</script>
+</ul>
 </body>
 </html>
+
+
+<!--<script type="text/javascript" th:inline="javascript">-->
+<!--    /*<![CDATA[*/-->
+<!--function findImage() {-->
+
+<!--    movieTitle = [[${movie.title}]];-->
+<!--    movieYear = [[${movie.year}]];-->
+<!--    console.log(movieTitle);-->
+
+<!--    let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";-->
+<!--    let searchTerm;-->
+
+<!--    searchTerm = movieTitle + "&primary_release_year=" + movieYear;-->
+
+<!--    let url = urlBeginning + searchTerm;-->
+<!--    let posterURLBeginning = "https://image.tmdb.org/t/p/w500";-->
+<!--    let posterURLEnding;-->
+<!--    let posterURL;-->
+
+<!--    fetch(url).then(function(response) {-->
+<!--        response.json().then( function(json) {-->
+<!--            console.log(json.results);-->
+
+<!--            posterURLEnding = json.results[0].poster_path;-->
+<!--            posterURL = posterURLBeginning + posterURLEnding;-->
+
+
+
+
+<!--            const div = document.getElementById("movieImage");-->
+<!--            div.innerHTML = `-->
+<!--            <img src=${posterURL} height="150px">-->
+<!--            `-->
+
+<!--        })-->
+<!--    });-->
+<!--};-->
+
+<!--  /*]]>*/-->
+<!--</script>-->
+
+
+
+<!--<h6>Collections With This Movie:</h6>-->
+<!--<ol >-->
+<!--            <span th:each="collection: ${collectionsWithThisMovie}">-->
+<!--                <li>-->
+<!--                <a th:href="@{'collection/view/' + ${collection.id}}" th:text="${collection.name + '  Created by: ' + collection.getUser().getUsername()}"></a>-->
+<!--                </li>-->
+
+<!--            </span>-->
+<!--</ol>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>-->
+<!--window.onload = function(){-->
+
+
+<!--    movieTitle = document.getElementById("movieTitle").innerHTML;-->
+<!--    movieYear = document.getElementById("movieYear").innerHTML;-->
+<!--    console.log(movieTitle);-->
+
+<!--    let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";-->
+<!--    let searchTerm;-->
+
+<!--    searchTerm = movieTitle + "&primary_release_year=" + movieYear;-->
+
+<!--    let url = urlBeginning + searchTerm;-->
+<!--    let posterURLBeginning = "https://image.tmdb.org/t/p/w500";-->
+<!--    let posterURLEnding;-->
+<!--    let posterURL;-->
+
+<!--    fetch(url).then(function(response) {-->
+<!--        response.json().then( function(json) {-->
+<!--            console.log(json.results);-->
+
+<!--            posterURLEnding = json.results[0].poster_path;-->
+<!--            posterURL = posterURLBeginning + posterURLEnding;-->
+
+<!--            const div = document.getElementById("movieImage");-->
+<!--            div.innerHTML = `-->
+<!--            <img src=${posterURL} height="150px">-->
+<!--            `-->
+
+<!--        })-->
+<!--    });-->
+<!--};-->
+<!--</script>-->
