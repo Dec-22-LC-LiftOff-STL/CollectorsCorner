@@ -2,12 +2,92 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link th:href="@{/css/collector.css}" rel="stylesheet" />
+    <title>Collector's Page</title>
     <head th:replace="~{fragments :: head}"></head>
 
     <div th:replace="fragments :: page-header"></div>
 
 <body class="container body-content">
+
+<br><br><br><br>
+
+<h2 th:text="${user.screenName} + ' \'s Collections'"></h2><br><br>
+<label>About Me:</label>
+<h3 th:text="${user.aboutMe}"></h3>
+<br><br><br><br>
+
+
+
+<div class="row">
+    <div class="column" style="height:250px;overflow:auto;">
+        <table>
+            <thead>Movie Collections</thead>
+            <thead>
+            <tr>
+                <th>Collection Name</th>
+                <th>Collection Description</th>
+            </tr>
+            </thead>
+
+            <tr th:each="collection : ${thisUserMovieCollections}">
+                <td th:if="${collection.user.id == cookie}">
+                    <a th:href="@{/collections/view-movie-collection/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
+                </td>
+                <td th:if="${collection.user.id == cookie}">
+                    <span th:text="${collection.description}"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="column" style="height:250px;overflow:auto;background-image: url('http://localhost:8080/images/bookCollection.jpg'); background-size: cover;">
+
+        <table>
+            <thead>Book Collections</thead>
+            <thead>
+            <tr>
+                <th>Collection Name</th>
+                <th>Collection Description</th>
+            </tr>
+            </thead>
+            <tr th:each="collection : ${thisUserBookCollections}">
+                <td th:if="${collection.user.id == cookie}">
+                    <a th:href="@{/collections/view-book-collection/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
+                </td>
+                <td th:if="${collection.user.id == cookie}">
+                    <span th:text="${collection.description}"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="column">
+
+
+        <table>
+            <thead>Game Collections</thead>
+            <thead>
+            <tr>
+                <th>Collection Name</th>
+                <th>Collection Description</th>
+            </tr>
+            </thead>
+            <tr th:each="collection : ${thisUserGameCollections}">
+                <td th:if="${collection.user.id == cookie}">
+                    <a th:href="@{/collections/view-game-collection/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
+                </td>
+                <td th:if="${collection.user.id == cookie}">
+                    <span th:text="${collection.description}"></span>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+
+<div class="vh=100" style="background-image: url('http://localhost:8080/images/bookCollection.jpg'); background-size: cover;">
+</div>
 
 </body>
 </html>

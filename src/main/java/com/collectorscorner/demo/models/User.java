@@ -25,6 +25,8 @@ public class User extends AbstractEntity{
 
     private String pwHash;
 
+    private String aboutMe;
+
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -39,7 +41,7 @@ public class User extends AbstractEntity{
 
     public User(){}
 
-    public User(String username, String password, String screenName, String firstName, String lastName){
+    public User(String username, String password, String screenName, String firstName, String lastName, String aboutMe){
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.userBookCollection = getUserBookCollection();
@@ -48,6 +50,15 @@ public class User extends AbstractEntity{
         this.screenName = screenName;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.aboutMe = aboutMe;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
     }
 
     public boolean isMatchingPassword(String password){
