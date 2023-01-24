@@ -26,6 +26,19 @@
 
     <hr>
 
+    <h3 id="collectionNameDropdownLabel">Your Game Collections:</h3><br>
+    <form>
+        <select id="collectionNamesDropdown">
+            <option value="">Select a collection</option>
+            <th:block th:each="collection : ${gameCollections}">
+        <span th:if="${collection.user.id == cookie}">
+            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
+        </span>
+            </th:block>
+        </select>
+    </form>
+    <hr>
+
     <div id="filtersSection" style="display:none;"> <br> <hr>
         <form id="yearFilters" >
             <h3>Year Range:</h3>
@@ -51,23 +64,6 @@
         <button id="unselectAllGenresButton" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <br> <hr>
     </div>
 
-    <h3 id="collectionNameDropdownLabel">Your Game Collections:</h3><br>
-    <form>
-        <select id="collectionNamesDropdown">
-            <option value="">Select a collection</option>
-            <th:block th:each="collection : ${gameCollections}">
-        <span th:if="${collection.user.id == cookie}">
-            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
-        </span>
-            </th:block>
-        </select>
-    </form>
-    <hr>
-
-    <div id="resultsTable"></div>
-
-    <p th:text="${collectionIdsAndGames}" id="collectionIdsAndGames" hidden></p>
-
     <form method="post" id="databaseInformation" hidden>
         <input th:field="${game.title}" id="titleSubmission" readonly>
         <input th:field="${game.creator}" id="creatorSubmission" readonly>
@@ -78,6 +74,10 @@
         <input th:field="${game.description}" id="synopsisSubmission" readonly>
         <input type="text" name="collectionId" id="collectionId" readonly>
     </form>
+
+    <div id="resultsTable"></div>
+
+    <p th:text="${collectionIdsAndGames}" id="collectionIdsAndGames" hidden></p>
 
 </body>
 </html>
