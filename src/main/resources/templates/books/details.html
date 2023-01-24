@@ -11,13 +11,15 @@
 
 <div id="bookInfo"></div>
 
-<h3>In The Collection Of:</h3>
-<th-block th:each="book : ${books}">
-    <ol th:if="${book.title} == ${bookTitle}">
-        <h3 th:text="${book.userID}"></h3>
-    </ol>
-</th-block>
+<h3>Collections With This Book:</h3>
+<ol >
+    <span th:each="collection: ${collectionsWithThisBook}">
+        <li>
+        <a th:href="@{'collection/view/' + ${collection.id}}" th:text="${collection.name + '  Created by: ' + collection.getUser().getUsername()}"></a>
+        </li>
 
+    </span>
+</ol>
 </body>
 </html>
 

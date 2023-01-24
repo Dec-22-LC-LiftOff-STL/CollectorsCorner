@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <head th:replace="fragments :: head">
-    </head>
-<body>
-
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <head th:replace="fragments :: head">-->
+<!--    </head>-->
+<head th:replace="~{fragments :: head}"></head>
 
 <div th:replace="fragments :: page-header"></div>
-<div class="container body-content">
+
+<body class="container body-content">
 
 <h1 th:text="${movieTitle}" id="movieTitle"></h1>
     <p id="movieYear", style="display:none"
@@ -31,7 +31,6 @@
 
     </span>
 </ol>
-</div>
 
 </body>
 </html>
@@ -64,7 +63,7 @@ window.onload = function() {
             const div = document.getElementById("movieInfo");
             div.innerHTML = `
             <h3>Release Date: ${json.results[0].release_date}</h3>
-            <h3>Synopsis: ${json.results[0].overview}</h3>
+            <h4>Synopsis: ${json.results[0].overview}</h4>
             <img src=${posterURL}>
             `
 

@@ -7,6 +7,8 @@
   <link rel="stylesheet" th:href="@{../CSS/books-search.css}">
   <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
   <link th:href="@{/css/collectors-corner.css}" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!--  <script type="text/javascript" th:src="@{/javascript/bootstrap.js}"></script>-->
 </head>
 
@@ -101,7 +103,10 @@ searchTermAndType.addEventListener('click', function() {
   <input type="text" name="collectionId" id="collectionId">
 </form>
 
-<h3 id="collectionNameDropdownLabel">User Collection:</h3><br>
+
+
+
+<label>Your Book Collections:</label><br>
 <form>
   <select id="collectionNamesDropdown">
     <option value="">Select a collection</option>

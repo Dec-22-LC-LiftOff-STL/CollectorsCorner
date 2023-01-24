@@ -12,20 +12,26 @@
 
 <form method="post">
     <div>
-    <label>Name
-    <input class="control" th:field="${createMovieCollectionDTO.name}" />
+    <label>Name This Movie Collection:
+        <p><input class="control" th:field="${createMovieCollectionDTO.name}" /></p>
     </label>
     <p class="error" th:errors="${createMovieCollectionDTO.name}"></p>
 </div>
 
     <div>
-    <label>Description
-    <input class="control" th:field="${createMovieCollectionDTO.description}">
-    </label>
+    <label>Description:</label>
+    <p>
+        Create a description that will draw the interest of other users.
+    </p>
+
+    <p>
+    <textarea name="textarea" style="width:250px;height:150px;" th:field="${createMovieCollectionDTO.description}"></textarea>
+    </p>
+<!--        <input class="form-control input-lg" th:field="${createMovieCollectionDTO.description}">-->
+
     <p class="error" th:errors="${createMovieCollectionDTO.description}"></p>
     </div>
-
- <input type="submit" class="btn btn-primary" value="Create Movie Collection" />
+    <input type="submit" class="btn btn-primary" value="Create Movie Collection" />
 
 
 </form>

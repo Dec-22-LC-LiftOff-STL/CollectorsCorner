@@ -13,16 +13,21 @@
 
 <form method="post">
     <div>
-        <label>Name
-            <input class="control" th:field="${createGameCollectionDTO.name}" />
+        <label>Name This Game Collection:
+            <p><input class="control" th:field="${createGameCollectionDTO.name}" /></p>
         </label>
         <p class="error" th:errors="${createGameCollectionDTO.name}"></p>
     </div>
 
     <div>
-        <label>Description
-            <input class="control" th:field="${createGameCollectionDTO.description}">
-        </label>
+        <label>Description:</label>
+        <p>
+            Create a description that will draw the interest of other users.
+        </p>
+
+        <p>
+            <textarea name="textarea" style="width:250px;height:150px;" th:field="${createGameCollectionDTO.description}"></textarea>
+        </p>
         <p class="error" th:errors="${createGameCollectionDTO.description}"></p>
     </div>
 

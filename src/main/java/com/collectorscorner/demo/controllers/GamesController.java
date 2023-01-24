@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -62,10 +63,31 @@ public class GamesController {
         }
         return "redirect:/games/search";
     }
+
     @GetMapping("details/{gameTitle}")
-    public String displayViewGameDetailsPage(Model model, @PathVariable String gameTitle) {
+    public String displayViewGameDetailsPage(Model model, @PathVariable String gameTitle/*,@CookieValue(name = "userId") String myCookie*/) {
+//        Integer userId = Integer.parseInt(myCookie);
+
+        Iterable<GameCollection> allGameCollections = gameCollectionRepository.findAll();
+//        int foundGameYear = 0;
+        String collectorName = "";
+        ArrayList<GameCollection> foundGames = new ArrayList<>();
+        for (GameCollection collection : allGameCollections){
+            for (int i = 0; i < collection.getGames().size(); i++){
+                if (collection.getGames().get(i).getTitle().equals(gameTitle)){
+                    foundGames.add(collection);
+//                    foundGameYear = collection.getGames().get(i).getYear();
+                    collectorName = collection.getUser().getUsername();
+                }
+            }
+
+        }
+        model.addAttribute("collectionsWithThisGame", foundGames);
         model.addAttribute("gameTitle", gameTitle);
         model.addAttribute("games", gameRepository.findAll());
+//        model.addAttribute("foundGameYear", foundGameYear);
+        model.addAttribute("collectorName", collectorName);
+
         return "games/details";
     }
 }
