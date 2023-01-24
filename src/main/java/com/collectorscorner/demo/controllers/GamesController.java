@@ -2,14 +2,8 @@ package com.collectorscorner.demo.controllers;
 
 import com.collectorscorner.demo.Services.BookCollectionService;
 import com.collectorscorner.demo.Services.GameCollectionService;
-import com.collectorscorner.demo.data.BookCollectionRepository;
-import com.collectorscorner.demo.data.BookRepository;
-import com.collectorscorner.demo.data.GameCollectionRepository;
-import com.collectorscorner.demo.data.GameRepository;
-import com.collectorscorner.demo.models.Book;
-import com.collectorscorner.demo.models.BookCollection;
-import com.collectorscorner.demo.models.Game;
-import com.collectorscorner.demo.models.GameCollection;
+import com.collectorscorner.demo.data.*;
+import com.collectorscorner.demo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -25,6 +21,9 @@ public class GamesController {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private GameCollectionRepository gameCollectionRepository;
@@ -40,8 +39,28 @@ public class GamesController {
         }
         Integer userId = Integer.parseInt(myCookie);
         Iterable<GameCollection> iterableGameCollection = gameCollectionRepository.findAll();
+        Iterable<User> iterableUsers = userRepository.findAll();
         model.addAttribute("gameCollections", iterableGameCollection);
         model.addAttribute("cookie", userId);
+        model.addAttribute("iterableUsers", iterableUsers);
+        //Create HashMap to be interpreted by JS as an object. Key = collectionId, Value = Movies in that collection
+        List<Integer> keys = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+        HashMap<Integer, String> collectionIdsAndGames = new HashMap<>();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User thisUser = optionalUser.get();
+            List<GameCollection> thisUsersCollections = thisUser.getUserGameCollection();
+            for (GameCollection gameCollection : thisUsersCollections) {
+                keys.add(gameCollection.getId());
+                String gameString = gameCollection.getGames().toString();
+                values.add(gameString);
+            }
+            for (int i=0; i<keys.size(); i++) {
+                collectionIdsAndGames.put(keys.get(i), values.get(i));
+            }
+            model.addAttribute("collectionIdsAndGames", collectionIdsAndGames);
+        }
         return "games/search";
     }
 

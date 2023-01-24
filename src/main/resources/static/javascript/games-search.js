@@ -31,9 +31,9 @@ function buildHTMLResultsTable(url) {
     const arrayOfGameObjects = json.games;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
     let tableBeginning = `
-    <table class="table table-striped">
+    <table>
         <thead>
-            <tr>
+            <tr class="gamesResultsHeaderRow">
                 <th id="posterColumnHeader"></th>
                 <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
                 <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
@@ -66,17 +66,16 @@ function buildHTMLResultsTable(url) {
     const game = arrayOfValidatedGameObjects[i];
     console.log(arrayOfValidatedGameObjects)
         tableRows += `
-            <tr id="rowIndex${i}">
+            <tr id="rowIndex${i}" class="gamesResultsTableRows">
                 <th class="posterCell text-center" style="vertical-align: middle; width: 225px">
                     <img class="poster" src="${game.thumb_url}"><br><br>
-                    <button id="dropdown-button${i}" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
-                    <form id="userCollectionDropdown${i}" style="display:none;"><hr>
-                        <div id="selectDropdownDiv"></div>
-                    <button type="button" onclick="addNewGameToDatabase();">Confirm</button>
+                    <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
+                    <form id="userCollectionDropdown${i}" style="display:none;"><br>
+                        <button type="button" class="btn btn-success" onclick="addNewGameToDatabase();">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell" style="vertical-align: middle;">
-                    <a id="gameTitle${i}" href="${game.name}">${game.name}</a><br><br>
+                    <a id="gameTitle${i}" href="${game.name}">${game.name}</a><br>
                     <p id="boardGameAtlasApiId${i}" hidden>${game.id}</p>
                     <p id="gameCreator${i}" hidden>${game.primary_publisher.name}</p>
                 </th>
@@ -94,7 +93,8 @@ function buildHTMLResultsTable(url) {
                     <p id="gameMaxPlayers${i}">${game.max_players}</p>
                 </th>
                 <th class="synopsisCell" style="vertical-align: middle;">
-                    <p id="gameSynopsis${i}">${game.description_preview}</p>
+                    <p id="gameSynopsis${i}" class="synopsisText">${game.description_preview}</p>
+                    <a href="/game/details/${game.name}" class="readMore">Read more</a>
                 </th>
 
             </tr>
@@ -119,8 +119,10 @@ function toggleShowHideFilters() {
     //Toggle button text between Show Filters & Hide Filters
     if (document.getElementById("showFiltersButton").innerHTML === "Show Filters") {
         document.getElementById("showFiltersButton").innerHTML = "Hide Filters";
+        document.getElementById("showFiltersButton").className = "btn btn-danger";
     } else {
         document.getElementById("showFiltersButton").innerHTML = "Show Filters"
+        document.getElementById("showFiltersButton").className = "btn btn-primary";
     }
     //Toggle between showing/hiding <div id="filtersSection"> on search.html
     if (document.getElementById("filtersSection").style.display === "block") {
@@ -164,9 +166,32 @@ function prepareDatabaseInformationForm(i) {
 }
 
 function addNewGameToDatabase() {
-
+    let collectionDropdown = document.getElementById("collectionNamesDropdown");
+    let collectionIdsAndGames = document.getElementById("collectionIdsAndGames");
+    let collectionIdsAndGamesArray = collectionIdsAndGames.innerHTML.split('}],');
+        if (collectionDropdown.value === '') {
+            alert("Don't forget to select the collection you want to add to!")
+            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
+            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+        }
+        for (let i=0; i<collectionIdsAndGamesArray.length; i++) {
+            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all games in that collection
+            let id = collectionIdsAndGamesArray[i].split('=[Game{')[0];
+            let text = collectionIdsAndGamesArray[i].split('=[Game{')[1];
+            //If the collection is empty, allow any addition.
+            if (text === undefined) {
+                break;
+            }
+            // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
+            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
+            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+            if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
+                alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
+                return;
+            }
+        }
     document.getElementById("databaseInformation").submit();
-
 }
 
 //SORTING
@@ -308,7 +333,7 @@ function generateCreatorCheckboxHTML() {
             if (!creators.includes(creator)) {
                 creators.push(creator);
                 console.log(creators);
-                creatorsWithCheckbox += `<input type="checkbox" name="creator" value="${creator}" checked> ${creator}`;
+                creatorsWithCheckbox += `<label><input type="checkbox" name="creator" value="${creator}" checked> ${creator}</label>`;
             }
         }
         i++;
@@ -328,7 +353,7 @@ function generateGenreCheckboxHTML() {
             genre = document.getElementById(`primaryGenre${i}`).innerHTML;
             if (!genres.includes(genre)) {
                 genres.push(genre);
-                genresWithCheckbox += `<input type="checkbox" name="genre" value="${genre}" checked> ${genre}`;
+                genresWithCheckbox += `<label><input type="checkbox" name="genre" value="${genre}" checked> ${genre}</label>`;
             }
         }
         i++;
