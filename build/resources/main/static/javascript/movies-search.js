@@ -93,7 +93,6 @@ function buildHTMLResultsTable(url) {
                 </th>
                 <th class="synopsisCell" style="vertical-align: middle">
                     <p id="movieSynopsis${i}">${movie.overview}</p>
-
                 </th>
                 <th class="streamingPlatformsCell" style="vertical-align: middle">
                     <button class="btn btn-dark" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
@@ -168,7 +167,7 @@ function prepareDatabaseInformationForm(i) {
 //forgot to select a collection.
 function addNewMovieToDatabase() {
 
-    let collectionDropdown = document.getElementById("collectionNamesDropdown");
+        let collectionDropdown = document.getElementById("collectionNamesDropdown");
         let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
         let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
         if (collectionDropdown.value === '') {
