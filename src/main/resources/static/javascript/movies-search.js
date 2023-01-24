@@ -74,7 +74,8 @@ function buildHTMLResultsTable(url) {
         tableRows += `
             <tr class="booksResultsTableRows">
                 <th class="posterCell" style="vertical-align: middle">
-                    <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}"><br>
+                    <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
+                    <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
                     <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
                     <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
                     <form id="confirmButtonDropdown${i}" style="display:none;"><br>
@@ -116,12 +117,17 @@ function prepareDatabaseInformationForm(i) {
     const movieDate = document.getElementById(`movieDate${i}`).textContent.slice(0,4);
     const movieSynopsis = document.getElementById(`movieSynopsis${i}`).textContent;
     const movieGenres = document.getElementById(`movieGenres${i}`).textContent;
+    const movieImageURL = document.getElementById(`movieImageURL${i}`).textContent;
+
 
     //Fills in the title on the form on search.html
     document.getElementById("titleSubmission").value = movieTitle;
 
     //Fills in the date on the form on search.html
     document.getElementById("dateSubmission").value = new Date();
+
+   //Fills in the imageURL on the form on search.html
+    document.getElementById("imageURLSubmission").value = movieImageURL;
 
     //Fills in the genres on the form on search.html
     document.getElementById("genreSubmission").value = movieGenres.split(",")[0].replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western");
@@ -139,6 +145,8 @@ function prepareDatabaseInformationForm(i) {
     if (movieGenres.split(",")[2] === undefined) {
         document.getElementById("genre3Submission").value = "";
     }
+
+
 
     //Fills in the director on the form on search.html form -- director is NOT a default property on the API movie objects
     //This property must be retrieved via a separate fetch using *TheMovieDatabase's* ID for the movie.

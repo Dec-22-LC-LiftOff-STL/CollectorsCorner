@@ -30,9 +30,12 @@ public class Movie extends AbstractEntity {
     @Column(name = "synopsis", length = 20000)
     private String synopsis;
 
+    @Column(name = "imageURL", length = 500)
+    private String imageURL;
+
     public Movie() { }
 
-    public Movie(List<MovieCollection> collectionsWithThisMovie, Date dateAdded, String title, int year, String director, String genre, String genre2, String genre3, String synopsis) {
+    public Movie(List<MovieCollection> collectionsWithThisMovie, Date dateAdded, String title, int year, String director, String genre, String genre2, String genre3, String synopsis, String imageURL) {
         this.collectionsWithThisMovie = collectionsWithThisMovie;
         this.dateAdded = dateAdded;
         this.title = title;
@@ -42,6 +45,7 @@ public class Movie extends AbstractEntity {
         this.genre2 = genre2;
         this.genre3 = genre3;
         this.synopsis = synopsis;
+        this.imageURL = imageURL;
     }
 
     public List<MovieCollection> getCollectionsWithThisMovie() {
@@ -116,6 +120,14 @@ public class Movie extends AbstractEntity {
         this.synopsis = synopsis;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -128,6 +140,7 @@ public class Movie extends AbstractEntity {
                 ", genre2='" + genre2 + '\'' +
                 ", genre3='" + genre3 + '\'' +
                 ", synopsis='" + synopsis + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 '}';
     }
 }
