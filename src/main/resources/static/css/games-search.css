@@ -1,16 +1,21 @@
-body {
-    background-color: black;
-    color: white;
+p {
+    text-align: center !important;
+    margin-left: 10px !important;
+    margin-bottom: 0 !important;
 }
 
-button {
-    background-color: gray;
-    color: white;
+.gamesResultsHeaderRow {
+    border: 2px solid black !important;
+    background-color: #e4e4e4 !important;
 }
 
-a {
-    text-decoration: none;
-    color: white;
+.gamesResultsTableRows {
+    border: 1px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+#newSearchButtonLink {
+    color: white !important;
 }
 
 #posterColumnHeader {
@@ -24,6 +29,7 @@ a {
 #titleColumnHeader {
     width: 15%;
     cursor: pointer;
+    padding: 10px;
 }
 
 
@@ -50,45 +56,33 @@ a {
 }
 
 #synopsisColumnHeader {
-    width: 25%;
+    width: 30%;
 }
 
 .synopsisCell {
-    width: 25%
+    width: 30%
 }
 
 #minPlayersColumnHeader {
-    width: 12.5%;
+    width: 10%;
     cursor: pointer;
 }
 
 .minPlayersCell {
-    width: 12.5%
+    width: 10%
 }
 
 #maxPlayersColumnHeader {
-    width: 12.5%;
+    width: 10%;
     cursor: pointer;
 }
 
 .maxPlayersCell {
-    width: 12.5%
-}
-
-#userCollectionDropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
+    width: 10%
 }
 
 .hidden {
     display: none;
-}
-
-tr {
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
 }
 
 .poster {

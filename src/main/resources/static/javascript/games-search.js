@@ -31,9 +31,9 @@ function buildHTMLResultsTable(url) {
     const arrayOfGameObjects = json.games;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
     let tableBeginning = `
-    <table class="table table-striped">
+    <table>
         <thead>
-            <tr>
+            <tr class="gamesResultsHeaderRow">
                 <th id="posterColumnHeader"></th>
                 <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
                 <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
@@ -66,17 +66,16 @@ function buildHTMLResultsTable(url) {
     const game = arrayOfValidatedGameObjects[i];
     console.log(arrayOfValidatedGameObjects)
         tableRows += `
-            <tr id="rowIndex${i}">
+            <tr id="rowIndex${i}" class="gamesResultsTableRows">
                 <th class="posterCell text-center" style="vertical-align: middle; width: 225px">
                     <img class="poster" src="${game.thumb_url}"><br><br>
-                    <button id="dropdown-button${i}" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
-                    <form id="userCollectionDropdown${i}" style="display:none;"><hr>
-                        <div id="selectDropdownDiv"></div>
-                    <button type="button" onclick="addNewGameToDatabase();">Confirm</button>
+                    <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
+                    <form id="userCollectionDropdown${i}" style="display:none;"><br>
+                        <button type="button" class="btn btn-success" onclick="addNewGameToDatabase();">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell" style="vertical-align: middle;">
-                    <a id="gameTitle${i}" href="${game.name}">${game.name}</a><br><br>
+                    <a id="gameTitle${i}" href="${game.name}">${game.name}</a><br>
                     <p id="boardGameAtlasApiId${i}" hidden>${game.id}</p>
                     <p id="gameCreator${i}" hidden>${game.primary_publisher.name}</p>
                 </th>
