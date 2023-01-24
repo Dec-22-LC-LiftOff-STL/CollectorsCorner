@@ -31,10 +31,10 @@
             </thead>
 
             <tr th:each="collection : ${thisUserMovieCollections}">
-                <td th:if="${collection.user.id == cookie}">
+                <td th:if="${collection.user.id == userId}">
                     <a th:href="@{/collections/view-movie-collection/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
                 </td>
-                <td th:if="${collection.user.id == cookie}">
+                <td th:if="${collection.user.id == userId}">
                     <span th:text="${collection.description}"></span>
                 </td>
             </tr>
@@ -51,10 +51,10 @@
             </tr>
             </thead>
             <tr th:each="collection : ${thisUserBookCollections}">
-                <td th:if="${collection.user.id == cookie}">
+                <td th:if="${collection.user.id == userId}">
                     <a th:href="@{/collections/view-book-collection/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
                 </td>
-                <td th:if="${collection.user.id == cookie}">
+                <td th:if="${collection.user.id == userId}">
                     <span th:text="${collection.description}"></span>
                 </td>
             </tr>
@@ -73,10 +73,10 @@
             </tr>
             </thead>
             <tr th:each="collection : ${thisUserGameCollections}">
-                <td th:if="${collection.user.id == cookie}">
+                <td th:if="${collection.user.id == userId}">
                     <a th:href="@{/collections/view-game-collection/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
                 </td>
-                <td th:if="${collection.user.id == cookie}">
+                <td th:if="${collection.user.id == userId}">
                     <span th:text="${collection.description}"></span>
                 </td>
             </tr>

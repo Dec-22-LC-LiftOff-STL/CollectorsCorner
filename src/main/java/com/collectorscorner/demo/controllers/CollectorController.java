@@ -53,36 +53,13 @@ public class CollectorController {
         }
         if (optionalUser.isPresent()) {
             model.addAttribute("user", optionalUser.get());
-            model.addAttribute("cookie", userId);
-        }
-        ArrayList<MovieCollection> thisUserMovieCollections = new ArrayList<>();
-        Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
-        for (MovieCollection movieCollection : iterableMovieCollection) {
-            if (movieCollection.getUser().getId() == userId) {
-                thisUserMovieCollections.add(movieCollection);
-            }
-            model.addAttribute("thisUserMovieCollections", thisUserMovieCollections);
+            model.addAttribute("userId", optionalUser.get().getId());
+            model.addAttribute("thisUserMovieCollections", optionalUser.get().getUserMovieCollection());
+            model.addAttribute("thisUserBookCollections", optionalUser.get().getUserBookCollection());
+            model.addAttribute("thisUserGameCollections", optionalUser.get().getUserGameCollection());
+//
         }
 
-        ArrayList<BookCollection> thisUserBookCollections = new ArrayList<>();
-        Iterable<BookCollection> iterableBookCollection = bookCollectionRepository.findAll();
-        for (BookCollection bookCollection : iterableBookCollection) {
-            if (bookCollection.getUser().getId() == userId) {
-                thisUserBookCollections.add(bookCollection);
-            }
-            model.addAttribute("thisUserBookCollections", thisUserBookCollections);
-        }
-        model.addAttribute("bookCollections", iterableBookCollection);
-
-        ArrayList<GameCollection> thisUserGameCollections = new ArrayList<>();
-        Iterable<GameCollection> iterableGameCollection = gameCollectionRepository.findAll();
-        for (GameCollection gameCollection : iterableGameCollection) {
-            if (gameCollection.getUser().getId() == userId) {
-                thisUserGameCollections.add(gameCollection);
-            }
-            model.addAttribute("thisUserGameCollections", thisUserGameCollections);
-        }
-        model.addAttribute("gameCollections", iterableGameCollection);
         return "collector";
 
     }
