@@ -9,23 +9,22 @@
   <link th:href="@{/css/collectors-corner.css}" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<!--  <script type="text/javascript" th:src="@{/javascript/bootstrap.js}"></script>-->
+  <!--  <script type="text/javascript" th:src="@{/javascript/bootstrap.js}"></script>-->
 </head>
 
 <div th:replace="fragments :: page-header"></div>
 
 <body class="container body-content">
 
-<p th:text="${collectionIdsAndBooks}" id="collectionIdsAndBooks" hidden></p>
 <h1>Book Search</h1>
 <form>
-  <input type="text" id="userSearchTerm">
+  <input type="text" id="userSearchTerm" onkeypress="if (event.keyCode === 13) { handleSearch(); }">
   <select id="searchTypeDropdown" style="height:26px;">
     <option value="title">Title</option>
     <option value="author">Author</option>
     <option value="isbn">ISBN</option>
   </select>
-  <button type="button" id="searchTermAndType">Search</button>
+  <button type="button" id="searchButton">Search</button>
 </form> <hr>
 
 <button id="newSearchButton" class="btn btn-primary"><a href="http://localhost:8080/books/search" style="color:inherit;">New Search</a></button><br><br>
@@ -60,26 +59,31 @@
 
 </div>
 
+<h3 id="collectionNameDropdownLabel">Your Book Collections:</h3><br>
+<form>
+  <select id="collectionNamesDropdown">
+    <option value="">Select a collection</option>
+    <th:block th:each="collection : ${bookCollections}">
+        <span th:if="${collection.user.id == cookie}">
+            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
+        </span>
+    </th:block>
+  </select>
+</form><hr>
 
+<div id="resultsTable"></div>
 
-<!-- Handles the dropdown search options (title, author, isbn) -->
-<script>
-const searchTermAndType = document.getElementById('searchTermAndType');
-const searchTypeDropdown = document.getElementById('searchTypeDropdown');
+<p th:text="${collectionIdsAndBooks}" id="collectionIdsAndBooks" hidden></p>
 
-searchTermAndType.addEventListener('click', function() {
-
-  const searchTerm = searchTypeDropdown.value;
-
-  if (searchTerm === 'title') {
-        searchTitle();
-  } else if (searchTerm === 'author') {
-        searchAuthor();
-  } else if (searchTerm === 'isbn') {
-        searchIsbn();
-  }
-});
-</script>
+<form method="post" id="databaseInformation" hidden>
+  <input th:field="${book.title}" id="titleSubmission">
+  <input th:field="${book.dateAdded}" id="dateSubmission">
+  <input th:field="${book.genre}" id="genreSubmission">
+  <input th:field="${book.author}" id="authorSubmission">
+  <input th:field="${book.year}" id="yearSubmission">
+  <input th:field="${book.synopsis}" id="synopsisSubmission">
+  <input type="text" name="collectionId" id="collectionId">
+</form>
 
 <!-- Event Listener to call removeScrollbarOnShortSynopsis() when user first scrolls -->
 <script>
@@ -93,34 +97,18 @@ searchTermAndType.addEventListener('click', function() {
 });
 </script>
 
-<form method="post" id="databaseInformation" hidden>
-  <input th:field="${book.title}" id="titleSubmission">
-  <input th:field="${book.dateAdded}" id="dateSubmission">
-  <input th:field="${book.genre}" id="genreSubmission">
-  <input th:field="${book.author}" id="authorSubmission">
-  <input th:field="${book.year}" id="yearSubmission">
-  <input th:field="${book.synopsis}" id="synopsisSubmission">
-  <input type="text" name="collectionId" id="collectionId">
-</form>
-
-
-
-
-<label>Your Book Collections:</label><br>
-<form>
-  <select id="collectionNamesDropdown">
-    <option value="">Select a collection</option>
-    <th:block th:each="collection : ${bookCollections}">
-        <span th:if="${collection.user.id == cookie}">
-            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
-        </span>
-    </th:block>
-  </select>
-</form><hr>
-
-<div id="resultsTable"></div>
+<!-- Handles the dropdown search options (title, author, isbn) -->
 <script>
+  const searchButton = document.getElementById('searchButton');
+  const userSearchTerm = document.getElementById('userSearchTerm');
 
+  searchButton.addEventListener('click', handleSearch);
+  userSearchTerm.addEventListener('keyup', function(event) {
+  if (event.keyCode === 13 || event.key === 'Enter') {
+    event.preventDefault();
+    handleSearch();
+  }
+});
 </script>
 
 </body>

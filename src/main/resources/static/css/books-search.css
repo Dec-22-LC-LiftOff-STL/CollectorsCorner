@@ -1,17 +1,15 @@
-body {
-    background-color: black;
-    color: white;
-}
-
 p {
-  margin-bottom: 0 !important;
+    margin-bottom: 0 !important;
 }
 
-#userCollectionDropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
+.booksResultsHeaderRow {
+    border: 2px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+.booksResultsTableRows {
+    border: 1px solid black !important;
+    background-color: #e4e4e4 !important;
 }
 
 #authorCheckboxes {
@@ -80,16 +78,11 @@ p {
     width: 40%
 }
 
-
 .synopsisText {
-    max-height: 150px;
-    overflow-y: scroll;
+    height: 145px;
+    overflow: hidden;
 }
 
 .hidden {
     display: none;
 }
-
-
-
-
