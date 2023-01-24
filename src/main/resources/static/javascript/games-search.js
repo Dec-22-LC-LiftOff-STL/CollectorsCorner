@@ -164,9 +164,32 @@ function prepareDatabaseInformationForm(i) {
 }
 
 function addNewGameToDatabase() {
-
+    let collectionDropdown = document.getElementById("collectionNamesDropdown");
+    let collectionIdsAndGames = document.getElementById("collectionIdsAndGames");
+    let collectionIdsAndGamesArray = collectionIdsAndGames.innerHTML.split('}],');
+        if (collectionDropdown.value === '') {
+            alert("Don't forget to select the collection you want to add to!")
+            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
+            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+        }
+        for (let i=0; i<collectionIdsAndGamesArray.length; i++) {
+            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all games in that collection
+            let id = collectionIdsAndGamesArray[i].split('=[Game{')[0];
+            let text = collectionIdsAndGamesArray[i].split('=[Game{')[1];
+            //If the collection is empty, allow any addition.
+            if (text === undefined) {
+                break;
+            }
+            // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
+            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
+            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+            if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
+                alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
+                return;
+            }
+        }
     document.getElementById("databaseInformation").submit();
-
 }
 
 //SORTING
