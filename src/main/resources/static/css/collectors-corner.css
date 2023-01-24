@@ -61,4 +61,9 @@ div.collection-listing {
     background-color: #e4e4e4;
 }
 
-
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
