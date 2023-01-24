@@ -161,37 +161,37 @@ findImage();
 
 
 
-<script>-->
-<!--window.onload = function(){-->
+<script>
+    window.onload = function(){
 
 
-<!--    movieTitle = document.getElementById("movieTitle").innerHTML;-->
-<!--    movieYear = document.getElementById("movieYear").innerHTML;-->
-<!--    console.log(movieTitle);-->
+        movieTitle = document.getElementById("movieTitle").innerHTML;
+        movieYear = document.getElementById("movieYear").innerHTML;
+        console.log(movieTitle);
 
-<!--    let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";-->
-<!--    let searchTerm;-->
+        let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
+        let searchTerm;
 
-<!--    searchTerm = movieTitle + "&primary_release_year=" + movieYear;-->
+        searchTerm = movieTitle + "&primary_release_year=" + movieYear;
 
-<!--    let url = urlBeginning + searchTerm;-->
-<!--    let posterURLBeginning = "https://image.tmdb.org/t/p/w500";-->
-<!--    let posterURLEnding;-->
-<!--    let posterURL;-->
+        let url = urlBeginning + searchTerm;
+       let posterURLBeginning = "https://image.tmdb.org/t/p/w500";
+        let posterURLEnding;
+        let posterURL;
 
-<!--    fetch(url).then(function(response) {-->
-<!--        response.json().then( function(json) {-->
-<!--            console.log(json.results);-->
+        fetch(url).then(function(response) {
+        response.json().then( function(json) {
+            console.log(json.results);
 
-<!--            posterURLEnding = json.results[0].poster_path;-->
-<!--            posterURL = posterURLBeginning + posterURLEnding;-->
+            posterURLEnding = json.results[0].poster_path;
+            posterURL = posterURLBeginning + posterURLEnding;
 
-<!--            const div = document.getElementById("movieImage");-->
-<!--            div.innerHTML = `-->
-<!--            <img src=${posterURL} height="150px">-->
-<!--            `-->
+            const div = document.getElementById("movieImage");
+            div.innerHTML = `
+            <img src=${posterURL} height="150px">
+           `
 
-<!--        })-->
-<!--    });-->
-<!--};-->
-<!--</script>-->
+       })
+    });
+};
+</script>

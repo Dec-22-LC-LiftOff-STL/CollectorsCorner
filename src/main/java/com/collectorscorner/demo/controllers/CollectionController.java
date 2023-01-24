@@ -473,7 +473,7 @@ public class CollectionController {
     @GetMapping("view-game-collection/{gameCollectionId}")
     public String displayViewGameCollection(Model model, @PathVariable int gameCollectionId) {
 
-        Optional optGameCollection = bookCollectionRepository.findById(gameCollectionId);
+        Optional optGameCollection = gameCollectionRepository.findById(gameCollectionId);
         if (optGameCollection.isPresent()) {
             GameCollection gameCollection = (GameCollection) optGameCollection.get();
             model.addAttribute("gameCollection", gameCollection);
