@@ -27,10 +27,12 @@ public class Book extends AbstractEntity {
     private int year;
     @Column(name = "synopsis", length = 20000)
     private String synopsis;
+    @Column(name = "imageURL", length = 500)
+    private String imageURL;
 
     public Book() { }
 
-    public Book(List<BookCollection> collectionsWithThisBook, Date dateAdded, String title, String genre, String author, int year, String synopsis) {
+    public Book(List<BookCollection> collectionsWithThisBook, Date dateAdded, String title, String genre, String author, int year, String synopsis, String imageURL)  {
         this.collectionsWithThisBook = collectionsWithThisBook;
         this.dateAdded = dateAdded;
         this.title = title;
@@ -38,6 +40,7 @@ public class Book extends AbstractEntity {
         this.author = author;
         this.year = year;
         this.synopsis = synopsis;
+        this.imageURL = imageURL;
     }
 
     public List<BookCollection> getCollectionsWithThisBook() {
@@ -96,6 +99,14 @@ public class Book extends AbstractEntity {
         this.synopsis = synopsis;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -106,6 +117,7 @@ public class Book extends AbstractEntity {
                 ", author='" + author + '\'' +
                 ", year=" + year +
                 ", synopsis='" + synopsis + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 '}';
     }
 }

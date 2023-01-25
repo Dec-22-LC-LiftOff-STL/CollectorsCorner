@@ -15,7 +15,7 @@
 <div th:replace="fragments :: page-header"></div>
 
 <body class="container body-content">
-
+<img src="http://localhost:8080/images/boardGames1.jpg" alt="game" width="235" height="120">
     <h1>Game Search</h1>
 
     <input type="text" id="userSearchTerm" onkeyup="if (event.keyCode === 13) { searchTitle(userSearchTerm); }">
@@ -70,6 +70,7 @@
         <input th:field="${game.minPlayers}" id="minPlayersSubmission" readonly>
         <input th:field="${game.maxPlayers}" id="maxPlayersSubmission" readonly>
         <input th:field="${game.description}" id="synopsisSubmission" readonly>
+        <input th:field="${game.imageURL}" id="imageURLSubmission" readonly>
         <input type="text" name="collectionId" id="collectionId" readonly>
     </form>
 

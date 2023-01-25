@@ -109,6 +109,7 @@ function buildHTMLResultsTable(url) {
             <tr id="rowIndex${i}" class="booksResultsTableRows">
                 <th class="posterCell">
                     <img class="poster" src="${book.volumeInfo.imageLinks.thumbnail}"><br>
+                    <p id="bookImageURL${i}" hidden> ${book.volumeInfo.imageLinks.thumbnail}</p><br>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
                     <form id="userCollectionDropdown${i}" style="display:none;"><br>
                         <button type="button" class="btn btn-success" onclick="addNewBookToDatabase();" style="width:131.84px">Confirm</button>
@@ -175,6 +176,7 @@ function prepareDatabaseInformationForm(i) {
     const bookDate = document.getElementById(`bookDate${i}`).textContent.slice(0,4);
     const bookSynopsis = document.getElementById(`bookSynopsis${i}`).textContent;
     const bookGenres = document.getElementById(`bookGenres${i}`).textContent;
+    const bookImageURL = document.getElementById(`bookImageURL${i}`).textContent;
 
     //Fills in the title on the form on search.html
     document.getElementById("titleSubmission").value = bookTitle;
@@ -184,6 +186,9 @@ function prepareDatabaseInformationForm(i) {
 
     //Fills in the date the book was first added to the database on the form on search.html
     document.getElementById("dateSubmission").value = new Date();
+
+    //Fills in the imageURL on the form on search.html
+    document.getElementById("imageURLSubmission").value = bookImageURL;
 
     //Fills in the genres on the form on search.html
     document.getElementById("genreSubmission").value = bookGenres.split(",")[0]
@@ -206,7 +211,7 @@ function addNewBookToDatabase() {
             return;
         }
         for (let i=0; i<collectionIdsAndBooksArray.length; i++) {
-            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
+            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all books in that collection
             let id = collectionIdsAndBooksArray[i].split('=[Book{')[0];
             let text = collectionIdsAndBooksArray[i].split('=[Book{')[1];
             //If the collection is empty, allow any addition.
@@ -214,8 +219,8 @@ function addNewBookToDatabase() {
                 break;
             }
             // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
-            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
-            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+            // text for an exact match of the book the user is attempting to add to that collection. If there is already an exact match,
+            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the book to the collection)
             if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
                 alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
                 return;
