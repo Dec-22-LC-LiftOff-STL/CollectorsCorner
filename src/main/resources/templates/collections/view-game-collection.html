@@ -7,8 +7,54 @@
 
 <body class="container body-content">
 
-<h1>Hello World!</h1>
-Hello World!
+<H1 class="text-center" th:text="${gameCollection.name}"></H1>
+<H4 class="text-center">
+    <span th:text="'This Game Collection Belongs To: '"></span><a th:href="@{'/collector/' + ${gameCollection.getUser().getId()}}" th:text="${gameCollection.getUser().getScreenName()}"></a>
+</H4>
+<br>
+<div class="container" style="width: 40rem;">
+    <H4 class="text-center" th:text="Description"></H4>
+    <i>
+        <H5 class="card" style="text-center" th:text="${gameCollection.description}"></H5>
+    </i>
+</div>
 
+
+
+<ul th:each="game : ${gameCollection.games}">
+
+
+    <table class="table table-striped" id="table">
+        <thead>
+        <tr>
+            <th class="col-lg-2" id="gameTitleHeader">Game</th>
+            <th class="col-lg-2" id="gamePublisherHeader">Published By</th>
+            <th class="col-lg-2" id="gameGenreHeader">Genre</th>
+            <th class="col-lg-2" id="gameAgesHeader">Number of Players</th>
+            <th class="col-lg-2" id="gameImageHeader">Image</th>
+        </tr>
+        </thead>
+        <tr>
+            <td  class="text-center">
+                <span th:text="${game.title}"></span>
+            </td>
+            <td  class="text-center">
+                <span th:text="${game.creator}"></span>
+            </td>
+            <td class="text-center">
+                <span th:text="${game.genre}"></span>
+            </td>
+            <td class="text-center">
+                <span th:text="${game.minPlayers}"></span>
+                <span th:text="${' - '}"></span>
+                <span th:text="${game.maxPlayers}"></span> <br/>
+            </td>
+            <!--            <td class="text-center">-->
+            <!--                <img height="150px" th:src="${game.imageURL}" alt="game image">-->
+            <!--            </td>-->
+        </tr>
+    </table><hr>
+
+</ul>
 </body>
 </html>
