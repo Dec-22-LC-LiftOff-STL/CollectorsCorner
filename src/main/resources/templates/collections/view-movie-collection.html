@@ -7,9 +7,16 @@
 
 <body class="container body-content">
 
-<h1 class="font-weight-bolder" th:text="'Collection Name: ' +${movieCollection.name}"></h1>
-<H4 th:text="'Collection Description: ' + ${movieCollection.description}"></H4>
-<H2 th:text="'Collector Name: ' +${movieCollection.getUser().getScreenName()}"></H2>
+<H1 class="text-center" th:text="${movieCollection.name}"></H1>
+<H4 class="text-center">
+<span th:text="'This Movie Collection Belongs To: '"></span><a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${movieCollection.getUser().getScreenName()}"></a>
+</H4>
+<br>
+<div class="container" style="width: 40rem;">
+    <H4 class="text-center" th:text="Description"></H4>
+        <H5 class="card" style="text-center" th:text="${movieCollection.description}"></H5>
+</div>
+
 
 
 <ul th:each="movie : ${movieCollection.movies}">
@@ -18,11 +25,11 @@
     <table class="table table-striped" id="table">
         <thead>
         <tr>
-            <th id="movieTitleHeader">Movie</th>
-            <th id="movieYearHeader">Year</th>
-            <th id="movieDirectorHeader">Director</th>
-            <th id="movieGenreHeader">Genre(s)</th>
-            <th id="movieImageHeader">Image</th>
+            <th class="col-lg-2" id="movieTitleHeader">Movie</th>
+            <th class="col-lg-2" id="movieYearHeader">Year</th>
+            <th class="col-lg-2" id="movieDirectorHeader">Director</th>
+            <th class="col-lg-2" id="movieGenreHeader">Genre(s)</th>
+            <th class="col-lg-2" id="movieImageHeader">Image</th>
         </tr>
         </thead>
         <tr>

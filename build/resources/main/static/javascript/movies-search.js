@@ -36,9 +36,9 @@ function buildHTMLResultsTable(url) {
     const arrayOfMovieObjects = json.results;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
     let tableBeginning = `
-    <table class="table table-striped">
+    <table>
         <thead>
-            <tr>
+            <tr class="booksResultsHeaderRow">
                 <th id="posterColumnHeader"></th>
                 <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
                 <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
@@ -72,7 +72,7 @@ function buildHTMLResultsTable(url) {
         }
 
         tableRows += `
-            <tr>
+            <tr class="booksResultsTableRows">
                 <th class="posterCell" style="vertical-align: middle">
                     <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
                     <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
@@ -93,10 +93,11 @@ function buildHTMLResultsTable(url) {
                     <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                 </th>
                 <th class="synopsisCell" style="vertical-align: middle">
-                    <p id="movieSynopsis${i}">${movie.overview}</p>
+                    <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
+                    <a href="/movies/details/${movie.title}" class="readMore">Read more</a>
                 </th>
                 <th class="streamingPlatformsCell" style="vertical-align: middle">
-                    <button class="btn btn-dark" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
+                    <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
                     <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
                 </th>
             </tr>
