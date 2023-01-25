@@ -2,7 +2,9 @@ package com.collectorscorner.demo.models;
 
 import java.lang.Class;
 
+import com.collectorscorner.demo.data.MovieCollectionRepository;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.collectorscorner.demo.models.Movie;
 
@@ -13,7 +15,6 @@ import java.util.List;
 @Entity
 @Component
 public class MovieCollection extends AbstractEntity {
-//@Column(name="Movie")
 
     @ManyToMany
     private List<Movie> movies = new ArrayList<>();
@@ -21,14 +22,25 @@ public class MovieCollection extends AbstractEntity {
     private String name;
     @Column(name = "description")
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public MovieCollection(String name, String description, List movies) {
+    public MovieCollection() { }
+
+    public MovieCollection(String name, String description, List<Movie> movies, User user) {
         this.name = name;
         this.description = description;
         this.movies = movies;
+        this.user = user;
     }
 
-    public MovieCollection() {
+    public void addMovie(Movie movie){
+        this.movies.add(movie);
+    }
+
+    public void removeMovie(Movie movie){
+        this.movies.remove(movie);
     }
 
     public String getName() {
@@ -47,21 +59,12 @@ public class MovieCollection extends AbstractEntity {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "MovieCollection{" +
-                "movies=" + movies +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public User getUser() {
+        return user;
     }
 
-    public void addMovie(Movie movie){
-        this.movies.add(movie);
-    }
-
-    public void removeMovie(Movie movie){
-        this.movies.remove(movie);
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Movie> getMovies() {
@@ -71,12 +74,16 @@ public class MovieCollection extends AbstractEntity {
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
+
+    @Override
+    public String toString() {
+        return "MovieCollection{" +
+                "movies=" + movies +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }
 
-/*
-12/19/2022
-Originally getting the error could not determine JDBC type. the issue came from the Collection specific repositories, because there was no way to tie the list fields books movies and games back to each individual book, movie, or game.... Need to add a field that tracks all collections that have a specific book, movie, or game.
-Added fields collectionsWithThisBook, collectionsWithThisMovie, and collectionsWithThisGame to the book, movie, and game class respectively. These will have a many to many relationship with the collections of each users, represented and mappedBy the fields books, movies, and games in the collection Classes. These individual lists will have a One to Many relationship with movies.
 
-
- */

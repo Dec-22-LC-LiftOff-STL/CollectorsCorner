@@ -1,9 +1,6 @@
 package com.collectorscorner.demo.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,7 +11,7 @@ import java.util.List;
 @Component
 public class Movie extends AbstractEntity {
 
-    @ManyToMany(mappedBy = "movies")
+    @ManyToMany
     private List<MovieCollection> collectionsWithThisMovie = new ArrayList<>();
     @Column(name = "dateAdded")
     private Date dateAdded;
@@ -26,19 +23,21 @@ public class Movie extends AbstractEntity {
     private String director;
     @Column(name = "genre")
     private String genre;
-
+    @Column(name = "genre2")
     private String genre2;
-
+    @Column(name = "genre3")
     private String genre3;
-
-    @Column(name = "synopsis")
+    @Column(name = "synopsis", length = 20000)
     private String synopsis;
 
-    private int userID;
+    @Column(name = "imageURL", length = 500)
+    private String imageURL;
 
-    public Movie() {}
+    public Movie() { }
 
-    public Movie(String title, int year, String director, String genre, String genre2, String genre3, String synopsis, int userID, Date dateAdded) {
+    public Movie(List<MovieCollection> collectionsWithThisMovie, Date dateAdded, String title, int year, String director, String genre, String genre2, String genre3, String synopsis, String imageURL) {
+        this.collectionsWithThisMovie = collectionsWithThisMovie;
+        this.dateAdded = dateAdded;
         this.title = title;
         this.year = year;
         this.director = director;
@@ -46,7 +45,22 @@ public class Movie extends AbstractEntity {
         this.genre2 = genre2;
         this.genre3 = genre3;
         this.synopsis = synopsis;
-        this.userID = userID;
+        this.imageURL = imageURL;
+    }
+
+    public List<MovieCollection> getCollectionsWithThisMovie() {
+        return collectionsWithThisMovie;
+    }
+
+    public void setCollectionsWithThisMovie(List<MovieCollection> collectionsWithThisMovie) {
+        this.collectionsWithThisMovie = collectionsWithThisMovie;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
         this.dateAdded = dateAdded;
     }
 
@@ -106,12 +120,12 @@ public class Movie extends AbstractEntity {
         this.synopsis = synopsis;
     }
 
-    public int getUserID() {
-        return userID;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override
@@ -126,15 +140,8 @@ public class Movie extends AbstractEntity {
                 ", genre2='" + genre2 + '\'' +
                 ", genre3='" + genre3 + '\'' +
                 ", synopsis='" + synopsis + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 '}';
-    }
-
-    public Date getDateAdded() {
-        return dateAdded;
-    }
-
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
     }
 }
 

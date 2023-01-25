@@ -1,9 +1,6 @@
 package com.collectorscorner.demo.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,22 +10,40 @@ import java.util.List;
 @Component
 
 public class GameCollection extends AbstractEntity{
+
     @ManyToMany
     private List<Game> games = new ArrayList<>();
-
     @Column(name = "name")
     private String name;
-
     @Column(name = "description")
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public GameCollection(String name, String description, List games) {
+    public GameCollection() { }
+
+    public GameCollection(List<Game> games, String name, String description, User user) {
+        this.games = games;
         this.name = name;
         this.description = description;
-        this.games = games;
+        this.user = user;
     }
 
-    public GameCollection() {
+    public void addGame(Game game){
+        this.games.add(game);
+    }
+
+    public void removeGame(Game game){
+        this.games.remove(game);
+    }
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
     }
 
     public String getName() {
@@ -47,22 +62,12 @@ public class GameCollection extends AbstractEntity{
         this.description = description;
     }
 
-
-
-    public void addGame(Game game){
-        this.games.add(game);
+    public User getUser() {
+        return user;
     }
 
-    public void removeGame(Game game){
-        this.games.remove(game);
-    }
-
-    public List<Game> getGames() {
-        return games;
-    }
-
-    public void setGames(List<Game> games) {
-        this.games = games;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -71,6 +76,7 @@ public class GameCollection extends AbstractEntity{
                 "games=" + games +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

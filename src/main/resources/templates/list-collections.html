@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="~{fragments :: head}"></head>
+
+<div th:replace="fragments :: page-header"></div>
+
+<body class="container body-content">
+
+    <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
+
+        <table class="collection-listing">
+            <tr th:each="movieCollection : ${MovieCollections}">
+                <td>
+                    <p>
+                        MovieCollection Id:
+                        <a th:href="@{'/view/' + ${movieCollection.id}}" th:text="${movieCollection.id}"></a>
+                    </p>
+                    <p th:text="${'Name: ' + movieCollection.name}"></p>
+                        Movies:
+                        <ul th:each="movie : ${movieCollection.movies}">
+                            <li>
+                                <a th:href="@{'/movies/view/' + ${movie.id}}" th:text="${movie.name}"></a>
+                            </li>
+                        </ul>
+                </td>
+            </tr>
+        </table>
+    </body>
+
+</html>

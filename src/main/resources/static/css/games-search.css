@@ -1,0 +1,106 @@
+p {
+    text-align: center !important;
+    margin-left: 10px !important;
+    margin-bottom: 0 !important;
+}
+
+.gamesResultsHeaderRow {
+    border: 2px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+.gamesResultsTableRows {
+    border: 1px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+#creatorCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
+}
+
+#genreCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
+}
+
+#newSearchButtonLink {
+    color: white !important;
+}
+
+#posterColumnHeader {
+    width: 15%;
+}
+
+.posterCell {
+    width: 15%
+}
+
+#titleColumnHeader {
+    width: 15%;
+    cursor: pointer;
+    padding: 10px;
+}
+
+
+.titleCell {
+    width: 15%;
+}
+
+#yearColumnHeader {
+    width: 5%;
+    cursor: pointer;
+}
+
+.yearCell {
+    width: 5%;
+}
+
+#genre1ColumnHeader {
+    width: 15%;
+    cursor: pointer;
+}
+
+.genre1Cell {
+    width: 15%;
+}
+
+#synopsisColumnHeader {
+    width: 30%;
+}
+
+.synopsisCell {
+    width: 30%
+}
+
+.synopsisText {
+    max-height: 145px;
+    overflow: hidden;
+}
+
+#minPlayersColumnHeader {
+    width: 10%;
+    cursor: pointer;
+}
+
+.minPlayersCell {
+    width: 10%
+}
+
+#maxPlayersColumnHeader {
+    width: 10%;
+    cursor: pointer;
+}
+
+.maxPlayersCell {
+    width: 10%
+}
+
+.hidden {
+    display: none;
+}
+
+.poster {
+    width:55%;
+}
+

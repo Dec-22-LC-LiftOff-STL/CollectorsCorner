@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title th:text="${gameTitle}"></title>-->
+<!--</head>-->
+
+<head th:replace="~{fragments :: head}"></head>
+
+<div th:replace="fragments :: page-header"></div>
+
+<body class="container body-content">
+
+
+<h1 th:href="@{'/games/details/'}" th:text="${gameTitle}" id="gameTitle"></h1>
+
+<div id="gameInfo"></div>
+
+<h3>Collections With This Game:</h3>
+<ol >
+    <span th:each="collection: ${collectionsWithThisGame}">
+        <li>
+        <a th:href="@{'/collections/view-game-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
+        </li>
+
+    </span>
+</ol>
+
+</body>
+</html>
+
+
+<script>
+window.onload = function() {
+
+    gameTitle = document.getElementById("gameTitle").innerHTML;
+    console.log(gameTitle);
+
+    let urlBeginning = "https://api.boardgameatlas.com/api/search?name=";
+    let searchTerm;
+    let urlEnding = "&client_id=P3yvzSB2mt";
+
+    searchTerm = gameTitle;
+
+    let url = urlBeginning + searchTerm + urlEnding;
+
+
+    fetch(url).then(function(response) {
+        response.json().then( function(json) {
+            console.log(json.games[0]);
+
+            const div = document.getElementById("gameInfo");
+            div.innerHTML = `
+            <h3>Published By: ${json.games[0].primary_publisher.name}, ${json.games[0].year_published}</h3>
+            <h4>Synopsis: ${json.games[0].description}</h4>
+            <img src=${json.games[0].image_url} width=500px>
+            <h4>Number of Player: ${json.games[0].min_players} - ${json.games[0].max_players}</h4>
+            <h4>Ages: ${json.games[0].min_age} and older</h4>
+`
+            shoplink = document.createElement('a');
+                shoplink.innerHTML = 'Shop Now';
+                shoplink.setAttribute('title', 'Shop Now');
+                shoplink.setAttribute('href', json.games[0].url);
+                document.body.appendChild(shoplink);
+
+        })
+    });
+};
+</script>
