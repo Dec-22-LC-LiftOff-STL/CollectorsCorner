@@ -83,7 +83,7 @@
                 <br>
 
                 <p>
-                <a th:href="@{'/collector/{collector}(collector=${collector.id})'}" th:text="${'Created by: ' + movieCollection.getUser().getScreenName()}"></a>
+                <a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${'Created by: ' + movieCollection.getUser().getScreenName()}"></a>
                 </p>
 
             </td>
@@ -136,8 +136,6 @@
 
         </tr>
     </table>
-
-
 
 
     <script>
@@ -296,7 +294,7 @@
                 </ul>
                 <br>
                 <p>
-                    <a th:href="@{'/books/details/'}" th:text="${'Created by: ' + bookCollection.getUser().getScreenName()}"></a>
+                    <a th:href="@{'/collector/' + ${bookCollection.getUser().getId()}}" th:text="${'Created by: ' + bookCollection.getUser().getScreenName()}"></a>
                 </p>
             </td>
 
@@ -460,7 +458,7 @@ function bookCollectionFilter() {
                 </ul>
                 <br>
                 <p>
-                    <a th:href="@{'/games/details/'}" th:text="${'Created by: ' + gameCollection.getUser().getScreenName()}"></a>
+                    <a th:href="@{'/collector/' + ${gameCollection.getUser().getId()}}" th:text="${'Created by: ' + gameCollection.getUser().getScreenName()}"></a>
                 </p>
             </td>
 

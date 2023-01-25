@@ -26,7 +26,7 @@
 <ol >
     <span th:each="collection: ${collectionsWithThisMovie}">
         <li>
-        <a th:href="@{'../collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name + '  Created by: ' + collection.getUser().getScreenName()}"></a>
+            <a th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
         </li>
 
     </span>
@@ -64,7 +64,7 @@ window.onload = function() {
             div.innerHTML = `
             <h3>Release Date: ${json.results[0].release_date}</h3>
             <h4>Synopsis: ${json.results[0].overview}</h4>
-            <img src=${posterURL}>
+            <img src=${posterURL} width=500px>
             `
 
         })

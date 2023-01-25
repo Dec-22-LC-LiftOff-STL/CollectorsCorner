@@ -15,7 +15,7 @@
 <ol >
     <span th:each="collection: ${collectionsWithThisBook}">
         <li>
-        <a th:href="@{'collection/view/' + ${collection.id}}" th:text="${collection.name + '  Created by: ' + collection.getUser().getScreenName()}"></a>
+         <a th:href="@{'/collections/view-book-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
         </li>
 
     </span>
@@ -47,7 +47,7 @@ window.onload = function() {
             div.innerHTML = `
             <h3>Author(s): ${json.items[0].volumeInfo.authors}</h3>
             <h4>Synopsis: ${json.items[0].volumeInfo.description}</h4>
-            <img src=${json.items[0].volumeInfo.imageLinks.thumbnail}>
+            <img src=${json.items[0].volumeInfo.imageLinks.thumbnail} width=200px>
             <h3>Published By: ${json.items[0].volumeInfo.publisher}, ${json.items[0].volumeInfo.publishedDate}</h3>
             `
             shoplink = document.createElement('a');
