@@ -15,10 +15,11 @@
 <div th:replace="fragments :: page-header"></div>
 
 <body class="container body-content">
-
+<img src="http://localhost:8080/images/bookCollection.jpg" alt="book" width="235" height="120">
 <h1>Book Search</h1>
 <form>
   <input type="text" id="userSearchTerm" onkeypress="if (event.keyCode === 13) { handleSearch(); }">
+
   <select id="searchTypeDropdown" style="height:26px;">
     <option value="title">Title</option>
     <option value="author">Author</option>
@@ -27,7 +28,7 @@
   <button type="button" id="searchButton">Search</button>
 </form> <hr>
 
-<button id="newSearchButton" class="btn btn-primary"><a href="http://localhost:8080/books/search" style="color:inherit;">New Search</a></button><br><br>
+<button id="newSearchButton" class="btn btn-primary"><a href="http://localhost:8080/books/search" style="color:inherit;">New Search</a></button>
 <button id="showFiltersButton" style="display:none;" class="btn btn-primary" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes();">Show Filters</button>
 
 <hr>
@@ -82,6 +83,7 @@
   <input th:field="${book.author}" id="authorSubmission">
   <input th:field="${book.year}" id="yearSubmission">
   <input th:field="${book.synopsis}" id="synopsisSubmission">
+  <input th:field="${book.imageURL}" id="imageURLSubmission" readonly>
   <input type="text" name="collectionId" id="collectionId">
 </form>
 

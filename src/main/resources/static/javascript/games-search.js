@@ -69,6 +69,7 @@ function buildHTMLResultsTable(url) {
             <tr id="rowIndex${i}" class="gamesResultsTableRows">
                 <th class="posterCell text-center" style="vertical-align: middle; width: 225px">
                     <img class="poster" src="${game.thumb_url}"><br><br>
+                    <p id="gameImageURL${i}" hidden> ${game.thumb_url}</p><br>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
                     <form id="userCollectionDropdown${i}" style="display:none;"><br>
                         <button type="button" class="btn btn-success" onclick="addNewGameToDatabase();">Confirm</button>
@@ -142,7 +143,7 @@ function prepareDatabaseInformationForm(i) {
     const gameMinPlayers = document.getElementById(`gameMinPlayers${i}`).textContent;
     const gameMaxPlayers = document.getElementById(`gameMaxPlayers${i}`).textContent;
     const primaryGenre = document.getElementById(`primaryGenre${i}`).textContent.replace('eX8uuNlQkQ', 'Card Game').replace('wTLJSVEbm6', 'Word War I').replace('fl3TogdUzX', 'World War II').replace('ZTneo8TaIO', 'Fantasy').replace('N0TkEGfEsF', 'Economic').replace('3B3QpKvXD3', 'Sci-Fi').replace('ODWOjWAJj3', 'City Building').replace('QAYkTHK1Dd', 'Medieval').replace('KUBCKBkGxV', 'Adventure').replace('upXZ8vNfNO', 'Fighting').replace('buDTYyPw4D', 'Territory Building').replace('X8J7RM6dxX', 'Party Game').replace('a8NM5cugJX', 'Ancient').replace('PinhJrhnxU', 'Bluffing').replace('MHkqIVxwtx', 'Mythology').replace('bCBXJy9qDw', 'Deduction').replace('Wr8uXcoR9p', 'Farming').replace('mavSOM8vjH', 'Dice').replace('MWoxgHrOJD', 'Animals').replace('yq6hVlbM2R', 'Exploration').replace('329DxyFL9D', 'Civilization').replace('jZEDOpx07e', 'Negotiation').replace('zyj9ZK3mHB', 'Resource Management').replace('TKQncFVX74', 'Political').replace('hBqZ3Ar4RJ', 'Abstract').replace('cAIkk5aLdQ', 'Horror').replace('TYnxiuiI3X', 'Humor').replace('7rV11PKqME', 'Family Game').replace('WVMOS3s2pb', 'Puzzle').replace('gsekjrPJz0', 'Environmental').replace('v4SfYtS2Lr', 'Expansion').replace('ge8pIhEUGE', 'Cooperative').replace('dO9HVl2TW7', 'Novel-based').replace('jX8asGGR6o', 'Wargame').replace('FC6ElKI9tk', 'Miniatures').replace('0MdRqhkNpw', 'Space Exploration').replace('4mOtRRwSoj', 'American West').replace('AeWXMxbm91', 'Medical').replace('tQGLgwdbYH', 'Racing').replace('JwHcKqxh33', 'Trains').replace('85OKv8p5Ow', '4x').replace('Hc6vcim5DS', 'Spies/Secret Agents').replace('ZhlfIPxYsw', 'Adult').replace('Sod2YBWMKi', 'TV & Movies').replace('TR4CiP8Huj', 'Travel').replace('zqFmdU4Fp2', 'Industry/Manufacturing').replace('Kk70K0524Z', 'Murder/Mystery').replace('CWYOF9xu7O', 'Transportation').replace('rrvd68LjOR', 'Kickstarter').replace('B3NRLMK4xD', 'Educational').replace('VzyslQJGrG', 'Solo/Solitaire').replace('9EIayX6n5a', 'Pirates').replace('vqZ5XzGWQD', 'Nautical').replace('djokexoK0U', 'Video Game').replace('PzWI2uaif0', 'Real-Time').replace('nuHYRFmMjU', 'Renaissance').replace('bKrxqD9mYc', 'Dexterity').replace('HKaYVNIxAJ', "Children's Game").replace('rHvAx4hH2f', 'Word Game');
-
+    const gameImageURL = document.getElementById(`gameImageURL${i}`).textContent;
     //Fills in the title on the form on search.html
     document.getElementById("titleSubmission").value = gameTitle;
 
@@ -151,6 +152,9 @@ function prepareDatabaseInformationForm(i) {
 
     //Fills in the date the game was first added to the database on the form on search.html
     document.getElementById("dateSubmission").value = new Date();
+
+      //Fills in the imageURL on the form on search.html
+        document.getElementById("imageURLSubmission").value = gameImageURL;
 
     //Fills in the genres on the form on search.html
     document.getElementById("genreSubmission").value = primaryGenre;
@@ -184,8 +188,8 @@ function addNewGameToDatabase() {
                 break;
             }
             // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
-            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
-            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+            // text for an exact match of the game the user is attempting to add to that collection. If there is already an exact match,
+            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the game to the collection)
             if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
                 alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
                 return;
