@@ -8,6 +8,12 @@
 <body class="container body-content">
 
 <h1 th:href="@{'/books/details/'}" th:text="${bookTitle}" id="bookTitle"></h1>
+<p id="bookAuthor", style="display:none"
+   th:text="${foundBookAuthor}">
+</p>
+<p id="bookYear", style="display:none"
+   th:text="${foundBookYear}">
+</p>
 
 <div id="bookInfo"></div>
 
@@ -28,13 +34,17 @@
 window.onload = function() {
 
     bookTitle = document.getElementById("bookTitle").innerHTML;
+    bookAuthor = document.getElementById("bookAuthor").innerHTML;
+    bookYear = document.getElementById("bookYear").innerHTML;
     console.log(bookTitle);
+    console.log(bookAuthor);
+    console.log(bookYear);
 
     let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=";
     let searchTerm;
     let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY";
 
-    searchTerm = bookTitle;
+    searchTerm = bookTitle + " " + bookAuthor + " " + bookYear;
 
     let url = urlBeginning + searchTerm + urlEnding;
 

@@ -93,6 +93,7 @@ public class BooksController {
 
         Iterable<BookCollection> allBookCollections = bookCollectionRepository.findAll();
         int foundBookYear = 0;
+        String foundBookAuthor = "";
         String collectorName = "";
         ArrayList<BookCollection> foundBooks = new ArrayList<>();
         for (BookCollection collection : allBookCollections){
@@ -100,6 +101,7 @@ public class BooksController {
                 if (collection.getBooks().get(i).getTitle().equals(bookTitle)){
                     foundBooks.add(collection);
                     foundBookYear = collection.getBooks().get(i).getYear();
+                    foundBookAuthor = collection.getBooks().get(i).getAuthor();
                     collectorName = collection.getUser().getUsername();
                 }
             }
@@ -109,6 +111,7 @@ public class BooksController {
         model.addAttribute("bookTitle", bookTitle);
         model.addAttribute("books", bookRepository.findAll());
         model.addAttribute("foundBookYear", foundBookYear);
+        model.addAttribute("foundBookAuthor", foundBookAuthor);
         model.addAttribute("collectorName", collectorName);
 
         return "books/details";
