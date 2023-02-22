@@ -2,33 +2,153 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" th:href="@{../CSS/movies-list.css}">
-    <script type="text/javascript" th:src="@{../javascript/movies-list.js}"></script>
+    <script th:src="@{/javascript/movies-list.js}"></script>
     <title>Collectors Corner</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 
 <div th:replace="fragments :: page-header"></div>
 
-<div class="container body-content">
 
-<body>
 
-<h3>Most Popular Movies Now:</h3>
-<button onclick="fetchAction()">Action</button>
-<button onclick="fetchAdventure()">Adventure</button>
-<button onclick="fetchAnimation()">Animation</button>
-<button onclick="fetchComedy()">Comedy</button>
-<button onclick="fetchScifi()">Sci-Fi</button>
-<br>
-<h3>Most Popular Movies of:</h3>
-<button onclick="fetchMostPopular2012()">2012</button>
-<button onclick="fetchMostPopular2013()">2013</button>
-<button onclick="fetchMostPopular2014()">2014</button>
-<hr>
+<body class="container body-content"> <br><br><br>
+
+<form>
+    <select id="collectionNamesDropdown">
+        <option value="">Select a collection</option>
+        <th:block th:each="collection : ${movieCollections}">
+        <span th:if="${collection.user.id == cookie}">
+            <option th:text="${collection.name}" th:value="${collection.id}"></option>
+        </span>
+        </th:block>
+    </select>
+</form><hr>
+
+<div>
+    <h3>Most Popular Movies Now:</h3>
+    <button onclick="fetchAction()">Action</button>
+    <button onclick="fetchAdventure()">Adventure</button>
+    <button onclick="fetchAnimation()">Animation</button>
+    <button onclick="fetchComedy()">Comedy</button>
+    <button onclick="fetchScifi()">Sci-Fi</button>
+    <button onclick="fetchDrama()">Drama</button>
+    <button onclick="fetchFamily()">Family</button>
+    <button onclick="fetchFantasy()">Fantasy</button>
+    <button onclick="fetchHistory()">History</button>
+    <button onclick="fetchHorror()">Horror</button>
+    <button onclick="fetchMusic()">Music</button>
+    <button onclick="fetchMystery()">Mystery</button>
+    <button onclick="fetchRomance()">Romance</button>
+    <button onclick="fetchThriller()">Thriller</button>
+    <button onclick="fetchWar()">War</button>
+    <button onclick="fetchWestern()">Western</button>
+    <button onclick="fetchScifi()">Sci-Fi</button>
+</div>
+
+<div id="mostPopularByYear">
+    <h3>Most Popular Movies of:</h3>
+    <button onclick="fetchByYear(1950)">1950</button>
+    <button onclick="fetchByYear(1951)">1951</button>
+    <button onclick="fetchByYear(1952)">1952</button>
+    <button onclick="fetchByYear(1953)">1953</button>
+    <button onclick="fetchByYear(1954)">1954</button>
+    <button onclick="fetchByYear(1955)">1955</button>
+    <button onclick="fetchByYear(1956)">1956</button>
+    <button onclick="fetchByYear(1957)">1957</button>
+    <button onclick="fetchByYear(1958)">1958</button>
+    <button onclick="fetchByYear(1959)">1959</button>
+    <br>
+    <button onclick="fetchByYear(1970)">1960</button>
+    <button onclick="fetchByYear(1961)">1961</button>
+    <button onclick="fetchByYear(1962)">1962</button>
+    <button onclick="fetchByYear(1963)">1963</button>
+    <button onclick="fetchByYear(1964)">1964</button>
+    <button onclick="fetchByYear(1965)">1965</button>
+    <button onclick="fetchByYear(1966)">1966</button>
+    <button onclick="fetchByYear(1967)">1967</button>
+    <button onclick="fetchByYear(1968)">1968</button>
+    <button onclick="fetchByYear(1969)">1969</button>
+    <br>
+    <button onclick="fetchByYear(1970)">1970</button>
+    <button onclick="fetchByYear(1971)">1971</button>
+    <button onclick="fetchByYear(1972)">1972</button>
+    <button onclick="fetchByYear(1973)">1973</button>
+    <button onclick="fetchByYear(1974)">1974</button>
+    <button onclick="fetchByYear(1975)">1975</button>
+    <button onclick="fetchByYear(1976)">1976</button>
+    <button onclick="fetchByYear(1977)">1977</button>
+    <button onclick="fetchByYear(1978)">1978</button>
+    <button onclick="fetchByYear(1979)">1979</button>
+    <br>
+    <button onclick="fetchByYear(1980)">1980</button>
+    <button onclick="fetchByYear(1981)">1981</button>
+    <button onclick="fetchByYear(1982)">1982</button>
+    <button onclick="fetchByYear(1983)">1983</button>
+    <button onclick="fetchByYear(1984)">1984</button>
+    <button onclick="fetchByYear(1985)">1985</button>
+    <button onclick="fetchByYear(1986)">1986</button>
+    <button onclick="fetchByYear(1987)">1987</button>
+    <button onclick="fetchByYear(1988)">1988</button>
+    <button onclick="fetchByYear(1989)">1989</button>
+    <br>
+    <button onclick="fetchByYear(1990)">1990</button>
+    <button onclick="fetchByYear(1991)">1991</button>
+    <button onclick="fetchByYear(1992)">1992</button>
+    <button onclick="fetchByYear(1993)">1993</button>
+    <button onclick="fetchByYear(1994)">1994</button>
+    <button onclick="fetchByYear(1995)">1995</button>
+    <button onclick="fetchByYear(1996)">1996</button>
+    <button onclick="fetchByYear(1997)">1997</button>
+    <button onclick="fetchByYear(1998)">1998</button>
+    <button onclick="fetchByYear(1999)">1999</button>
+    <br>
+    <button onclick="fetchByYear(2000)">2000</button>
+    <button onclick="fetchByYear(2001)">2001</button>
+    <button onclick="fetchByYear(2002)">2002</button>
+    <button onclick="fetchByYear(2003)">2003</button>
+    <button onclick="fetchByYear(2004)">2004</button>
+    <button onclick="fetchByYear(2005)">2005</button>
+    <button onclick="fetchByYear(2006)">2006</button>
+    <button onclick="fetchByYear(2007)">2007</button>
+    <button onclick="fetchByYear(2008)">2008</button>
+    <button onclick="fetchByYear(2009)">2009</button>
+    <br>
+    <button onclick="fetchByYear(2010)">2010</button>
+    <button onclick="fetchByYear(2011)">2011</button>
+    <button onclick="fetchByYear(2012)">2012</button>
+    <button onclick="fetchByYear(2013)">2013</button>
+    <button onclick="fetchByYear(2014)">2014</button>
+    <button onclick="fetchByYear(2015)">2015</button>
+    <button onclick="fetchByYear(2016)">2016</button>
+    <button onclick="fetchByYear(2017)">2017</button>
+    <button onclick="fetchByYear(2018)">2018</button>
+    <button onclick="fetchByYear(2019)">2019</button>
+</div>
+
+<div id="mostPopularForeign">
+    <h3>Popular Foreign Films of 2022</h3>
+    <button onclick="fetchChinese()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Emojione_1F1E8-1F1F3.svg/1024px-Emojione_1F1E8-1F1F3.svg.png"></button>
+    <button onclick="fetchHindi()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Emojione_1F1EE-1F1F3.svg/1024px-Emojione_1F1EE-1F1F3.svg.png"></button>
+    <button onclick="fetchSpanish()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Emojione_1F1EA-1F1F8.svg"></button>
+    <button onclick="fetchFrench()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Emojione_1F1EB-1F1F7.svg/1024px-Emojione_1F1EB-1F1F7.svg.png"></button>
+    <button onclick="fetchGerman()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Emojione_1F1E9-1F1EA.svg/1024px-Emojione_1F1E9-1F1EA.svg.png"></button>
+    <button onclick="fetchHebrew()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Emojione_1F1EE-1F1F1.svg/1024px-Emojione_1F1EE-1F1F1.svg.png"></button>
+    <button onclick="fetchRussian()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Emojione_1F1F7-1F1FA.svg/1024px-Emojione_1F1F7-1F1FA.svg.png"></button>
+    <button onclick="fetchJapanese()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Emojione_1F1EF-1F1F5.svg/1024px-Emojione_1F1EF-1F1F5.svg.png"></button>
+    <button onclick="fetchKorean()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Emojione_1F1F0-1F1F7.svg/1024px-Emojione_1F1F0-1F1F7.svg.png"></button>
+    <button onclick="fetchUkrainian()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Emojione_1F1FA-1F1E6.svg/1024px-Emojione_1F1FA-1F1E6.svg.png"></button>
+    <button onclick="fetchTurkish()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Emojione_1F1F9-1F1F7.svg/1024px-Emojione_1F1F9-1F1F7.svg.png"></button>
+    <button onclick="fetchBosnian()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Emojione_1F1E7-1F1E6.svg/1024px-Emojione_1F1E7-1F1E6.svg.png"></button>
+    <button onclick="fetchZulu()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Emojione_1F1FF-1F1E6.svg/1920px-Emojione_1F1FF-1F1E6.svg.png"></button>
+</div>
+
+</div>
 
 <div id="resultsTable"></div>
 
-<!--We can add the "hidden" attribute to the input tags below for a more pleasant appearance. Keeping
-    them visible may be helpful while coding and testing, though-->
+
 
 <!--Property userID below will be the ID/username the user is logged in as once we get authentication up and running-->
 <form method="post">
