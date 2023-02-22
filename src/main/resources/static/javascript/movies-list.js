@@ -1,4 +1,17 @@
-
+var mySwiper = new Swiper('.swiper-container', {
+  direction: 'horizontal',
+  loop: true,
+  pagination: {
+    el: '.swiper-pagination',
+  },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+})
 
 // Boolean switch variables. Used when alternating between ASC/DESC sorting.
 let isAscendingTitle = true;
@@ -20,20 +33,7 @@ function buildHTMLResultsTable(url) {
     response.json().then(function(json) {
     const arrayOfMovieObjects = json.results;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
-    let tableBeginning = `
-    <table>
-        <thead>
-            <tr class="booksResultsHeaderRow">
-                <th id="posterColumnHeader"></th>
-                <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
-                <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
-                <th id="genre1ColumnHeader" onclick="sortTableByGenre1()">Genre</th>
-                <th id="synopsisColumnHeader">Synopsis</th>
-                <th id="addToCollectionHeader"></th>
-            </tr>
-        </thead>
-        <tbody>
-    `;
+    let tableBeginning = ` <table> `;
     let tableRows = "";
     for (let i = 0; i < arrayOfMovieObjects.length; i++) {
         const movie = arrayOfMovieObjects[i];
@@ -58,37 +58,30 @@ function buildHTMLResultsTable(url) {
 
         tableRows += `
             <tr class="booksResultsTableRows">
-                <th class="posterCell" style="vertical-align: middle">
-                    <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
-                    <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
-                    <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
-                    <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
-                    <form id="confirmButtonDropdown${i}" style="display:none;"><br>
-                        <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
-                    </form>
-                </th>
-                <th class="titleCell" style="vertical-align: middle">
-                    <a id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
-                </th>
-                <th class="yearCell" style="vertical-align: middle">
-                    <p id="movieDate${i}">${movie.release_date}</p>
-                </th>
-                <th class="genre1Cell" style="vertical-align: middle">
-                    <p id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
-                    <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
-                </th>
-                <th class="synopsisCell" style="vertical-align: middle">
-                    <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
-                    <a href="/movies/details/${movie.title}" class="readMore">Read more</a>
-                </th>
-                <th class="streamingPlatformsCell" style="vertical-align: middle">
-                    <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
-                    <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
-                </th>
+                <td class="posterCell" style="vertical-align: middle; display:flex;">
+                    <div class="posterColumn">
+                        <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
+                        <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
+                    </div>
+                    <div class="infoColumn">
+                        <a style="font-size: 36px" id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
+                        <p style="font-size: 22px"id="movieDate${i}">${movie.release_date}</p>
+                        <p style="font-size: 16px" id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
+                        <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
+                        <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
+                        <p style="font-size:16px" id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
+                        <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
+                        <form id="confirmButtonDropdown${i}" style="display:none;"><br>
+                            <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
+                        </form>
+                        <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
+                        <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
+                        </div>
+                </td>
             </tr>
             `;
     }
-    let tableEnding = `</tbody></table>`;
+    let tableEnding = ` </table> `;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
     });
     });

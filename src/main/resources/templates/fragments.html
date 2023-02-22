@@ -38,6 +38,7 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Add Items to Your Collections
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li><a th:href="@{/movies/list}">Browse Movies</a></li>
                         <li><a th:href="@{/movies/search}">Search Movies</a></li>
                         <li><a th:href="@{/books/search}">Search Books</a></li>
                         <li><a th:href="@{/games/search}">Search Games</a></li>
@@ -52,10 +53,58 @@
             </ul>
         </div>
     </div>
-
 </div>
 
-
+<div th:fragment="movies-navbar" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
+    </div>
+    <div class="navbar-header">
+        <a th:href="@{/search-collections}" class="navbar-brand">Collector's Corner</a>
+    </div>
+    <div class="container">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/search-collections}">Browse Collections</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Add Collections
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/collections/create-movie-collection}">Add Movie Collection</a></li>
+                        <li><a th:href="@{/collections/create-book-collection}">Add Book Collection</a></li>
+                        <li><a th:href="@{/collections/create-game-collection}">Add Game Collection</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Add Items to Your Collections
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/movies/list}">Browse Movies</a></li>
+                        <li><a th:href="@{/movies/search}">Search Movies</a></li>
+                        <li><a th:href="@{/books/search}">Search Books</a></li>
+                        <li><a th:href="@{/games/search}">Search Games</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class=""><a th:href="@{/logout}">Log Out</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class=""><a th:href="@{/collections/delete}">Delete Collections</a></li>
+            </ul>
+        </div>
+        <form>
+            <select id="collectionNamesDropdown">
+                <option value="">Select a collection</option>
+                <th:block th:each="collection : ${movieCollections}">
+                    <span th:if="${collection.user.id == cookie}">
+                        <option th:text="${collection.name}" th:value="${collection.id}"></option>
+                    </span>
+                </th:block>
+            </select>
+        </form>
+    </div>
+</div>
 
 
 
