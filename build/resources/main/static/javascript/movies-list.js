@@ -1,23 +1,3 @@
-var mySwiper = new Swiper('.swiper-container', {
-  direction: 'horizontal',
-  loop: true,
-  pagination: {
-    el: '.swiper-pagination',
-  },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  scrollbar: {
-    el: '.swiper-scrollbar',
-  },
-})
-
-// Boolean switch variables. Used when alternating between ASC/DESC sorting.
-let isAscendingTitle = true;
-let isAscendingYear= true;
-let isAscendingGenre = true;
-
 // Listens for changes in the "User Collection" dropdown menu. Collection names are displayed, but
 // the value for each option is linked to the Collection's ID.
 window.onload = function() {
@@ -26,6 +6,7 @@ window.onload = function() {
         document.getElementById("collectionId").value = selectedValue;
     });
 }
+
 
 // Uses template literal backticks (``) and loops to construct the HTML for the results table <div>.
 function buildHTMLResultsTable(url) {
@@ -65,7 +46,7 @@ function buildHTMLResultsTable(url) {
                     </div>
                     <div class="infoColumn">
                         <a style="font-size: 36px" id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
-                        <p style="font-size: 22px"id="movieDate${i}">${movie.release_date}</p>
+                        <p style="font-size: 22px" id="movieDate${i}">${movie.release_date}</p>
                         <p style="font-size: 16px" id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                         <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                         <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
@@ -75,8 +56,10 @@ function buildHTMLResultsTable(url) {
                             <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
                         </form>
                         <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
+                        <button class="btn btn-primary" onclick="buildCastHTMLDiv(themoviedbApiId${i}, castDiv${i}); toggleCastDiv(castDiv${i})">Cast</button>
                         <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
-                        </div>
+                        <div id="castDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
+                    </div>
                 </td>
             </tr>
             `;
@@ -87,6 +70,215 @@ function buildHTMLResultsTable(url) {
     });
 }
 
+//Called when the "Add to Collection" button is clicked. Fills out the hidden form with id="databaseInformation"
+//This information is submitted and processed if everything passes the validation in place.
+function prepareDatabaseInformationForm(i) {
+    const themoviedbApiId = document.getElementById(`themoviedbApiId${i}`).textContent;
+    const movieTitle = document.getElementById(`movieTitle${i}`).textContent;
+    const movieDate = document.getElementById(`movieDate${i}`).innerHTML;
+    const movieSynopsis = document.getElementById(`movieSynopsis${i}`).textContent;
+    const movieGenres = document.getElementById(`movieGenres${i}`).textContent;
+    const movieImageURL = document.getElementById(`movieImageURL${i}`).textContent;
+
+
+    //Fills in the title on the form on search.html
+    document.getElementById("titleSubmission").value = movieTitle;
+
+    //Fills in the date on the form on search.html
+    document.getElementById("dateSubmission").value = new Date();
+
+   //Fills in the imageURL on the form on search.html
+    document.getElementById("imageURLSubmission").value = movieImageURL;
+
+    //Fills in the genres on the form on search.html
+    document.getElementById("genreSubmission").value = movieGenres.split(",")[0].replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western");
+
+    if (movieGenres.split(",")[1] !== undefined) {
+        document.getElementById("genre2Submission").value = movieGenres.split(",")[1].replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western");
+    }
+    if (movieGenres.split(",")[2] !== undefined) {
+        document.getElementById("genre3Submission").value = movieGenres.split(",")[2].replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western");
+    }
+    //If there is <3 genres, make the missing ones an empty string.
+    if (movieGenres.split(",")[1] === undefined) {
+        document.getElementById("genre2Submission").value = "";
+    }
+    if (movieGenres.split(",")[2] === undefined) {
+        document.getElementById("genre3Submission").value = "";
+    }
+
+
+
+    //Fills in the director on the form on search.html form -- director is NOT a default property on the API movie objects
+    //This property must be retrieved via a separate fetch using *TheMovieDatabase's* ID for the movie.
+    let directorFetchURLBeginning = "https://api.themoviedb.org/3/movie/"
+    let movieId = themoviedbApiId;
+    let directorFetchURLEnding = "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&sort_by=vote_count.desc&with_original_language=en&year=2022&primary_release_date.gte=2022-11-01"
+
+    let directorURL = directorFetchURLBeginning + movieId + directorFetchURLEnding;
+
+    let director = fetch(directorURL)
+    .then(response => response.json())
+    .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Director'))
+        let printDirector = async () => {
+            let a = await director;
+            let directorSubmission = document.getElementById("directorSubmission").setAttribute("value", a[0].name);
+        };
+        printDirector();
+
+
+    //Fills in the release year on the form on search.html form
+    document.getElementById("yearSubmission").value = movieDate.slice(0,4);
+
+    //Fills in the release year on the form on search.html form
+    document.getElementById("synopsisSubmission").value = movieSynopsis;
+}
+
+function fetchByActorName(name) {
+    let urlBeginning = "https://api.themoviedb.org/3/search/person?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US&query=";
+    let selectedName = name;
+    let urlEnding = "&page=1&include_adult=false";
+    let url = urlBeginning + selectedName + urlEnding;
+    genericActorFetch(url);
+}
+
+function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
+    urlBeginning = "https://api.themoviedb.org/3/movie/";
+    id = apiClientMovieId.innerHTML;
+    urlEnding = "/watch/providers?api_key=16012a33d67f443093071edcbcdfc9d0";
+
+    url = urlBeginning + id + urlEnding;
+
+    fetch(url)
+        .then(function(response) {
+        response.json().then(function(json) {
+
+        let streamingServicesHTML = "";
+
+        for (let i = 0; i < json.results.US.flatrate.length; i++) {
+            let streamingService = json.results.US.flatrate[i];
+            if (streamingService.provider_name !== "HBO Max Amazon Channel" && streamingService.provider_name !== "Starz Amazon Channel") {
+                let html = `<img src="https://www.themoviedb.org/t/p/original/${streamingService.logo_path}" alt="${streamingService.display_name}"/>`;
+                streamingServicesHTML += html;
+            }
+        }
+        document.getElementById(streamingDivId.id).innerHTML = streamingServicesHTML;
+        });
+        })
+}
+
+function buildCastHTMLDiv(apiClientMovieId, castDivId) {
+    urlBeginning = "https://api.themoviedb.org/3/movie/";
+    id = apiClientMovieId.innerHTML;
+    urlEnding = "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US";
+
+    url = urlBeginning + id + urlEnding;
+    console.log(url)
+    fetch(url)
+        .then(function(response) {
+        response.json().then(function(json) {
+
+        let castHTML = "";
+        console.log(json.cast)
+        for (let i = 0; i < 6; i++) {
+            let cast = json.cast[i];
+            if (cast.profile_path === null) {
+                break;
+            }
+                let html = `
+                <div style="outline: 3px solid white; max-width:160px">
+                    <img src="https://www.themoviedb.org/t/p/original/${cast.profile_path}" style="width:150px; padding: 5%;">
+                    <p style="text-align: center; font-size: 14px; overflow-wrap: anywhere">${cast.name}</p>
+                    <p style="text-align: center; font-size: 11px; overflow-wrap: anywhere">${cast.character}</p>
+                </div>
+                `;
+                castHTML += html;
+        }
+        document.getElementById(castDivId.id).innerHTML = castHTML;
+        console.log(document.getElementById(castDivId.id).innerHTML);
+        });
+        })
+}
+
+function toggleStreamingServicesDiv(chosenMovie) {
+    let streamingServiceIconsDiv = document.getElementById(chosenMovie.id);
+
+    if (streamingServiceIconsDiv.classList.contains("hidden")) {
+        streamingServiceIconsDiv.classList.remove("hidden");
+    } else {
+    streamingServiceIconsDiv.classList.add("hidden");
+    }
+}
+
+function toggleCastDiv(chosenMovie) {
+    let castDiv = document.getElementById(chosenMovie.id);
+
+    if (castDiv.classList.contains("hidden")) {
+        castDiv.classList.remove("hidden");
+    } else {
+    castDiv.classList.add("hidden");
+    }
+}
+
+function genericActorFetch(url) {
+    fetch(url).then(function(response) {
+    response.json().then(function(json) {
+    const arrayOfMovieObjects = json.results[0].known_for;
+    console.log(arrayOfMovieObjects, typeof arrayOfMovieObjects);
+        const resultsTable = document.getElementById("resultsTable"); //See search.html template
+        let tableBeginning = ` <table> `;
+        let tableRows = "";
+        for (let i = 0; i < arrayOfMovieObjects.length; i++) {
+            const movie = arrayOfMovieObjects[i];
+            //Validation - reject API query results without a release_date property.
+            if (!movie.release_date) {
+                break;
+            }
+            //Validation - convert yyyy/mm/dd format to yyyy.
+            movie.release_date = movie.release_date.slice(0,4);
+            //Validation - reject API query results without a poster_path property.
+            if (movie.poster_path === null) {
+                break;
+            }
+            //Validation - reject API query results without a genre_ids property.
+            if (movie.genre_ids[0] === undefined) {
+                break;
+            }
+            //Validation - reject API query results without an overview property.
+            if (movie.overview === "") {
+                break;
+            }
+
+            tableRows += `
+                <tr class="booksResultsTableRows">
+                    <td class="posterCell" style="vertical-align: middle; display:flex;">
+                        <div class="posterColumn">
+                            <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
+                            <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
+                        </div>
+                        <div class="infoColumn">
+                            <a style="font-size: 36px" id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
+                            <p style="font-size: 22px" id="movieDate${i}">${movie.release_date}</p>
+                            <p style="font-size: 16px" id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
+                            <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
+                            <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
+                            <p style="font-size:16px" id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
+                            <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
+                            <form id="confirmButtonDropdown${i}" style="display:none;"><br>
+                                <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
+                            </form>
+                            <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
+                            <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
+                            </div>
+                    </td>
+                </tr>
+                `;
+        }
+        let tableEnding = ` </table> `;
+        resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
+        });
+        });
+    }
 
 function fetchAction() {
 	let url = "https://api.themoviedb.org/3/discover/movie?with_genres=28&api_key=16012a33d67f443093071edcbcdfc9d0";
@@ -94,18 +286,18 @@ function fetchAction() {
 }
 
 function fetchAdventure() {
-	let url = "https://api.themoviedb.org/3/discover/movie?with_genres=12&api_key=16012a33d67f443093071edcbcdfc9d0";
-	buildHTMLResultsTable(url);
+    let url = "https://api.themoviedb.org/3/discover/movie?with_genres=12&api_key=16012a33d67f443093071edcbcdfc9d0";
+    buildHTMLResultsTable(url);
 }
 
 function fetchAnimation() {
-	let url = "https://api.themoviedb.org/3/discover/movie?with_genres=16&api_key=16012a33d67f443093071edcbcdfc9d0";
-	buildHTMLResultsTable(url);
+    let url = "https://api.themoviedb.org/3/discover/movie?with_genres=16&api_key=16012a33d67f443093071edcbcdfc9d0";
+    buildHTMLResultsTable(url);
 }
 
 function fetchComedy() {
-	 let url = "https://api.themoviedb.org/3/discover/movie?with_genres=35&api_key=16012a33d67f443093071edcbcdfc9d0";
-	 buildHTMLResultsTable(url);
+    let url = "https://api.themoviedb.org/3/discover/movie?with_genres=35&api_key=16012a33d67f443093071edcbcdfc9d0";
+    buildHTMLResultsTable(url);
 }
 
 function fetchCrime() {
@@ -252,186 +444,3 @@ function fetchByYear(year) {
     let url = urlBeginning + selectedYear + urlEnding;
     buildHTMLResultsTable(url);
 }
-
-
-
-
-function addFirstResultToDatabase() {
-
-		//Title
-		let selectedMovieTitle = document.getElementById("firstResultTitle").innerHTML;
-		let titleSubmission = document.getElementById("titleSubmission").setAttribute("value", selectedMovieTitle);
-
-		//Genres
-		let selectedGenreIds = document.getElementById("firstResultGenres").innerHTML;
-		selectedGenres = selectedGenreIds.replace("28", "Action").replace('12', "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")
-		selectedGenresSplit = selectedGenres.split(",");
-		let genreSubmission = document.getElementById("genreSubmission").setAttribute("value", selectedGenresSplit[0]);
-		let genre2Submission = document.getElementById("genre2Submission").setAttribute("value", selectedGenresSplit[1]);
-		let genre3Submission = document.getElementById("genre3Submission").setAttribute("value", selectedGenresSplit[2]);
-
-		//Director
-		let directorFetchURLBeginning = "https://api.themoviedb.org/3/movie/"
-		let movieId = document.getElementById("firstResultApiId").innerHTML;
-		let directorFetchURLEnding = "/credits?api_key=16012a33d67f443093071edcbcdfc9d0"
-		let directorURL = directorFetchURLBeginning + movieId + directorFetchURLEnding;
-
-		let director = fetch(directorURL)
-					   .then(response => response.json())
-					   .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Director'))
-
-		let printDirector = async () => {
-			let a = await director;
-			let directorSubmission = document.getElementById("directorSubmission").setAttribute("value", a[0].name);
-		};
-
-		printDirector();
-
-		//Date
-		let fullDate = document.getElementById("firstResultDate").innerHTML;
-		let year = fullDate.slice(0,4);
-		let yearSubmission = document.getElementById("yearSubmission").setAttribute("value", year);
-
-		//Synopsis
-		let synopsis = document.getElementById("firstResultSynopsis").innerHTML;
-		let synopsisSubmission = document.getElementById("synopsisSubmission").setAttribute("value", synopsis)
-
-}
-
-function addSecondResultToDatabase() {
-
-		//Title
-		let selectedMovieTitle = document.getElementById("secondResultTitle").innerHTML;
-		let titleSubmission = document.getElementById("titleSubmission").setAttribute("value", selectedMovieTitle);
-
-		//Genres
-		let selectedGenreIds = document.getElementById("secondResultGenres").innerHTML;
-		selectedGenres = selectedGenreIds.replace("28", "Action").replace('12', "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")
-		selectedGenresSplit = selectedGenres.split(",");
-		let genreSubmission = document.getElementById("genreSubmission").setAttribute("value", selectedGenresSplit[0]);
-		let genre2Submission = document.getElementById("genre2Submission").setAttribute("value", selectedGenresSplit[1]);
-		let genre3Submission = document.getElementById("genre3Submission").setAttribute("value", selectedGenresSplit[2]);
-
-		//Director
-		let directorFetchURLBeginning = "https://api.themoviedb.org/3/movie/"
-		let movieId = document.getElementById("secondResultApiId").innerHTML;
-		let directorFetchURLEnding = "/credits?api_key=16012a33d67f443093071edcbcdfc9d0"
-		let directorURL = directorFetchURLBeginning + movieId + directorFetchURLEnding;
-
-		let director = fetch(directorURL)
-					   .then(response => response.json())
-					   .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Director'))
-
-		let printDirector = async () => {
-			let a = await director;
-			let directorSubmission = document.getElementById("directorSubmission").setAttribute("value", a[0].name);
-		};
-
-		printDirector();
-
-		//Date
-		let fullDate = document.getElementById("secondResultDate").innerHTML;
-		let year = fullDate.slice(0,4);
-		let yearSubmission = document.getElementById("yearSubmission").setAttribute("value", year);
-
-		//Synopsis
-		let synopsis = document.getElementById("secondResultSynopsis").innerHTML;
-		let synopsisSubmission = document.getElementById("synopsisSubmission").setAttribute("value", synopsis)
-
-}
-
-function addThirdResultToDatabase() {
-
-		//Title
-		let selectedMovieTitle = document.getElementById("thirdResultTitle").innerHTML;
-		let titleSubmission = document.getElementById("titleSubmission").setAttribute("value", selectedMovieTitle);
-
-		//Genres
-		let selectedGenreIds = document.getElementById("thirdResultGenres").innerHTML;
-		selectedGenres = selectedGenreIds.replace("28", "Action").replace('12', "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")
-		selectedGenresSplit = selectedGenres.split(",");
-		let genreSubmission = document.getElementById("genreSubmission").setAttribute("value", selectedGenresSplit[0]);
-		let genre2Submission = document.getElementById("genre2Submission").setAttribute("value", selectedGenresSplit[1]);
-		let genre3Submission = document.getElementById("genre3Submission").setAttribute("value", selectedGenresSplit[2]);
-
-		//Director
-		let directorFetchURLBeginning = "https://api.themoviedb.org/3/movie/"
-		let movieId = document.getElementById("thirdResultApiId").innerHTML;
-		let directorFetchURLEnding = "/credits?api_key=16012a33d67f443093071edcbcdfc9d0"
-		let directorURL = directorFetchURLBeginning + movieId + directorFetchURLEnding;
-
-		let director = fetch(directorURL)
-					   .then(response => response.json())
-					   .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Director'))
-
-		let printDirector = async () => {
-			let a = await director;
-			let directorSubmission = document.getElementById("directorSubmission").setAttribute("value", a[0].name);
-		};
-
-		printDirector();
-
-		//Date
-		let fullDate = document.getElementById("thirdResultDate").innerHTML;
-		let year = fullDate.slice(0,4);
-		let yearSubmission = document.getElementById("yearSubmission").setAttribute("value", year);
-
-		//Synopsis
-		let synopsis = document.getElementById("thirdResultSynopsis").innerHTML;
-		let synopsisSubmission = document.getElementById("synopsisSubmission").setAttribute("value", synopsis)
-
-}
-
-function addFourthResultToDatabase() {
-
-		//Title
-		let selectedMovieTitle = document.getElementById("fourthResultTitle").innerHTML;
-		let titleSubmission = document.getElementById("titleSubmission").setAttribute("value", selectedMovieTitle);
-
-		//Genres
-		let selectedGenreIds = document.getElementById("fourthResultGenres").innerHTML;
-		selectedGenres = selectedGenreIds.replace("28", "Action").replace('12', "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")
-		selectedGenresSplit = selectedGenres.split(",");
-		let genreSubmission = document.getElementById("genreSubmission").setAttribute("value", selectedGenresSplit[0]);
-		let genre2Submission = document.getElementById("genre2Submission").setAttribute("value", selectedGenresSplit[1]);
-		let genre3Submission = document.getElementById("genre3Submission").setAttribute("value", selectedGenresSplit[2]);
-
-		//Director
-		let directorFetchURLBeginning = "https://api.themoviedb.org/3/movie/"
-		let movieId = document.getElementById("fourthResultApiId").innerHTML;
-		let directorFetchURLEnding = "/credits?api_key=16012a33d67f443093071edcbcdfc9d0"
-		let directorURL = directorFetchURLBeginning + movieId + directorFetchURLEnding;
-
-		let director = fetch(directorURL)
-					   .then(response => response.json())
-					   .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Director'))
-
-		let printDirector = async () => {
-			let a = await director;
-			let directorSubmission = document.getElementById("directorSubmission").setAttribute("value", a[0].name);
-		};
-
-		printDirector();
-
-		//Date
-		let fullDate = document.getElementById("fourthResultDate").innerHTML;
-		let year = fullDate.slice(0,4);
-		let yearSubmission = document.getElementById("yearSubmission").setAttribute("value", year);
-
-		//Synopsis
-		let synopsis = document.getElementById("fourthResultSynopsis").innerHTML;
-		let synopsisSubmission = document.getElementById("synopsisSubmission").setAttribute("value", synopsis)
-
-}
-
-
-//DOCUMENTATION//
-
-//Genre IDs
-//https://www.themoviedb.org/talk/5daf6eb0ae36680011d7e6ee
-
-//Director Fetch
-//https://www.themoviedb.org/talk/5d6cfff7efcea900129b5945
-
-//Discover - Examples
-//https://www.themoviedb.org/documentation/api/discover
