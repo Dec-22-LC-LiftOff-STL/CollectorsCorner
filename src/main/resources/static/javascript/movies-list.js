@@ -55,10 +55,10 @@ function buildHTMLResultsTable(url) {
                         <form id="confirmButtonDropdown${i}" style="display:none;"><br>
                             <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
                         </form>
-                        <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
-                        <button class="btn btn-primary" onclick="buildCastHTMLDiv(themoviedbApiId${i}, castDiv${i}); toggleCastDiv(castDiv${i})">Cast</button>
-                        <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
-                        <div id="castDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
+                        <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}, this); toggleStreamingServicesDiv(streamingDiv${i})">Watch</button>
+                        <button class="btn btn-primary" onclick="buildCastHTMLDiv(themoviedbApiId${i}, castDiv${i}); toggleCastDiv(castDiv${i})">Cast</button><br>
+                        <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px;"></div>
+                        <div id="castDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px; padding-left: 3px"></div>
                     </div>
                 </td>
             </tr>
@@ -142,7 +142,8 @@ function fetchByActorName(name) {
     genericActorFetch(url);
 }
 
-function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
+function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId, button) {
+
     urlBeginning = "https://api.themoviedb.org/3/movie/";
     id = apiClientMovieId.innerHTML;
     urlEnding = "/watch/providers?api_key=16012a33d67f443093071edcbcdfc9d0";
@@ -153,12 +154,21 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
         .then(function(response) {
         response.json().then(function(json) {
 
+        if (!json.results.US || !json.results.US.flatrate) {
+            json.results.US.flatrate = ['null'];
+        }
+
         let streamingServicesHTML = "";
 
         for (let i = 0; i < json.results.US.flatrate.length; i++) {
             let streamingService = json.results.US.flatrate[i];
-            if (streamingService.provider_name !== "HBO Max Amazon Channel" && streamingService.provider_name !== "Starz Amazon Channel") {
-                let html = `<img src="https://www.themoviedb.org/t/p/original/${streamingService.logo_path}" alt="${streamingService.display_name}"/>`;
+            if (streamingService === 'null') {
+                streamingServicesHTML = `
+                    <h3>Not available on stream</h3>
+                `
+            } else {
+                let html = `
+                <img src="https://www.themoviedb.org/t/p/original/${streamingService.logo_path}" alt="${streamingService.display_name}"/>`;
                 streamingServicesHTML += html;
             }
         }
@@ -180,14 +190,14 @@ function buildCastHTMLDiv(apiClientMovieId, castDivId) {
 
         let castHTML = "";
         console.log(json.cast)
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 5; i++) {
             let cast = json.cast[i];
             if (cast.profile_path === null) {
                 break;
             }
                 let html = `
                 <div style="outline: 3px solid white; max-width:160px">
-                    <img src="https://www.themoviedb.org/t/p/original/${cast.profile_path}" style="width:150px; padding: 5%;">
+                    <img src="https://www.themoviedb.org/t/p/original/${cast.profile_path}" style="width:150px; padding: 5%; outline: 2 px solid white">
                     <p style="text-align: center; font-size: 14px; overflow-wrap: anywhere">${cast.name}</p>
                     <p style="text-align: center; font-size: 11px; overflow-wrap: anywhere">${cast.character}</p>
                 </div>

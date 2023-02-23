@@ -6,6 +6,10 @@
   clear: both;
 }
 
+.container-fluid {
+    width: 70%;
+}
+
 
 .posterColumn {
     flex: 33%;
