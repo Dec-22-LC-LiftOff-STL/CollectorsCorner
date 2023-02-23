@@ -52,11 +52,11 @@ function buildHTMLResultsTable(url) {
                         <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
                         <p style="font-size:16px" id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
                         <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
-                        <form id="confirmButtonDropdown${i}" style="display:none;"><br>
-                            <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
-                        </form>
                         <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}, this); toggleStreamingServicesDiv(streamingDiv${i})">Watch</button>
                         <button class="btn btn-primary" onclick="buildCastHTMLDiv(themoviedbApiId${i}, castDiv${i}); toggleCastDiv(castDiv${i})">Cast</button><br>
+                        <form id="confirmButtonDropdown${i}" style="display:none;">
+                            <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
+                        </form>
                         <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px;"></div>
                         <div id="castDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px; padding-left: 3px"></div>
                     </div>
@@ -132,6 +132,36 @@ function prepareDatabaseInformationForm(i) {
 
     //Fills in the release year on the form on search.html form
     document.getElementById("synopsisSubmission").value = movieSynopsis;
+}
+
+function addNewMovieToDatabase() {
+
+        let collectionDropdown = document.getElementById("collectionNamesDropdown");
+        let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
+        let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
+        if (collectionDropdown.value === '') {
+            alert("Don't forget to select the collection you want to add to!")
+            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
+            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+        }
+        for (let i=0; i<collectionIdsAndMoviesArray.length; i++) {
+            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
+            let id = collectionIdsAndMoviesArray[i].split('=[Movie{')[0];
+            let text = collectionIdsAndMoviesArray[i].split('=[Movie{')[1];
+            //If the collection is empty, allow any addition.
+            if (text === undefined) {
+                break;
+            }
+            // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
+            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
+            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+            if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
+                alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
+                return;
+            }
+        }
+    document.getElementById("databaseInformation").submit();
 }
 
 function fetchByActorName(name) {
@@ -230,6 +260,15 @@ function toggleCastDiv(chosenMovie) {
     }
 }
 
+function toggleConfirmButtonDropdownForm(i) {
+    const dropdownForm = document.getElementById(`confirmButtonDropdown${i}`);
+    if (dropdownForm.style.display === "none") {
+        dropdownForm.style.display = "block";
+    } else {
+        dropdownForm.style.display = "none";
+    }
+}
+
 function genericActorFetch(url) {
     fetch(url).then(function(response) {
     response.json().then(function(json) {
@@ -274,12 +313,14 @@ function genericActorFetch(url) {
                             <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
                             <p style="font-size:16px" id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
                             <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
-                            <form id="confirmButtonDropdown${i}" style="display:none;"><br>
+                            <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}, this); toggleStreamingServicesDiv(streamingDiv${i})">Watch</button>
+                            <button class="btn btn-primary" onclick="buildCastHTMLDiv(themoviedbApiId${i}, castDiv${i}); toggleCastDiv(castDiv${i})">Cast</button><br>
+                            <form id="confirmButtonDropdown${i}" style="display:none;">
                                 <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
                             </form>
-                            <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
-                            <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
-                            </div>
+                            <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px;"></div>
+                            <div id="castDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px; padding-left: 3px"></div>
+                        </div>
                     </td>
                 </tr>
                 `;
