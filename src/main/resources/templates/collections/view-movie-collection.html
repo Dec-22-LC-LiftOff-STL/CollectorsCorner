@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+</script>
 <head th:replace="~{fragments :: head}">
 </head>
+<link rel="stylesheet" th:href="@{/css/view-movie-collection.css}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+
+
 
 <div th:replace="fragments :: page-header"></div>
 
 <body class="container body-content">
+
+<body>
+<!-- Swiper -->
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide" th:each="movie : ${movieCollection.movies}">
+            <img th:src="${movie.imageURL}">
+        </div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+</div>
 
 <H1 class="text-center" th:text="${movieCollection.name}"></H1>
 <H4 class="text-center">
