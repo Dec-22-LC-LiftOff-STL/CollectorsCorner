@@ -39,11 +39,11 @@
         <button onclick="fetchAdventure()">Adventure</button>
         <button onclick="fetchAnimation()">Animation</button>
         <button onclick="fetchComedy()">Comedy</button>
-        <button onclick="fetchScifi()">Sci-Fi</button>
         <button onclick="fetchDrama()">Drama</button>
         <button onclick="fetchFamily()">Family</button>
         <button onclick="fetchFantasy()">Fantasy</button>
         <button onclick="fetchHistory()">History</button>
+        <br>
         <button onclick="fetchHorror()">Horror</button>
         <button onclick="fetchMusic()">Music</button>
         <button onclick="fetchMystery()">Mystery</button>
@@ -51,7 +51,6 @@
         <button onclick="fetchThriller()">Thriller</button>
         <button onclick="fetchWar()">War</button>
         <button onclick="fetchWestern()">Western</button>
-        <button onclick="fetchScifi()">Sci-Fi</button>
     </swiper-slide>
     <swiper-slide>
         <h3>Movies with Best Actress Winners</h3>
@@ -62,6 +61,16 @@
         <button onclick="fetchByActorName('Natalie%20Portman')">Natalie Portman</button>
         <button onclick="fetchByActorName('Emma%20Stone')">Emma Stone</button>
         <button onclick="fetchByActorName('Halle%20Berry')">Halle Berry</button>
+    </swiper-slide>
+    <swiper-slide>
+        <h3>Movies with Best Actor Winners:</h3>
+        <button onclick="fetchByActorName('Tom%20Hanks')">Tom Hanks</button>
+        <button onclick="fetchByActorName('Matthew%20McConaughey')">Matthew McConaughey</button>
+        <button onclick="fetchByActorName('Denzel%20Washington')">Denzel Washington</button>
+        <button onclick="fetchByActorName('Richard%20Dreyfuss')">Richard Dreyfuss</button>
+        <button onclick="fetchByActorName('Anthony%20Hopkins')">Anthony Hopkins</button>
+        <button onclick="fetchByActorName('Nicolas%20Cage')">Nicolas Cage</button>
+        <button onclick="fetchByActorName('Daniel%20Day%20Lewis')">Daniel Day Lewis</button>
     </swiper-slide>
     <swiper-slide>
         <div id="mostPopular50s">
@@ -163,6 +172,8 @@
         <button onclick="fetchByYear(2023)">2023</button>
     </swiper-slide>
 </swiper-container>
+
+<br><br><br>
 
 <div id="resultsTable"></div>
 <p th:text="${collectionIdsAndMovies}" id="collectionIdsAndMovies" hidden></p>
