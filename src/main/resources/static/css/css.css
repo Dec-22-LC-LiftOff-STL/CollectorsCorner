@@ -1,0 +1,436 @@
+.books-search .authorCell {
+    width: 10%;
+}
+
+.books-search #authorCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+}
+
+.books-search #authorColumnHeader {
+    width: 10%;
+    cursor: pointer;
+}
+
+.books-search .booksResultsHeaderRow {
+    border: 2px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+.books-search .booksResultsTableRows {
+    border: 1px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+.books-search .genreCell {
+    width: 15%;
+}
+
+.books-search #genreCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+}
+
+.books-search #genreColumnHeader {
+    width: 15%;
+    cursor: pointer;
+}
+
+.books-search .hidden {
+    display: none;
+}
+
+.books-search p {
+    margin-bottom: 0 !important;
+}
+
+.books-search .poster {
+    width:131.89 px;
+}
+
+.books-search .posterCell {
+    width: 15%
+}
+
+.books-search #posterColumnHeader {
+    width: 15%;
+}
+
+.books-search .synopsisCell {
+    width: 40%
+}
+
+.books-search .synopsisText {
+    height: 145px;
+    overflow: hidden;
+}
+
+.books-search #synopsisColumnHeader {
+    width: 40%;
+}
+
+.books-search .titleCell {
+    width: 15%;
+}
+
+.books-search #titleColumnHeader {
+    width: 15%;
+    cursor: pointer;
+}
+
+.books-search .yearCell {
+    width: 5%;
+}
+
+.books-search #yearColumnHeader {
+    width: 5%;
+    cursor: pointer;
+}
+
+.collections-delete .authorHeader {
+    cursor: pointer;
+}
+
+.collections-delete .collectionDescriptionHeader {
+    cursor: pointer;
+    width: 45%;
+}
+
+.collections-delete .collectionNameHeader {
+    cursor: pointer;
+    width: 45%;
+}
+
+.collections-delete .creatorHeader {
+    cursor: pointer;
+}
+
+.collections-delete .deleteColumn {
+    width: 10%;
+}
+
+.collections-delete .directorHeader {
+    cursor: pointer;
+}
+
+.collections-delete .genreHeader {
+    cursor: pointer;
+}
+
+.collections-delete .maxPlayersHeader {
+    cursor: pointer;
+}
+
+.collections-delete .minPlayersHeader {
+    cursor: pointer;
+}
+
+.collections-delete .primaryGenreHeader {
+    cursor: pointer;
+}
+
+.collections-delete .secondaryGenreHeader {
+    cursor: pointer;
+}
+
+.collections-delete .titleHeader {
+    cursor: pointer;
+}
+
+.collections-delete .yearHeader {
+    cursor: pointer;
+}
+
+.collector {
+    box-sizing: border-box;
+}
+
+.collector .column {
+    flex: 50%;
+    padding: 5px;
+}
+
+.collector .row {
+    display: flex;
+    margin-left:-5px;
+    margin-right:-5px;
+}
+
+.collector table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.collector th, td {
+    text-align: left;
+    padding: 16px;
+}
+
+.collector tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.games-search #creatorCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
+}
+.games-search .gamesResultsHeaderRow {
+    border: 2px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+.games-search .gamesResultsTableRows {
+    border: 1px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+.games-search .genre1Cell {
+    width: 15%;
+}
+
+
+.games-search #genre1ColumnHeader {
+    width: 15%;
+    cursor: pointer;
+}
+
+.games-search #genreCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
+}
+
+.games-search .hidden {
+    display: none;
+}
+
+.games-search .maxPlayersCell {
+    width: 10%
+}
+
+.games-search #maxPlayersColumnHeader {
+    width: 10%;
+    cursor: pointer;
+}
+
+.games-search .minPlayersCell {
+    width: 10%
+}
+
+.games-search #minPlayersColumnHeader {
+    width: 10%;
+    cursor: pointer;
+}
+
+.games-search #newSearchButtonLink {
+    color: white !important;
+}
+
+.games-search p {
+    text-align: center !important;
+    margin-left: 10px !important;
+    margin-bottom: 0 !important;
+}
+
+.games-search .poster {
+    width:55%;
+}
+
+.games-search .posterCell {
+    width: 15%
+}
+
+.games-search #posterColumnHeader {
+    width: 15%;
+}
+
+.games-search .synopsisCell {
+    width: 30%
+}
+
+.games-search #synopsisColumnHeader {
+    width: 30%;
+}
+
+.games-search .synopsisText {
+    max-height: 145px;
+    overflow: hidden;
+}
+
+.games-search .titleCell {
+    width: 15%;
+}
+
+.games-search #titleColumnHeader {
+    width: 15%;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.games-search .yearCell {
+    width: 5%;
+}
+
+.games-search #yearColumnHeader {
+    width: 5%;
+    cursor: pointer;
+}
+
+.movies-list .row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.movies-list .container-fluid {
+    width: 70%;
+}
+
+.movies-list .posterColumn {
+    flex: 33%;
+    padding: 10px;
+}
+
+.movies-list .infoColumn {
+    flex: 66%;
+    padding: 10px;
+}
+
+.movies-list swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.movies-list swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movies-list swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.movies-list swiper-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.movies-search #addToCollectionHeader {
+    width: 15%;
+}
+
+.movies-search .booksResultsHeaderRow {
+    border: 2px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+.movies-search .booksResultsTableRows {
+    border: 1px solid black !important;
+    background-color: #e4e4e4 !important;
+}
+
+.movies-search .genre1Cell {
+    width: 15%;
+    text-align: center;
+}
+
+.movies-search #genre1ColumnHeader {
+    width: 15%;
+    cursor: pointer;
+    text-align: center;
+}
+
+.movies-search .hidden {
+    display: none;
+}
+
+.movies-search p {
+    margin-bottom: 0 !important;
+    text-align: center !important;
+}
+
+.movies-search .poster {
+    width:131.84px
+}
+
+.movies-search .posterCell {
+    width: 15%;
+    padding: 10px;
+}
+
+.movies-search #posterColumnHeader {
+    width: 15%;
+    padding: 10px;
+    text-align: center;
+}
+
+.movies-search .streamingPlatformsCell {
+    width: 15%;
+    padding: 10px;
+}
+
+.movies-search .synopsisCell {
+    width: 40%;
+    text-align: center;
+}
+
+.movies-search #synopsisColumnHeader {
+    width: 40%;
+    text-align: center;
+}
+
+.movies-search .titleCell {
+    width: 20%;
+    text-align: center;
+}
+
+.movies-search #titleColumnHeader {
+    width: 20%;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px;
+}
+
+.movies-search .yearCell {
+    width: 5%;
+    text-align: center;
+}
+
+.movies-search #yearColumnHeader {
+    width: 5%;
+    cursor: pointer;
+    text-align: center;
+}
+
+.view-movie-collection .swiper-button-next {
+    left: 200px;
+}
+
+.view-movie-collection swiper-container {
+    width: 100%;
+    height: 100%;
+    }
+
+.view-movie-collection swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.view-movie-collection swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
