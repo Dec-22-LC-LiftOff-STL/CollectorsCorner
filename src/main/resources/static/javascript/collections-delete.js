@@ -2,7 +2,7 @@ window.onload = function() {
         const screenMode = document.getElementById('screenMode').innerText;
         if (screenMode === 'light') {
 
-        } else if (screenMode === 'Screen Mode: Dark') {
+        } else if (screenMode === 'Dark') {
             document.body.style.backgroundColor = "rgb(23,23,23)";
             document.body.style.color = "rgb(183, 183, 183)";
             const tds = document.querySelectorAll("td")
