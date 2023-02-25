@@ -27,6 +27,8 @@ public class User extends AbstractEntity{
 
     private String aboutMe;
 
+    private String screenMode = "light";
+
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -41,7 +43,7 @@ public class User extends AbstractEntity{
 
     public User(){}
 
-    public User(String username, String password, String screenName, String firstName, String lastName, String aboutMe){
+    public User(String username, String password, String screenName, String firstName, String lastName, String aboutMe, String screenMode){
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.userBookCollection = getUserBookCollection();
@@ -51,6 +53,7 @@ public class User extends AbstractEntity{
         this.firstName = firstName;
         this.lastName = lastName;
         this.aboutMe = aboutMe;
+        this.screenMode = screenMode;
     }
 
     public String getAboutMe() {
@@ -90,12 +93,26 @@ public class User extends AbstractEntity{
         this.screenName = screenName;
     }
 
+    public String getScreenMode() {
+        return screenMode;
+    }
+
+    public void setScreenMode(String screenMode) {
+        this.screenMode = screenMode;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "firstName='" + firstName + '\'' +
+                "screenName='" + screenName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
+                ", aboutMe='" + aboutMe + '\'' +
+                ", screenMode='" + screenMode + '\'' +
+                ", userMovieCollection=" + userMovieCollection +
+                ", userBookCollection=" + userBookCollection +
+                ", userGameCollection=" + userGameCollection +
                 '}';
     }
 
