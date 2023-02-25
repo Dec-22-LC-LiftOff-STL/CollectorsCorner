@@ -41,20 +41,56 @@ public class MoviesController {
     }
 
     @GetMapping("list")
-    public String displayListPage (Model model, @CookieValue(name = "userId") String myCookie) {
+    public String displayMoviesListPage(@CookieValue(name = "userId") String myCookie, Model model) {
         model.addAttribute(new Movie());
-//        Integer userId = Integer.parseInt(myCookie);
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
         Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
-//        Iterable<User> iterableUsers = userRepository.findAll();
+        Iterable<User> iterableUsers = userRepository.findAll();
         model.addAttribute("movieCollections", iterableMovieCollection);
-//        model.addAttribute("cookie", userId);
-//        model.addAttribute("iterableUsers", iterableUsers);
+        model.addAttribute("cookie", userId);
+        model.addAttribute("iterableUsers", iterableUsers);
+        //Create HashMap to be interpreted by JS as an object. Key = collectionId, Value = Movies in that collection
+        List<Integer> keys = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+        HashMap<Integer, String> collectionIdsAndMovies = new HashMap<>();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User thisUser = optionalUser.get();
+            List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
+            for (MovieCollection movieCollection : thisUsersCollections){
+                keys.add(movieCollection.getId());
+                String moviesString = movieCollection.getMovies().toString();
+                values.add(moviesString);
+            }
+            for (int i=0; i<keys.size(); i++) {
+                collectionIdsAndMovies.put(keys.get(i), values.get(i));
+            }
+            model.addAttribute("collectionIdsAndMovies", collectionIdsAndMovies);
+
+        }
+
         return "movies/list";
     }
 
     @PostMapping("list")
-    public String processAddMovieFormOnListPage(@ModelAttribute Movie movie) {
-        movieRepository.save(movie);
+    public String processAddMovieFormOnListPage(@ModelAttribute Movie movie, @RequestParam("collectionId") Integer collectionId) {
+        Optional<Movie> existingMovie = movieRepository.findByTitleAndYearAndDirector(movie.getTitle(), movie.getYear(), movie.getDirector());
+        if (existingMovie.isPresent()) {
+            Optional<MovieCollection> optionalMovieCollection = movieCollectionRepository.findById(collectionId);
+            if (optionalMovieCollection.isPresent()) {
+                MovieCollection movieCollection = (MovieCollection) optionalMovieCollection.get();
+                movieCollectionService.addMovie(movieCollection, existingMovie.get());
+            }
+        } else {
+            Optional<MovieCollection> optionalMovieCollection = movieCollectionRepository.findById(collectionId);
+            if (optionalMovieCollection.isPresent()) {
+                MovieCollection movieCollection = (MovieCollection) optionalMovieCollection.get();
+                movieCollectionService.addMovie(movieCollection, movie);
+            }
+        }
         return "redirect:/movies/list";
     }
 

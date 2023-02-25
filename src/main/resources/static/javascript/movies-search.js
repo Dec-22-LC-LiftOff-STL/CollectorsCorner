@@ -165,6 +165,7 @@ function prepareDatabaseInformationForm(i) {
         };
         printDirector();
 
+
     //Fills in the release year on the form on search.html form
     document.getElementById("yearSubmission").value = movieDate.slice(0,4);
 
