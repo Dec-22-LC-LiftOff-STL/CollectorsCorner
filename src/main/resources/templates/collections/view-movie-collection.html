@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 <head th:replace="~{fragments :: head}">
 </head>
+<link rel="stylesheet" th:href="@{/css/view-movie-collection.css}">
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
 
 <div th:replace="fragments :: page-header"></div>
 
 <body class="container body-content">
 
-<H1 class="text-center" th:text="${movieCollection.name}"></H1>
-<H4 class="text-center">
+<body>
+
+<h1 class="text-center" th:text="${movieCollection.name}"></h1>
+<h4 class="text-center">
 <span th:text="'This Movie Collection Belongs To: '"></span><a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${movieCollection.getUser().getScreenName()}"></a>
-</H4>
+</h4>
 <br>
+
+<swiper-container class="mySwiper" navigation="true" slides-per-view="3" space-between="10" free-mode="true" style="height:50%">
+    <swiper-slide th:each="movie : ${movieCollection.movies}">
+        <img th:src="${movie.imageURL}" height="50%">
+    </swiper-slide>
+</swiper-container>
+
 <div class="container" style="width: 40rem;">
     <H4 class="text-center" th:text="Description"></H4>
     <i>
@@ -20,41 +36,50 @@
 </div>
 
 
+<table class="table table-striped" id="table">
+    <thead>
+    <tr>
+        <th class="col-lg-2 text-center" id="movieTitleHeader">Movie</th>
+        <th class="col-lg-2 text-center" id="movieYearHeader">Year</th>
+        <th class="col-lg-2 text-center" id="movieDirectorHeader">Director</th>
+        <th class="col-lg-2 text-center" id="movieGenreHeader">Genre(s)</th>
+        <th class="col-lg-2 text-center" id="movieImageHeader">Image</th>
+    </tr>
+    </thead>
+    <tr th:each="movie : ${movieCollection.movies}">
+        <td  class="text-center">
+            <span th:text="${movie.title}"></span>
+        </td>
+        <td  class="text-center">
+            <span th:text="${movie.year}"></span>
+        </td>
+        <td class="text-center">
+            <span th:text="${movie.director}"></span>
+        </td>
+        <td class="text-center">
+            <span th:text="${movie.genre}"></span> <br/>
+            <span th:text="${movie.genre2}"></span><br/>
+            <span th:text="${movie.genre3}"></span>
+        </td>
+        <td class="text-center">
+            <img height="150px" th:src="${movie.imageURL}" alt="movie image">
+        </td>
+    </tr>
+</table><hr>
 
-<ul th:each="movie : ${movieCollection.movies}">
 
 
-    <table class="table table-striped" id="table">
-        <thead>
-        <tr>
-            <th class="col-lg-2" id="movieTitleHeader">Movie</th>
-            <th class="col-lg-2" id="movieYearHeader">Year</th>
-            <th class="col-lg-2" id="movieDirectorHeader">Director</th>
-            <th class="col-lg-2" id="movieGenreHeader">Genre(s)</th>
-            <th class="col-lg-2" id="movieImageHeader">Image</th>
-        </tr>
-        </thead>
-        <tr>
-            <td  class="text-center">
-                <span th:text="${movie.title}"></span>
-            </td>
-            <td  class="text-center">
-                <span th:text="${movie.year}"></span>
-            </td>
-            <td class="text-center">
-                <span th:text="${movie.director}"></span>
-            </td>
-            <td class="text-center">
-                <span th:text="${movie.genre}"></span> <br/>
-                <span th:text="${movie.genre2}"></span><br/>
-                <span th:text="${movie.genre3}"></span>
-            </td>
-            <td class="text-center">
-                <img height="150px" th:src="${movie.imageURL}" alt="movie image">
-            </td>
-        </tr>
-    </table><hr>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      freeMode: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+  </script>
 
-</ul>
 </body>
 </html>
