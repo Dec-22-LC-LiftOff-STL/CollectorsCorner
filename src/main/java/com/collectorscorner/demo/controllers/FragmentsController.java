@@ -17,20 +17,6 @@ public class FragmentsController {
 
 
 
-    @PostMapping("/update-theme")
-    public String updateTheme(@CookieValue(name = "userId") String myCookie, @RequestParam String theme) {
-        if ("null".equals(myCookie)) {
-            return "redirect:/login";
-        }
-        Integer userId = Integer.parseInt(myCookie);
-        Optional<User> optUser = userRepository.findById(userId);
-        if (optUser.isPresent()) {
-            User user = optUser.get();
-            user.setScreenMode(theme);
-            userRepository.save(user);
-            return "redirect:/search-collections";
-        }
-        return "redirect:/search-collections";
-    }
+
 
 }

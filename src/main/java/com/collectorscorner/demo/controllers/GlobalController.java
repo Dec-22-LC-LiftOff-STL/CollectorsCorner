@@ -30,4 +30,18 @@ public class GlobalController {
         return "";
     }
 
+    @ModelAttribute("username")
+    public String username(@CookieValue(name = "userId") String myCookie) {
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            return user.getUsername();
+        }
+        return "";
+    }
+
 }
