@@ -52,9 +52,27 @@
             <td class="text-center">
                 <img height="150px" th:src="${movie.imageURL}" alt="movie image">
             </td>
+            <td class="text-center">
+                <form method="post">
+<!--                    <p id=movieId th:text="${movie.id}" hidden></p>-->
+<!--                    <p id=movieCollectionId th:text="${movieCollection.id}" hidden></p>-->
+<!--                    <input type="text" th:field="${movieSideNote.moviesId}" th:attr="value=${movie.id}">-->
+
+                    <input type="text" th:name="${movieSideNote.movieCollectionId}" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}">
+                    <input type="text" th:name="*{movieSideNote.moviesId}" th:value="${movie.id}" th:attr="value=${movie.id}">
+                    <input type="text" th:field="${movieSideNote.movieSideNote}">
+                    <input type="submit" value="Add SideNote">
+                </form>
+            </td>
         </tr>
     </table><hr>
 
 </ul>
 </body>
+
+<!--<script>-->
+<!--    function sideNoteCreation(){-->
+
+<!--    }-->
+<!--</script>-->
 </html>

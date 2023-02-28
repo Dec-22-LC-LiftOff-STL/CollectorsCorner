@@ -69,6 +69,9 @@ public class CollectionController {
     @Autowired
     BookCollectionRepository bookCollectionRepository;
 
+    @Autowired
+    MovieSideNoteRepository movieSideNoteRepository;
+
 
     @GetMapping("/create-movie-collection")
 
@@ -442,9 +445,43 @@ public class CollectionController {
         return "redirect:/collections/delete/games/{collectionId}";
     }
 
+    @PostMapping("view-movie-collection/{movieCollectionId}")
+    public String processCreateMovieSideNote(@ModelAttribute MovieSideNote newMovieSideNote,
+//                                               @CookieValue("userId") String myCookie,
+                                               Errors errors,
+//                                               HttpServletRequest request,
+                                               Model model
+    ) {
+
+//        Integer userId = Integer.parseInt(myCookie);
+//        Optional<User> existingUser = userRepository.findById(userId);
+//        if (errors.hasErrors()) {
+//            model.addAttribute("title", "CreateMovieCollection");
+//            return "collections/create-movie-collection";
+//        }
+//
+////        Optional<User> existingUser = userRepository.findById(userId);
+//        if (existingUser.isPresent()) {
+//
+//            User existingUserFound = existingUser.get();
+//            MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), existingUserFound);
+//            movieCollectionRepository.save(createMovieCollection);
+//        }
+
+//        if (optionalUser.isPresent()) {
+//            User existingUser = (User)  optionalUser.get();
+//                    MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), createMovieCollectionDTO.getUser());
+//            movieCollectionRepository.save(createMovieCollection);
+//        }
+        movieSideNoteRepository.save(newMovieSideNote);
+        return "redirect:../movies/search";
+
+    }
+
+
     @GetMapping("view-movie-collection/{movieCollectionId}")
     public String displayViewMovieCollection(Model model, @PathVariable int movieCollectionId) {
-
+    model.addAttribute(new MovieSideNote());
         Optional optMovieCollection = movieCollectionRepository.findById(movieCollectionId);
         if (optMovieCollection.isPresent()) {
             MovieCollection movieCollection = (MovieCollection) optMovieCollection.get();
