@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<title>Movies - Search</title>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments :: head}"></head>
-<div th:replace="~{fragments :: page-header}"></div>
-
+<div th:replace="fragments :: page-header"></div>
+<script>window.onload = screenMode()</script>
 <body class="container body-content movies-search">
 <br><br><br><br>
 
-<img src="http://localhost:8080/images/movieCollection.jpg" alt="book" width="235" height="120">
+<img id="theaterPhoto" src="http://localhost:8080/images/movieCollection.jpg" alt="book">
+
 <h1>Movie Search</h1>
 
-<input id="userSearchTerm" type="text" onkeyup="if (event.keyCode === 13) { searchTitle(userSearchTerm); }">
-<button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><hr>
+<input id="userSearchTerm" class="button" onkeyup="if(event.keyCode === 13){searchMovieTitle(userSearchTerm)}">
+<button value="userSearchTerm" onclick="searchMovieTitle(userSearchTerm)" class="button">Search</button><hr>
 
-<h3 id="collectionNameDropdownLabel"> Your Movie Collections:</h3><br>
+<h3 id="collectionNameDropdownLabel">Your Movie Collections:</h3><br>
+
 <form>
     <select id="collectionNamesDropdown">
         <option value="">Select a collection</option>
@@ -39,7 +40,7 @@
     <input th:field="${movie.year}" id="yearSubmission" readonly>
     <input th:field="${movie.synopsis}" id="synopsisSubmission" readonly>
     <input th:field="${movie.imageURL}" id="imageURLSubmission" readonly>
-    <input type="text" name="collectionId" id="collectionId" readonly>
+    <input name="collectionId" id="collectionId" readonly>
 </form>
 
 </body>

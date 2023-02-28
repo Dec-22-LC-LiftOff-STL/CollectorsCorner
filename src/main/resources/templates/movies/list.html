@@ -1,15 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <link rel="stylesheet" th:href="@{../CSS/movies-list.css}">
-    <script th:src="@{/javascript/movies-list.js}"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <title>Collectors Corner</title>
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
-</head>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="~{fragments :: head}"></head>
+<div th:replace="fragments :: page-header"></div>
+<script>window.onload = screenMode()</script>
+<title>Collectors Corner</title>
 
 <body class="container-fluid movies-list">
 
@@ -22,18 +16,18 @@
 <swiper-container class="mySwiper"  navigation="true" space-between="50" loop="true">
     <swiper-slide>
         <h3>Popular Foreign Films of 2022</h3>
-        <button onclick="fetchChinese()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Emojione_1F1E8-1F1F3.svg/1024px-Emojione_1F1E8-1F1F3.svg.png"></button>
-        <button onclick="fetchHindi()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Emojione_1F1EE-1F1F3.svg/1024px-Emojione_1F1EE-1F1F3.svg.png"></button>
-        <button onclick="fetchSpanish()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Emojione_1F1EA-1F1F8.svg"></button>
-        <button onclick="fetchFrench()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Emojione_1F1EB-1F1F7.svg/1024px-Emojione_1F1EB-1F1F7.svg.png"></button>
-        <button onclick="fetchGerman()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Emojione_1F1E9-1F1EA.svg/1024px-Emojione_1F1E9-1F1EA.svg.png"></button>
-        <button onclick="fetchHebrew()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Emojione_1F1EE-1F1F1.svg/1024px-Emojione_1F1EE-1F1F1.svg.png"></button>
-        <button onclick="fetchRussian()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Emojione_1F1F7-1F1FA.svg/1024px-Emojione_1F1F7-1F1FA.svg.png"></button>
-        <button onclick="fetchJapanese()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Emojione_1F1EF-1F1F5.svg/1024px-Emojione_1F1EF-1F1F5.svg.png"></button>
-        <button onclick="fetchKorean()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Emojione_1F1F0-1F1F7.svg/1024px-Emojione_1F1F0-1F1F7.svg.png"></button>
-        <button onclick="fetchUkrainian()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Emojione_1F1FA-1F1E6.svg/1024px-Emojione_1F1FA-1F1E6.svg.png"></button>
-        <button onclick="fetchTurkish()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Emojione_1F1F9-1F1F7.svg/1024px-Emojione_1F1F9-1F1F7.svg.png"></button>
-        <button onclick="fetchBosnian()"><img style="height:50px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Emojione_1F1E7-1F1E6.svg/1024px-Emojione_1F1E7-1F1E6.svg.png"></button>
+        <button onclick="fetchChinese()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Emojione_1F1E8-1F1F3.svg/1024px-Emojione_1F1E8-1F1F3.svg.png"></button>
+        <button onclick="fetchHindi()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Emojione_1F1EE-1F1F3.svg/1024px-Emojione_1F1EE-1F1F3.svg.png"></button>
+        <button onclick="fetchSpanish()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Emojione_1F1EA-1F1F8.svg"></button>
+        <button onclick="fetchFrench()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Emojione_1F1EB-1F1F7.svg/1024px-Emojione_1F1EB-1F1F7.svg.png"></button>
+        <button onclick="fetchGerman()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Emojione_1F1E9-1F1EA.svg/1024px-Emojione_1F1E9-1F1EA.svg.png"></button>
+        <button onclick="fetchHebrew()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Emojione_1F1EE-1F1F1.svg/1024px-Emojione_1F1EE-1F1F1.svg.png"></button>
+        <button onclick="fetchRussian()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Emojione_1F1F7-1F1FA.svg/1024px-Emojione_1F1F7-1F1FA.svg.png"></button>
+        <button onclick="fetchJapanese()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Emojione_1F1EF-1F1F5.svg/1024px-Emojione_1F1EF-1F1F5.svg.png"></button>
+        <button onclick="fetchKorean()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Emojione_1F1F0-1F1F7.svg/1024px-Emojione_1F1F0-1F1F7.svg.png"></button>
+        <button onclick="fetchUkrainian()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Emojione_1F1FA-1F1E6.svg/1024px-Emojione_1F1FA-1F1E6.svg.png"></button>
+        <button onclick="fetchTurkish()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Emojione_1F1F9-1F1F7.svg/1024px-Emojione_1F1F9-1F1F7.svg.png"></button>
+        <button onclick="fetchBosnian()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Emojione_1F1E7-1F1E6.svg/1024px-Emojione_1F1E7-1F1E6.svg.png"></button>
     </swiper-slide>
     <swiper-slide>
         <h3>Most Popular Movies Now</h3>

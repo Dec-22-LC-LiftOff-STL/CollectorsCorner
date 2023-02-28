@@ -1,16 +1,4 @@
-window.onload = function() {
-        const screenMode = document.getElementById('screenMode').innerText;
-        if (screenMode === 'light') {
-
-        } else if (screenMode === 'Dark') {
-            document.body.style.backgroundColor = "rgb(23,23,23)";
-            document.body.style.color = "rgb(183, 183, 183)";
-            const tds = document.querySelectorAll("td")
-            for (var i = 0; i < tds.length; i++) {
-                tds[i].style.backgroundColor = 'rgb(22,22,22)';
-            }
-        }
-    };
+window.onload =
 
 
 function sortTable(n, table) {

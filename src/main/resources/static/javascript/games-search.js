@@ -1,6 +1,6 @@
-let isAscendingTitle = true;
-let isAscendingYear= true;
-let isAscendingGenre = true;
+let isAscendingGameTitle = true;
+let isAscendingGameYear= true;
+let isAscendingGameGenre = true;
 let isAscendingMinPlayers = true;
 let isAscendingMaxPlayers = true;
 
@@ -217,11 +217,11 @@ function sortTableByTitle() {
     }
     });
 
-    if (!isAscendingTitle) {
+    if (!isAscendingGameTitle) {
         rows.reverse();
     }
 
-    isAscendingTitle = !isAscendingTitle;
+    isAscendingGameTitle = !isAscendingGameTitle;
     //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
     table.tBodies[0].append(...rows);
 }
@@ -242,11 +242,11 @@ function sortTableByYear() {
     }
     });
 
-    if (!isAscendingYear) {
+    if (!isAscendingGameYear) {
         rows.reverse();
     }
 
-    isAscendingYear = !isAscendingYear;
+    isAscendingGameYear = !isAscendingGameYear;
     //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
     table.tBodies[0].append(...rows);
 }
@@ -267,11 +267,11 @@ function sortTableByGenre1() {
     }
     });
 
-    if (!isAscendingGenre) {
+    if (!isAscendingGameGenre) {
         rows.reverse();
     }
 
-    isAscendingGenre = !isAscendingGenre;
+    isAscendingGameGenre = !isAscendingGameGenre;
     table.tBodies[0].append(...rows);
 }
 

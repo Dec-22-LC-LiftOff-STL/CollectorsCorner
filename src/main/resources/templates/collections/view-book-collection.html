@@ -1,58 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head th:replace="~{fragments :: head}">
-</head>
-
+<head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
+<script>window.onload = screenMode()</script>
+<body class="container body-content view-book-collection">
 
-<body class="container body-content">
-
-<H1 class="text-center" th:text="${bookCollection.name}"></H1>
-<H4 class="text-center">
+<h1 class="text-center" th:text="${bookCollection.name}"></h1>
+<h4 class="text-center">
     <span th:text="'This Book Collection Belongs To: '"></span><a th:href="@{'/collector/' + ${bookCollection.getUser().getId()}}" th:text="${bookCollection.getUser().getScreenName()}"></a>
-</H4>
-<br>
+</h4>
+
+<th:block th:if="${bookCollection.books.size() > 3}">
+    <swiper-container class="mySwiper" navigation="true" slides-per-view="4" space-between="10" free-mode="true">
+        <swiper-slide th:each="book : ${bookCollection.books}">
+            <img th:src="${book.imageURL}">
+        </swiper-slide>
+    </swiper-container>
+</th:block>
+
 <div class="container" style="width: 40rem;">
-    <H4 class="text-center" th:text="Description"></H4>
     <i>
-    <H5 class="card" style="text-center" th:text="${bookCollection.description}"></H5>
+        <h5 class="card" style="text-center" th:text="${bookCollection.description}"></h5>
     </i>
 </div>
 
 
 
-<ul th:each="book : ${bookCollection.books}">
+<table class="table" id="table">
+    <thead>
+    <tr>
+        <th class="col-lg-2" id="bookTitleHeader">Book</th>
+        <th class="col-lg-2" id="bookYearHeader">Year</th>
+        <th class="col-lg-2" id="bookAuthorHeader">Author</th>
+        <th class="col-lg-2" id="bookGenreHeader">Genre</th>
+        <th class="col-lg-2" id="bookImageHeader">Image</th>
+    </tr>
+    </thead>
+    <tr th:each="book : ${bookCollection.books}">
+        <td  class="text-center">
+            <span th:text="${book.title}"></span>
+        </td>
+        <td  class="text-center">
+            <span th:text="${book.year}"></span>
+        </td>
+        <td class="text-center">
+            <span th:text="${book.author}"></span>
+        </td>
+        <td class="text-center">
+            <span th:text="${book.genre}"></span> <br/>
+        </td>
+        <td class="text-center">
+            <img height="150px" th:src="${book.imageURL}" alt="book image">
+        </td>
+    </tr>
+</table>
 
-
-    <table class="table table-striped" id="table">
-        <thead>
-        <tr>
-            <th class="col-lg-2" id="bookTitleHeader">Book</th>
-            <th class="col-lg-2" id="bookYearHeader">Year</th>
-            <th class="col-lg-2" id="bookAuthorHeader">Author</th>
-            <th class="col-lg-2" id="bookGenreHeader">Genre</th>
-            <th class="col-lg-2" id="bookImageHeader">Image</th>
-        </tr>
-        </thead>
-        <tr>
-            <td  class="text-center">
-                <span th:text="${book.title}"></span>
-            </td>
-            <td  class="text-center">
-                <span th:text="${book.year}"></span>
-            </td>
-            <td class="text-center">
-                <span th:text="${book.author}"></span>
-            </td>
-            <td class="text-center">
-                <span th:text="${book.genre}"></span> <br/>
-            </td>
-            <td class="text-center">
-                <img height="150px" th:src="${book.imageURL}" alt="book image">
-            </td>
-        </tr>
-    </table><hr>
-
-</ul>
 </body>
 </html>

@@ -1,16 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${collection.name}">Title</title>
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{../../../CSS/collections-delete.css}">
-    <script type="text/javascript" th:src="@{../../../javascript/collections-delete.js}"></script>
-</head>
-
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<title th:text="${collection.name}">Title</title>
+<head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
-
-
+<script>window.onload = screenMode()</script>
 <body class="container body-content">
 <br><br><br><br>
 

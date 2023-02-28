@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
-
 <div th:replace="fragments :: page-header"></div>
-
+<script>window.onload = screenMode()</script>
 <body class="container body-content">
 
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>

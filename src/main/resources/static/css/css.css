@@ -14,12 +14,10 @@
 
 .books-search .booksResultsHeaderRow {
     border: 2px solid black !important;
-    background-color: #e4e4e4 !important;
 }
 
 .books-search .booksResultsTableRows {
     border: 1px solid black !important;
-    background-color: #e4e4e4 !important;
 }
 
 .books-search .genreCell {
@@ -67,6 +65,10 @@
 
 .books-search #synopsisColumnHeader {
     width: 40%;
+}
+
+.books-search tr:nth-child(odd) {
+    background-color: transparent;
 }
 
 .books-search .titleCell {
@@ -178,12 +180,10 @@
 }
 .games-search .gamesResultsHeaderRow {
     border: 2px solid black !important;
-    background-color: #e4e4e4 !important;
 }
 
 .games-search .gamesResultsTableRows {
     border: 1px solid black !important;
-    background-color: #e4e4e4 !important;
 }
 
 .games-search .genre1Cell {
@@ -329,17 +329,12 @@
 
 .movies-search .booksResultsHeaderRow {
     border: 2px solid black !important;
-    background-color: #e4e4e4 !important;
-}
-
-.movies-search .booksResultsTableRows {
-    border: 1px solid black !important;
-    background-color: #e4e4e4 !important;
 }
 
 .movies-search .genre1Cell {
     width: 15%;
     text-align: center;
+    vertical-align: middle
 }
 
 .movies-search #genre1ColumnHeader {
@@ -350,6 +345,10 @@
 
 .movies-search .hidden {
     display: none;
+}
+
+.movies-search .movieResultsTableRows {
+    border: 1px solid black;
 }
 
 .movies-search p {
@@ -364,6 +363,7 @@
 .movies-search .posterCell {
     width: 15%;
     padding: 10px;
+    vertical-align: middle;
 }
 
 .movies-search #posterColumnHeader {
@@ -372,14 +372,22 @@
     text-align: center;
 }
 
+.movies-search .streamingDiv {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+}
+
 .movies-search .streamingPlatformsCell {
     width: 15%;
     padding: 10px;
+    vertical-align: middle
 }
 
 .movies-search .synopsisCell {
     width: 40%;
     text-align: center;
+    vertical-align: middle
 }
 
 .movies-search #synopsisColumnHeader {
@@ -387,9 +395,15 @@
     text-align: center;
 }
 
+.movies-search #theaterPhoto {
+    width: 235px;
+    height: 120px;
+}
+
 .movies-search .titleCell {
     width: 20%;
     text-align: center;
+    vertical-align: middle
 }
 
 .movies-search #titleColumnHeader {
@@ -399,15 +413,49 @@
     padding: 10px;
 }
 
+.movies-search tr:nth-child(odd) {
+    background-color: transparent;
+}
+
 .movies-search .yearCell {
     width: 5%;
     text-align: center;
+    vertical-align: middle
 }
 
 .movies-search #yearColumnHeader {
     width: 5%;
     cursor: pointer;
     text-align: center;
+}
+
+.view-book-collection .swiper-button-next {
+    left: 200px;
+}
+
+.view-book-collection swiper-container {
+    width: 100%;
+    height: 100%;
+    }
+
+.view-book-collection swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.view-book-collection swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.view-book-collection tr:nth-child(odd) {
+    background-color: transparent;
 }
 
 .view-movie-collection .swiper-button-next {
@@ -434,3 +482,9 @@
     height: 100%;
     object-fit: cover;
 }
+
+.view-movie-collection tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head th:replace="~{fragments :: head}">
-</head>
-
+<head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
-
+<script>window.onload = screenMode()</script>
 <body class="container body-content">
 
 <H1 class="text-center" th:text="${gameCollection.name}"></H1>

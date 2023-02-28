@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8">
-    <title>Delete Collections</title>
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <link rel="stylesheet" th:href="@{../CSS/collections-delete.css}">
-    <script type="text/javascript" th:src="@{../javascript/collections-delete.js}"></script>
-</head>
-
+<title>Books - Search</title>
+<head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
-
-
+<script>window.onload = screenMode()</script>
 <body class="collections-delete container body-content">
 <br><br><br><br>
 <h1 th:text=" 'Delete Collections created by: ' + ${user.screenName}"></h1>
