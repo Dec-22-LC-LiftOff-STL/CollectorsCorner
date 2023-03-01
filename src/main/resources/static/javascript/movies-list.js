@@ -220,14 +220,14 @@ function buildCastHTMLDiv(apiClientMovieId, castDivId) {
 
         let castHTML = "";
         console.log(json.cast)
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 4; i++) {
             let cast = json.cast[i];
             if (cast.profile_path === null) {
                 break;
             }
                 let html = `
-                <div style="outline: 3px solid white; max-width:160px">
-                    <img src="https://www.themoviedb.org/t/p/original/${cast.profile_path}" style="width:150px; padding: 5%; outline: 2 px solid white">
+                <div style="outline: 3px solid white; max-width:135px">
+                    <img src="https://www.themoviedb.org/t/p/original/${cast.profile_path}" style="width:135px; padding: 5%; outline: 2 px solid white">
                     <p style="text-align: center; font-size: 14px; overflow-wrap: anywhere">${cast.name}</p>
                     <p style="text-align: center; font-size: 11px; overflow-wrap: anywhere">${cast.character}</p>
                 </div>

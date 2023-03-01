@@ -287,6 +287,14 @@
     width: 70%;
 }
 
+.movies-list .flagButton {
+    padding: 0px;
+}
+
+.movies-list .flagIcon {
+    width: 50px;
+}
+
 .movies-list .posterColumn {
     flex: 33%;
     padding: 10px;
@@ -295,6 +303,14 @@
 .movies-list .infoColumn {
     flex: 66%;
     padding: 10px;
+}
+
+.movies-list p {
+    margin-left: 0;
+}
+
+.movies-list #resultsTable {
+    border: none;
 }
 
 .movies-list swiper-container {
@@ -306,9 +322,9 @@
     text-align: center;
     font-size: 18px;
     background: #fff;
-    display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 10px;
 }
 
 .movies-list swiper-slide img {
@@ -321,6 +337,19 @@
 .movies-list swiper-container {
     margin-left: auto;
     margin-right: auto;
+    outline: 3px solid white;
+}
+
+.movies-list table {
+    outline: 5px solid white;
+}
+
+.movies-list tr {
+    outline: 3px solid white;
+}
+
+.movies-list tr:nth-child(odd) {
+    background-color: transparent;
 }
 
 .movies-search #addToCollectionHeader {
