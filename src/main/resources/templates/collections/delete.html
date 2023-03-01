@@ -4,6 +4,7 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
+<script type="text/javascript" th:src="@{/javascript/collections-delete.js}"></script>
 <body class="collections-delete container body-content">
 <br><br><br><br>
 <h1 th:text=" 'Delete Collections created by: ' + ${user.screenName}"></h1>
