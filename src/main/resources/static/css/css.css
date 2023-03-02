@@ -13,11 +13,11 @@
 }
 
 .books-search .booksResultsHeaderRow {
-    border: 2px solid black !important;
+    border: 2px solid black;
 }
 
 .books-search .booksResultsTableRows {
-    border: 1px solid black !important;
+    border: 1px solid black;
 }
 
 .books-search .genreCell {
@@ -179,11 +179,11 @@
     grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
 }
 .games-search .gamesResultsHeaderRow {
-    border: 2px solid black !important;
+    border: 2px solid black;
 }
 
 .games-search .gamesResultsTableRows {
-    border: 1px solid black !important;
+    border: 1px solid black;
 }
 
 .games-search .genre1Cell {
@@ -283,6 +283,37 @@
     clear: both;
 }
 
+.movies-list .actorNameText {
+    text-align: center;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.movies-list .actorPhoto {
+    width: 140px;
+    padding: 5%;
+}
+
+.movies-list .castDiv {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    padding-top: 15px;
+    padding-left: 3px;
+}
+
+.movies-list .castMember { }
+
+.movies-list .characterNameText {
+    text-align: center;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+.movies-list .confirmButton {
+    width:131.84px;
+}
+
 .movies-list .container-fluid {
     width: 70%;
 }
@@ -305,12 +336,46 @@
     padding: 10px;
 }
 
+.movies-list .movieDate {
+    font-size: 22px;
+}
+
+.movies-list .movieSynopsis {
+    font-size:16px;
+}
+
+.movies-list .movieTitle {
+    font-size: 36px;
+}
+
 .movies-list p {
     margin-left: 0;
 }
 
+.movies-list .posterCell {
+    vertical-align: middle;
+    display: flex;
+}
+
+.movies-list .primaryGenre {
+    font-size: 16px;
+}
+
 .movies-list #resultsTable {
     border: none;
+}
+
+.movies-list .slideCategory {
+    position: relative;
+    top: 5%;
+    margin: 8px;
+}
+
+.movies-list .streamingDiv {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    padding-top: 15px;
 }
 
 .movies-list swiper-container {
@@ -337,15 +402,6 @@
 .movies-list swiper-container {
     margin-left: auto;
     margin-right: auto;
-    outline: 3px solid white;
-}
-
-.movies-list table {
-    outline: 5px solid white;
-}
-
-.movies-list tr {
-    outline: 3px solid white;
 }
 
 .movies-list tr:nth-child(odd) {
@@ -354,10 +410,6 @@
 
 .movies-search #addToCollectionHeader {
     width: 15%;
-}
-
-.movies-search .booksResultsHeaderRow {
-    border: 2px solid black !important;
 }
 
 .movies-search .genre1Cell {
@@ -374,10 +426,6 @@
 
 .movies-search .hidden {
     display: none;
-}
-
-.movies-search .movieResultsTableRows {
-    border: 1px solid black;
 }
 
 .movies-search p {

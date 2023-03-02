@@ -7,58 +7,51 @@ window.onload = function() {
     });
 }
 
-
-// Uses template literal backticks (``) and loops to construct the HTML for the results table <div>.
 function buildHTMLResultsTable(url) {
     fetch(url).then(function(response) {
     response.json().then(function(json) {
     const arrayOfMovieObjects = json.results;
-    const resultsTable = document.getElementById("resultsTable"); //See search.html template
+    const resultsTable = document.getElementById("resultsTable");
     let tableBeginning = ` <table> `;
     let tableRows = "";
     for (let i = 0; i < arrayOfMovieObjects.length; i++) {
         const movie = arrayOfMovieObjects[i];
-        //Validation - reject API query results without a release_date property.
+        //Validation//
+        movie.release_date = movie.release_date.slice(0,4);
         if (!movie.release_date) {
             break;
         }
-        //Validation - convert yyyy/mm/dd format to yyyy.
-        movie.release_date = movie.release_date.slice(0,4);
-        //Validation - reject API query results without a poster_path property.
         if (movie.poster_path === null) {
             break;
         }
-        //Validation - reject API query results without a genre_ids property.
         if (movie.genre_ids[0] === undefined) {
             break;
         }
-        //Validation - reject API query results without an overview property.
         if (movie.overview === "") {
             break;
         }
-
         tableRows += `
-            <tr class="booksResultsTableRows">
-                <td class="posterCell" style="vertical-align: middle; display:flex;">
+            <tr>
+                <td class="posterCell">
                     <div class="posterColumn">
                         <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
                         <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
                     </div>
                     <div class="infoColumn">
-                        <a style="font-size: 36px" id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
-                        <p style="font-size: 22px" id="movieDate${i}">${movie.release_date}</p>
-                        <p style="font-size: 16px" id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
+                        <a id="movieTitle${i}" class="movieTitle" href="/movies/details/${movie.title}">${movie.title}</a><br>
+                        <p id="movieDate${i}" class="movieDate">${movie.release_date}</p>
+                        <p id="primaryGenre${i}" class="primaryGenre">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                         <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                         <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
-                        <p style="font-size:16px" id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
+                        <p id="movieSynopsis${i}" class="movieSynopsis">${movie.overview}</p>
                         <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
                         <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}, this); toggleStreamingServicesDiv(streamingDiv${i})">Watch</button>
                         <button class="btn btn-primary" onclick="buildCastHTMLDiv(themoviedbApiId${i}, castDiv${i}); toggleCastDiv(castDiv${i})">Cast</button><br>
                         <form id="confirmButtonDropdown${i}" style="display:none;">
-                            <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
+                            <button class="btn btn-success confirmButton" onclick="addNewMovieToDatabase();">Confirm</button>
                         </form>
-                        <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px;"></div>
-                        <div id="castDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px; padding-left: 3px"></div>
+                        <div id="streamingDiv${i}" class="hidden streamingDiv"></div>
+                        <div id="castDiv${i}" class="hidden castDiv"></div>
                     </div>
                 </td>
             </tr>
@@ -66,6 +59,7 @@ function buildHTMLResultsTable(url) {
     }
     let tableEnding = ` </table> `;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
+    screenModeTable();
     });
     });
 }
@@ -165,20 +159,14 @@ function addNewMovieToDatabase() {
 }
 
 function fetchByActorName(name) {
-    let urlBeginning = "https://api.themoviedb.org/3/search/person?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US&query=";
     let selectedName = name;
-    let urlEnding = "&page=1&include_adult=false";
-    let url = urlBeginning + selectedName + urlEnding;
+    let url = "https://api.themoviedb.org/3/search/person?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US&query=" + selectedName + "&page=1&include_adult=false";
     genericActorFetch(url);
 }
 
 function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId, button) {
-
-    urlBeginning = "https://api.themoviedb.org/3/movie/";
     id = apiClientMovieId.innerHTML;
-    urlEnding = "/watch/providers?api_key=16012a33d67f443093071edcbcdfc9d0";
-
-    url = urlBeginning + id + urlEnding;
+    url = "https://api.themoviedb.org/3/movie/" + id + "/watch/providers?api_key=16012a33d67f443093071edcbcdfc9d0";
 
     fetch(url)
         .then(function(response) {
@@ -208,34 +196,29 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId, button)
 }
 
 function buildCastHTMLDiv(apiClientMovieId, castDivId) {
-    urlBeginning = "https://api.themoviedb.org/3/movie/";
     id = apiClientMovieId.innerHTML;
-    urlEnding = "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US";
-
-    url = urlBeginning + id + urlEnding;
-    console.log(url)
+    url = "https://api.themoviedb.org/3/movie/" + id + "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US";
     fetch(url)
         .then(function(response) {
         response.json().then(function(json) {
 
         let castHTML = "";
-        console.log(json.cast)
         for (let i = 0; i < 4; i++) {
             let cast = json.cast[i];
             if (cast.profile_path === null) {
                 break;
             }
                 let html = `
-                <div style="outline: 3px solid white; max-width:135px">
-                    <img src="https://www.themoviedb.org/t/p/original/${cast.profile_path}" style="width:135px; padding: 5%; outline: 2 px solid white">
-                    <p style="text-align: center; font-size: 14px; overflow-wrap: anywhere">${cast.name}</p>
-                    <p style="text-align: center; font-size: 11px; overflow-wrap: anywhere">${cast.character}</p>
-                </div>
+                <div class="castMember">
+                    <img class="actorPhoto" src="https://www.themoviedb.org/t/p/original/${cast.profile_path}">
+                    <p class="actorNameText">${cast.name}</p>
+                    <p class="characterNameText">${cast.character}</p>
+                </div> &nbsp;
                 `;
                 castHTML += html;
         }
         document.getElementById(castDivId.id).innerHTML = castHTML;
-        console.log(document.getElementById(castDivId.id).innerHTML);
+        castMemberOutline();
         });
         })
 }
@@ -299,7 +282,7 @@ function genericActorFetch(url) {
             }
 
             tableRows += `
-                <tr class="booksResultsTableRows">
+                <tr>
                     <td class="posterCell" style="vertical-align: middle; display:flex;">
                         <div class="posterColumn">
                             <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
@@ -325,8 +308,10 @@ function genericActorFetch(url) {
                 </tr>
                 `;
         }
+
         let tableEnding = ` </table> `;
         resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
+        x();
         });
         });
     }

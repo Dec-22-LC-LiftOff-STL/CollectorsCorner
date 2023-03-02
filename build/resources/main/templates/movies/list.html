@@ -12,9 +12,9 @@
 
 <h1 style="text-align:center;">Browse Movies</h1><br>
 
-<swiper-container class="mySwiper"  navigation="true" space-between="50" loop="true">
+<swiper-container class="mySwiper" navigation="true" space-between="50" loop="true">
     <swiper-slide>
-        <h3>Popular Foreign Films of 2022</h3>
+        <h3 class="slideCategory">Popular Foreign Films of 2022</h3>
         <button class="btn btn-light flagButton" onclick="fetchChinese()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Emojione_1F1E8-1F1F3.svg/1024px-Emojione_1F1E8-1F1F3.svg.png"></button>
         <button class="btn btn-light flagButton" onclick="fetchHindi()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Emojione_1F1EE-1F1F3.svg/1024px-Emojione_1F1EE-1F1F3.svg.png"></button>
         <button class="btn btn-light flagButton" onclick="fetchSpanish()"><img class="flagIcon" src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Emojione_1F1EA-1F1F8.svg"></button>
@@ -30,7 +30,7 @@
 
     </swiper-slide>
     <swiper-slide>
-        <h3>Most Popular Movies Now</h3>
+        <h3 class="slideCategory">Most Popular Movies Now</h3>
         <button class="btn btn-light" onclick="fetchAction()">Action</button>
         <button class="btn btn-light" onclick="fetchAdventure()">Adventure</button>
         <button class="btn btn-light" onclick="fetchAnimation()">Animation</button>
@@ -46,7 +46,7 @@
         <button class="btn btn-light" onclick="fetchWestern()">Western</button>
     </swiper-slide>
     <swiper-slide>
-        <h3>Movies with Best Actress Winners</h3>
+        <h3 class="slideCategory">Movies with Best Actress Winners</h3>
         <button class="btn btn-light" onclick="fetchByActorName('Jessica%20Chastain')">Jessica Chastain</button>
         <button class="btn btn-light" onclick="fetchByActorName('Frances%20McDormand')">Frances McDormand</button>
         <button class="btn btn-light" onclick="fetchByActorName('Katharine%20Hepburn')">Katharine Hepburn</button>
@@ -56,7 +56,7 @@
         <button class="btn btn-light" onclick="fetchByActorName('Halle%20Berry')">Halle Berry</button>
     </swiper-slide>
     <swiper-slide>
-        <h3>Movies with Best Actor Winners:</h3>
+        <h3 class="slideCategory">Movies with Best Actor Winners:</h3>
         <button class="btn btn-light" onclick="fetchByActorName('Tom%20Hanks')">Tom Hanks</button>
         <button class="btn btn-light" onclick="fetchByActorName('Matthew%20McConaughey')">Matthew McConaughey</button>
         <button class="btn btn-light" onclick="fetchByActorName('Denzel%20Washington')">Denzel Washington</button>
@@ -67,7 +67,7 @@
     </swiper-slide>
     <swiper-slide>
         <div id="mostPopular50s">
-        <h3>Most Popular Movies of the 50s</h3>
+        <h3 class="slideCategory">Most Popular Movies of the 50s</h3>
         <button class="btn btn-light" onclick="fetchByYear(1950)">1950</button>
         <button class="btn btn-light" onclick="fetchByYear(1951)">1951</button>
         <button class="btn btn-light" onclick="fetchByYear(1952)">1952</button>
@@ -81,7 +81,7 @@
         </div>
     </swiper-slide>
     <swiper-slide>
-        <h3>Most Popular Movies of the 60s</h3>
+        <h3 class="slideCategory">Most Popular Movies of the 60s</h3>
         <button class="btn btn-light" onclick="fetchByYear(1960)">1960</button>
         <button class="btn btn-light" onclick="fetchByYear(1961)">1961</button>
         <button class="btn btn-light" onclick="fetchByYear(1962)">1962</button>
@@ -94,7 +94,7 @@
         <button class="btn btn-light" onclick="fetchByYear(1969)">1969</button>
     </swiper-slide>
     <swiper-slide>
-        <h3>Most Popular Movies of the 70s</h3>
+        <h3 class="slideCategory">Most Popular Movies of the 70s</h3>
         <button class="btn btn-light" onclick="fetchByYear(1970)">1970</button>
         <button class="btn btn-light" onclick="fetchByYear(1971)">1971</button>
         <button class="btn btn-light" onclick="fetchByYear(1972)">1972</button>
@@ -107,7 +107,7 @@
         <button class="btn btn-light" onclick="fetchByYear(1979)">1979</button>
     </swiper-slide>
     <swiper-slide>
-        <h3>Most Popular Movies of the 80s</h3>
+        <h3 class="slideCategory">Most Popular Movies of the 80s</h3>
         <button class="btn btn-light" onclick="fetchByYear(1981)">1981</button>
         <button class="btn btn-light" onclick="fetchByYear(1982)">1982</button>
         <button class="btn btn-light" onclick="fetchByYear(1983)">1983</button>
@@ -119,7 +119,7 @@
         <button class="btn btn-light" onclick="fetchByYear(1989)">1989</button>
     </swiper-slide>
     <swiper-slide>
-        <h3>Most Popular Movies of the 90s</h3>
+        <h3 class="slideCategory">Most Popular Movies of the 90s</h3>
         <button class="btn btn-light" onclick="fetchByYear(1990)">1990</button>
         <button class="btn btn-light" onclick="fetchByYear(1991)">1991</button>
         <button class="btn btn-light" onclick="fetchByYear(1992)">1992</button>
@@ -132,7 +132,7 @@
         <button class="btn btn-light" onclick="fetchByYear(1999)">1999</button>
     </swiper-slide>
     <swiper-slide>
-        <h3>Most Popular Movies of the 00s</h3>
+        <h3 class="slideCategory">Most Popular Movies of the 00s</h3>
         <button class="btn btn-light" onclick="fetchByYear(2000)">2000</button>
         <button class="btn btn-light" onclick="fetchByYear(2001)">2001</button>
         <button class="btn btn-light" onclick="fetchByYear(2002)">2002</button>
@@ -145,7 +145,7 @@
         <button class="btn btn-light" onclick="fetchByYear(2009)">2009</button>
     </swiper-slide>
     <swiper-slide>
-        <h3>Most Popular Movies of the 2010s</h3>
+        <h3 class="slideCategory">Most Popular Movies of the 2010s</h3>
         <button class="btn btn-light" onclick="fetchByYear(2010)">2010</button>
         <button class="btn btn-light" onclick="fetchByYear(2011)">2011</button>
         <button class="btn btn-light" onclick="fetchByYear(2012)">2012</button>
@@ -158,7 +158,7 @@
         <button class="btn btn-light" onclick="fetchByYear(2019)">2019</button>
     </swiper-slide>
     <swiper-slide>
-        <h3>Most Popular Movies of the 2020s</h3>
+        <h3 class="slideCategory">Most Popular Movies of the 2020s</h3>
         <button class="btn btn-light" onclick="fetchByYear(2020)">2020</button>
         <button class="btn btn-light" onclick="fetchByYear(2021)">2021</button>
         <button class="btn btn-light" onclick="fetchByYear(2022)">2022</button>

@@ -2,12 +2,17 @@ function screenMode () {
   document.addEventListener('DOMContentLoaded', function () {
     const screenMode = document.getElementById('screenMode').innerText;
 
-    if (screenMode === 'light') {
+    if (screenMode === 'Light') {
+
+        const swiperContainer = document.querySelectorAll("swiper-container")
+        for (var i = 0; i < swiperContainer.length; i++) {
+            swiperContainer[i].style.border = '5px solid black';
+        }
+
 
     } else if (screenMode === 'Dark') {
         document.body.style.backgroundColor = "rgb(23,23,23)";
         document.body.style.color = "white";
-        const table = document.getElementById('resultsTable');
 
         const tbody = document.querySelectorAll("tbody")
         for (var i = 0; i < tbody.length; i++) {
@@ -28,6 +33,7 @@ function screenMode () {
         const swiperSlide = document.querySelectorAll("swiper-slide")
         for (var i = 0; i < swiperSlide.length; i++) {
             swiperSlide[i].style.backgroundColor = 'rgb(23,23,23)';
+            swiperSlide[i].style.border = '3px solid white';
         }
         const swiperContainer = document.querySelectorAll("swiper-container")
         for (var i = 0; i < swiperContainer.length; i++) {
@@ -44,6 +50,39 @@ function screenMode () {
             option[i].style.backgroundColor = '#222';
             option[i].style.color = '#9d9d9d';
         }
+
+
     }
     });
 };
+
+function screenModeTable() {
+    const screenMode = document.getElementById('screenMode').innerText;
+    console.log(screenMode);
+    if (screenMode === 'Dark') {
+    const table = document.querySelector('table');
+    const rows = table.querySelectorAll('tr');
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].style.border = '3px solid white';
+        }
+    } else {
+    const table = document.querySelector('table');
+    const rows = table.querySelectorAll('tr');
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].style.border = '5px solid black';
+        }
+    }
+}
+
+function castMemberOutline() {
+    const screenMode = document.getElementById('screenMode').innerText;
+    console.log(screenMode);
+        const castMember = document.getElementsByClassName('castMember')
+        for (var i = 0; i < castMember.length; i++) {
+            if (screenMode === 'Dark') {
+                castMember[i].style.outline = '3px solid white';
+            } else {
+                castMember[i].style.outline = '3px solid black';
+            }
+        }
+}

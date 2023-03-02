@@ -5,27 +5,15 @@
 <script>window.onload = screenMode()</script>
 <script type="text/javascript" th:src="@{/javascript/movies-search.js}"></script>
 <body class="container body-content movies-search">
-<br><br><br><br>
+
+<div th:replace="fragments :: movies-navbar"></div>
 
 <img id="theaterPhoto" src="http://localhost:8080/images/movieCollection.jpg" alt="book">
 
 <h1>Movie Search</h1>
 
 <input id="userSearchTerm" class="button" onkeyup="if(event.keyCode === 13){searchMovieTitle(userSearchTerm)}">
-<button value="userSearchTerm" onclick="searchMovieTitle(userSearchTerm)" class="button">Search</button><hr>
-
-<h3 id="collectionNameDropdownLabel">Your Movie Collections:</h3><br>
-
-<form>
-    <select id="collectionNamesDropdown">
-        <option value="">Select a collection</option>
-        <th:block th:each="collection : ${movieCollections}">
-            <span th:if="${collection.user.id == cookie}">
-                <option th:text="${collection.name}" th:value="${collection.id}"></option>
-            </span>
-        </th:block>
-    </select>
-</form><hr>
+<button value="userSearchTerm" onclick="searchMovieTitle(userSearchTerm)" class="button">Search</button><br><br>
 
 <div id="resultsTable"></div>
 

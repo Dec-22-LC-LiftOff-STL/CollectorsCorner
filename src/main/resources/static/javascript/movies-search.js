@@ -30,9 +30,9 @@ function buildHTMLResultsTable(url) {
     const arrayOfMovieObjects = json.results;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
     let tableBeginning = `
-    <table class="table">
+    <table id="movieTable">
         <thead>
-            <tr class="booksResultsHeaderRow">
+            <tr>
                 <th id="posterColumnHeader"></th>
                 <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
                 <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
@@ -66,7 +66,7 @@ function buildHTMLResultsTable(url) {
         }
 
         tableRows += `
-            <tr class="movieResultsTableRows">
+            <tr>
                 <th class="posterCell">
                     <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
                     <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
@@ -99,6 +99,7 @@ function buildHTMLResultsTable(url) {
     }
     let tableEnding = `</tbody></table>`;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
+    x();
     });
     });
 }
