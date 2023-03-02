@@ -74,7 +74,6 @@ function prepareDatabaseInformationForm(i) {
     const movieGenres = document.getElementById(`movieGenres${i}`).textContent;
     const movieImageURL = document.getElementById(`movieImageURL${i}`).textContent;
 
-
     //Fills in the title on the form on search.html
     document.getElementById("titleSubmission").value = movieTitle;
 
@@ -101,15 +100,10 @@ function prepareDatabaseInformationForm(i) {
         document.getElementById("genre3Submission").value = "";
     }
 
-
-
     //Fills in the director on the form on search.html form -- director is NOT a default property on the API movie objects
-    //This property must be retrieved via a separate fetch using *TheMovieDatabase's* ID for the movie.
-    let directorFetchURLBeginning = "https://api.themoviedb.org/3/movie/"
+    //This property must be retrieved via a separate fetch using *TheMovieDatabase's* ID for the movie
     let movieId = themoviedbApiId;
-    let directorFetchURLEnding = "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&sort_by=vote_count.desc&with_original_language=en&year=2022&primary_release_date.gte=2022-11-01"
-
-    let directorURL = directorFetchURLBeginning + movieId + directorFetchURLEnding;
+    let directorURL = "https://api.themoviedb.org/3/movie/" + movieId + "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&sort_by=vote_count.desc&with_original_language=en&year=2022&primary_release_date.gte=2022-11-01";
 
     let director = fetch(directorURL)
     .then(response => response.json())
@@ -120,7 +114,6 @@ function prepareDatabaseInformationForm(i) {
         };
         printDirector();
 
-
     //Fills in the release year on the form on search.html form
     document.getElementById("yearSubmission").value = movieDate.slice(0,4);
 
@@ -129,32 +122,31 @@ function prepareDatabaseInformationForm(i) {
 }
 
 function addNewMovieToDatabase() {
-
-        let collectionDropdown = document.getElementById("collectionNamesDropdown");
-        let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
-        let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
-        if (collectionDropdown.value === '') {
-            alert("Don't forget to select the collection you want to add to!")
-            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
-            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+    let collectionDropdown = document.getElementById("collectionNamesDropdown");
+    let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
+    let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
+    if (collectionDropdown.value === '') {
+        alert("Don't forget to select the collection you want to add to!")
+        const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
+        collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+    }
+    for (let i=0; i<collectionIdsAndMoviesArray.length; i++) {
+        //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
+        let id = collectionIdsAndMoviesArray[i].split('=[Movie{')[0];
+        let text = collectionIdsAndMoviesArray[i].split('=[Movie{')[1];
+        //If the collection is empty, allow any addition.
+        if (text === undefined) {
+            break;
+        }
+        // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
+        // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
+        // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+        if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
+            alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
             return;
         }
-        for (let i=0; i<collectionIdsAndMoviesArray.length; i++) {
-            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
-            let id = collectionIdsAndMoviesArray[i].split('=[Movie{')[0];
-            let text = collectionIdsAndMoviesArray[i].split('=[Movie{')[1];
-            //If the collection is empty, allow any addition.
-            if (text === undefined) {
-                break;
-            }
-            // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
-            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
-            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
-            if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
-                alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
-                return;
-            }
-        }
+    }
     document.getElementById("databaseInformation").submit();
 }
 

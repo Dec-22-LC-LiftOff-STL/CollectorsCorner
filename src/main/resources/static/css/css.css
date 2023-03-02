@@ -352,6 +352,10 @@
     margin-left: 0;
 }
 
+.movies-list #pageHeader {
+    text-align: center;
+}
+
 .movies-list .posterCell {
     vertical-align: middle;
     display: flex;

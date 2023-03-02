@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
-<script>window.onload = screenMode()</script>
 <script type="text/javascript" th:src="@{/javascript/movies-list.js}"></script>
 <title>Collectors Corner</title>
 
@@ -10,7 +9,7 @@
 
 <div th:replace="fragments :: movies-navbar"></div>
 
-<h1 style="text-align:center;">Browse Movies</h1><br>
+<h1 id="pageHeader">Browse Movies</h1><br>
 
 <swiper-container class="mySwiper" navigation="true" space-between="50" loop="true">
     <swiper-slide>

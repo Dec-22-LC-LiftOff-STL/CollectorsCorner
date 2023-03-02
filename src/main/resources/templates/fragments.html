@@ -11,6 +11,7 @@
     <script type="text/javascript" th:src="@{/javascript/bootstrap.js}"></script>
     <script type="text/javascript" th:src="@{/javascript/screen-mode.js}"></script>
     <script type="text/javascript" th:src="@{/javascript/fragments.js}"></script>
+    <script>window.onload = screenMode()</script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.css"/>
     <title th:text="'CollectorsCorner' + ${title == null ? '' : ' :: ' + title}">Collector's Corner</title>

@@ -46,21 +46,17 @@ function buildHTMLResultsTable(url) {
     let tableRows = "";
     for (let i = 0; i < arrayOfMovieObjects.length; i++) {
         const movie = arrayOfMovieObjects[i];
-        //Validation - reject API query results without a release_date property.
+        //Validation
         if (!movie.release_date) {
             break;
         }
-        //Validation - convert yyyy/mm/dd format to yyyy.
         movie.release_date = movie.release_date.slice(0,4);
-        //Validation - reject API query results without a poster_path property.
         if (movie.poster_path === null) {
             break;
         }
-        //Validation - reject API query results without a genre_ids property.
         if (movie.genre_ids[0] === undefined) {
             break;
         }
-        //Validation - reject API query results without an overview property.
         if (movie.overview === "") {
             break;
         }
@@ -99,7 +95,7 @@ function buildHTMLResultsTable(url) {
     }
     let tableEnding = `</tbody></table>`;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
-    x();
+    screenModeTable();
     });
     });
 }
@@ -174,15 +170,13 @@ function addNewMovieToDatabase() {
         let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
         if (collectionDropdown.value === '') {
             alert("Don't forget to select the collection you want to add to!")
-            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
-            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
             return;
         }
         for (let i=0; i<collectionIdsAndMoviesArray.length; i++) {
             //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
             let id = collectionIdsAndMoviesArray[i].split('=[Movie{')[0];
             let text = collectionIdsAndMoviesArray[i].split('=[Movie{')[1];
-            //If the collection is empty, allow any addition.
+            //If the collection is empty, allow an addition.
             if (text === undefined) {
                 break;
             }
