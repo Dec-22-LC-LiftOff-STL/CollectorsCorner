@@ -3,31 +3,29 @@
 <title>Books - Search</title>
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
-<script>window.onload = screenMode()</script>
 <script type="text/javascript" th:src="@{/javascript/books-search.js}"></script>
-<body class="books-search container body-content">
 
-<img src="http://localhost:8080/images/bookCollection.jpg" alt="book" width="235" height="120">
+<body class="container body-content books-search">
+
+<div th:replace="fragments :: books-navbar"></div>
+
+<img id="headerPhoto" src="http://localhost:8080/images/bookCollection.jpg" alt="bookshelf">
 <h1>Book Search</h1>
 <form>
-  <input type="text" id="userSearchTerm" onkeypress="if (event.keyCode === 13) { handleSearch(); }">
-
-  <select id="searchTypeDropdown" style="height:26px;">
+  <input id="userSearchTerm" onkeypress="if (event.keyCode === 13) { handleSearch(); }">
+  <select id="searchTypeDropdown">
     <option value="title">Title</option>
     <option value="author">Author</option>
     <option value="isbn">ISBN</option>
   </select>
-  <button type="button" id="searchButton">Search</button>
-</form> <hr>
+  <button id="searchButton">Search</button>
+</form><br>
 
-<button id="newSearchButton" class="btn btn-primary"><a href="http://localhost:8080/books/search" style="color:inherit;">New Search</a></button>
-<button id="showFiltersButton" style="display:none;" class="btn btn-primary" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes();">Show Filters</button>
-
-<hr>
+<button id="showFiltersButton" class="btn btn-primary" onclick="toggleShowHideFilters(); generateAuthorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckAuthorBoxes(); toggleCheckUncheckGenreBoxes();" style="display:none;">Show Filters</button><br>
 
 <div id="filtersSection" style="display:none;">
 
-  <form id="yearFilters" >
+  <form id="yearFilters">
     <h3>Year Range:</h3>
     <input type="number" id="userYearMin">
     <input type="number" id="userYearMax">
@@ -52,18 +50,6 @@
 
 </div>
 
-<h3 id="collectionNameDropdownLabel">Your Book Collections:</h3><br>
-<form>
-  <select id="collectionNamesDropdown">
-    <option value="">Select a collection</option>
-    <th:block th:each="collection : ${bookCollections}">
-        <span th:if="${collection.user.id == cookie}">
-            <option th:text="${collection.name}" th:value="${collection.id}" ></option>
-        </span>
-    </th:block>
-  </select>
-</form><hr>
-
 <div id="resultsTable"></div>
 
 <p th:text="${collectionIdsAndBooks}" id="collectionIdsAndBooks" hidden></p>
@@ -81,14 +67,7 @@
 
 <!-- Event Listener to call removeScrollbarOnShortSynopsis() when user first scrolls -->
 <script>
-  window.addEventListener("scroll", function() {
-    const elements = document.getElementsByClassName("synopsisText");
-    for (let i = 0; i < elements.length; i++) {
-        if (elements[i].scrollHeight <= 150) {
-            elements[i].classList.remove("synopsisText");
-        }
-    }
-});
+  window.addEventListener("scroll", limitSynopsisTextHeight());
 </script>
 
 <!-- Handles the dropdown search options (title, author, isbn) -->

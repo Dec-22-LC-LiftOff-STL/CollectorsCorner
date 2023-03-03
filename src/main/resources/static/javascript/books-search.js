@@ -11,44 +11,35 @@ window.onload = function() {
     });
 }
 
+function limitSynopsisTextHeight() {
+    const elements = document.getElementsByClassName("synopsisText");
+    for (let i = 0; i < elements.length; i++) {
+        if (elements[i].scrollHeight <= 150) {
+            elements[i].classList.remove("synopsisText");
+        }
+    }
+}
+
 //SEARCH AND BUILD HTML
 
 function searchTitle() {
-    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=";
-    let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
-
-    searchTerm = document.getElementById("userSearchTerm").value;
-
-    let url = urlBeginning + searchTerm + urlEnding;
+    const searchTerm = document.getElementById("userSearchTerm").value;
+    let url = "https://www.googleapis.com/books/v1/volumes?q=" + searchTerm + "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
     buildHTMLResultsTable(url);
-    //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
 }
 
 function searchAuthor() {
-
-    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=inauthor:";
-    let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
-
-    searchTerm = document.getElementById("userSearchTerm").value;
-
-    let url = urlBeginning + searchTerm + urlEnding;
+    let searchTerm = document.getElementById("userSearchTerm").value;
+    let url = "https://www.googleapis.com/books/v1/volumes?q=inauthor:" + searchTerm + "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
 }
 
 function searchIsbn() {
-
-    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
-    let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=10";
-
-    searchTerm = document.getElementById("userSearchTerm").value.replace("-","");
-
-    let url = urlBeginning + searchTerm + urlEnding;
+    let searchTerm = document.getElementById("userSearchTerm").value.replace("-","");
+    let url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + searchTerm + "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=10";
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
@@ -59,13 +50,13 @@ function handleSearch() {
     if (searchTerm === 'title') {
         searchTitle();
         event.preventDefault();
-     } else if (searchTerm === 'author') {
+    } else if (searchTerm === 'author') {
         searchAuthor();
         event.preventDefault();
-     } else if (searchTerm === 'isbn') {
+    } else if (searchTerm === 'isbn') {
         searchIsbn();
         event.preventDefault();
-     }
+    }
 }
 
 function buildHTMLResultsTable(url) {
@@ -112,7 +103,7 @@ function buildHTMLResultsTable(url) {
                     <p id="bookImageURL${i}" hidden> ${book.volumeInfo.imageLinks.thumbnail}</p><br>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
                     <form id="userCollectionDropdown${i}" style="display:none;"><br>
-                        <button type="button" class="btn btn-success" onclick="addNewBookToDatabase();" style="width:131.84px">Confirm</button>
+                        <button class="btn btn-success confirmButton" onclick="addNewBookToDatabase();">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell">
@@ -120,16 +111,16 @@ function buildHTMLResultsTable(url) {
                     <p id="googleBooksApiId${i}" hidden>${book.id}</p>
                 </th>
                 <th class="authorCell">
-                    <p id="bookAuthor${i}" style="margin-left:0px;">${book.volumeInfo.authors[0]}</p>
+                    <p id="bookAuthor${i}" class="bookAuthor">${book.volumeInfo.authors[0]}</p>
                 </th>
                 <th class="yearCell">
-                    <p id="bookDate${i}" style="margin-left:0px;">${year}</p>
+                    <p id="bookDate${i}" class="bookDate">${year}</p>
                 </th>
                 <th class="genre1Cell">
-                    <p id="bookGenres${i}" style="margin-left:0px;">${book.volumeInfo.categories}</p>
+                    <p id="bookGenres${i}" class="bookGenres">${book.volumeInfo.categories}</p>
                 </th>
                 <th class="synopsisCell">
-                    <p id="bookSynopsis${i}" style="margin-left:0px;" class="synopsisText">${book.volumeInfo.description}</p>
+                    <p id="bookSynopsis${i}" class="synopsisText">${book.volumeInfo.description}</p>
                     <a href="/books/details/${book.volumeInfo.title}" class="readMore">Read more</a>
                 </th>
             </tr>
@@ -137,6 +128,7 @@ function buildHTMLResultsTable(url) {
         }
         let tableEnding = `</tbody></table>`;
         resultsTableDiv.innerHTML = tableBeginning + tableRows + tableEnding;
+        screenModeTable();
     });
     });
 }
@@ -151,7 +143,6 @@ function toggleAddToCollectionDropdownForm(i) {
 }
 
 function toggleShowHideFilters() {
-    //Toggle button text between Show Filters & Hide Filters
     if (document.getElementById("showFiltersButton").innerHTML === "Show Filters") {
         document.getElementById("showFiltersButton").innerHTML = "Hide Filters";
         document.getElementById("showFiltersButton").className = "btn btn-danger";
@@ -159,7 +150,6 @@ function toggleShowHideFilters() {
         document.getElementById("showFiltersButton").innerHTML = "Show Filters"
         document.getElementById("showFiltersButton").className = "btn btn-primary";
     }
-    //Toggle between showing/hiding <div id="filtersSection"> on search.html
     if (document.getElementById("filtersSection").style.display === "block") {
         document.getElementById("filtersSection").style.display = "none";
     } else {
@@ -178,25 +168,12 @@ function prepareDatabaseInformationForm(i) {
     const bookGenres = document.getElementById(`bookGenres${i}`).textContent;
     const bookImageURL = document.getElementById(`bookImageURL${i}`).textContent;
 
-    //Fills in the title on the form on search.html
     document.getElementById("titleSubmission").value = bookTitle;
-
-    //Fills in the author on the form on search.html form
     document.getElementById("authorSubmission").value = bookAuthor;
-
-    //Fills in the date the book was first added to the database on the form on search.html
     document.getElementById("dateSubmission").value = new Date();
-
-    //Fills in the imageURL on the form on search.html
     document.getElementById("imageURLSubmission").value = bookImageURL;
-
-    //Fills in the genres on the form on search.html
     document.getElementById("genreSubmission").value = bookGenres.split(",")[0]
-
-    //Fills in the release year on the form on search.html form
     document.getElementById("yearSubmission").value = bookDate.slice(0,4);
-
-    //Fills in the release year on the form on search.html form
     document.getElementById("synopsisSubmission").value = bookSynopsis
 }
 

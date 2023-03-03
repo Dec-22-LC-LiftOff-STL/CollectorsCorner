@@ -1,5 +1,5 @@
 function screenMode () {
-  document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
     const screenMode = document.getElementById('screenMode').innerText;
 
     if (screenMode === 'Light') {
@@ -8,7 +8,6 @@ function screenMode () {
         for (var i = 0; i < swiperContainer.length; i++) {
             swiperContainer[i].style.border = '5px solid black';
         }
-
 
     } else if (screenMode === 'Dark') {
         document.body.style.backgroundColor = "rgb(23,23,23)";
