@@ -5,16 +5,20 @@
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
 <script type="text/javascript" th:src="@{/javascript/games-search.js}"></script>
+
 <body class="container body-content games-search">
-<img src="http://localhost:8080/images/boardGames1.jpg" alt="game" width="235" height="120">
+
+    <div th:replace="fragments :: games-navbar"></div>
+
+    <img id="headerPhoto" src="http://localhost:8080/images/boardGames1.jpg" alt="game">
     <h1>Game Search</h1>
 
-    <input type="text" id="userSearchTerm" onkeyup="if (event.keyCode === 13) { searchTitle(userSearchTerm); }">
-    <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><hr>
+    <input id="userSearchTerm" onkeyup="if (event.keyCode === 13) { searchTitle(userSearchTerm); }">
+    <button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><br><br>
 
-    <button id="newSearchButton" class="btn btn-primary"><a href="http://localhost:8080/games/search" id="newSearchButtonLink">New Search</a></button> <br> <br>
     <button id="showFiltersButton" class="btn btn-primary" style="display:none" onclick="toggleShowHideFilters(); generateCreatorCheckboxHTML(); generateGenreCheckboxHTML(); toggleCheckUncheckCreatorBoxes(); toggleCheckUncheckGenreBoxes">Show Filters</button>
-    <hr>
+
+    <br>
 
     <div id="filtersSection" style="display:none;">
         <form id="yearFilters" >
@@ -40,18 +44,6 @@
         <button id="selectAllGenresButton" class="btn btn-sm" onclick="toggleCheckUncheckGenreBoxes()">Select All</button>
         <button id="unselectAllGenresButton" class="btn btn-sm" onclick="toggleCheckUncheckGenreBoxes()">Unselect All</button> <br> <hr>
     </div>
-
-    <h3 id="collectionNameDropdownLabel">Your Game Collections:</h3><br>
-    <form>
-        <select id="collectionNamesDropdown">
-            <option value="">Select a collection</option>
-                <th:block th:each="collection : ${gameCollections}">
-                    <span th:if="${collection.user.id == cookie}">
-                        <option th:text="${collection.name}" th:value="${collection.id}"></option>
-                    </span>
-            </th:block>
-        </select>
-    </form><hr>
 
     <form method="post" id="databaseInformation" hidden>
         <input th:field="${game.title}" id="titleSubmission" readonly>

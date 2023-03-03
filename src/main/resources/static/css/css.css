@@ -83,6 +83,10 @@
     height: 26px;
 }
 
+.books-search #showFiltersButton {
+    color: white;
+}
+
 .books-search .synopsisCell {
     width: 40%
 }
@@ -218,8 +222,9 @@
 
 .games-search .genre1Cell {
     width: 15%;
+    vertical-align: middle;
+    text-align: center;
 }
-
 
 .games-search #genre1ColumnHeader {
     width: 15%;
@@ -231,12 +236,18 @@
     grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
 }
 
+.games-search #headerPhoto {
+    width: 235px;
+    height: 120px;
+}
+
 .games-search .hidden {
     display: none;
 }
 
 .games-search .maxPlayersCell {
-    width: 10%
+    width: 10%;
+    vertical-align: middle;
 }
 
 .games-search #maxPlayersColumnHeader {
@@ -246,15 +257,12 @@
 
 .games-search .minPlayersCell {
     width: 10%
+    vertical-align: middle;
 }
 
 .games-search #minPlayersColumnHeader {
     width: 10%;
     cursor: pointer;
-}
-
-.games-search #newSearchButtonLink {
-    color: white !important;
 }
 
 .games-search p {
@@ -268,15 +276,21 @@
 }
 
 .games-search .posterCell {
-    width: 15%
+    width: 15%;
+    width: 225px;
 }
 
 .games-search #posterColumnHeader {
     width: 15%;
 }
 
+.games-search #showFiltersButton {
+    color: white !important;
+}
+
 .games-search .synopsisCell {
-    width: 30%
+    width: 30%;
+    vertical-align: middle;
 }
 
 .games-search #synopsisColumnHeader {
@@ -290,6 +304,7 @@
 
 .games-search .titleCell {
     width: 15%;
+    vertical-align: middle;
 }
 
 .games-search #titleColumnHeader {
@@ -298,8 +313,13 @@
     padding: 10px;
 }
 
+.games-search tr:nth-child(odd) {
+    background-color: transparent;
+}
+
 .games-search .yearCell {
     width: 5%;
+    vertical-align: middle;
 }
 
 .games-search #yearColumnHeader {
@@ -478,6 +498,10 @@
     width: 15%;
     padding: 10px;
     text-align: center;
+}
+
+.movies-search #showFiltersButton {
+    color: white;
 }
 
 .movies-search .streamingDiv {

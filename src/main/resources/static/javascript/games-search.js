@@ -12,14 +12,8 @@ window.onload = function() {
 }
 
 function searchTitle() {
-
-    let urlBeginning = "https://api.boardgameatlas.com/api/search?name=";
-    let searchTerm;
-    let urlEnding = "&client_id=P3yvzSB2mt";
-
-    searchTerm = document.getElementById("userSearchTerm").value;
-
-    let url = urlBeginning + searchTerm + urlEnding;
+    let searchTerm = document.getElementById("userSearchTerm").value;
+    let url = "https://api.boardgameatlas.com/api/search?name=" + searchTerm + "&client_id=P3yvzSB2mt";
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
@@ -57,17 +51,15 @@ function buildHTMLResultsTable(url) {
             && unvalidatedGame.max_players !== null
             && unvalidatedGame.year_published !== null
             && unvalidatedGame.categories.length !== 0) {
-
                 arrayOfValidatedGameObjects.push(unvalidatedGame);
-        }
+            }
     }
 
     for (let i = 0; i < arrayOfValidatedGameObjects.length; i++) {
     const game = arrayOfValidatedGameObjects[i];
-    console.log(arrayOfValidatedGameObjects)
         tableRows += `
             <tr id="rowIndex${i}" class="gamesResultsTableRows">
-                <th class="posterCell text-center" style="vertical-align: middle; width: 225px">
+                <th class="posterCell">
                     <img class="poster" src="${game.thumb_url}"><br><br>
                     <p id="gameImageURL${i}" hidden> ${game.thumb_url}</p><br>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
@@ -75,34 +67,34 @@ function buildHTMLResultsTable(url) {
                         <button type="button" class="btn btn-success" onclick="addNewGameToDatabase();">Confirm</button>
                     </form>
                 </th>
-                <th class="titleCell" style="vertical-align: middle;">
+                <th class="titleCell">
                     <a id="gameTitle${i}" href="${game.name}">${game.name}</a><br>
                     <p id="boardGameAtlasApiId${i}" hidden>${game.id}</p>
                     <p id="gameCreator${i}" hidden>${game.primary_publisher.name}</p>
                 </th>
-                <th class="yearCell" style="vertical-align: middle;">
+                <th class="yearCell">
                     <p id="gameDate${i}">${game.year_published}</p>
                 </th>
-                <th class="genre1Cell" style="vertical-align: middle;">
+                <th class="genre1Cell">
                     <p id="primaryGenre${i}">${game.categories[0].id.replace('eX8uuNlQkQ', 'Card Game').replace('wTLJSVEbm6', 'Word War I').replace('fl3TogdUzX', 'World War II').replace('ZTneo8TaIO', 'Fantasy').replace('N0TkEGfEsF', 'Economic').replace('3B3QpKvXD3', 'Sci-Fi').replace('ODWOjWAJj3', 'City Building').replace('QAYkTHK1Dd', 'Medieval').replace('KUBCKBkGxV', 'Adventure').replace('upXZ8vNfNO', 'Fighting').replace('buDTYyPw4D', 'Territory Building').replace('X8J7RM6dxX', 'Party Game').replace('a8NM5cugJX', 'Ancient').replace('PinhJrhnxU', 'Bluffing').replace('MHkqIVxwtx', 'Mythology').replace('bCBXJy9qDw', 'Deduction').replace('Wr8uXcoR9p', 'Farming').replace('mavSOM8vjH', 'Dice').replace('MWoxgHrOJD', 'Animals').replace('yq6hVlbM2R', 'Exploration').replace('329DxyFL9D', 'Civilization').replace('jZEDOpx07e', 'Negotiation').replace('zyj9ZK3mHB', 'Resource Management').replace('TKQncFVX74', 'Political').replace('hBqZ3Ar4RJ', 'Abstract').replace('cAIkk5aLdQ', 'Horror').replace('TYnxiuiI3X', 'Humor').replace('7rV11PKqME', 'Family Game').replace('WVMOS3s2pb', 'Puzzle').replace('gsekjrPJz0', 'Environmental').replace('v4SfYtS2Lr', 'Expansion').replace('ge8pIhEUGE', 'Cooperative').replace('dO9HVl2TW7', 'Novel-based').replace('jX8asGGR6o', 'Wargame').replace('FC6ElKI9tk', 'Miniatures').replace('0MdRqhkNpw', 'Space Exploration').replace('4mOtRRwSoj', 'American West').replace('AeWXMxbm91', 'Medical').replace('tQGLgwdbYH', 'Racing').replace('JwHcKqxh33', 'Trains').replace('85OKv8p5Ow', '4x').replace('Hc6vcim5DS', 'Spies/Secret Agents').replace('ZhlfIPxYsw', 'Adult').replace('Sod2YBWMKi', 'TV & Movies').replace('TR4CiP8Huj', 'Travel').replace('zqFmdU4Fp2', 'Industry/Manufacturing').replace('Kk70K0524Z', 'Murder/Mystery').replace('CWYOF9xu7O', 'Transportation').replace('rrvd68LjOR', 'Kickstarter').replace('B3NRLMK4xD', 'Educational').replace('VzyslQJGrG', 'Solo/Solitaire').replace('9EIayX6n5a', 'Pirates').replace('vqZ5XzGWQD', 'Nautical').replace('djokexoK0U', 'Video Game').replace('PzWI2uaif0', 'Real-Time').replace('nuHYRFmMjU', 'Renaissance').replace('bKrxqD9mYc', 'Dexterity').replace('HKaYVNIxAJ', "Children's Game").replace('rHvAx4hH2f', 'Word Game')}</p>
                     <p id="gameGenres${i}" hidden>${game.categories}</p>
                 </th>
-                <th class="minPlayersCell" style="vertical-align: middle;">
+                <th class="minPlayersCell">
                     <p id="gameMinPlayers${i}">${game.min_players}</p>
                 </th>
-                <th class="maxPlayersCell" style="vertical-align: middle;">
+                <th class="maxPlayersCell">
                     <p id="gameMaxPlayers${i}">${game.max_players}</p>
                 </th>
-                <th class="synopsisCell" style="vertical-align: middle;">
+                <th class="synopsisCell">
                     <p id="gameSynopsis${i}" class="synopsisText">${game.description_preview}</p>
                     <a href="/game/details/${game.name}" class="readMore">Read more</a>
                 </th>
-
             </tr>
             `;
     }
     let tableEnding = `</tbody></table>`;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
+    screenModeTable();
     });
     });
 }

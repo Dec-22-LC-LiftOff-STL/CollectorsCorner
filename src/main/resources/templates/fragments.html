@@ -76,9 +76,64 @@
                 <li class="dropdown">
                     <a>
                         <form>
-                            <select class="collectionNamesDropdown">
+                            <select id="collectionNamesDropdown">
                                 <option value="">Book Collections:</option>
                                 <th:block th:each="collection : ${bookCollections}">
+                                    <span th:if="${collection.user.id == cookie}">
+                                        <option th:text="${collection.name}" th:value="${collection.id}"></option>
+                                    </span>
+                                </th:block>
+                            </select>
+                        </form>
+                    </a>
+                </li>
+                <li><a th:href="@{/search-collections}">Browse Collections</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Create Collections
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/collections/create-movie-collection}">Add Movie Collection</a></li>
+                        <li><a th:href="@{/collections/create-book-collection}">Add Book Collection</a></li>
+                        <li><a th:href="@{/collections/create-game-collection}">Add Game Collection</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Build Collections
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/movies/list}">Browse Movies</a></li>
+                        <li><a th:href="@{/movies/search}">Search Movies</a></li>
+                        <li><a th:href="@{/books/search}">Search Books</a></li>
+                        <li><a th:href="@{/games/search}">Search Games</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class=""><a th:href="@{/logout}">Log Out</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class=""><a th:href="@{/collections/delete}">Delete Collections</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="games-navbar" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
+    </div>
+    <div class="navbar-header">
+        <a style="font-style: italic;" class="navbar-brand" th:text="${username}" th:href="@{/profile/} + ${username}"></a>
+    </div>
+    <div class="container">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a>
+                        <form>
+                            <select id="collectionNamesDropdown">
+                                <option value="">Games Collections:</option>
+                                <th:block th:each="collection : ${booksCollections}">
                                     <span th:if="${collection.user.id == cookie}">
                                         <option th:text="${collection.name}" th:value="${collection.id}"></option>
                                     </span>
@@ -132,7 +187,7 @@
                     <a>
                         <form>
                             <select id="collectionNamesDropdown">
-                                <option value="">Movie Collections - </option>
+                                <option value="">Movie Collections:</option>
                                 <th:block th:each="collection : ${movieCollections}">
                         <span th:if="${collection.user.id == cookie}">
                             <option th:text="${collection.name}" th:value="${collection.id}"></option>
