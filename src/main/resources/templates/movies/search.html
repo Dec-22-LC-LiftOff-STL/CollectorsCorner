@@ -14,6 +14,8 @@
 <input id="userSearchTerm" class="button" onkeyup="if(event.keyCode === 13){searchMovieTitle(userSearchTerm)}">
 <button value="userSearchTerm" onclick="searchMovieTitle(userSearchTerm)" class="button">Search</button><br><br>
 
+<hr>
+
 <div id="resultsTable"></div>
 
 <p th:text="${collectionIdsAndMovies}" id="collectionIdsAndMovies" hidden></p>

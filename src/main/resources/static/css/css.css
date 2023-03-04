@@ -84,7 +84,7 @@
 }
 
 .books-search #showFiltersButton {
-    color: white;
+    color: white !important;
 }
 
 .books-search .synopsisCell {
@@ -501,7 +501,7 @@
 }
 
 .movies-search #showFiltersButton {
-    color: white;
+    color: white !important;
 }
 
 .movies-search .streamingDiv {
@@ -559,6 +559,22 @@
     width: 5%;
     cursor: pointer;
     text-align: center;
+}
+
+.search-collections #movieCollectionColumn {
+    background-color: #b50a0a;
+    color: orange;
+    font-size: 36px;
+}
+
+.search-collections #movieCollectionHeader {
+    font-size: 36px;
+    text-align: center;
+    color: 'orange';
+}
+
+.search-collections tr:nth-child(odd) {
+    background-color: transparent;
 }
 
 .view-book-collection .swiper-button-next {

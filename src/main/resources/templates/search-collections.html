@@ -3,13 +3,14 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
-<body class="container body-content">
+<script type="text/javascript" th:src="@{/javascript/search-collections.js}"></script>
+
+<body class="container body-content search-collections">
 
     <h1 th:text="${mainTitle}"></h1>
 
-    <form th:action="@{/search-collections/results}" method = "post">
+    <form th:action="@{/search-collections/results}" method="post">
         <h2>Search by:</h2>
-
         <p>
             <span th:each="column : ${columns}">
                 <input
@@ -21,23 +22,18 @@
                 <label th:for="${column.key}" th:text="${column.value}"></label>
             </span>
         </p>
-
         <p>
             <label for="searchTerm">Keyword:</label>
             <input type="text" name="searchTerm" id="searchTerm" />
         </p>
-
         <input type="submit" value="Search" />
     </form>
 
-    <hr />
+    <hr>
 
-
-
-    <table id="movieCollectionTable", class="collection-listing">
-
+    <table id="movieCollectionTable" class="collection-listing">
         <span id="movieFilterBlock">
-            <input type="text" id="movieInput" onkeyup="movieCollectionFilter()" placeholder="Filter Movie Collections By.." title="Enter Filter Term">
+            <input type="text" id="movieInput" onkeyup="movieCollectionFilter()" placeholder="Filter Movie Collections By:" title="Enter Filter Term">
             <input type="radio" id="keyword" name="movieFilter" value="keyword">
             <label for="keyword">Keyword</label>
             <input type="radio" id="director" name="movieFilter" value="director">
@@ -49,80 +45,56 @@
         </span>
 
         <span id="movieColumnBlock">
-            <th id="movieCollectionColumn", style="font-size:36px;">Movie Collections: </th>
-            <th id="movieColDirectorColumn", style="display:none">Director: ></th>
-            <th id="movieColGenreColumn", style="display:none">Genre: ></th>
-            <th id="movieColGenre2Column", style="display:none">Genre: ></th>
-            <th id="movieColGenre3Column", style="display:none">Genre: ></th>
-            <th id="movieColCollectorColumn", style="display:none">Collector: ></th>
+            <th id="movieCollectionColumn">Movie Collections</th>
+            <th id="movieColDirectorColumn" style="display:none">Director: ></th>
+            <th id="movieColGenreColumn" style="display:none">Genre: ></th>
+            <th id="movieColGenre2Column" style="display:none">Genre: ></th>
+            <th id="movieColGenre3Column" style="display:none">Genre: ></th>
+            <th id="movieColCollectorColumn" style="display:none">Collector: ></th>
         </span>
-
 
         <tr th:each="movieCollection : ${movieCollections}">
             <td>
-                <h3 style="text-align: center; background: #b50a0a" >
-                <a  style="color: orange; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="${movieCollection.name}"></a>
+                <h3 style="text-align: center; background: #b50a0a" onclick="toggleCollectionDetails(event, this)">
+                    <a  style="color: orange; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="${movieCollection.name}"></a>
                 </h3>
 
-                <i>
-                <p th:text="${movieCollection.description}"></p>
-                </i>
-
-                <br>
-
-<!--                <p> Movies: </p>-->
-
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li>
-                        <a th:href="@{'/movies/details/' + ${movie.title}}" th:text="${movie.title} + ' -  Directed by: ' + ${movie.director} + ', ' + ${movie.year}"></a>
-                    </li>
-                </ul>
-
-                <br>
-
-                <p>
-                <a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${'Created by: ' + movieCollection.getUser().getScreenName()}"></a>
-                </p>
-
+                <div style="display:none;">
+                    <i>
+                        <p th:text="${movieCollection.description}"></p>
+                    </i>
+                    <br>
+                    <ul th:each="movie : ${movieCollection.movies}">
+                        <li>
+                            <a th:href="@{'/movies/details/' + ${movie.title}}" th:text="${movie.title} + ' -  Directed by: ' + ${movie.director} + ', ' + ${movie.year}"></a>
+                        </li>
+                    </ul>
+                    <br>
+                    <p>
+                        <a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${'Created by: ' + movieCollection.getUser().getScreenName()}"></a>
+                    </p>
+                </div>
             </td>
-
             <td id="movieColDirectors", style="display:none">Directors in Collection:>
                 <ul th:each="movie : ${movieCollection.movies}">
-
-                    <li id="directorFilterString", style="display:none"
-                        th:text="${movie.director}">
-                    </li>
+                    <li id="directorFilterString", style="display:none" th:text="${movie.director}"></li>
                 </ul>
             </td>
-
             <td id="movieColGenre", style="display:none">Genres in Collection:>
                 <ul th:each="movie : ${movieCollection.movies}">
-
-                    <li id="genreFilterString", style="display:none"
-                        th:text="${movie.genre}">
-                    </li>
+                    <li id="genreFilterString", style="display:none" th:text="${movie.genre}"></li>
                 </ul>
             </td>
-
             <td id="movieColGenre2", style="display:none">Genre2s in Collection:>
                 <ul th:each="movie : ${movieCollection.movies}">
-
-                    <li id="genre2FilterString", style="display:none"
-                        th:text="${movie.genre2}">
-                    </li>
+                    <li id="genre2FilterString", style="display:none" th:text="${movie.genre2}"></li>
                 </ul>
             </td>
-
-
             <td id="movieColGenre3", style="display:none">Genre3s in Collection:>
                 <ul th:each="movie : ${movieCollection.movies}">
-
-                    <li id="genre3FilterString", style="display:none"
-                        th:text="${movie.genre3}">
-                    </li>
+                    <li id="genre3FilterString", style="display:none" th:text="${movie.genre3}"></li>
                 </ul>
             </td>
-
             <td id="movieColCollector", style="display:none">Collector in Collection:>
                 <ul th:each="movie : ${movieCollection.movies}">
 
@@ -131,122 +103,10 @@
                     </li>
                 </ul>
             </td>
-
         </tr>
     </table>
 
-
-    <script>
-
-<!--    function movieCollectionFilter() {-->
-
-<!--    // Retrieves the selected radio button-->
-
-<!--        let choice = "keyword"-->
-<!--        let choiceList = document.getElementsByName('movieFilter');-->
-<!--        for(i = 0; i < choiceList.length; i++){-->
-<!--            if(choiceList[i].checked)-->
-<!--                choice = choiceList[i].value;-->
-<!--        }-->
-
-<!--        let input = document.getElementById("movieInput");-->
-<!--        let table = document.getElementById("movieCollectionTable");-->
-<!--        let row = table.getElementsByTagName("tr");-->
-
-
-<!--        for (let i = 0; i < row.length; i++) {-->
-<!--            let tableData = row[i].getElementsByTagName("td")[0];-->
-<!--            let directorData = row[i].getElementsByTagName("td")[1];-->
-<!--            let genreData = row[i].getElementsByTagName("td")[2];-->
-<!--            let genre2Data = row[i].getElementsByTagName("td")[3];-->
-<!--            let genre3Data = row[i].getElementsByTagName("td")[4];-->
-
-<!--            if (tableData) {-->
-<!--                let txtValue = tableData.textContent || tableData.innerText;-->
-<!--                let directorTxtValue = directorData.textContent || tableData.innerText;-->
-<!--                let genreTxtValue = genreData.textContent || tableData.innerText;-->
-<!--                let genre2TxtValue = genre2Data.textContent || tableData.innerText;-->
-<!--                let genre3TxtValue = genre3Data.textContent || tableData.innerText;-->
-
-
-<!--                if(choice == "keyword" || choice == ""){-->
-<!--                    if (txtValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1) {-->
-<!--                        row[i].style.display = "";-->
-<!--                    } else {-->
-<!--                        row[i].style.display = "none";-->
-<!--                    }-->
-<!--                } else if (choice == "director"){-->
-<!--                    if (directorTxtValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1) {-->
-<!--                        row[i].style.display = "";-->
-<!--                    } else {-->
-<!--                        row[i].style.display = "none";-->
-<!--                    }-->
-<!--                } else if (choice == "genre"){-->
-<!--                    if (-->
-<!--                        genreTxtValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1 || -->
-<!--                        genre2TxtValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1 || -->
-<!--                        genre3TxtValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1-->
-<!--                    ){-->
-<!--                        row[i].style.display = "";-->
-<!--                    } else {-->
-<!--                        row[i].style.display = "none";-->
-<!--                    }-->
-<!--                }-->
-<!--            }-->
-<!--        }-->
-<!--    }-->
-
-//This is the refactored version of the function above that allows for us to add new filters as needed by adding a row to the map
-
-        function movieCollectionFilter() {
-
-            // Retrieves the selected radio button
-
-            let choice = "keyword"
-            let choiceList = document.getElementsByName('movieFilter');
-            for(i = 0; i < choiceList.length; i++){
-                if(choiceList[i].checked)
-                    choice = choiceList[i].value;
-            }
-
-            let input = document.getElementById("movieInput");
-            let table = document.getElementById("movieCollectionTable");
-            let row = table.getElementsByTagName("tr");
-
-//Creates a map of possible columns tied to filter choices
-            const movieFilterDataByValueMap = new Map([
-                ['keyword', [0]],
-                ['director', [1]],
-                ['genre', [2, 3, 4]],
-                ['collector', [5]]
-            ]);
-
-
-//for each row (beginning after the table header) we check the columns that match the chosen filter contains the data that our user has input
-
-            for (let i = 1; i < row.length; i++) {
-                let columnsChosen = movieFilterDataByValueMap.get(choice)
-                let columnHasValue = false;
-                for (let j = 0; j < columnsChosen.length; j++){
-                    let tableData = row[i].getElementsByTagName("td")[columnsChosen[j]];
-                    let textValue = tableData.textContent || tableData.innerText;
-                    if (textValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1) {
-                        columnHasValue = true;
-                    }
-                }
-                if (columnHasValue == true) {
-                    row[i].style.display = "";
-                } else {
-                    row[i].style.display = "none";
-                }
-
-            }
-        }
-
-    </script>
-
     <hr id="movieDivider" />
-
 
     <table id="bookCollectionTable",  class="collection-listing">
 
@@ -263,7 +123,7 @@
         </span>
 
         <span id="bookColumnBlock">
-            <th id="bookCollectionColumn", style="font-size:36px;">Book Collections: </th>
+            <th id="bookCollectionColumn", style="font-size:36px; background-color: #005d85;">Book Collections</th>
             <th id="bookColAuthorColumn", style="display:none">Author: ></th>
             <th id="bookColGenreColumn", style="display:none">Genre: ></th>
         </span>
