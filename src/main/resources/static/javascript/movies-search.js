@@ -176,7 +176,7 @@ function addNewMovieToDatabase() {
             //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
             let id = collectionIdsAndMoviesArray[i].split('=[Movie{')[0];
             let text = collectionIdsAndMoviesArray[i].split('=[Movie{')[1];
-            //If the collection is empty, allow an addition.
+            //If the collection is empty, allow any addition.
             if (text === undefined) {
                 break;
             }

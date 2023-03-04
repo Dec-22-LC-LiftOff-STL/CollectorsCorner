@@ -183,8 +183,6 @@ function addNewBookToDatabase() {
     let collectionIdsAndBooksArray = collectionIdsAndBooks.innerHTML.split('}],');
         if (collectionDropdown.value === '') {
             alert("Don't forget to select the collection you want to add to!")
-            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
-            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
             return;
         }
         for (let i=0; i<collectionIdsAndBooksArray.length; i++) {

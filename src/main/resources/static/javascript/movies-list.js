@@ -74,6 +74,7 @@ function prepareDatabaseInformationForm(i) {
     const movieGenres = document.getElementById(`movieGenres${i}`).textContent;
     const movieImageURL = document.getElementById(`movieImageURL${i}`).textContent;
 
+
     //Fills in the title on the form on search.html
     document.getElementById("titleSubmission").value = movieTitle;
 
@@ -100,9 +101,12 @@ function prepareDatabaseInformationForm(i) {
         document.getElementById("genre3Submission").value = "";
     }
 
+
+
     //Fills in the director on the form on search.html form -- director is NOT a default property on the API movie objects
-    //This property must be retrieved via a separate fetch using *TheMovieDatabase's* ID for the movie
+    //This property must be retrieved via a separate fetch using *TheMovieDatabase's* ID for the movie.
     let movieId = themoviedbApiId;
+
     let directorURL = "https://api.themoviedb.org/3/movie/" + movieId + "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&sort_by=vote_count.desc&with_original_language=en&year=2022&primary_release_date.gte=2022-11-01";
 
     let director = fetch(directorURL)
@@ -114,6 +118,7 @@ function prepareDatabaseInformationForm(i) {
         };
         printDirector();
 
+
     //Fills in the release year on the form on search.html form
     document.getElementById("yearSubmission").value = movieDate.slice(0,4);
 
@@ -122,6 +127,7 @@ function prepareDatabaseInformationForm(i) {
 }
 
 function addNewMovieToDatabase() {
+event.preventDefault()
     let collectionDropdown = document.getElementById("collectionNamesDropdown");
     let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
     let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
@@ -143,7 +149,7 @@ function addNewMovieToDatabase() {
         // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
         // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
         if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
-            alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
+            alert(collectionDropdown.options[collectionDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
             return;
         }
     }
@@ -291,7 +297,7 @@ function genericActorFetch(url) {
                             <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}, this); toggleStreamingServicesDiv(streamingDiv${i})">Watch</button>
                             <button class="btn btn-primary" onclick="buildCastHTMLDiv(themoviedbApiId${i}, castDiv${i}); toggleCastDiv(castDiv${i})">Cast</button><br>
                             <form id="confirmButtonDropdown${i}" style="display:none;">
-                                <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
+                                <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase(event);" style="width:131.84px">Confirm</button>
                             </form>
                             <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px;"></div>
                             <div id="castDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px; padding-left: 3px"></div>
@@ -303,8 +309,7 @@ function genericActorFetch(url) {
 
         let tableEnding = ` </table> `;
         resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
-        screenMode();
-        screenModeTable();
+        x();
         });
         });
     }
