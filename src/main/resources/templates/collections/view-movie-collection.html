@@ -52,27 +52,39 @@
             <td class="text-center">
                 <img height="150px" th:src="${movie.imageURL}" alt="movie image">
             </td>
-            <td class="text-center">
-                <form method="post">
-<!--                    <p id=movieId th:text="${movie.id}" hidden></p>-->
-<!--                    <p id=movieCollectionId th:text="${movieCollection.id}" hidden></p>-->
-<!--                    <input type="text" th:field="${movieSideNote.moviesId}" th:attr="value=${movie.id}">-->
 
-                    <input type="text" th:name="${movieSideNote.movieCollectionId}" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}">
-                    <input type="text" th:name="*{movieSideNote.moviesId}" th:value="${movie.id}" th:attr="value=${movie.id}">
-                    <input type="text" th:field="${movieSideNote.movieSideNote}">
+        </tr>
+        <tr id="movieSidenote">
+            <td class="text-center" colspan="5">
+                <form method="post">
+                    <input type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
+                    <input type="text" name="movieCollectionId" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}" hidden>
+                    <input type="text" name="movieSideNote" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}">
                     <input type="submit" value="Add SideNote">
                 </form>
-            </td>
         </tr>
+            </td>
+        <tr>
+            <td class="text-center" colspan="5">
+                <p th:text="${movie.id}"></p>
+                <p th:text="${movieCollection.id}"></p>
+                <p th:text="${movie.title}"></p>
+                <p th:text="${allMovieSideNotes}"></p>
+
+        </tr>
+
+        </td>
+        </tr>
+
     </table><hr>
 
 </ul>
+
+
+
 </body>
 
-<!--<script>-->
-<!--    function sideNoteCreation(){-->
 
-<!--    }-->
-<!--</script>-->
 </html>
+
+

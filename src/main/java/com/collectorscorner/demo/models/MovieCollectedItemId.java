@@ -31,7 +31,7 @@ public class MovieCollectedItemId implements Serializable {
 //        if (this == obj) return true;
 //        if (obj == null || getClass() != obj.getClass()) return false;
 //        MovieCollectedItemId movieCollectedItemId = (MovieCollectedItemId) obj;
-//        return movieCollectionId.equals(MovieCollectedItemId.movieCollectionId) && moviesId.equals(MovieCollectedItemId.moviesId);
+//        return Objects.equals(movieCollectionId, movieCollectionId) && moviesId.equals(moviesId);
 //    }
 
 
