@@ -108,7 +108,7 @@
 
     <hr id="movieDivider" />
 
-    <table id="bookCollectionTable",  class="collection-listing">
+    <table id="bookCollectionTable" class="collection-listing">
         <span id="bookFilterBlock">
             <input type="text" id="bookInput" onkeyup="bookCollectionFilter()" placeholder="Filter Book Collections By.." title="Enter Filter Term">
             <input type="radio" id="book-keyword" name="bookFilter" value="keyword">
@@ -125,40 +125,36 @@
             <th id="bookColAuthorColumn", style="display:none">Author: ></th>
             <th id="bookColGenreColumn", style="display:none">Genre: ></th>
         </span>
+
         <tr th:each="bookCollection : ${bookCollections}">
             <td id="bookDataFilter">
-                <h3 style="text-align: center; background: #005d85" >
+                <h3 style="text-align: center; background: #005d85" onclick="toggleCollectionDetails(event, this)">
                     <a  style="color: WhiteSmoke; text-shadow: white 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-book-collection/' + ${bookCollection.id}}" th:text="${bookCollection.name}"></a>
                 </h3>
 
-                <i>
-                    <p  th:text="${bookCollection.description}"></p>
-                </i>
-
-                <br>
-                <!--                <p>Books:</p>-->
-
-                <ul th:each="book : ${bookCollection.books}">
-                    <li>
-                        <a th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
-                    </li>
-
-                </ul>
-                <br>
-                <p>
+                <div style="display:none;">
+                    <i>
+                        <p  th:text="${bookCollection.description}"></p>
+                    </i>
+                    <br>
+                    <ul th:each="book : ${bookCollection.books}">
+                        <li>
+                            <a th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
+                        </li>
+                    </ul>
+                    <br>
+                    <p>
                     <a th:href="@{'/collector/' + ${bookCollection.getUser().getId()}}" th:text="${'Created by: ' + bookCollection.getUser().getScreenName()}"></a>
-                </p>
+                    </p>
+                </div>
             </td>
-
-            <td id="bookColDirectors", style="display:none">Authors in Collection:>
+            <td id="bookColDirectors" style="display:none">Authors in Collection:>
                 <ul th:each="book : ${bookCollection.books}">
-
-                    <li id="authorFilterString", style="display:none"
+                    <li id="authorFilterString" style="display:none"
                         th:text="${book.author}">
                     </li>
                 </ul>
             </td>
-
             <td id="bookColGenre", style="display:none">Genres in Collection:>
                 <ul th:each="book : ${bookCollection.books}">
                     <li id="bookFilterString", style="display:none"
@@ -177,100 +173,9 @@
         </tr>
     </table>
 
-    <script>
-<!--   function bookCollectionFilter() {-->
+    <hr id="bookDivider"/>
 
-<!--        let choice = "keyword"-->
-<!--        let choiceList = document.getElementsByName('bookFilter');-->
-<!--        for(i = 0; i < choiceList.length; i++){-->
-<!--            if(choiceList[i].checked)-->
-<!--                choice = choiceList[i].value;-->
-<!--        }-->
-
-<!--        let input = document.getElementById("bookInput");-->
-<!--        let table = document.getElementById("bookCollectionTable");-->
-<!--        let row = table.getElementsByTagName("tr");-->
-
-
-<!--    const bookFilterMap = new Map([-->
-<!--        ['author', "WRITTEN BY:" + input.value.toUpperCase()],-->
-<!--        ['genre', "GENRE:" + input.value.toUpperCase()],-->
-<!--        ['keyword', input.value.toUpperCase()]-->
-<!--    ]);-->
-
-
-
-<!--    function applyBookChoice(filter){-->
-<!--       return bookFilterMap.get(filter);-->
-<!--       }-->
-
-<!--        for (let i = 0; i < row.length; i++) {-->
-<!--            let tableData = row[i].getElementsByTagName("td")[0];-->
-<!--            if ( tableData) {-->
-<!--            console.log(tableData)-->
-<!--                let txtValue = tableData.textContent || tableData.innerText;-->
-<!--                if (txtValue.toUpperCase().indexOf(applyBookChoice(choice)) > -1) {-->
-<!--                    row[i].style.display = "";-->
-<!--                } else {-->
-<!--                    row[i].style.display = "none";-->
-<!--                }-->
-<!--            }-->
-<!--        }-->
-<!--    }-->
-
-function bookCollectionFilter() {
-
-            // Retrieves the selected radio button
-
-            let choice = "keyword"
-            let choiceList = document.getElementsByName('bookFilter');
-            for(i = 0; i < choiceList.length; i++){
-                if(choiceList[i].checked)
-                    choice = choiceList[i].value;
-            }
-
-            let input = document.getElementById("bookInput");
-            let table = document.getElementById("bookCollectionTable");
-            let row = table.getElementsByTagName("tr");
-
-//Creates a map of possible columns corresponding to the filter choices
-
-            const bookFilterDataByValueMap = new Map([
-                ['keyword', [0]],
-                ['author', [1]],
-                ['genre', [2]]
-            ]);
-
-
-//for each row (beginning after the table header at row [0]) we check if the selected column(s) contains the search term data that our user has input
-
-            for (let i = 1; i < row.length; i++) {
-                let columnsChosen = bookFilterDataByValueMap.get(choice)
-                let columnHasValue = false;
-                for (let j = 0; j < columnsChosen.length; j++){
-                    let tableData = row[i].getElementsByTagName("td")[columnsChosen[j]];
-                    let textValue = tableData.textContent || tableData.innerText;
-                    if (textValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1) {
-                        columnHasValue = true;
-                    }
-                }
-                if (columnHasValue == true) {
-                    row[i].style.display = "";
-                } else {
-                    row[i].style.display = "none";
-                }
-
-            }
-        }
-
-    </script>
-
-    <hr id="bookDivider" />
-
-
-
-    <table id="gameCollectionTable",  class="collection-listing">
-
+    <table id="gameCollectionTable" class="collection-listing">
         <span id="gameFilterBlock">
             <input type="text" id="gameInput" onkeyup="gameCollectionFilter()" placeholder="Filter Game Collections By.." title="Enter Filter Term">
             <input type="radio" id="game-keyword" name="gameFilter" value="keyword">
@@ -284,34 +189,34 @@ function bookCollectionFilter() {
         </span>
 
         <span id="gameColumnBlock">
-            <th id="gameCollectionColumn", style="font-size:36px;">Game Collections: </th>
+            <th id="gameCollectionColumn", style="font-size:36px; background-color: #57a65f">Game Collections: </th>
             <th id="gameColCreatorColumn", style="display:none">Creator: ></th>
             <th id="gameColGenreColumn", style="display:none">Genre: ></th>
         </span>
 
-
-
         <tr th:each="gameCollection : ${gameCollections}">
             <td id="gameDataFilter">
-                <h3 style="text-align: center; background: #57a65f" >
-                    <a  style="color: Gold; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="${gameCollection.name}"></a>
+                <h3 style="text-align: center; background-color: #57a65f;" onclick="toggleCollectionDetails(event, this)">
+                    <a  style="color: WhiteSmoke; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="${gameCollection.name}"></a>
                 </h3>
 
-                <i>
-                    <p  th:text="${gameCollection.description}"></p>
-                </i>
+                <div style="display:none;">
+                    <i>
+                        <p  th:text="${gameCollection.description}"></p>
+                    </i>
 
-                <br>
+                    <br>
 
-                <ul th:each="game : ${gameCollection.games}">
-                    <li>
-                        <a th:href="@{'/games/details/' + ${game.title}}" th:text="${game.title}"></a>
-                    </li>
-                </ul>
-                <br>
-                <p>
-                    <a th:href="@{'/collector/' + ${gameCollection.getUser().getId()}}" th:text="${'Created by: ' + gameCollection.getUser().getScreenName()}"></a>
-                </p>
+                    <ul th:each="game : ${gameCollection.games}">
+                        <li>
+                            <a th:href="@{'/games/details/' + ${game.title}}" th:text="${game.title}"></a>
+                        </li>
+                    </ul>
+                    <br>
+                    <p>
+                        <a th:href="@{'/collector/' + ${gameCollection.getUser().getId()}}" th:text="${'Created by: ' + gameCollection.getUser().getScreenName()}"></a>
+                    </p>
+                </div>
             </td>
 
             <td id="gameColCreators", style="display:none">Creators in Collection:>
@@ -332,92 +237,11 @@ function bookCollectionFilter() {
         </tr>
     </table>
 
-
-<script>
-
-function gameCollectionFilter() {
-    // Retrieves the selected radio button
-
-    let choice = "keyword"
-    let choiceList = document.getElementsByName('gameFilter');
-    for(i = 0; i < choiceList.length; i++){
-        if(choiceList[i].checked)
-            choice = choiceList[i].value;
-    }
-
-    let input = document.getElementById("gameInput");
-    let table = document.getElementById("gameCollectionTable");
-    let row = table.getElementsByTagName("tr");
-
-    //Creates a map of possible columns corresponding to the filter choices
-
-    const gameFilterDataByValueMap = new Map([
-        ['keyword', [0]],
-        ['creator', [1]],
-        ['genre', [2]]
-    ]);
-
-    //for each row (beginning after the table header at row [0]) we check if the selected column(s) contains the search term data that our user has input
-
-    for (let i = 1; i < row.length; i++) {
-        let columnsChosen = gameFilterDataByValueMap.get(choice);
-        let columnHasValue = false;
-        for (let j = 0; j < columnsChosen.length; j++){
-            let tableData = row[i].getElementsByTagName("td")[columnsChosen[j]];
-            let textValue = tableData.textContent || tableData.innerText;
-            if (textValue.toUpperCase().indexOf(input.value.toUpperCase()) > -1) {
-                columnHasValue = true;
-            }
-        }
-        if (columnHasValue == true) {
-            row[i].style.display = "";
-        } else {
-            row[i].style.display = "none";
-        }
-
-    }
-}
-
-</script>
-
-
-
-
-<script>
-
-function toggleMovieTableDisplay(){
-let movieTable = document.getElementById("movieCollectionTable");
-    if (movieTable.rows.length < 2) {
-        document.getElementById("movieCollectionTable").style.display = "none";
-        document.getElementById("movieFilterBlock").style.display = "none";
-        document.getElementById("movieColumnBlock").style.display = "none";
-        document.getElementById("movieDivider").style.display = "none";
-    }
-}
-
-function toggleBookTableDisplay(){
-let bookTable = document.getElementById("bookCollectionTable");
-    if (bookTable.rows.length < 2) {
-        document.getElementById("bookCollectionTable").style.display = "none";
-        document.getElementById("bookFilterBlock").style.display = "none";
-        document.getElementById("bookDivider").style.display = "none";
-    }
-}
-
-function toggleGameTableDisplay(){
-let gameTable = document.getElementById("gameCollectionTable");
-    if (gameTable.rows.length < 2) {
-        document.getElementById("gameCollectionTable").style.display = "none";
-        document.getElementById("gameFilterBlock").style.display = "none";
-    }
-}
-
-toggleMovieTableDisplay();
-toggleBookTableDisplay();
-toggleGameTableDisplay();
-
-</script>
-
+    <script>
+        toggleMovieTableDisplay();
+        toggleBookTableDisplay();
+        toggleGameTableDisplay();
+    </script>
 
 </body>
 </html>

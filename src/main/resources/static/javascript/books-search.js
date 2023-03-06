@@ -103,7 +103,7 @@ function buildHTMLResultsTable(url) {
                     <p id="bookImageURL${i}" hidden> ${book.volumeInfo.imageLinks.thumbnail}</p><br>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
                     <form id="userCollectionDropdown${i}" style="display:none;"><br>
-                        <button class="btn btn-success confirmButton" onclick="addNewBookToDatabase();">Confirm</button>
+                        <button class="btn btn-success confirmButton" onclick="addNewBookToDatabase(event);">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell">
@@ -178,6 +178,7 @@ function prepareDatabaseInformationForm(i) {
 }
 
 function addNewBookToDatabase() {
+    event.preventDefault();
     let collectionDropdown = document.getElementById("collectionNamesDropdown");
     let collectionIdsAndBooks = document.getElementById("collectionIdsAndBooks");
     let collectionIdsAndBooksArray = collectionIdsAndBooks.innerHTML.split('}],');

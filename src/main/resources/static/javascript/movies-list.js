@@ -309,7 +309,8 @@ function genericActorFetch(url) {
 
         let tableEnding = ` </table> `;
         resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
-        x();
+        screenMode();
+        screenModeTable();
         });
         });
     }

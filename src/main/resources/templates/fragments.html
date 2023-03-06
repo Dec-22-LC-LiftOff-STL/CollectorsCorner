@@ -133,7 +133,7 @@
                         <form>
                             <select id="collectionNamesDropdown">
                                 <option value="">Games Collections:</option>
-                                <th:block th:each="collection : ${booksCollections}">
+                                <th:block th:each="collection : ${gameCollections}">
                                     <span th:if="${collection.user.id == cookie}">
                                         <option th:text="${collection.name}" th:value="${collection.id}"></option>
                                     </span>

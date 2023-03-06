@@ -64,7 +64,7 @@ function buildHTMLResultsTable(url) {
                     <p id="gameImageURL${i}" hidden> ${game.thumb_url}</p><br>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
                     <form id="userCollectionDropdown${i}" style="display:none;"><br>
-                        <button type="button" class="btn btn-success" onclick="addNewGameToDatabase();">Confirm</button>
+                        <button type="button" class="btn btn-success" onclick="addNewGameToDatabase(event);">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell">
@@ -162,6 +162,7 @@ function prepareDatabaseInformationForm(i) {
 }
 
 function addNewGameToDatabase() {
+    event.preventDefault()
     let collectionDropdown = document.getElementById("collectionNamesDropdown");
     let collectionIdsAndGames = document.getElementById("collectionIdsAndGames");
     let collectionIdsAndGamesArray = collectionIdsAndGames.innerHTML.split('}],');
