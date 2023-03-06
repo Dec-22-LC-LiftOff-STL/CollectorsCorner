@@ -1,39 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8">
-    <title>Movies - Search</title>
-    <script type="text/javascript" th:src="@{../javascript/movies-search.js}"></script>
-    <link rel="stylesheet" th:href="@{../CSS/movies-search.css}">
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<!--    <script type="text/javascript" th:src="@{/javascript/bootstrap.js}"></script>-->
-</head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments :: head}"></head>
+<div th:replace="fragments :: page-header"></div>
+<script type="text/javascript" th:src="@{/javascript/movies-search.js}"></script>
+<body class="container body-content movies-search">
 
-<div th:replace="~{fragments :: page-header}"></div>
+<div th:replace="fragments :: movies-navbar"></div>
 
-<body class="container body-content">
-<br><br><br>
-<img src="http://localhost:8080/images/movieCollection.jpg" alt="book" width="235" height="120">
+<img id="theaterPhoto" src="http://localhost:8080/images/movieCollection.jpg" alt="book">
+
 <h1>Movie Search</h1>
 
-<input id="userSearchTerm" type="text" onkeyup="if (event.keyCode === 13) { searchTitle(userSearchTerm); }">
-<button value="userSearchTerm" onclick="searchTitle(userSearchTerm)">Search</button><hr>
+<input id="userSearchTerm" class="button" onkeyup="if(event.keyCode === 13){searchMovieTitle(userSearchTerm)}">
+<button value="userSearchTerm" onclick="searchMovieTitle(userSearchTerm)" class="button">Search</button><br><br>
 
-<h3 id="collectionNameDropdownLabel"> Your Movie Collections:</h3><br>
-<form>
-    <select id="collectionNamesDropdown">
-        <option value="">Select a collection</option>
-        <th:block th:each="collection : ${movieCollections}">
-        <span th:if="${collection.user.id == cookie}">
-            <option th:text="${collection.name}" th:value="${collection.id}"></option>
-            <!--            <option th:text="${iterableUsers[0].username}" th:value="${iterableUsers[0].username}" ></option>-->
-            <!--            <option th:text="${collection.user}" th:value="${collection.user}" ></option>-->
-                    </span>
-        </th:block>
-    </select>
-</form><hr>
+<hr>
 
 <div id="resultsTable"></div>
 
@@ -49,7 +30,7 @@
     <input th:field="${movie.year}" id="yearSubmission" readonly>
     <input th:field="${movie.synopsis}" id="synopsisSubmission" readonly>
     <input th:field="${movie.imageURL}" id="imageURLSubmission" readonly>
-    <input type="text" name="collectionId" id="collectionId" readonly>
+    <input name="collectionId" id="collectionId" readonly>
 </form>
 
 </body>

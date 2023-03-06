@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments :: head}"></head>
-
 <div th:replace="fragments :: page-header"></div>
-
-
+<script>window.onload = screenMode()</script>
 <body class="container body-content">
 
 <h1 th:href="@{'/books/details/'}" th:text="${bookTitle}" id="bookTitle"></h1>

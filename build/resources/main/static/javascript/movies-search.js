@@ -1,13 +1,7 @@
-const head = document.getElementsByTagName('HEAD')[0];
-const link = document.createElement('link');
-link.rel = 'stylesheet';
-link.type = 'text/css';
-link.href = '../css/movies-search.css'
-
 // Boolean switch variables. Used when alternating between ASC/DESC sorting.
-let isAscendingTitle = true;
-let isAscendingYear= true;
-let isAscendingGenre = true;
+let isAscendingMovieTitle = true;
+let isAscendingMovieYear= true;
+let isAscendingMovieGenre = true;
 
 // Listens for changes in the "User Collection" dropdown menu. Collection names are displayed, but
 // the value for each option is linked to the Collection's ID.
@@ -19,7 +13,7 @@ window.onload = function() {
 }
 
 // Builds the API query string using input from the "Search for a Movie" box.
-function searchTitle() {
+function searchMovieTitle() {
     let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
     let searchTerm;
     searchTerm = document.getElementById("userSearchTerm").value.replace(" ", "+");
@@ -36,9 +30,9 @@ function buildHTMLResultsTable(url) {
     const arrayOfMovieObjects = json.results;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
     let tableBeginning = `
-    <table>
+    <table id="movieTable">
         <thead>
-            <tr class="booksResultsHeaderRow">
+            <tr>
                 <th id="posterColumnHeader"></th>
                 <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
                 <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
@@ -52,59 +46,56 @@ function buildHTMLResultsTable(url) {
     let tableRows = "";
     for (let i = 0; i < arrayOfMovieObjects.length; i++) {
         const movie = arrayOfMovieObjects[i];
-        //Validation - reject API query results without a release_date property.
+        //Validation
         if (!movie.release_date) {
             break;
         }
-        //Validation - convert yyyy/mm/dd format to yyyy.
         movie.release_date = movie.release_date.slice(0,4);
-        //Validation - reject API query results without a poster_path property.
         if (movie.poster_path === null) {
             break;
         }
-        //Validation - reject API query results without a genre_ids property.
         if (movie.genre_ids[0] === undefined) {
             break;
         }
-        //Validation - reject API query results without an overview property.
         if (movie.overview === "") {
             break;
         }
 
         tableRows += `
-            <tr class="booksResultsTableRows">
-                <th class="posterCell" style="vertical-align: middle">
+            <tr>
+                <th class="posterCell">
                     <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
                     <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
                     <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
                     <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
                     <form id="confirmButtonDropdown${i}" style="display:none;"><br>
-                        <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();" style="width:131.84px">Confirm</button>
+                        <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();">Confirm</button>
                     </form>
                 </th>
-                <th class="titleCell" style="vertical-align: middle">
+                <th class="titleCell">
                     <a id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
                 </th>
-                <th class="yearCell" style="vertical-align: middle">
+                <th class="yearCell">
                     <p id="movieDate${i}">${movie.release_date}</p>
                 </th>
-                <th class="genre1Cell" style="vertical-align: middle">
+                <th class="genre1Cell">
                     <p id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                     <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                 </th>
-                <th class="synopsisCell" style="vertical-align: middle">
+                <th class="synopsisCell">
                     <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
                     <a href="/movies/details/${movie.title}" class="readMore">Read more</a>
                 </th>
-                <th class="streamingPlatformsCell" style="vertical-align: middle">
+                <th class="streamingPlatformsCell">
                     <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
-                    <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left;"></div>
+                    <div id="streamingDiv${i}" class="streamingDiv hidden"></div>
                 </th>
             </tr>
             `;
     }
     let tableEnding = `</tbody></table>`;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
+    screenModeTable();
     });
     });
 }
@@ -146,8 +137,6 @@ function prepareDatabaseInformationForm(i) {
         document.getElementById("genre3Submission").value = "";
     }
 
-
-
     //Fills in the director on the form on search.html form -- director is NOT a default property on the API movie objects
     //This property must be retrieved via a separate fetch using *TheMovieDatabase's* ID for the movie.
     let directorFetchURLBeginning = "https://api.themoviedb.org/3/movie/"
@@ -165,7 +154,6 @@ function prepareDatabaseInformationForm(i) {
         };
         printDirector();
 
-
     //Fills in the release year on the form on search.html form
     document.getElementById("yearSubmission").value = movieDate.slice(0,4);
 
@@ -182,8 +170,6 @@ function addNewMovieToDatabase() {
         let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
         if (collectionDropdown.value === '') {
             alert("Don't forget to select the collection you want to add to!")
-            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
-            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
             return;
         }
         for (let i=0; i<collectionIdsAndMoviesArray.length; i++) {
@@ -265,11 +251,11 @@ function sortTableByTitle() {
     }
     });
 
-    if (!isAscendingTitle) {
+    if (!isAscendingMovieTitle) {
         rows.reverse();
     }
 
-    isAscendingTitle = !isAscendingTitle;
+    isAscendingMovieTitle = !isAscendingMovieTitle;
     table.tBodies[0].append(...rows);
 }
 
@@ -290,13 +276,13 @@ function sortTableByYear() {
     }
     });
 
-    if (!isAscendingYear) {
+    if (!isAscendingMovieYear) {
         rows.reverse();
     }
 
-    isAscendingYear = !isAscendingYear;
+    isAscendingMovieYear = !isAscendingMovieYear;
     table.tBodies[0].append(...rows);
-    }
+}
 
 function sortTableByGenre1() {
     const table = document.querySelector("table");
@@ -314,11 +300,11 @@ function sortTableByGenre1() {
     }
     });
 
-    if (!isAscendingGenre) {
+    if (!isAscendingMovieGenre) {
         rows.reverse();
     }
 
-    isAscendingGenre = !isAscendingGenre;
+    isAscendingMovieGenre = !isAscendingMovieGenre;
     table.tBodies[0].append(...rows);
 }
 
