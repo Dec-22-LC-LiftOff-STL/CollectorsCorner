@@ -69,6 +69,9 @@ public class CollectionController {
     @Autowired
     BookCollectionRepository bookCollectionRepository;
 
+    @Autowired
+    MovieSideNoteRepository movieSideNoteRepository;
+
 
     @GetMapping("/create-movie-collection")
 
@@ -442,8 +445,22 @@ public class CollectionController {
         return "redirect:/collections/delete/games/{collectionId}";
     }
 
+
+    @PostMapping("/view-movie-collection/{movieCollectionId}")
+    public String processCreateMovieSideNote(@PathVariable("movieCollectionId") String movieCollectionId,
+                                             @RequestParam("moviesId") String moviesId,
+                                             @RequestParam("movieSideNote") String movieSideNote,
+                                             Model model) {
+
+        MovieSideNote newMovieSideNote = new MovieSideNote(movieCollectionId, moviesId, movieSideNote);
+        movieSideNoteRepository.save(newMovieSideNote);
+        return "redirect:/collections/view-movie-collection/{movieCollectionId}";
+    }
+
+
     @GetMapping("view-movie-collection/{movieCollectionId}")
-    public String displayViewMovieCollection(Model model, @PathVariable int movieCollectionId) {
+    public String displayViewMovieCollection(Model model, @PathVariable int movieCollectionId, @CookieValue(name = "userId") String myCookie) {
+        model.addAttribute("allMovieSideNotes", movieSideNoteRepository.findAll());
 
         Optional optMovieCollection = movieCollectionRepository.findById(movieCollectionId);
         if (optMovieCollection.isPresent()) {
@@ -453,7 +470,11 @@ public class CollectionController {
         } else {
             return "redirect:../";
         }
+
     }
+
+
+
 
 
     @GetMapping("view-book-collection/{bookCollectionId}")

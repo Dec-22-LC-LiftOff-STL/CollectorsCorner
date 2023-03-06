@@ -326,45 +326,6 @@
     </table>
 
     <script>
-<!--   function bookCollectionFilter() {-->
-
-<!--        let choice = "keyword"-->
-<!--        let choiceList = document.getElementsByName('bookFilter');-->
-<!--        for(i = 0; i < choiceList.length; i++){-->
-<!--            if(choiceList[i].checked)-->
-<!--                choice = choiceList[i].value;-->
-<!--        }-->
-
-<!--        let input = document.getElementById("bookInput");-->
-<!--        let table = document.getElementById("bookCollectionTable");-->
-<!--        let row = table.getElementsByTagName("tr");-->
-
-
-<!--    const bookFilterMap = new Map([-->
-<!--        ['author', "WRITTEN BY:" + input.value.toUpperCase()],-->
-<!--        ['genre', "GENRE:" + input.value.toUpperCase()],-->
-<!--        ['keyword', input.value.toUpperCase()]-->
-<!--    ]);-->
-
-
-
-<!--    function applyBookChoice(filter){-->
-<!--       return bookFilterMap.get(filter);-->
-<!--       }-->
-
-<!--        for (let i = 0; i < row.length; i++) {-->
-<!--            let tableData = row[i].getElementsByTagName("td")[0];-->
-<!--            if ( tableData) {-->
-<!--            console.log(tableData)-->
-<!--                let txtValue = tableData.textContent || tableData.innerText;-->
-<!--                if (txtValue.toUpperCase().indexOf(applyBookChoice(choice)) > -1) {-->
-<!--                    row[i].style.display = "";-->
-<!--                } else {-->
-<!--                    row[i].style.display = "none";-->
-<!--                }-->
-<!--            }-->
-<!--        }-->
-<!--    }-->
 
 function bookCollectionFilter() {
 

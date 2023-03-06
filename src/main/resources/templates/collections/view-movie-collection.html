@@ -46,7 +46,8 @@
         <th class="col-lg-2 text-center" id="movieImageHeader">Image</th>
     </tr>
     </thead>
-    <tr th:each="movie : ${movieCollection.movies}">
+    <span th:each="movie : ${movieCollection.movies}">
+    <tr>
         <td  class="text-center">
             <span th:text="${movie.title}"></span>
         </td>
@@ -65,9 +66,26 @@
             <img height="150px" th:src="${movie.imageURL}" alt="movie image">
         </td>
     </tr>
-</table><hr>
-
-
+            <tr id="movieSidenote">
+            <td class="text-center" colspan="5">
+                <form method="post">
+                    <input type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
+                    <input type="text" name="movieCollectionId" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}" hidden>
+                    <input type="text" name="movieSideNote" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}">
+                    <input type="submit" value="Add SideNote">
+                </form>
+             </td>    
+        </tr>
+        <tr>
+            <td class="text-center" colspan="5">
+                <p th:text="${movie.id}"></p>
+                <p th:text="${movieCollection.id}"></p>
+                <p th:text="${movie.title}"></p>
+                <p th:text="${allMovieSideNotes}"></p>
+            </td>
+        </tr>
+    </span>
+</table>
 
 <script>
     var swiper = new Swiper(".mySwiper", {
@@ -81,5 +99,9 @@
     });
   </script>
 
+
 </body>
+
 </html>
+
+
