@@ -40,12 +40,9 @@ public class MoviesController {
         return "movies/feed";
     }
 
-    @GetMapping("list")
+    @GetMapping("browse")
     public String displayMoviesListPage(@CookieValue(name = "userId") String myCookie, Model model) {
         model.addAttribute(new Movie());
-        if ("null".equals(myCookie)) {
-            return "redirect:/login";
-        }
         Integer userId = Integer.parseInt(myCookie);
         Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
         Iterable<User> iterableUsers = userRepository.findAll();
@@ -72,10 +69,10 @@ public class MoviesController {
 
         }
 
-        return "movies/list";
+        return "movies/browse";
     }
 
-    @PostMapping("list")
+    @PostMapping("browse")
     public String processAddMovieFormOnListPage(@ModelAttribute Movie movie, @RequestParam("collectionId") Integer collectionId) {
         Optional<Movie> existingMovie = movieRepository.findByTitleAndYearAndDirector(movie.getTitle(), movie.getYear(), movie.getDirector());
         if (existingMovie.isPresent()) {
@@ -91,7 +88,7 @@ public class MoviesController {
                 movieCollectionService.addMovie(movieCollection, movie);
             }
         }
-        return "redirect:/movies/list";
+        return "redirect:/movies/browse";
     }
 
     @GetMapping("search")
