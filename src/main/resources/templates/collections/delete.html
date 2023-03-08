@@ -5,102 +5,115 @@
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
 <script type="text/javascript" th:src="@{/javascript/collections-delete.js}"></script>
-<body class="collections-delete container body-content">
-<br><br><br><br>
+
+<body class="collections-delete container body-content delete">
+
 <h1 th:text=" 'Delete Collections created by: ' + ${user.screenName}"></h1>
-<p hidden id="screenMode" th:text="${screenMode}">
+<p id="screenMode" th:text="${screenMode}" hidden>
+
 <br><br>
 
 <h3>Movie Collections</h3><hr>
 
 <form method="post" th:action="@{/collections/delete-movies}">
-    <table class="table table-striped" id="moviesTable">
+    <table id="moviesTable">
         <thead>
-        <tr>
-            <th class="deleteColumn text-center">Delete</th>
-            <th onclick="sortTable(1, 'moviesTable')" class="collectionNameHeader">Collection Name</th>
-            <th onclick="sortTable(2, 'moviesTable')" class="collectionDescriptionHeader">Collection Description</th>
-        </tr>
+            <tr>
+                <th class="deleteColumn">Delete</th>
+                <th onclick="sortTable(1, 'moviesTable')" class="collectionNameHeader">Collection Name</th>
+                <th onclick="sortTable(2, 'moviesTable')" class="collectionDescriptionHeader">Collection Description</th>
+            </tr>
         </thead>
-        <tr th:each="collection : ${thisUserMovieCollections}">
-            <td class="text-center">
-                <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
-            </td>
-            <td th:if="${collection.user.id == cookie}">
-                <a th:href="@{/collections/delete/movies/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
-            </td>
-            <td>
-                <span th:text="${collection.description}"></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
-            <td></td>
-            <td></td>
-        </tr>
+        <tbody>
+            <tr th:each="collection : ${thisUserMovieCollections}">
+                <td>
+                    <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
+                </td>
+                <td th:if="${collection.user.id == cookie}">
+                    <a th:href="@{/collections/delete/movies/{id}(id=${collection.id})}">
+                        <span th:text="${collection.name}"></span>
+                    </a>
+                </td>
+                <td>
+                    <span th:text="${collection.description}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
     </table><hr>
 </form>
 
 <h3>Book Collections</h3><hr>
 
 <form method="post" th:action="@{/collections/delete-books}">
-    <table class="table table-striped" id="booksTable">
+    <table id="booksTable">
         <thead>
-        <tr>
-            <th class="deleteColumn text-center">Delete</th>
-            <th onclick="sortTable(1, 'booksTable')" class="collectionNameHeader">Collection Name</th>
-            <th onclick="sortTable(2, 'booksTable')" class="collectionDescriptionHeader">Collection Description</th>
-        </tr>
+            <tr>
+                <th class="deleteColumn">Delete</th>
+                <th onclick="sortTable(1, 'booksTable')" class="collectionNameHeader">Collection Name</th>
+                <th onclick="sortTable(2, 'booksTable')" class="collectionDescriptionHeader">Collection Description</th>
+            </tr>
         </thead>
-        <tr th:each="collection : ${thisUserBookCollections}">
-            <td class="text-center">
-                <input type="checkbox" name="bookCollectionIds" th:value="${collection.id}">
-            </td>
-            <td th:if="${collection.user.id == cookie}">
-                <a th:href="@{/collections/delete/books/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
-            </td>
-            <td>
-                <span th:text="${collection.description}"></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table><hr>
+        <tbody>
+            <tr th:each="collection : ${thisUserBookCollections}">
+                <td>
+                    <input type="checkbox" name="bookCollectionIds" th:value="${collection.id}">
+                </td>
+                <td th:if="${collection.user.id == cookie}">
+                    <a th:href="@{/collections/delete/books/{id}(id=${collection.id})}">
+                        <span th:text="${collection.name}"></span>
+                    </a>
+                </td>
+                <td>
+                    <span th:text="${collection.description}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
 </form>
 
 <h3>Game Collections</h3><hr>
 
 <form method="post" th:action="@{/collections/delete-games}">
-    <table class="table table-striped" id="gamesTable">
+    <table id="gamesTable">
         <thead>
-        <tr>
-            <th class="deleteColumn text-center">Delete</th>
-            <th onclick="sortTable(1, 'gamesTable')" class="collectionNameHeader">Collection Name</th>
-            <th onclick="sortTable(2, 'gamesTable')" class="collectionDescriptionHeader">Collection Description</th>
-        </tr>
+            <tr>
+                <th class="deleteColumn">Delete</th>
+                <th onclick="sortTable(1, 'gamesTable')" class="collectionNameHeader">Collection Name</th>
+                <th onclick="sortTable(2, 'gamesTable')" class="collectionDescriptionHeader">Collection Description</th>
+            </tr>
         </thead>
-        <tr th:each="collection : ${thisUserGameCollections}">
-            <td class="text-center">
-                <input type="checkbox" name="gameCollectionIds" th:value="${collection.id}">
-            </td>
-            <td th:if="${collection.user.id == cookie}">
-                <a th:href="@{/collections/delete/games/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
-            </td>
-            <td>
-                <span th:text="${collection.description}"></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
-            <td></td>
-            <td></td>
-        </tr>
+        <tbody>
+            <tr th:each="collection : ${thisUserGameCollections}">
+                <td class="text-center">
+                    <input type="checkbox" name="gameCollectionIds" th:value="${collection.id}">
+                </td>
+                <td th:if="${collection.user.id == cookie}">
+                    <a th:href="@{/collections/delete/games/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
+                </td>
+                <td>
+                    <span th:text="${collection.description}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
     </table><hr>
 </form>
-
 
 </body>
 </html>
