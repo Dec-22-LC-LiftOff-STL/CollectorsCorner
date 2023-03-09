@@ -593,12 +593,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border: none !important;
 }
 
 .view-book-collection swiper-slide img {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 125px;
+    height: 160px;
     object-fit: cover;
 }
 

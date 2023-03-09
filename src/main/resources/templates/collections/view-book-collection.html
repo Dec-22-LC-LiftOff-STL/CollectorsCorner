@@ -3,6 +3,7 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
+
 <body class="container body-content view-book-collection">
 
 <h1 class="text-center" th:text="${bookCollection.name}"></h1>
@@ -11,17 +12,23 @@
 </h4>
 
 <th:block th:if="${bookCollection.books.size() > 3}">
-    <swiper-container class="mySwiper" navigation="true" slides-per-view="4" space-between="10" free-mode="true">
+    <swiper-container class="mySwiper" navigation="true" slides-per-view="6" space-between="10" free-mode="true">
         <swiper-slide th:each="book : ${bookCollection.books}">
             <img th:src="${book.imageURL}">
         </swiper-slide>
     </swiper-container>
 </th:block>
 
-<div class="container" style="width: 40rem;">
+<div th:if="${bookCollection.description != ''}" class="container" style="width: 40rem;">
+    <h4 class="text-center" th:text="Description"></h4>
     <i>
         <h5 class="card" style="text-center" th:text="${bookCollection.description}"></h5>
     </i>
+</div>
+
+<div th:else>
+    <br>
+    <br>
 </div>
 
 
@@ -50,10 +57,22 @@
             <span th:text="${book.genre}"></span> <br/>
         </td>
         <td class="text-center">
-            <img height="150px" th:src="${book.imageURL}" alt="book image">
+            <img height="150px" width="100px" th:src="${book.imageURL}" alt="book image">
         </td>
     </tr>
 </table>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      freeMode: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+</script>
 
 </body>
 </html>
