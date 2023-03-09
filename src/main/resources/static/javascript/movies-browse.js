@@ -281,32 +281,31 @@ function genericActorFetch(url) {
 
             tableRows += `
                 <tr>
-                    <td class="posterCell" style="vertical-align: middle; display:flex;">
+                    <td class="posterCell">
                         <div class="posterColumn">
                             <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
                             <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
                         </div>
                         <div class="infoColumn">
-                            <a style="font-size: 36px" id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
-                            <p style="font-size: 22px" id="movieDate${i}">${movie.release_date}</p>
-                            <p style="font-size: 16px" id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
+                            <a id="movieTitle${i}" class="movieTitle" href="/movies/details/${movie.title}">${movie.title}</a><br>
+                            <p id="movieDate${i}" class="movieDate">${movie.release_date}</p>
+                            <p id="primaryGenre${i}" class="primaryGenre">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                             <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                             <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
-                            <p style="font-size:16px" id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
+                            <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
                             <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
                             <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}, this); toggleStreamingServicesDiv(streamingDiv${i})">Watch</button>
                             <button class="btn btn-primary" onclick="buildCastHTMLDiv(themoviedbApiId${i}, castDiv${i}); toggleCastDiv(castDiv${i})">Cast</button><br>
                             <form id="confirmButtonDropdown${i}" style="display:none;">
-                                <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase(event);" style="width:131.84px">Confirm</button>
+                                <button type="button" class="btn btn-success confirmButton" onclick="addNewMovieToDatabase(event);">Confirm</button>
                             </form>
-                            <div id="streamingDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px;"></div>
-                            <div id="castDiv${i}" class="hidden" style="display: flex; align-items: left; justify-content: left; padding-top: 15px; padding-left: 3px"></div>
+                            <div id="streamingDiv${i}" class="streamingDiv hidden"></div>
+                            <div id="castDiv${i}" class="castDiv hidden"></div>
                         </div>
                     </td>
                 </tr>
                 `;
         }
-
         let tableEnding = ` </table> `;
         resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
         screenMode();
@@ -316,8 +315,8 @@ function genericActorFetch(url) {
     }
 
 function fetchAction() {
-	let url = "https://api.themoviedb.org/3/discover/movie?with_genres=28&api_key=16012a33d67f443093071edcbcdfc9d0";
-	buildHTMLResultsTable(url);
+    let url = "https://api.themoviedb.org/3/discover/movie?with_genres=28&api_key=16012a33d67f443093071edcbcdfc9d0";
+    buildHTMLResultsTable(url);
 }
 
 function fetchAdventure() {
@@ -386,8 +385,8 @@ function fetchRomance() {
 }
 
 function fetchScifi() {
-        let url = "https://api.themoviedb.org/3/discover/movie?with_genres=878&api_key=16012a33d67f443093071edcbcdfc9d0&sort_by=vote_count.desc&with_original_language=en&year=2022&primary_release_date.gte=2022-11-01region=us";
-        buildHTMLResultsTable(url);
+    let url = "https://api.themoviedb.org/3/discover/movie?with_genres=878&api_key=16012a33d67f443093071edcbcdfc9d0&sort_by=vote_count.desc&with_original_language=en&year=2022&primary_release_date.gte=2022-11-01region=us";
+    buildHTMLResultsTable(url);
 }
 
 function fetchThriller() {

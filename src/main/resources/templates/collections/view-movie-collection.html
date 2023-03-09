@@ -3,24 +3,28 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
+
 <body class="container body-content view-movie-collection">
 
 <h1 class="text-center" th:text="${movieCollection.name}"></h1>
 <h4 class="text-center">
-<span th:text="'This Movie Collection Belongs To: '"></span><a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${movieCollection.getUser().getScreenName()}"></a>
+    <span th:text="'This Movie Collection Belongs To: '"></span><a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${movieCollection.getUser().getScreenName()}"></a>
 </h4>
 <br>
 
-<swiper-container class="mySwiper" navigation="true" slides-per-view="3" space-between="10" free-mode="true" style="height:50%">
-    <swiper-slide th:each="movie : ${movieCollection.movies}">
-        <img th:src="${movie.imageURL}" height="50%">
-    </swiper-slide>
-</swiper-container>
+<div th:if="${movieCollection.movies.size > 2}">
+    <swiper-container class="mySwiper" navigation="true" slides-per-view="3" space-between="10" free-mode="true" style="height:50%">
+        <swiper-slide th:each="movie : ${movieCollection.movies}">
+            <img th:src="${movie.imageURL}" height="50%">
+        </swiper-slide>
+    </swiper-container>
+</div>
+
 
 <div th:if="${movieCollection.description != ''}" class="container" style="width: 40rem;">
     <H4 class="text-center" th:text="Description"></H4>
     <i>
-        <H5 class="card" style="text-center" th:text="${movieCollection.description}"></H5>
+        <h5 class="card text-center" th:text="${movieCollection.description}"></h5>
     </i>
 </div>
 
@@ -79,18 +83,6 @@
         </tr>
     </span>
 </table>
-
-<script>
-    var swiper = new Swiper(".mySwiper", {
-      slidesPerView: 3,
-      spaceBetween: 30,
-      freeMode: true,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-    });
-</script>
 
 </body>
 

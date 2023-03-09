@@ -3,16 +3,16 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
+
 <body>
-<br><br><br><br>
 
 <div th:replace="fragments :: page-header"></div>
-<h1>Profile Page</h1>
 
+<h1>Profile Page</h1>
 
 <th:block th:if="${isSelf}">
     <h3>Screen Mode:</h3>
-    <form th:action="@{/update-theme}" method="post" >
+    <form th:action="@{/update-theme}" method="post">
         <select name="theme">
             <option>Change:</option>
             <option value="Light">Light</option>

@@ -327,18 +327,18 @@
     cursor: pointer;
 }
 
-.movies-list .actorNameText {
+.movies-browse .actorNameText {
     text-align: center;
     font-size: 14px;
     overflow-wrap: anywhere;
 }
 
-.movies-list .actorPhoto {
+.movies-browse .actorPhoto {
     width: 140px;
     padding: 5%;
 }
 
-.movies-list .castDiv {
+.movies-browse .castDiv {
     display: flex;
     align-items: left;
     justify-content: left;
@@ -346,100 +346,100 @@
     padding-left: 3px;
 }
 
-.movies-list .castMember { }
+.movies-browse .castMember { }
 
-.movies-list .characterNameText {
+.movies-browse .characterNameText {
     text-align: center;
     font-size: 11px;
     overflow-wrap: anywhere;
 }
 
-.movies-list .confirmButton {
+.movies-browse .confirmButton {
     width:131.84px;
 }
 
-.movies-list .container-fluid {
+.movies-browse .container-fluid {
     width: 70%;
 }
 
-.movies-list .flagButton {
+.movies-browse .flagButton {
     padding: 0px;
 }
 
-.movies-list .flagIcon {
+.movies-browse .flagIcon {
     width: 50px;
 }
 
-.movies-list .posterColumn {
+.movies-browse .posterColumn {
     flex: 33%;
     padding: 10px;
 }
 
-.movies-list .infoColumn {
+.movies-browse .infoColumn {
     flex: 66%;
     padding: 10px;
 }
 
-.movies-list .movieDate {
+.movies-browse .movieDate {
     font-size: 22px;
 }
 
-.movies-list .movieSynopsis {
+.movies-browse .movieSynopsis {
     font-size:16px;
 }
 
-.movies-list .movieTitle {
+.movies-browse .movieTitle {
     font-size: 36px;
 }
 
-.movies-list p {
+.movies-browse p {
     margin-left: 0;
 }
 
-.movies-list #pageHeader {
+.movies-browse #pageHeader {
     text-align: center;
 }
 
-.movies-list .posterCell {
+.movies-browse .posterCell {
     vertical-align: middle;
     display: flex;
 }
 
-.movies-list .primaryGenre {
+.movies-browse .primaryGenre {
     font-size: 16px;
 }
 
-.movies-list #resultsTable {
+.movies-browse #resultsTable {
     border: none;
 }
 
-.movies-list .row:after {
+.movies-browse .row:after {
     content: "";
     display: table;
     clear: both;
 }
 
-.movies-list .slideCategory {
+.movies-browse .slideCategory {
     position: relative;
     top: 5%;
     margin: 8px;
 }
 
-.movies-list .streamingDiv {
+.movies-browse .streamingDiv {
     display: flex;
     align-items: left;
     justify-content: left;
     padding-top: 15px;
 }
 
-.movies-list swiper-container {
+.movies-browse swiper-container {
     margin-left: auto;
     margin-right: auto;
     width: 100%;
     height: 100%;
 }
 
-.movies-list swiper-slide {
+.movies-browse swiper-slide {
     text-align: center;
     font-size: 18px;
     background: #fff;
@@ -448,14 +448,18 @@
     padding-bottom: 10px;
 }
 
-.movies-list swiper-slide img {
+.movies-browse swiper-slide img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.movies-list tr:nth-child(odd) {
+.movies-browse .synopsisText {
+    font-size: 16px;
+}
+
+.movies-browse tr:nth-child(odd) {
     background-color: transparent;
 }
 

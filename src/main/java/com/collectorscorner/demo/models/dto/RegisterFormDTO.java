@@ -30,7 +30,7 @@ public class RegisterFormDTO extends LoginFormDTO {
 
     private String aboutMe;
 
-    private String screenMode = "light";
+    private String screenMode = "Light";
 
     public String getAboutMe() {
         return aboutMe;
