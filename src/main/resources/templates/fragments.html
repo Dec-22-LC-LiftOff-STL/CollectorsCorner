@@ -21,7 +21,7 @@
 
 <div th:fragment="page-header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
-        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
+        <a th:href="@{/search-collections}"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
     </div>
     <div class="navbar-header">
         <a style="font-style: italic;" class="navbar-brand" th:text="${username}" th:href="@{/profile/} + ${username}"></a>
@@ -65,7 +65,7 @@
 
 <div th:fragment="books-navbar" class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
-        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
+        <a th:href="@{/search-collections}"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
     </div>
     <div class="navbar-header">
         <a style="font-style: italic;" class="navbar-brand" th:text="${username}" th:href="@{/profile/} + ${username}"></a>
@@ -120,7 +120,7 @@
 
 <div th:fragment="games-navbar" class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
-        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
+        <a th:href="@{/search-collections}"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
     </div>
     <div class="navbar-header">
         <a style="font-style: italic;" class="navbar-brand" th:text="${username}" th:href="@{/profile/} + ${username}"></a>
@@ -175,7 +175,7 @@
 
 <div th:fragment="movies-navbar" class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
-        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
+        <a th:href="@{/search-collections}"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
     </div>
     <div class="navbar-header">
         <a style="font-style: italic;" class="navbar-brand" th:text="${username}" th:href="@{/profile/} + ${username}"></a>
@@ -231,7 +231,7 @@
 
 <div th:fragment="login-header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-header">
-        <a  href="#"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
+        <a th:href="@{/search-collections}"><img src="http://localhost:8080/images/CCLOGO.png" alt="Logo" height="50"></a>
     </div>
     <div class="navbar-collapse collapse">
         <a th:href="@{/register}" class="navbar-brand">Collector's Corner</a>
