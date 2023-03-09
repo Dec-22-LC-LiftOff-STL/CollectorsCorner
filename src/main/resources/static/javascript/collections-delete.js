@@ -1,6 +1,3 @@
-window.onload =
-
-
 function sortTable(n, table) {
     let tableName = table;
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
