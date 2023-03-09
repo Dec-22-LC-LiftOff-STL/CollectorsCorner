@@ -67,25 +67,20 @@
   <input type="text" name="collectionId" id="collectionId">
 </form>
 
-<!-- Event Listener to call removeScrollbarOnShortSynopsis() when user first scrolls -->
-<script>
-  window.addEventListener("scroll", limitSynopsisTextHeight());
-</script>
+</body>
 
-<!-- Handles the dropdown search options (title, author, isbn) -->
 <script>
-  const searchButton = document.getElementById('searchButton');
-  const userSearchTerm = document.getElementById('userSearchTerm');
+//Handles the dropdown search options (title, author, isbn
+const searchButton = document.getElementById('searchButton');
+const userSearchTerm = document.getElementById('userSearchTerm');
 
-  searchButton.addEventListener('click', handleSearch);
-  userSearchTerm.addEventListener('keyup', function(event) {
-  if (event.keyCode === 13 || event.key === 'Enter') {
-    event.preventDefault();
-    handleSearch();
-  }
+searchButton.addEventListener('click', handleSearch);
+userSearchTerm.addEventListener('keyup', function(event) {
+    if (event.keyCode === 13 || event.key === 'Enter') {
+        event.preventDefault();
+        handleSearch();
+    }
 });
 </script>
-
-</body>
 
 </html>

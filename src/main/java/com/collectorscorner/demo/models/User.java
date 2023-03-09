@@ -27,7 +27,7 @@ public class User extends AbstractEntity{
 
     private String aboutMe;
 
-    private String screenMode = "light";
+    private String screenMode = "Light";
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -43,7 +43,7 @@ public class User extends AbstractEntity{
 
     public User(){}
 
-    public User(String username, String password, String screenName, String firstName, String lastName, String aboutMe, String screenMode){
+    public User(String username, String password, String screenName, String firstName, String lastName, String aboutMe){
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.userBookCollection = getUserBookCollection();
@@ -53,7 +53,6 @@ public class User extends AbstractEntity{
         this.firstName = firstName;
         this.lastName = lastName;
         this.aboutMe = aboutMe;
-        this.screenMode = screenMode;
     }
 
     public String getAboutMe() {

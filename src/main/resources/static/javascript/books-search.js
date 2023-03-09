@@ -4,6 +4,7 @@ let isAscendingAuthor = true;
 let isAscendingYear = true;
 let isAscendingGenre = true;
 
+window.addEventListener("scroll", limitSynopsisTextHeight());
 window.onload = function() {
     document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
         const selectedValue = this.value;

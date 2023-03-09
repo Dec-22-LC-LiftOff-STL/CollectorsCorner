@@ -24,13 +24,10 @@ public class BooksController {
 
     @Autowired
     private BookRepository bookRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private BookCollectionRepository bookCollectionRepository;
-
     @Autowired
     private BookCollectionService bookCollectionService;
 
@@ -53,6 +50,8 @@ public class BooksController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
+            model.addAttribute("screenMode", thisUser.getScreenMode());
             List<BookCollection> thisUsersCollections = thisUser.getUserBookCollection();
             for (BookCollection bookCollection : thisUsersCollections){
                 keys.add(bookCollection.getId());
@@ -88,8 +87,14 @@ public class BooksController {
 
 
     @GetMapping("details/{bookTitle}")
-    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle/*,@CookieValue(name = "userId") String myCookie*/) {
-//        Integer userId = Integer.parseInt(myCookie);
+    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle,@CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
+        }
 
         Iterable<BookCollection> allBookCollections = bookCollectionRepository.findAll();
         int foundBookYear = 0;
@@ -105,7 +110,6 @@ public class BooksController {
                     collectorName = collection.getUser().getUsername();
                 }
             }
-
         }
         model.addAttribute("collectionsWithThisBook", foundBooks);
         model.addAttribute("bookTitle", bookTitle);

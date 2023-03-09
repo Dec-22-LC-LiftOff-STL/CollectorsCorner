@@ -24,28 +24,16 @@ public class MoviesController {
 
     @Autowired
     private MovieRepository movieRepository;
-
     @Autowired
     private MovieCollectionRepository movieCollectionRepository;
-
     @Autowired
     private MovieCollectionService movieCollectionService;
-
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("feed")
-    private String displayFeedPage(Model model) {
-        model.addAttribute("movies", movieRepository.findAll());
-        return "movies/feed";
-    }
-
-    @GetMapping("list")
+    @GetMapping("browse")
     public String displayMoviesListPage(@CookieValue(name = "userId") String myCookie, Model model) {
         model.addAttribute(new Movie());
-        if ("null".equals(myCookie)) {
-            return "redirect:/login";
-        }
         Integer userId = Integer.parseInt(myCookie);
         Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
         Iterable<User> iterableUsers = userRepository.findAll();
@@ -59,6 +47,8 @@ public class MoviesController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
+            model.addAttribute("screenMode", thisUser.getScreenMode());
             List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
             for (MovieCollection movieCollection : thisUsersCollections){
                 keys.add(movieCollection.getId());
@@ -69,13 +59,11 @@ public class MoviesController {
                 collectionIdsAndMovies.put(keys.get(i), values.get(i));
             }
             model.addAttribute("collectionIdsAndMovies", collectionIdsAndMovies);
-
         }
-
-        return "movies/list";
+        return "movies/browse";
     }
 
-    @PostMapping("list")
+    @PostMapping("browse")
     public String processAddMovieFormOnListPage(@ModelAttribute Movie movie, @RequestParam("collectionId") Integer collectionId) {
         Optional<Movie> existingMovie = movieRepository.findByTitleAndYearAndDirector(movie.getTitle(), movie.getYear(), movie.getDirector());
         if (existingMovie.isPresent()) {
@@ -91,7 +79,7 @@ public class MoviesController {
                 movieCollectionService.addMovie(movieCollection, movie);
             }
         }
-        return "redirect:/movies/list";
+        return "redirect:/movies/browse";
     }
 
     @GetMapping("search")
@@ -113,6 +101,8 @@ public class MoviesController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
+            model.addAttribute("screenMode", thisUser.getScreenMode());
             List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
             for (MovieCollection movieCollection : thisUsersCollections){
                 keys.add(movieCollection.getId());
@@ -123,9 +113,7 @@ public class MoviesController {
                 collectionIdsAndMovies.put(keys.get(i), values.get(i));
             }
             model.addAttribute("collectionIdsAndMovies", collectionIdsAndMovies);
-
         }
-
         return "movies/search";
     }
 
@@ -149,8 +137,13 @@ public class MoviesController {
     }
 
     @GetMapping("details/{movieTitle}")
-    public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle/*,@CookieValue(name = "userId") String myCookie*/) {
-//        Integer userId = Integer.parseInt(myCookie);
+    public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle, @CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("screenMode", user.getScreenMode());
+        }
 
         Iterable<MovieCollection> allMovieCollections = movieCollectionRepository.findAll();
         int foundMovieYear = 0;
@@ -164,7 +157,6 @@ public class MoviesController {
                     collectorName = collection.getUser().getUsername();
                 }
             }
-
         }
         model.addAttribute("collectionsWithThisMovie", foundMovies);
         model.addAttribute("movieTitle", movieTitle);

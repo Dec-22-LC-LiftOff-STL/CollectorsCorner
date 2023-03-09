@@ -153,7 +153,6 @@ let bookTable = document.getElementById("bookCollectionTable");
     if (bookTable.rows.length < 2) {
         document.getElementById("bookCollectionTable").style.display = "none";
         document.getElementById("bookFilterBlock").style.display = "none";
-        document.getElementById("bookDivider").style.display = "none";
     }
 }
 
