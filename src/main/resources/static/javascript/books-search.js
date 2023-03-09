@@ -4,18 +4,6 @@ let isAscendingAuthor = true;
 let isAscendingYear = true;
 let isAscendingGenre = true;
 
-//Handles the dropdown search options (title, author, isbn
-const searchButton = document.getElementById('searchButton');
-const userSearchTerm = document.getElementById('userSearchTerm');
-
-searchButton.addEventListener('click', handleSearch);
-userSearchTerm.addEventListener('keyup', function(event) {
-    if (event.keyCode === 13 || event.key === 'Enter') {
-        event.preventDefault();
-        handleSearch();
-    }
-});
-
 window.addEventListener("scroll", limitSynopsisTextHeight());
 window.onload = function() {
     document.getElementById("collectionNamesDropdown").addEventListener("change", function(){

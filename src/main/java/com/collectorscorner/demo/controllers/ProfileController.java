@@ -40,6 +40,7 @@ public class ProfileController {
             String userUsername = user.getUsername();
             boolean isSelf = userUsername.equals(username);
             model.addAttribute("userUsername", userUsername);
+            model.addAttribute("screenMode", user.getScreenMode());
             model.addAttribute("isSelf", isSelf);
         }
         return "profile.html";

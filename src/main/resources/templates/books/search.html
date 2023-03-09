@@ -69,4 +69,18 @@
 
 </body>
 
+<script>
+//Handles the dropdown search options (title, author, isbn
+const searchButton = document.getElementById('searchButton');
+const userSearchTerm = document.getElementById('userSearchTerm');
+
+searchButton.addEventListener('click', handleSearch);
+userSearchTerm.addEventListener('keyup', function(event) {
+    if (event.keyCode === 13 || event.key === 'Enter') {
+        event.preventDefault();
+        handleSearch();
+    }
+});
+</script>
+
 </html>

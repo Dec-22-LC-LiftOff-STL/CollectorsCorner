@@ -38,6 +38,7 @@ public class SearchController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         model.addAttribute("columns", columnChoices);
         return "search-collections";
@@ -52,6 +53,7 @@ public class SearchController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         Iterable<MovieCollection> movieCollections;
         Iterable<BookCollection> bookCollections;

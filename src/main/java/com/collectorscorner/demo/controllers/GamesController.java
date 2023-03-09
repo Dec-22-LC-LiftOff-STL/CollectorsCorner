@@ -21,13 +21,10 @@ public class GamesController {
 
     @Autowired
     private GameRepository gameRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private GameCollectionRepository gameCollectionRepository;
-
     @Autowired
     private GameCollectionService gameCollectionService;
 
@@ -51,6 +48,7 @@ public class GamesController {
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
             model.addAttribute("username", thisUser.getUsername());
+            model.addAttribute("screenMode", thisUser.getScreenMode());
             List<GameCollection> thisUsersCollections = thisUser.getUserGameCollection();
             for (GameCollection gameCollection : thisUsersCollections) {
                 keys.add(gameCollection.getId());
@@ -85,27 +83,28 @@ public class GamesController {
     }
 
     @GetMapping("details/{gameTitle}")
-    public String displayViewGameDetailsPage(Model model, @PathVariable String gameTitle/*,@CookieValue(name = "userId") String myCookie*/) {
-//        Integer userId = Integer.parseInt(myCookie);
-
+    public String displayViewGameDetailsPage(Model model, @PathVariable String gameTitle,@CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
+        }
         Iterable<GameCollection> allGameCollections = gameCollectionRepository.findAll();
-//        int foundGameYear = 0;
         String collectorName = "";
         ArrayList<GameCollection> foundGames = new ArrayList<>();
-        for (GameCollection collection : allGameCollections){
+        for (GameCollection collection : allGameCollections) {
             for (int i = 0; i < collection.getGames().size(); i++){
-                if (collection.getGames().get(i).getTitle().equals(gameTitle)){
+                if (collection.getGames().get(i).getTitle().equals(gameTitle)) {
                     foundGames.add(collection);
-//                    foundGameYear = collection.getGames().get(i).getYear();
                     collectorName = collection.getUser().getUsername();
                 }
             }
-
         }
         model.addAttribute("collectionsWithThisGame", foundGames);
         model.addAttribute("gameTitle", gameTitle);
         model.addAttribute("games", gameRepository.findAll());
-//        model.addAttribute("foundGameYear", foundGameYear);
         model.addAttribute("collectorName", collectorName);
 
         return "games/details";

@@ -39,40 +39,28 @@ public class CollectionController {
 
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     MovieRepository movieRepository;
-
     @Autowired
     BookRepository bookRepository;
-
     @Autowired
     GameRepository gameRepository;
-
     @Autowired
     MovieCollectionRepository movieCollectionRepository;
-
     @Autowired
     MovieCollectionService movieCollectionService;
-
     @Autowired
     BookCollectionService bookCollectionService;
-
     @Autowired
     GameCollectionService gameCollectionService;
-
     @Autowired
     GameCollectionRepository gameCollectionRepository;
-
     @Autowired
     BookCollectionRepository bookCollectionRepository;
-
     @Autowired
     MovieSideNoteRepository movieSideNoteRepository;
 
-
     @GetMapping("/create-movie-collection")
-
     public String displayCreateMovieCollection(@CookieValue("userId") String myCookie, Model model) {
         Integer userId = Integer.parseInt(myCookie);
         model.addAttribute(new CreateMovieCollectionDTO());
@@ -82,89 +70,52 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         return "collections/create-movie-collection";
     }
 
     @PostMapping("/create-movie-collection")
-    public String processCreateMovieCollection(@ModelAttribute @Valid CreateMovieCollectionDTO createMovieCollectionDTO,
-                                               @CookieValue("userId") String myCookie,
-                                               Errors errors,
-                                               HttpServletRequest request,
-                                               Model model
-    ) {
-
+    public String processCreateMovieCollection(@ModelAttribute @Valid CreateMovieCollectionDTO createMovieCollectionDTO, @CookieValue("userId") String myCookie, Errors errors, HttpServletRequest request, Model model) {
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> existingUser = userRepository.findById(userId);
-        if (errors.hasErrors()) {
-            model.addAttribute("title", "CreateMovieCollection");
-            return "collections/create-movie-collection";
-        }
-
-//        Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isPresent()) {
-
             User existingUserFound = existingUser.get();
             MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), existingUserFound);
             movieCollectionRepository.save(createMovieCollection);
         }
-
-//        if (optionalUser.isPresent()) {
-//            User existingUser = (User)  optionalUser.get();
-//                    MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), createMovieCollectionDTO.getUser());
-//            movieCollectionRepository.save(createMovieCollection);
-//        }
-
-        return "redirect:../movies/search";
-
+        return "redirect:/movies/search";
     }
-
 
     @GetMapping("/create-book-collection")
     public String displayCreateBookCollection(@CookieValue("userId") String myCookie, Model model) {
         Integer userId = Integer.parseInt(myCookie);
+        model.addAttribute("cookie", userId);
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         model.addAttribute(new CreateBookCollectionDTO());
         model.addAttribute("title", "CreateBookCollection");
-        model.addAttribute("cookie", userId);
         return "collections/create-book-collection";
     }
 
     @PostMapping("/create-book-collection")
-    public String processCreateBookCollection(@ModelAttribute @Valid CreateBookCollectionDTO createBookCollectionDTO,
-                                              @CookieValue("userId") String myCookie,
-                                              Errors errors,
-                                              HttpServletRequest request,
-                                              Model model
-    ) {
-
+    public String processCreateBookCollection(@ModelAttribute @Valid CreateBookCollectionDTO createBookCollectionDTO, @CookieValue("userId") String myCookie, Errors errors, HttpServletRequest request, Model model) {
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> existingUser = userRepository.findById(userId);
         if (errors.hasErrors()) {
             model.addAttribute("title", "CreateBookCollection");
             return "collections/create-book-collection";
         }
-
-//        Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isPresent()) {
-
             User existingUserFound = existingUser.get();
             BookCollection createBookCollection = new BookCollection(createBookCollectionDTO.getBooks(), createBookCollectionDTO.getName(), createBookCollectionDTO.getDescription(), existingUserFound);
             bookCollectionRepository.save(createBookCollection);
         }
-
-//        if (optionalUser.isPresent()) {
-//            User existingUser = (User)  optionalUser.get();
-//                    MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), createMovieCollectionDTO.getUser());
-//            movieCollectionRepository.save(createMovieCollection);
-//        }
-
         return "redirect:../books/search";
-
     }
 
 
@@ -178,47 +129,26 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         return "collections/create-game-collection";
     }
 
     @PostMapping("/create-game-collection")
-    public String processCreateGameCollection(@ModelAttribute @Valid CreateGameCollectionDTO createGameCollectionDTO,
-                                              @CookieValue("userId") String myCookie,
-                                              Errors errors,
-                                              HttpServletRequest request,
-                                              Model model
-    ) {
-
+    public String processCreateGameCollection(@ModelAttribute @Valid CreateGameCollectionDTO createGameCollectionDTO, @CookieValue("userId") String myCookie, Errors errors, HttpServletRequest request, Model model) {
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> existingUser = userRepository.findById(userId);
         if (errors.hasErrors()) {
             model.addAttribute("title", "CreateGameCollection");
             return "collections/create-game-collection";
         }
-
-//        Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isPresent()) {
-
             User existingUserFound = existingUser.get();
             GameCollection createGameCollection = new GameCollection(createGameCollectionDTO.getGames(), createGameCollectionDTO.getName(), createGameCollectionDTO.getDescription(), existingUserFound);
             gameCollectionRepository.save(createGameCollection);
         }
-
-//        if (optionalUser.isPresent()) {
-//            User existingUser = (User)  optionalUser.get();
-//                    MovieCollection createMovieCollection = new MovieCollection(createMovieCollectionDTO.getName(), createMovieCollectionDTO.getDescription(), createMovieCollectionDTO.getMovies(), createMovieCollectionDTO.getUser());
-//            movieCollectionRepository.save(createMovieCollection);
-//        }
-
         return "redirect:../games/search";
-
     }
-
-
-    //Created a collections package in templates and a create template inside of collections package. The Form just shows a basic name and a description section for the user to enter information on their collection. No validation currently set up, but as is, once the add button is clicked the collection is added to the SQL database
-
-
 
     @GetMapping("delete")
     public String displayDeleteMovieCollection(@CookieValue("userId") String myCookie, Model model) {
@@ -230,6 +160,7 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         model.addAttribute("cookie", userId);
         //Movies
@@ -280,7 +211,6 @@ public class CollectionController {
         if (optionalUser.isPresent()) {
             model.addAttribute("user", optionalUser.get());
         }
-
         if (movieCollectionIds != null) {
             for (int id : movieCollectionIds) {
                 movieCollectionRepository.deleteById(id);
@@ -299,7 +229,6 @@ public class CollectionController {
         if (optionalUser.isPresent()) {
             model.addAttribute("user", optionalUser.get());
         }
-
         if (bookCollectionIds != null) {
             for (int id : bookCollectionIds) {
                 bookCollectionRepository.deleteById(id);
@@ -318,7 +247,6 @@ public class CollectionController {
         if (optionalUser.isPresent()) {
             model.addAttribute("user", optionalUser.get());
         }
-
         if (gameCollectionIds != null) {
             for (int id : gameCollectionIds) {
                 gameCollectionRepository.deleteById(id);
@@ -334,6 +262,7 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         Optional optCollection = movieCollectionRepository.findById(collectionId);
         if (optCollection.isPresent()) {
@@ -354,6 +283,7 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         Optional optCollection = bookCollectionRepository.findById(collectionId);
         if (optCollection.isPresent()) {
@@ -374,6 +304,7 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         Optional optCollection = gameCollectionRepository.findById(collectionId);
         if (optCollection.isPresent()) {
@@ -497,6 +428,7 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         model.addAttribute("allMovieSideNotes", movieSideNoteRepository.findAll());
         Optional optMovieCollection = movieCollectionRepository.findById(movieCollectionId);
@@ -511,9 +443,6 @@ public class CollectionController {
     }
 
 
-
-
-
     @GetMapping("view-book-collection/{bookCollectionId}")
     public String displayViewBookCollection(Model model, @PathVariable int bookCollectionId, @CookieValue(name = "userId") String myCookie) {
         Integer userId = Integer.parseInt(myCookie);
@@ -521,6 +450,7 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         Optional optBookCollection = bookCollectionRepository.findById(bookCollectionId);
         if (optBookCollection.isPresent()) {
@@ -540,6 +470,7 @@ public class CollectionController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
         }
         Optional optGameCollection = gameCollectionRepository.findById(gameCollectionId);
         if (optGameCollection.isPresent()) {
