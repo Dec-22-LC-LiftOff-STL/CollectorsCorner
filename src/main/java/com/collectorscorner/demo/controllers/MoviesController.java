@@ -34,12 +34,6 @@ public class MoviesController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("feed")
-    private String displayFeedPage(Model model) {
-        model.addAttribute("movies", movieRepository.findAll());
-        return "movies/feed";
-    }
-
     @GetMapping("browse")
     public String displayMoviesListPage(@CookieValue(name = "userId") String myCookie, Model model) {
         model.addAttribute(new Movie());
@@ -56,6 +50,7 @@ public class MoviesController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
             List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
             for (MovieCollection movieCollection : thisUsersCollections){
                 keys.add(movieCollection.getId());
@@ -110,6 +105,7 @@ public class MoviesController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
             List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
             for (MovieCollection movieCollection : thisUsersCollections){
                 keys.add(movieCollection.getId());

@@ -79,7 +79,7 @@ public class AuthenticationController {
             return "register";
         }
 
-        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword(), registerFormDTO.getScreenName(), registerFormDTO.getFirstName(), registerFormDTO.getLastName(), registerFormDTO.getAboutMe(), registerFormDTO.getScreenMode());
+        User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword(), registerFormDTO.getScreenName(), registerFormDTO.getFirstName(), registerFormDTO.getLastName(), registerFormDTO.getAboutMe());
         userRepository.save(newUser);
 //        setUserInSession(request.getSession(), newUser);
 
@@ -119,7 +119,7 @@ public class AuthenticationController {
             model.addAttribute("title", "Log In");
             return "login";
         }
-        
+
         model.addAttribute("userId", theUser.getId());
         setUserInSession(request.getSession(), theUser);
 

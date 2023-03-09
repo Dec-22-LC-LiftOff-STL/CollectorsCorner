@@ -3,13 +3,17 @@ package com.collectorscorner.demo.controllers;
 import com.collectorscorner.demo.data.BookCollectionRepository;
 import com.collectorscorner.demo.data.GameCollectionRepository;
 import com.collectorscorner.demo.data.MovieCollectionRepository;
+import com.collectorscorner.demo.data.UserRepository;
 import com.collectorscorner.demo.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 import static com.collectorscorner.demo.controllers.ListController.columnChoices;
 
@@ -24,9 +28,17 @@ public class SearchController {
     private BookCollectionRepository bookCollectionRepository;
     @Autowired
     private GameCollectionRepository gameCollectionRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping("")
-    public String search(Model model) {
+    public String search(Model model, @CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         model.addAttribute("columns", columnChoices);
         return "search-collections";
     }
@@ -34,7 +46,13 @@ public class SearchController {
 
 
     @PostMapping("results")
-    public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
+    public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm, @CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         Iterable<MovieCollection> movieCollections;
         Iterable<BookCollection> bookCollections;
         Iterable<GameCollection> gameCollections;

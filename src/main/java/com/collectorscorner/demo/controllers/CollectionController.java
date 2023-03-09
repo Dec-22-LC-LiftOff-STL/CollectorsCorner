@@ -1,7 +1,5 @@
 package com.collectorscorner.demo.controllers;
 
-
-
 import com.collectorscorner.demo.Services.BookCollectionService;
 import com.collectorscorner.demo.Services.GameCollectionService;
 import com.collectorscorner.demo.data.BookCollectionRepository;
@@ -80,6 +78,11 @@ public class CollectionController {
         model.addAttribute(new CreateMovieCollectionDTO());
         model.addAttribute("title", "CreateMovieCollection");
         model.addAttribute("cookie", userId);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         return "collections/create-movie-collection";
     }
 
@@ -120,6 +123,11 @@ public class CollectionController {
     @GetMapping("/create-book-collection")
     public String displayCreateBookCollection(@CookieValue("userId") String myCookie, Model model) {
         Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         model.addAttribute(new CreateBookCollectionDTO());
         model.addAttribute("title", "CreateBookCollection");
         model.addAttribute("cookie", userId);
@@ -166,6 +174,11 @@ public class CollectionController {
         model.addAttribute(new CreateGameCollectionDTO());
         model.addAttribute("title", "CreateGameCollection");
         model.addAttribute("cookie", userId);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         return "collections/create-game-collection";
     }
 
@@ -209,11 +222,15 @@ public class CollectionController {
 
     @GetMapping("delete")
     public String displayDeleteMovieCollection(@CookieValue("userId") String myCookie, Model model) {
-
         if ("null".equals(myCookie)) {
             return "redirect:/login";
         }
         Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         model.addAttribute("cookie", userId);
         //Movies
         ArrayList<MovieCollection> thisUserMovieCollections = new ArrayList<>();
@@ -313,6 +330,11 @@ public class CollectionController {
     @GetMapping("delete/movies/{collectionId}")
     public String displayDeleteItemsFromMoviesCollectionPage(Model model, @PathVariable int collectionId, @CookieValue(name = "userId") String myCookie) {
         Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         Optional optCollection = movieCollectionRepository.findById(collectionId);
         if (optCollection.isPresent()) {
             MovieCollection movieCollection = (MovieCollection) optCollection.get();
@@ -328,6 +350,11 @@ public class CollectionController {
     @GetMapping("delete/books/{collectionId}")
     public String displayDeleteItemsFromBookCollectionPage(Model model, @PathVariable int collectionId, @CookieValue(name = "userId") String myCookie) {
         Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         Optional optCollection = bookCollectionRepository.findById(collectionId);
         if (optCollection.isPresent()) {
             BookCollection bookCollection = (BookCollection) optCollection.get();
@@ -343,6 +370,11 @@ public class CollectionController {
     @GetMapping("delete/games/{collectionId}")
     public String displayDeleteGamesFromCollectionPage(Model model, @PathVariable int collectionId, @CookieValue(name = "userId") String myCookie){
         Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         Optional optCollection = gameCollectionRepository.findById(collectionId);
         if (optCollection.isPresent()) {
             GameCollection gameCollection = (GameCollection) optCollection.get();
@@ -460,8 +492,13 @@ public class CollectionController {
 
     @GetMapping("view-movie-collection/{movieCollectionId}")
     public String displayViewMovieCollection(Model model, @PathVariable int movieCollectionId, @CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         model.addAttribute("allMovieSideNotes", movieSideNoteRepository.findAll());
-
         Optional optMovieCollection = movieCollectionRepository.findById(movieCollectionId);
         if (optMovieCollection.isPresent()) {
             MovieCollection movieCollection = (MovieCollection) optMovieCollection.get();
@@ -478,8 +515,13 @@ public class CollectionController {
 
 
     @GetMapping("view-book-collection/{bookCollectionId}")
-    public String displayViewBookCollection(Model model, @PathVariable int bookCollectionId) {
-
+    public String displayViewBookCollection(Model model, @PathVariable int bookCollectionId, @CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         Optional optBookCollection = bookCollectionRepository.findById(bookCollectionId);
         if (optBookCollection.isPresent()) {
             BookCollection bookCollection = (BookCollection) optBookCollection.get();
@@ -492,8 +534,13 @@ public class CollectionController {
 
 
     @GetMapping("view-game-collection/{gameCollectionId}")
-    public String displayViewGameCollection(Model model, @PathVariable int gameCollectionId) {
-
+    public String displayViewGameCollection(Model model, @PathVariable int gameCollectionId, @CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+        }
         Optional optGameCollection = gameCollectionRepository.findById(gameCollectionId);
         if (optGameCollection.isPresent()) {
             GameCollection gameCollection = (GameCollection) optGameCollection.get();

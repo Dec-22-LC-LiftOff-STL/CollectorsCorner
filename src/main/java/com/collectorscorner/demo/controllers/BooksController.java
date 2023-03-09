@@ -53,6 +53,7 @@ public class BooksController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
             List<BookCollection> thisUsersCollections = thisUser.getUserBookCollection();
             for (BookCollection bookCollection : thisUsersCollections){
                 keys.add(bookCollection.getId());

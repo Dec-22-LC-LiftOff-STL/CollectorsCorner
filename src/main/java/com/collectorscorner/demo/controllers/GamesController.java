@@ -50,6 +50,7 @@ public class GamesController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
             List<GameCollection> thisUsersCollections = thisUser.getUserGameCollection();
             for (GameCollection gameCollection : thisUsersCollections) {
                 keys.add(gameCollection.getId());
