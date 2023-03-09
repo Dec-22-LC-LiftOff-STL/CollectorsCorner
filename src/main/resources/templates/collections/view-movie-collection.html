@@ -12,11 +12,13 @@
 </h4>
 <br>
 
-<swiper-container class="mySwiper" navigation="true" slides-per-view="3" space-between="10" free-mode="true" style="height:50%">
-    <swiper-slide th:each="movie : ${movieCollection.movies}">
-        <img th:src="${movie.imageURL}" height="50%">
-    </swiper-slide>
-</swiper-container>
+<div th:if="${movieCollection.movies.size > 2}">
+    <swiper-container class="mySwiper" navigation="true" slides-per-view="3" space-between="10" free-mode="true" style="height:50%">
+        <swiper-slide th:each="movie : ${movieCollection.movies}">
+            <img th:src="${movie.imageURL}" height="50%">
+        </swiper-slide>
+    </swiper-container>
+</div>
 
 <div class="container" style="width: 40rem;">
     <h4 class="text-center" th:text="Description"></h4>
