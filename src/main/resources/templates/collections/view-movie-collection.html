@@ -20,14 +20,20 @@
     </swiper-container>
 </div>
 
-<div class="container" style="width: 40rem;">
-    <h4 class="text-center" th:text="Description"></h4>
+
+<div th:if="${movieCollection.description != ''}" class="container" style="width: 40rem;">
+    <H4 class="text-center" th:text="Description"></H4>
     <i>
         <h5 class="card text-center" th:text="${movieCollection.description}"></h5>
     </i>
 </div>
 
-<table id="table">
+<div th:else>
+    <br>
+    <br>
+</div>
+
+<table class="table" id="table">
     <thead>
         <tr>
             <th class="col-lg-2 text-center" id="movieTitleHeader">Movie</th>
@@ -39,10 +45,10 @@
     </thead>
     <span th:each="movie : ${movieCollection.movies}">
         <tr>
-            <td class="text-center">
+            <td  class="text-center">
                 <span th:text="${movie.title}"></span>
             </td>
-            <td class="text-center">
+            <td  class="text-center">
                 <span th:text="${movie.year}"></span>
             </td>
             <td class="text-center">
