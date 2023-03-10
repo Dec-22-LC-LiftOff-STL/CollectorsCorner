@@ -2,20 +2,15 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
-<script>window.onload = screenMode()</script>
-<body class="container body-content">
+<script>window.onload = screenMode(); document.getElementById('tmdbId').innerHTML = json.results[0].id</script>
 
-<h1 th:text="${movieTitle}" id="movieTitle"></h1>
-    <p id="movieYear", style="display:none"
-        th:text="${foundMovieYear}">
-    </p>
-    <p id="collectorName", style="display:none"
-       th:text="${collectorName}">
-    </p>
+<body class="container body-content movie-details">
 
+<h1 th:text="${movieTitle}" id="movieTitle" hidden></h1>
+<p id="movieYear"style="display:none" th:text="${foundMovieYear}"></p>
+<p id="collectorName" style="display:none" th:text="${collectorName}"></p>
 
 <div id="movieInfo"></div>
-
 
 <h3>Collections With This Movie:</h3>
 <ol >
@@ -36,12 +31,9 @@ window.onload = function() {
 
     movieTitle = document.getElementById("movieTitle").innerHTML;
     movieYear = document.getElementById("movieYear").innerHTML;
-    console.log(movieTitle);
 
     let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
-    let searchTerm;
-
-    searchTerm = movieTitle + "&primary_release_year=" + movieYear;
+    let searchTerm = movieTitle + "&primary_release_year=" + movieYear;
 
     let url = urlBeginning + searchTerm;
     let posterURLBeginning = "https://image.tmdb.org/t/p/w500";
@@ -57,12 +49,56 @@ window.onload = function() {
 
             const div = document.getElementById("movieInfo");
             div.innerHTML = `
-            <h3>Release Date: ${json.results[0].release_date}</h3>
-            <h4>Synopsis: ${json.results[0].overview}</h4>
-            <img src=${posterURL} width=400px>
+            <div class="container">
+                <div class="left-column">
+                    <img src=${posterURL} width=400px>
+                </div>
+                <div class="right-column">
+                    <h1 id="movieInfoTitle">${json.results[0].title}</h1>
+                    <h3>${json.results[0].release_date.slice(0,4)}</h3>
+                    <div class="imageWrapper">
+                        <img src="/images/tmdb.jpg" width="50px">
+                        <p id="tmdbRating">⭐${json.results[0].vote_average.toFixed(1)} / 10</p>
+                    </div>
+                    <h4>${json.results[0].overview}</h4>
+                    <p id="tmdbId">${json.results[0].id}</p>
+                    <button onclick="showTrailer()">Trailer</button>
+                    <button onclick="getSimilarMovies()">Similar Movies</button>
+                    <div id="content"></div>
+                </div>
+            </div>
             `
-
         })
     });
 };
+</script>
+
+
+<script>
+    function showTrailer() {
+        const tmdbId = document.getElementById('tmdbId').innerHTML;
+        const url = "http://api.themoviedb.org/3/movie/" + tmdbId + "/videos?api_key=16012a33d67f443093071edcbcdfc9d0"
+
+        fetch(url).then(function(response) {
+        response.json().then( function(json) {
+            let youtubeId = json.results[0].key;
+            let youtubeEmbedStart = `<iframe width="560" height="315" src="https://www.youtube.com/embed/`
+            let youtubeEmbedEnd = `" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
+            document.getElementById('content').innerHTML = youtubeEmbedStart + youtubeId + youtubeEmbedEnd;
+        })
+        });
+    }
+</script>
+
+<script>
+    function getSimilarMovies() {
+        const tmdbId = document.getElementById('tmdbId').innerHTML;
+        const url = "https://api.themoviedb.org/3/movie/" + tmdbId + "/similar?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-"
+
+        fetch(url).then(function(response) {
+        response.json().then( function(json) {
+            console.log(json.results);
+        })
+        });
+    }
 </script>

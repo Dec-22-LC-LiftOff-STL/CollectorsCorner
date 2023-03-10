@@ -327,6 +327,38 @@
     cursor: pointer;
 }
 
+.movie-details .container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.movie-details .imageWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.movie-details .imageWrapper img {
+    margin-right: 10px;
+}
+
+.movie-details .left-column {
+    width: 40%;
+}
+
+.movie-details #movieInfoTitle {
+    padding: none;
+    margin: none;
+}
+
+.movie-details .right-column {
+    width: 60%;
+    margin-left: 10px;
+}
+
+.movie-details #tmdbRating {
+    margin: 0px;
+}
+
 .movies-browse .actorNameText {
     text-align: center;
     font-size: 14px;
