@@ -29,23 +29,14 @@
 <script>
 window.onload = function() {
 
-    movieTitle = document.getElementById("movieTitle").innerHTML;
-    movieYear = document.getElementById("movieYear").innerHTML;
-
     let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
-    let searchTerm = movieTitle + "&primary_release_year=" + movieYear;
-
-    let url = urlBeginning + searchTerm;
-    let posterURLBeginning = "https://image.tmdb.org/t/p/w500";
-    let posterURLEnding;
-    let posterURL;
+    let urlEnding = window.location.href.split("/")[5];
+    let url = urlBeginning + urlEnding;
 
     fetch(url).then(function(response) {
         response.json().then( function(json) {
             console.log(json.results);
-
-            posterURLEnding = json.results[0].poster_path;
-            posterURL = posterURLBeginning + posterURLEnding;
+            const posterURL = "https://image.tmdb.org/t/p/w500" + json.results[0].poster_path;
 
             const div = document.getElementById("movieInfo");
             div.innerHTML = `
@@ -62,8 +53,8 @@ window.onload = function() {
                     </div>
                     <h4>${json.results[0].overview}</h4>
                     <p id="tmdbId">${json.results[0].id}</p>
-                    <button onclick="showTrailer()">Trailer</button>
-                    <button onclick="getSimilarMovies()">Similar Movies</button>
+                    <button class="btn btn-primary" onclick="showTrailer()">Trailer</button>
+                    <button class="btn btn-primary" onclick="getCast()">Cast</button>
                     <div id="content"></div>
                 </div>
             </div>
@@ -79,25 +70,62 @@ window.onload = function() {
         const tmdbId = document.getElementById('tmdbId').innerHTML;
         const url = "http://api.themoviedb.org/3/movie/" + tmdbId + "/videos?api_key=16012a33d67f443093071edcbcdfc9d0"
 
-        fetch(url).then(function(response) {
-        response.json().then( function(json) {
-            let youtubeId = json.results[0].key;
-            let youtubeEmbedStart = `<iframe width="560" height="315" src="https://www.youtube.com/embed/`
-            let youtubeEmbedEnd = `" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
-            document.getElementById('content').innerHTML = youtubeEmbedStart + youtubeId + youtubeEmbedEnd;
-        })
-        });
+        fetch(url)
+            .then(function(response) {
+                response.json()
+                    .then(function(json) {
+                        if (json.results && json.results.length > 0) {
+                            let youtubeId = json.results[0].key;
+                            if (youtubeId === undefined) {
+                                document.getElementById('content').innerHTML = `<h3>Trailer unavailable</h3>`
+                            } else {
+                                let youtubeEmbedStart = `<iframe width="560" height="315" src="https://www.youtube.com/embed/`
+                                let youtubeEmbedEnd = `" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
+                                document.getElementById('content').innerHTML = youtubeEmbedStart + youtubeId + youtubeEmbedEnd;
+                            }
+                        } else {
+                            document.getElementById('content').innerHTML = `<h3>No Trailer Available</h3>`
+                        }
+                    });
+            });
     }
 </script>
-<script></script>
+
 <script>
-    function getSimilarMovies() {
+    function getCast() {
         const tmdbId = document.getElementById('tmdbId').innerHTML;
-        const url = "https://api.themoviedb.org/3/movie/" + tmdbId + "/similar?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-"
+        const url = "https://api.themoviedb.org/3/movie/" + tmdbId + "/credits?api_key=16012a33d67f443093071edcbcdfc9d0";
 
         fetch(url).then(function(response) {
         response.json().then( function(json) {
-            console.log(json.results);
+            const unfilteredCast = json.cast;
+            const cast = [];
+            for (let i=0; i<unfilteredCast.length; i++){
+                if (unfilteredCast[i].profile_path !== null) {
+                    cast.push(unfilteredCast[i]);
+                }
+            }
+            console.log(cast.length);
+            if (cast.length === 0) {
+                document.getElementById('content').innerHTML = `<h3>Cast not Available</h3>`
+            }
+            else {
+                let html = `<br><swiper-container class="mySwiper" navigation="true" slides-per-view="4" free-mode="true">`;
+                for (let i=0; i<cast.length; i++) {
+                    html += `
+                        <swiper-slide>
+                            <div class="actorDiv">
+                                <img class="actorPhoto" src="https://www.themoviedb.org/t/p/original/${cast[i].profile_path}">
+                                <div class="actorTextDiv">
+                                    <p class="actorText">${cast[i].name}</p>
+                                    <p class="characterNameText">${cast[i].character}</p>
+                                </div>
+                            </div>
+                        </swiper-slide>
+                    `
+                }
+                document.getElementById('content').innerHTML = html + `</swiper-container>`
+            }
         })
         });
     }
