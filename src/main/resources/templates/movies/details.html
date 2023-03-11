@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
-<div th:replace="fragments :: page-header"></div>
+<div th:replace="~{fragments :: page-header}"></div>
 <script>window.onload = screenMode(); document.getElementById('tmdbId').innerHTML = json.results[0].id</script>
 
 <body class="container body-content movie-details">
@@ -40,7 +40,7 @@ window.onload = function() {
 
             const div = document.getElementById("movieInfo");
             div.innerHTML = `
-            <div class="container">
+            <div class="buttonContentContainer">
                 <div class="left-column">
                     <img src=${posterURL} width=400px>
                 </div>
@@ -52,7 +52,7 @@ window.onload = function() {
                         <p id="tmdbRating">⭐${json.results[0].vote_average.toFixed(1)} / 10</p>
                     </div>
                     <h4>${json.results[0].overview}</h4>
-                    <p id="tmdbId">${json.results[0].id}</p>
+                    <p id="tmdbId" hidden>${json.results[0].id}</p>
                     <button class="btn btn-primary" onclick="showTrailer()">Trailer</button>
                     <button class="btn btn-primary" onclick="getCast()">Cast</button>
                     <div id="content"></div>
@@ -74,6 +74,7 @@ window.onload = function() {
             .then(function(response) {
                 response.json()
                     .then(function(json) {
+                    console.log(json);
                         if (json.results && json.results.length > 0) {
                             let youtubeId = json.results[0].key;
                             if (youtubeId === undefined) {

@@ -354,13 +354,13 @@
     align-items: center;
 }
 
-.movie-details .characterNameText {
-    margin: 0;
-}
-
-.movie-details .container {
+.movie-details .buttonContentContainer {
     display: flex;
     justify-content: space-between;
+}
+
+.movie-details .characterNameText {
+    margin: 0;
 }
 
 .movie-details .imageWrapper {

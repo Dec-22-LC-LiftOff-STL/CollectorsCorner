@@ -143,6 +143,7 @@ public class MoviesController {
         if (optUser.isPresent()) {
             User user = optUser.get();
             model.addAttribute("screenMode", user.getScreenMode());
+            model.addAttribute("username", user.getUsername());
         }
 
         Iterable<MovieCollection> allMovieCollections = movieCollectionRepository.findAll();
