@@ -376,9 +376,13 @@
     width: 40%;
 }
 
+.movie-details #movieGenres {
+    margin: 0;
+}
+
 .movie-details #movieInfoTitle {
-    padding: none;
-    margin: none;
+    padding: 0;
+    margin: 0;
 }
 
 .movie-details .right-column {
