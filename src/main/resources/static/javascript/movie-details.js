@@ -56,3 +56,17 @@ function getCast() {
     })
     });
 }
+
+function getBoxOfficeInfo() {
+    const tmdbId = document.getElementById('tmdbId').innerHTML;
+    const url = "https://api.themoviedb.org/3/movie/" + tmdbId + "?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US";
+
+    fetch(url).then(function(response) {
+    response.json().then( function(json) {
+        document.getElementById('content').innerHTML = `
+            <h3>Budget: ${json.budget.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h3>
+            <h3>Revenue: ${json.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h3>
+        `
+    })
+    });
+}
