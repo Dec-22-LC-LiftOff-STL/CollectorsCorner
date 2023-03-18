@@ -3,6 +3,7 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="~{fragments :: page-header}"></div>
 <script>window.onload = screenMode(); document.getElementById('tmdbId').innerHTML = json.results[0].id</script>
+<script type="text/javascript" th:src="@{/javascript/movie-details.js}"></script>
 
 <body class="container body-content movie-details">
 
@@ -29,20 +30,16 @@
 <script>
 window.onload = function() {
 
-    let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
-    let urlEnding = window.location.href.split("/")[5];
-    let url = urlBeginning + urlEnding;
+    let url = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=" + window.location.href.split("/")[5];
 
     fetch(url).then(function(response) {
         response.json().then( function(json) {
-            console.log(json.results);
             const posterURL = "https://image.tmdb.org/t/p/w500" + json.results[0].poster_path;
             const div = document.getElementById("movieInfo");
             let genres = [];
             for (let i=0; i<json.results[0].genre_ids.length; i++) {
                 const genre = json.results[0].genre_ids[i].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western");
                 genres.push(genre);
-                console.log(genre);
             }
             genres = genres.toString().replace(/,/g, " | ");
             div.innerHTML = `
@@ -63,6 +60,8 @@ window.onload = function() {
                     <button class="btn btn-primary" onclick="showTrailer()">Trailer</button>
                     <button class="btn btn-primary" onclick="getCast()">Cast</button>
                     <button class="btn btn-primary" onclick="getBoxOfficeInfo()">Box Office</button>
+                    <button class="btn btn-primary" onclick="getDirector()">Director</button>
+                    <button class="btn btn-primary" onclick="getProducer()">Producer</button>
                     <div id="content"></div>
                 </div>
             </div>
@@ -70,34 +69,6 @@ window.onload = function() {
         })
     });
 };
-</script>
-
-
-<script>
-    function showTrailer() {
-        const tmdbId = document.getElementById('tmdbId').innerHTML;
-        const url = "http://api.themoviedb.org/3/movie/" + tmdbId + "/videos?api_key=16012a33d67f443093071edcbcdfc9d0"
-
-        fetch(url)
-            .then(function(response) {
-                response.json()
-                    .then(function(json) {
-                    console.log(json);
-                        if (json.results && json.results.length > 0) {
-                            let youtubeId = json.results[0].key;
-                            if (youtubeId === undefined) {
-                                document.getElementById('content').innerHTML = `<h3>Trailer unavailable</h3>`
-                            } else {
-                                let youtubeEmbedStart = `<iframe width="560" height="315" src="https://www.youtube.com/embed/`
-                                let youtubeEmbedEnd = `" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
-                                document.getElementById('content').innerHTML = youtubeEmbedStart + youtubeId + youtubeEmbedEnd;
-                            }
-                        } else {
-                            document.getElementById('content').innerHTML = `<h3>No Trailer Available</h3>`
-                        }
-                    });
-            });
-    }
 </script>
 
 <script>
@@ -149,9 +120,59 @@ window.onload = function() {
         response.json().then( function(json) {
             document.getElementById('content').innerHTML = `
                 <h3>Budget: ${json.budget.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h3>
-                <h3>Revenue: ${json.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}}</h3>
+                <h3>Revenue: ${json.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h3>
             `
         })
         });
+    }
+</script>
+
+<script>
+    function getDirector() {
+        const tmdbId = document.getElementById('tmdbId').innerHTML;
+        const directorURL = "https://api.themoviedb.org/3/movie/" + tmdbId + "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US";
+        let director = fetch(directorURL)
+        .then(response => response.json())
+        .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Director'))
+            let printDirector = async () => {
+                let a = await director;
+                console.log(a);
+                document.getElementById('content').innerHTML = `
+                <br>
+                <div class="actorDiv">
+                    <img class="actorPhoto" src="https://www.themoviedb.org/t/p/original/${a[0].profile_path}">
+                    <div class="actorTextDiv">
+                        <p class="actorText">${a[0].name}</p>
+                    </div>
+                </div>
+                `
+
+            };
+            printDirector();
+    }
+</script>
+
+<script>
+    function getProducer() {
+        const tmdbId = document.getElementById('tmdbId').innerHTML;
+        const producerURL = "https://api.themoviedb.org/3/movie/" + tmdbId + "/credits?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US";
+        let producer = fetch(producerURL)
+        .then(response => response.json())
+        .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Producer'))
+            let printProducer = async () => {
+                let a = await producer;
+                console.log(a);
+                document.getElementById('content').innerHTML = `
+                <br>
+                <div class="actorDiv">
+                    <img class="actorPhoto" src="https://www.themoviedb.org/t/p/original/${a[0].profile_path}">
+                    <div class="actorTextDiv">
+                        <p class="actorText">${a[0].name}</p>
+                    </div>
+                </div>
+                `
+
+            };
+            printProducer();
     }
 </script>
