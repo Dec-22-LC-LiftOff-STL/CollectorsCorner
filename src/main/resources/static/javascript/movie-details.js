@@ -6,15 +6,19 @@ function showTrailer() {
         .then(function(response) {
             response.json()
                 .then(function(json) {
+                console.log(json)
+                if (json.results.length === 0) {
+                    document.getElementById('content').innerHTML = `<h3>No trailer available.</h3>`;
+                }
                 for (let i=0; i<json.results.length; i++) {
                     if (json.results[i].name.toUpperCase().includes('TRAILER')) {
-                        const youtubeEmbedStart = `<iframe width="560" height="315" src="https://www.youtube.com/embed/`
+                        const youtubeEmbedStart = `<br><iframe width="560" height="315" src="https://www.youtube.com/embed/`
                         const youtubeId = json.results[i].key;
                         const youtubeEmbedEnd = `" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
                         document.getElementById('content').innerHTML = youtubeEmbedStart + youtubeId + youtubeEmbedEnd;
                         break;
                     } else {
-                        document.getElementById('content').innerHTML = `<h3>No Trailer Available</h3>`
+                        document.getElementById('content').innerHTML = `<h3>No trailer available.</h3>`
                     }
                 }
                 });
@@ -35,7 +39,7 @@ function getCast() {
             }
         }
         if (cast.length === 0) {
-            document.getElementById('content').innerHTML = `<h3>Cast not Available</h3>`
+            document.getElementById('content').innerHTML = `<h3>Cast not available.</h3>`
         } else {
             let html = `<br><swiper-container class="mySwiper" navigation="true" slides-per-view="4" free-mode="true">`;
             for (let i=0; i<cast.length; i++) {
@@ -63,10 +67,14 @@ function getBoxOfficeInfo() {
 
     fetch(url).then(function(response) {
     response.json().then( function(json) {
+        if (json.budget === 0) {
+            document.getElementById('content').innerHTML = `<h3>Budget information not available.</h3>`
+        } else {
         document.getElementById('content').innerHTML = `
             <h3>Budget: ${json.budget.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h3>
             <h3>Revenue: ${json.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</h3>
         `
+        }
     })
     });
 }
@@ -79,15 +87,20 @@ function getDirector() {
     .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Director'))
         let printDirector = async () => {
             let a = await director;
+            if (!a[0].profile_path) {
+                document.getElementById('content').innerHTML = `<h3>Director: ${a[0].name}</h3>`
+            } else {
             document.getElementById('content').innerHTML = `
             <br>
             <div class="actorDiv">
                 <img class="actorPhoto" src="https://www.themoviedb.org/t/p/original/${a[0].profile_path}">
                 <div class="actorTextDiv">
                     <p class="actorText">${a[0].name}</p>
+                    <p class="actorText">(Director)</p>
                 </div>
             </div>
             `
+            }
         };
         printDirector();
 }
@@ -100,16 +113,60 @@ function getProducer() {
     .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Producer'))
         let printProducer = async () => {
             let a = await producer;
-            console.log(a);
+            if (!a[0].profile_path) {
+                document.getElementById('content').innerHTML = `<h3>Producer: ${a[0].name}</h3>`
+            } else {
             document.getElementById('content').innerHTML = `
             <br>
             <div class="actorDiv">
                 <img class="actorPhoto" src="https://www.themoviedb.org/t/p/original/${a[0].profile_path}">
                 <div class="actorTextDiv">
                     <p class="actorText">${a[0].name}</p>
+                    <p class="actorText">(Producer)</p>
                 </div>
             </div>
             `
+            }
         };
         printProducer();
+}
+
+function getRuntime() {
+    const tmdbId = document.getElementById('tmdbId').innerHTML;
+    const url = "https://api.themoviedb.org/3/movie/" + tmdbId + "?api_key=16012a33d67f443093071edcbcdfc9d0&language=en-US";
+
+    fetch(url).then(function(response) {
+    response.json().then( function(json) {
+        console.log(json)
+        const runtimeInMinutes = json.runtime;
+        const hours = Math.floor(runtimeInMinutes / 60);
+        const minutes = runtimeInMinutes % 60;
+        const runtimeString = hours + "h " + minutes + "min";
+        document.getElementById('content').innerHTML = `
+            <h3>Movie Length: ${runtimeString}</h3>
+        `;
+    })
+    });
+}
+
+function getStreaming() {
+    const tmdbId = document.getElementById('tmdbId').innerHTML;
+    const url = "https://api.themoviedb.org/3/movie/" + tmdbId + "/watch/providers?api_key=16012a33d67f443093071edcbcdfc9d0";
+
+    fetch(url)
+        .then(function(response) {
+        response.json().then(function(json) {
+        console.log(json)
+        if (!json.results.US || !json.results.US.flatrate) {
+            document.getElementById('content').innerHTML = `<h3>Not available on stream.</h3>`
+        } else {
+            let streamingServicesHTML = "<br>";
+            for (let i = 0; i < json.results.US.flatrate.length; i++) {
+                let html = `<img src="https://www.themoviedb.org/t/p/original/${json.results.US.flatrate[i].logo_path}"/>`
+                streamingServicesHTML += html;
+            }
+        document.getElementById('content').innerHTML = streamingServicesHTML;
+        }
+        });
+        })
 }
