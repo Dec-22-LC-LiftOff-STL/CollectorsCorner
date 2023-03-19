@@ -87,6 +87,9 @@ function getDirector() {
     .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Director'))
         let printDirector = async () => {
             let a = await director;
+            if (a.length === 0 ) {
+                document.getElementById('content').innerHTML = `<h3>Director information not available.</h3>`;
+            }
             if (!a[0].profile_path) {
                 document.getElementById('content').innerHTML = `<h3>Director: ${a[0].name}</h3>`
             } else {
@@ -113,6 +116,9 @@ function getProducer() {
     .then((jsonData)=>jsonData.crew.filter(({job})=>  job ==='Producer'))
         let printProducer = async () => {
             let a = await producer;
+            if (a.length === 0 ) {
+                document.getElementById('content').innerHTML = `<h3>Producer information not available.</h3>`;
+            }
             if (!a[0].profile_path) {
                 document.getElementById('content').innerHTML = `<h3>Producer: ${a[0].name}</h3>`
             } else {
@@ -162,6 +168,9 @@ function getStreaming() {
         } else {
             let streamingServicesHTML = "<br>";
             for (let i = 0; i < json.results.US.flatrate.length; i++) {
+                if (json.results.US.flatrate[i].provider_id === 1853 || json.results.US.flatrate[i].provider_id === 675 || json.results.US.flatrate[i].provider_id === 582 || json.results.US.flatrate[i].provider_id === 203 || json.results.US.flatrate[i].provider_id === 632 || json.results.US.flatrate[i].provider_id === 633 || json.results.US.flatrate[i].provider_id === 1770 || json.results.US.flatrate[i].provider_id === 1825 || json.results.US.flatrate[i].provider_id === 634 || json.results.US.flatrate[i].provider_id === 1794 || json.results.US.flatrate[i].provider_id === 1855 || json.results.US.flatrate[i].provider_id === 1796 || json.results.US.flatrate[i].provider_id === 1854 || json.results.US.flatrate[i].provider_id === 528 || json.results.US.flatrate[i].provider_id === 635 || json.results.US.flatrate[i].provider_id === 636 || json.results.US.flatrate[i].provider_id === 582 || json.results.US.flatrate[i].provider_id === 1853 || json.results.US.flatrate[i].provider_id === 633 || json.results.US.flatrate[i].provider_id === 583) {
+                    continue;
+                }
                 let html = `<img src="https://www.themoviedb.org/t/p/original/${json.results.US.flatrate[i].logo_path}"/>`
                 streamingServicesHTML += html;
             }

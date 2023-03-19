@@ -178,6 +178,9 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId, button)
 
         for (let i = 0; i < json.results.US.flatrate.length; i++) {
             let streamingService = json.results.US.flatrate[i];
+            if (json.results.US.flatrate[i].provider_id === 1853 || json.results.US.flatrate[i].provider_id === 675 || json.results.US.flatrate[i].provider_id === 582 || json.results.US.flatrate[i].provider_id === 203 || json.results.US.flatrate[i].provider_id === 632 || json.results.US.flatrate[i].provider_id === 633 || json.results.US.flatrate[i].provider_id === 1770 || json.results.US.flatrate[i].provider_id === 1825 || json.results.US.flatrate[i].provider_id === 634 || json.results.US.flatrate[i].provider_id === 1794 || json.results.US.flatrate[i].provider_id === 1855 || json.results.US.flatrate[i].provider_id === 1796 || json.results.US.flatrate[i].provider_id === 1854 || json.results.US.flatrate[i].provider_id === 528 || json.results.US.flatrate[i].provider_id === 635 || json.results.US.flatrate[i].provider_id === 636 || json.results.US.flatrate[i].provider_id === 582 || json.results.US.flatrate[i].provider_id === 1853 || json.results.US.flatrate[i].provider_id === 633 || json.results.US.flatrate[i].provider_id === 583) {
+                continue;
+            }
             if (streamingService === 'null') {
                 streamingServicesHTML = `
                     <h3>Not available on stream</h3>
