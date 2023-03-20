@@ -14,13 +14,20 @@
 <div id="movieInfo"></div>
 
 <h3>Collections With This Movie:</h3>
-<ol >
-    <span th:each="collection: ${collectionsWithThisMovie}">
-        <li>
-            <a th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
-        </li>
-    </span>
-</ol>
+
+<th:block th:if="${#lists.size(collectionsWithThisMovie) > 0}">
+    <ol>
+        <span th:each="collection: ${collectionsWithThisMovie}">
+            <li>
+                <a th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
+            </li>
+        </span>
+    </ol>
+</th:block>
+
+<th:block th:unless="${#lists.size(collectionsWithThisMovie) > 0}">
+    <i>No collections found with this movie. Be the first!</i>
+</th:block>
 
 </body>
 </html>
@@ -57,9 +64,9 @@ window.onload = function() {
                     <p id="tmdbId" hidden>${json.results[0].id}</p>
                     <button class="btn btn-primary" onclick="showTrailer()">Trailer</button>
                     <button class="btn btn-primary" onclick="getCast()">Cast</button>
-                    <button class="btn btn-primary" onclick="getBoxOfficeInfo()">Box Office</button>
                     <button class="btn btn-primary" onclick="getDirector()">Director</button>
                     <button class="btn btn-primary" onclick="getProducer()">Producer</button>
+                    <button class="btn btn-primary" onclick="getBoxOfficeInfo()">Box Office</button>
                     <button class="btn btn-primary" onclick="getRuntime()">Runtime</button>
                     <button class="btn btn-primary" onclick="getStreaming()">Stream</button>
                     <div id="content"></div>
