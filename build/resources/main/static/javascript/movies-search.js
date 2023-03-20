@@ -73,7 +73,7 @@ function buildHTMLResultsTable(url) {
                     </form>
                 </th>
                 <th class="titleCell">
-                    <a id="movieTitle${i}" href="/movies/details/${movie.title}">${movie.title}</a><br>
+                    <a id="movieTitle${i}" href="/movies/details/${movie.title}-${movie.release_date}">${movie.title}</a><br>
                 </th>
                 <th class="yearCell">
                     <p id="movieDate${i}">${movie.release_date}</p>
@@ -205,6 +205,9 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
         let streamingServicesHTML = "";
 
         for (let i = 0; i < json.results.US.flatrate.length; i++) {
+            if (json.results.US.flatrate[i].provider_id === 1853 || json.results.US.flatrate[i].provider_id === 675 || json.results.US.flatrate[i].provider_id === 582 || json.results.US.flatrate[i].provider_id === 203 || json.results.US.flatrate[i].provider_id === 632 || json.results.US.flatrate[i].provider_id === 633 || json.results.US.flatrate[i].provider_id === 1770 || json.results.US.flatrate[i].provider_id === 1825 || json.results.US.flatrate[i].provider_id === 634 || json.results.US.flatrate[i].provider_id === 1794 || json.results.US.flatrate[i].provider_id === 1855 || json.results.US.flatrate[i].provider_id === 1796 || json.results.US.flatrate[i].provider_id === 1854 || json.results.US.flatrate[i].provider_id === 528 || json.results.US.flatrate[i].provider_id === 635 || json.results.US.flatrate[i].provider_id === 636 || json.results.US.flatrate[i].provider_id === 582 || json.results.US.flatrate[i].provider_id === 1853 || json.results.US.flatrate[i].provider_id === 633 || json.results.US.flatrate[i].provider_id === 583) {
+                continue;
+            }
             let streamingService = json.results.US.flatrate[i];
             if (streamingService.provider_name !== "HBO Max Amazon Channel" && streamingService.provider_name !== "Starz Amazon Channel") {
                 let html = `<img src="https://www.themoviedb.org/t/p/original/${streamingService.logo_path}" alt="${streamingService.display_name}"/>`;

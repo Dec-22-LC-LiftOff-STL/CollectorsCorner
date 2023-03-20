@@ -12,7 +12,6 @@
 </h4>
 
 <th:block th:if="${bookCollection.books.size() > 3}">
-    <swiper-container class="mySwiper" navigation="true" slides-per-view="6" space-between="10" free-mode="true">
         <swiper-slide th:each="book : ${bookCollection.books}">
             <img th:src="${book.imageURL}">
         </swiper-slide>

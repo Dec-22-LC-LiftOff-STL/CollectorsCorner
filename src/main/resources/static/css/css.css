@@ -327,6 +327,73 @@
     cursor: pointer;
 }
 
+.movie-details .actorDiv {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.movie-details .actorPhoto {
+    width: 165px;
+}
+
+.movie-details .actorText {
+    margin: 0;
+}
+
+.movie-details .actorTextDiv {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.movie-details .actorsSlide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-details .buttonContentContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.movie-details .characterNameText {
+    margin: 0;
+}
+
+.movie-details .imageWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.movie-details .imageWrapper img {
+    margin-right: 10px;
+}
+
+.movie-details .left-column {
+    width: 40%;
+}
+
+.movie-details #movieGenres {
+    margin: 0;
+}
+
+.movie-details #movieInfoTitle {
+    padding: 0;
+    margin: 0;
+}
+
+.movie-details .right-column {
+    width: 60%;
+    margin-left: 10px;
+}
+
+.movie-details #tmdbRating {
+    margin: 0px;
+}
+
 .movies-browse .actorNameText {
     text-align: center;
     font-size: 14px;

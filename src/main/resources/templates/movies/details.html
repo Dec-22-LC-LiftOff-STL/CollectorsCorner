@@ -1,67 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
-<div th:replace="fragments :: page-header"></div>
-<script>window.onload = screenMode()</script>
-<body class="container body-content">
+<div th:replace="~{fragments :: page-header}"></div>
+<script>window.onload = screenMode(); document.getElementById('tmdbId').innerHTML = json.results[0].id</script>
+<script type="text/javascript" th:src="@{/javascript/movie-details.js}"></script>
 
-<h1 th:text="${movieTitle}" id="movieTitle"></h1>
-    <p id="movieYear", style="display:none"
-        th:text="${foundMovieYear}">
-    </p>
-    <p id="collectorName", style="display:none"
-       th:text="${collectorName}">
-    </p>
+<body class="container body-content movie-details">
 
+<h1 th:text="${movieTitle}" id="movieTitle" hidden></h1>
+<p id="movieYear"style="display:none" th:text="${foundMovieYear}"></p>
+<p id="collectorName" style="display:none" th:text="${collectorName}"></p>
 
 <div id="movieInfo"></div>
 
-
 <h3>Collections With This Movie:</h3>
-<ol >
-    <span th:each="collection: ${collectionsWithThisMovie}">
-        <li>
-            <a th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
-        </li>
 
-    </span>
-</ol>
+<th:block th:if="${#lists.size(collectionsWithThisMovie) > 0}">
+    <ol>
+        <span th:each="collection: ${collectionsWithThisMovie}">
+            <li>
+                <a th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
+            </li>
+        </span>
+    </ol>
+</th:block>
+
+<th:block th:unless="${#lists.size(collectionsWithThisMovie) > 0}">
+    <i>No collections found with this movie. Be the first!</i>
+</th:block>
 
 </body>
 </html>
 
-
 <script>
 window.onload = function() {
 
-    movieTitle = document.getElementById("movieTitle").innerHTML;
-    movieYear = document.getElementById("movieYear").innerHTML;
-    console.log(movieTitle);
-
-    let urlBeginning = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=";
-    let searchTerm;
-
-    searchTerm = movieTitle + "&primary_release_year=" + movieYear;
-
-    let url = urlBeginning + searchTerm;
-    let posterURLBeginning = "https://image.tmdb.org/t/p/w500";
-    let posterURLEnding;
-    let posterURL;
+    let url = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=" + window.location.href.split("/")[5].split("-")[0] + "&primary_release_year=" + window.location.href.split("-")[1];
 
     fetch(url).then(function(response) {
         response.json().then( function(json) {
-            console.log(json.results);
-
-            posterURLEnding = json.results[0].poster_path;
-            posterURL = posterURLBeginning + posterURLEnding;
-
+            const posterURL = "https://image.tmdb.org/t/p/w500" + json.results[0].poster_path;
             const div = document.getElementById("movieInfo");
+            let genres = [];
+            for (let i=0; i<json.results[0].genre_ids.length; i++) {
+                const genre = json.results[0].genre_ids[i].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western");
+                genres.push(genre);
+            }
+            genres = genres.toString().replace(/,/g, " | ");
             div.innerHTML = `
-            <h3>Release Date: ${json.results[0].release_date}</h3>
-            <h4>Synopsis: ${json.results[0].overview}</h4>
-            <img src=${posterURL} width=400px>
+            <div class="buttonContentContainer">
+                <div class="left-column">
+                    <img src=${posterURL} width=400px>
+                </div>
+                <div class="right-column">
+                    <h1 id="movieInfoTitle">${json.results[0].title}</h1>
+                    <h3>${json.results[0].release_date.slice(0,4)}</h3>
+                    <p id="movieGenres">${genres}</p><br>
+                    <div class="imageWrapper">
+                        <img src="/images/tmdb.jpg" width="50px">
+                        <p id="tmdbRating">⭐${json.results[0].vote_average.toFixed(1)} / 10</p>
+                    </div>
+                    <h4>${json.results[0].overview}</h4>
+                    <p id="tmdbId" hidden>${json.results[0].id}</p>
+                    <button class="btn btn-primary" onclick="showTrailer()">Trailer</button>
+                    <button class="btn btn-primary" onclick="getCast()">Cast</button>
+                    <button class="btn btn-primary" onclick="getDirector()">Director</button>
+                    <button class="btn btn-primary" onclick="getProducer()">Producer</button>
+                    <button class="btn btn-primary" onclick="getBoxOfficeInfo()">Box Office</button>
+                    <button class="btn btn-primary" onclick="getRuntime()">Runtime</button>
+                    <button class="btn btn-primary" onclick="getStreaming()">Stream</button>
+                    <div id="content"></div>
+                </div>
+            </div>
             `
-
         })
     });
 };

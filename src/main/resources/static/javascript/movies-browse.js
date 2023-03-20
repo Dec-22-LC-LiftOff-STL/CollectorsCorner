@@ -38,7 +38,7 @@ function buildHTMLResultsTable(url) {
                         <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
                     </div>
                     <div class="infoColumn">
-                        <a id="movieTitle${i}" class="movieTitle" href="/movies/details/${movie.title}">${movie.title}</a><br>
+                        <a id="movieTitle${i}" class="movieTitle" href="/movies/details/${movie.title}-${movie.release_date}">${movie.title}</a><br>
                         <p id="movieDate${i}" class="movieDate">${movie.release_date}</p>
                         <p id="primaryGenre${i}" class="primaryGenre">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                         <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
@@ -178,6 +178,9 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId, button)
 
         for (let i = 0; i < json.results.US.flatrate.length; i++) {
             let streamingService = json.results.US.flatrate[i];
+            if (json.results.US.flatrate[i].provider_id === 1853 || json.results.US.flatrate[i].provider_id === 675 || json.results.US.flatrate[i].provider_id === 582 || json.results.US.flatrate[i].provider_id === 203 || json.results.US.flatrate[i].provider_id === 632 || json.results.US.flatrate[i].provider_id === 633 || json.results.US.flatrate[i].provider_id === 1770 || json.results.US.flatrate[i].provider_id === 1825 || json.results.US.flatrate[i].provider_id === 634 || json.results.US.flatrate[i].provider_id === 1794 || json.results.US.flatrate[i].provider_id === 1855 || json.results.US.flatrate[i].provider_id === 1796 || json.results.US.flatrate[i].provider_id === 1854 || json.results.US.flatrate[i].provider_id === 528 || json.results.US.flatrate[i].provider_id === 635 || json.results.US.flatrate[i].provider_id === 636 || json.results.US.flatrate[i].provider_id === 582 || json.results.US.flatrate[i].provider_id === 1853 || json.results.US.flatrate[i].provider_id === 633 || json.results.US.flatrate[i].provider_id === 583) {
+                continue;
+            }
             if (streamingService === 'null') {
                 streamingServicesHTML = `
                     <h3>Not available on stream</h3>
@@ -287,7 +290,7 @@ function genericActorFetch(url) {
                             <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
                         </div>
                         <div class="infoColumn">
-                            <a id="movieTitle${i}" class="movieTitle" href="/movies/details/${movie.title}">${movie.title}</a><br>
+                            <a id="movieTitle${i}" class="movieTitle" href="/movies/details/${movie.title}-${movie.release_date}">${movie.title}</a><br>
                             <p id="movieDate${i}" class="movieDate">${movie.release_date}</p>
                             <p id="primaryGenre${i}" class="primaryGenre">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                             <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
