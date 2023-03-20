@@ -73,7 +73,7 @@ function buildHTMLResultsTable(url) {
                     </form>
                 </th>
                 <th class="titleCell">
-                    <a id="movieTitle${i}" href="/movies/details/${movie.title}&primary_release_year=${movie.release_date}">${movie.title}</a><br>
+                    <a id="movieTitle${i}" href="/movies/details/${movie.title}-${movie.release_date}">${movie.title}</a><br>
                 </th>
                 <th class="yearCell">
                     <p id="movieDate${i}">${movie.release_date}</p>

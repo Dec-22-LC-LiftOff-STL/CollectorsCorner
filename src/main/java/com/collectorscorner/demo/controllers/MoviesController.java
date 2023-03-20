@@ -136,7 +136,7 @@ public class MoviesController {
         return "redirect:/movies/search";
     }
 
-    @GetMapping("details/{movieTitle}")
+    @GetMapping("details/{movieTitle}-{movieYear}")
     public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle, @CookieValue(name = "userId") String myCookie) {
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> optUser = userRepository.findById(userId);

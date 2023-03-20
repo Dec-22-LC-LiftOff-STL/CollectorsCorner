@@ -19,7 +19,6 @@
         <li>
             <a th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
         </li>
-
     </span>
 </ol>
 
@@ -29,7 +28,7 @@
 <script>
 window.onload = function() {
 
-    let url = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=" + window.location.href.split("/")[5];
+    let url = "https://api.themoviedb.org/3/search/movie?api_key=16012a33d67f443093071edcbcdfc9d0&query=" + window.location.href.split("/")[5].split("-")[0] + "&primary_release_year=" + window.location.href.split("-")[1];
 
     fetch(url).then(function(response) {
         response.json().then( function(json) {
