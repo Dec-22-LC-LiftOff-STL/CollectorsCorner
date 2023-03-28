@@ -26,7 +26,7 @@
         </thead>
         <tbody>
             <tr th:each="collection : ${thisUserMovieCollections}">
-                <td>
+                <td class="text-center">
                     <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
                 </td>
                 <td th:if="${collection.user.id == cookie}">
@@ -39,7 +39,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+                <td class="text-center">
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </td>
                 <td></td>
                 <td></td>
             </tr>
@@ -60,7 +62,7 @@
         </thead>
         <tbody>
             <tr th:each="collection : ${thisUserBookCollections}">
-                <td>
+                <td class="text-center">
                     <input type="checkbox" name="bookCollectionIds" th:value="${collection.id}">
                 </td>
                 <td th:if="${collection.user.id == cookie}">
@@ -73,7 +75,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="text-center">
                     <input type="submit" value="Delete" class="btn btn-danger">
                 </td>
                 <td></td>
@@ -107,7 +109,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+                <td class="text-center">
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </td>
                 <td></td>
                 <td></td>
             </tr>
