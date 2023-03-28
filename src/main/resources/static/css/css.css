@@ -224,6 +224,10 @@
     width: 100%;
 }
 
+.delete tr:nth-child(odd) {
+    background-color: transparent;
+}
+
 .games-search #creatorCheckboxes {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
