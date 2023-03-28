@@ -208,6 +208,18 @@
     background-color: #f2f2f2;
 }
 
+.delete #booksTable {
+    width: 100%;
+}
+
+.delete #gamesTable {
+    width: 100%;
+}
+
+.delete #moviesTable {
+    width: 100%;
+}
+
 .games-search #creatorCheckboxes {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */

@@ -83,7 +83,11 @@ function buildHTMLResultsTable(url) {
                     <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                 </th>
                 <th class="synopsisCell">
-                    <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
+                    <swiper-container class="mySwiper" scrollbar="true" direction="vertical" slides-per-view="auto" free-mode="true" mousewheel="true">
+                        <swiper-slide>
+                            <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
+                        </swiper-slide>
+                    </swiper-container>
                     <a href="/movies/details/${movie.title}" class="readMore">Read more</a>
                 </th>
                 <th class="streamingPlatformsCell">
