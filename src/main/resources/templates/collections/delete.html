@@ -8,12 +8,10 @@
 
 <body class="collections-delete container body-content delete">
 
-<h1 th:text=" 'Delete Collections created by: ' + ${user.screenName}"></h1>
+<h1 th:text=" 'Delete Collections created by: ' + ${user.screenName}"></h1><br><br>
 <p id="screenMode" th:text="${screenMode}" hidden>
 
-<br><br>
-
-<h3>Movie Collections</h3><hr>
+<h3>Movie Collections</h3>
 
 <form method="post" th:action="@{/collections/delete-movies}">
     <table id="moviesTable" class="table">
@@ -46,10 +44,10 @@
                 <td></td>
             </tr>
         </tbody>
-    </table><hr>
+    </table><br>
 </form>
 
-<h3>Book Collections</h3><hr>
+<h3>Book Collections</h3>
 
 <form method="post" th:action="@{/collections/delete-books}">
     <table id="booksTable" class="table">
@@ -82,10 +80,10 @@
                 <td></td>
             </tr>
         </tbody>
-    </table>
+    </table><br>
 </form>
 
-<h3>Game Collections</h3><hr>
+<h3>Game Collections</h3>
 
 <form method="post" th:action="@{/collections/delete-games}">
     <table id="gamesTable" class="table">
@@ -116,7 +114,7 @@
                 <td></td>
             </tr>
         </tbody>
-    </table><hr>
+    </table>
 </form>
 
 </body>
