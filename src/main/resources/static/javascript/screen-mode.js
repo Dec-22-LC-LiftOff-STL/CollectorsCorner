@@ -12,11 +12,11 @@ function screenMode () {
 
         const buttons = document.querySelectorAll("button")
         for (var i = 0; i < buttons.length; i++) {
-            buttons[i].style.color = 'white';
+            buttons[i].style.color = 'black';
         }
         const inputs = document.querySelectorAll("input")
         for (var i = 0; i < inputs.length; i++) {
-            inputs[i].style.color = 'white';
+            inputs[i].style.color = 'black';
         }
         const option = document.querySelectorAll("option")
         for (var i = 0; i < option.length; i++) {

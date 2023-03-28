@@ -16,35 +16,29 @@
 <form method="post" th:action="@{/collections/delete-movies}">
     <table id="moviesTable" class="table">
         <thead>
-            <tr>
-                <th class="deleteColumn">Delete</th>
-                <th onclick="sortTable(1, 'moviesTable')" class="collectionNameHeader">Collection Name</th>
-                <th onclick="sortTable(2, 'moviesTable')" class="collectionDescriptionHeader">Collection Description</th>
-            </tr>
+        <tr>
+            <th class="deleteColumn">Delete</th>
+            <th onclick="sortTable(1)" class="collectionNameHeader">Collection Name</th>
+            <th class="collectionDescriptionHeader">Collection Description</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="collection : ${thisUserMovieCollections}">
-                <td class="text-center">
-                    <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
-                </td>
-                <td th:if="${collection.user.id == cookie}">
-                    <a th:href="@{/collections/delete/movies/{id}(id=${collection.id})}">
-                        <span th:text="${collection.name}"></span>
-                    </a>
-                </td>
-                <td>
-                    <span th:text="${collection.description}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">
-                    <input type="submit" value="Delete" class="btn btn-danger">
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
+        <tr th:each="collection : ${thisUserMovieCollections}" class="sort-row">
+            <td class="text-center">
+                <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
+            </td>
+            <td th:if="${collection.user.id == cookie}">
+                <a th:href="@{/collections/delete/movies/{id}(id=${collection.id})}">
+                    <span th:text="${collection.name}"></span>
+                </a>
+            </td>
+            <td>
+                <span th:text="${collection.description}"></span>
+            </td>
+        </tr>
         </tbody>
-    </table><br>
+    </table>
+    <input type="submit" value="Delete" class="btn btn-danger"><br>
 </form>
 
 <h3>Book Collections</h3>
