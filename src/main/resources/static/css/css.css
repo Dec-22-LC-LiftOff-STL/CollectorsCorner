@@ -216,6 +216,14 @@
     text-align: center;
 }
 
+.delete .collectionDescriptionHeader {
+    text-align: left;
+}
+
+.delete .collectionNameHeader {
+    text-align: left;
+}
+
 .delete #gamesTable {
     width: 100%;
 }
