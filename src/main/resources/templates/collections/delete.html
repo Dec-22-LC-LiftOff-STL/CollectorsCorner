@@ -18,27 +18,34 @@
         <thead>
         <tr>
             <th class="deleteColumn">Delete</th>
-            <th onclick="sortTable(1)" class="collectionNameHeader">Collection Name</th>
-            <th class="collectionDescriptionHeader">Collection Description</th>
+            <th onclick="sortTable('moviesTable', 1)" class="collectionNameHeader">Collection Name</th>
+            <th onclick="sortTable('moviesTable', 2)" class="collectionDescriptionHeader">Collection Description</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="collection : ${thisUserMovieCollections}" class="sort-row">
-            <td class="text-center">
-                <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
-            </td>
-            <td th:if="${collection.user.id == cookie}">
-                <a th:href="@{/collections/delete/movies/{id}(id=${collection.id})}">
-                    <span th:text="${collection.name}"></span>
-                </a>
-            </td>
-            <td>
-                <span th:text="${collection.description}"></span>
-            </td>
-        </tr>
+            <tr th:each="collection : ${thisUserMovieCollections}">
+                <td class="text-center">
+                    <input type="checkbox" name="movieCollectionIds" th:value="${collection.id}">
+                </td>
+                <td th:if="${collection.user.id == cookie}">
+                    <a th:href="@{/collections/delete/movies/{id}(id=${collection.id})}" th:text="${collection.name}"></a>
+                </td>
+                <td>
+                    <span th:text="${collection.description}"></span>
+                </td>
+            </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-center">
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
     </table>
-    <input type="submit" value="Delete" class="btn btn-danger"><br>
+    <br>
 </form>
 
 <h3>Book Collections</h3>
@@ -48,8 +55,8 @@
         <thead>
             <tr>
                 <th class="deleteColumn">Delete</th>
-                <th onclick="sortTable(1, 'booksTable')" class="collectionNameHeader">Collection Name</th>
-                <th onclick="sortTable(2, 'booksTable')" class="collectionDescriptionHeader">Collection Description</th>
+                <th onclick="sortTable('booksTable', 1)" class="collectionNameHeader" data-sort-order="asc">Collection Name</th>
+                <th onclick="sortTable('booksTable', 2)" class="collectionDescriptionHeader">Collection Description</th>
             </tr>
         </thead>
         <tbody>
@@ -58,14 +65,14 @@
                     <input type="checkbox" name="bookCollectionIds" th:value="${collection.id}">
                 </td>
                 <td th:if="${collection.user.id == cookie}">
-                    <a th:href="@{/collections/delete/books/{id}(id=${collection.id})}">
-                        <span th:text="${collection.name}"></span>
-                    </a>
+                    <a th:href="@{/collections/delete/books/{id}(id=${collection.id})}" th:text="${collection.name}"></a>
                 </td>
                 <td>
                     <span th:text="${collection.description}"></span>
                 </td>
             </tr>
+        </tbody>
+        <tfoot>
             <tr>
                 <td class="text-center">
                     <input type="submit" value="Delete" class="btn btn-danger">
@@ -73,7 +80,7 @@
                 <td></td>
                 <td></td>
             </tr>
-        </tbody>
+        </tfoot>
     </table><br>
 </form>
 
@@ -84,8 +91,8 @@
         <thead>
             <tr>
                 <th class="deleteColumn">Delete</th>
-                <th onclick="sortTable(1, 'gamesTable')" class="collectionNameHeader">Collection Name</th>
-                <th onclick="sortTable(2, 'gamesTable')" class="collectionDescriptionHeader">Collection Description</th>
+                <th onclick="sortTable('gamesTable', 1)" class="collectionNameHeader">Collection Name</th>
+                <th onclick="sortTable('gamesTable', 2)" class="collectionDescriptionHeader">Collection Description</th>
             </tr>
         </thead>
         <tbody>
@@ -94,12 +101,14 @@
                     <input type="checkbox" name="gameCollectionIds" th:value="${collection.id}">
                 </td>
                 <td th:if="${collection.user.id == cookie}">
-                    <a th:href="@{/collections/delete/games/{id}(id=${collection.id})}"><span th:text="${collection.name}"></span></a>
+                    <a th:href="@{/collections/delete/games/{id}(id=${collection.id})}" th:text="${collection.name}"></a>
                 </td>
                 <td>
                     <span th:text="${collection.description}"></span>
                 </td>
             </tr>
+        </tbody>
+        <tfoot>
             <tr>
                 <td class="text-center">
                     <input type="submit" value="Delete" class="btn btn-danger">
@@ -107,7 +116,7 @@
                 <td></td>
                 <td></td>
             </tr>
-        </tbody>
+        </tfoot>
     </table>
 </form>
 

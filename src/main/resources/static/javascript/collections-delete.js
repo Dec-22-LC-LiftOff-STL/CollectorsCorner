@@ -1,36 +1,22 @@
-function sortTable(n) {
-  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("moviesTable");
-  switching = true;
-  dir = "asc";
-  while (switching) {
-    switching = false;
-    rows = table.rows;
-    for (i = 1; i < (rows.length - 1); i++) {
-      shouldSwitch = false;
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      if (dir == "asc") {
-        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
+function sortTable(table, column) {
+    var table = document.getElementById(table);
+    var rows = Array.from(table.tBodies[0].rows);
+    var sortOrder = table.getAttribute('data-sort-order') || 'asc';
+    var sortDirection = sortOrder === 'asc' ? 1 : -1;
+
+    rows.sort(function(rowA, rowB) {
+        var cellA = rowA.cells[column].textContent.trim().toLowerCase();
+        var cellB = rowB.cells[column].textContent.trim().toLowerCase();
+
+        if (cellA === cellB) {
+            return 0;
         }
-      } else if (dir == "desc") {
-        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-    }
-    if (shouldSwitch) {
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      switchcount++;
-    } else {
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
-        switching = true;
-      }
-    }
-  }
+
+    return cellA < cellB ? -1 * sortDirection : sortDirection;
+    });
+
+    table.tBodies[0].append(...rows);
+
+    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    table.setAttribute('data-sort-order', sortOrder);
 }
