@@ -4,11 +4,24 @@
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
 
-<body>
+<body class="container body-content">
 
 <div th:replace="fragments :: page-header"></div>
 
 <h1>Profile Page</h1>
+
+<div th:if="${profilePicture != null}">
+    <img style="max-height: 400px; max-width: 400px" th:src="@{'/profile-pictures/' + ${profilePicture}}"/>
+</div>
+
+<th:block th:if="${isSelf}">
+    <form method="post" th:action="@{/profile/{username}/upload-profile-picture}" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" name="file" class="form-control-file">
+        </div>
+        <button type="submit" class="btn btn-primary">Upload File</button>
+    </form>
+</th:block>
 
 <th:block th:if="${isSelf}">
     <h3>Screen Mode:</h3>
