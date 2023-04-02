@@ -9,6 +9,7 @@ function screenMode () {
     } else if (screenMode === 'Dark') {
         document.body.style.backgroundColor = "rgb(23,23,23)";
         document.body.style.color = "white";
+        document.getElementById("profilePicture").style.border = '1px solid white';
 
         const buttons = document.querySelectorAll("button")
         for (var i = 0; i < buttons.length; i++) {

@@ -58,8 +58,9 @@ public class ProfileController {
         return "profile.html";
     }
 
-    @PostMapping("/profile/{username}/upload-profile-picture")
-    public String uploadSheetMusic(@RequestParam("file") MultipartFile file, RedirectAttributes attributes, @PathVariable String username, @CookieValue(name = "userId") String myCookie) {
+    @PostMapping("/profile/{profileUsername}/upload-profile-picture")
+    public String uploadSheetMusic(@RequestParam("file") MultipartFile file, RedirectAttributes attributes, @PathVariable String profileUsername, @CookieValue(name = "userId") String myCookie) {
+        System.out.println(profileUsername);
         // check if file is empty
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
@@ -82,7 +83,7 @@ public class ProfileController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:.";
+        return "redirect:/profile/" + profileUsername;
     }
 
 }

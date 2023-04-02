@@ -632,6 +632,20 @@
     text-align: center;
 }
 
+.profile #chooseFileButton {
+    color: rgb(157, 157, 157) !important;
+}
+
+.profile #profilePicture {
+    max-height: 400px;
+    max-width: 400px;
+    border: 1px solid black;
+}
+
+.profile #settingsClickable {
+    cursor: pointer;
+}
+
 .search-collections #movieCollectionColumn {
     background-color: #b50a0a;
     color: orange;
