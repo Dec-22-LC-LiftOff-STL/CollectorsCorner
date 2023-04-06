@@ -9,7 +9,7 @@
 
 <div th:replace="fragments :: page-header"></div>
 
-<h1>Profile Page</h1>
+<h1 th:text="'Profile Page - ' + ${profileUsername}"></h1>
 
 <div th:if="${profilePicture != null}">
     <img id="profilePicture" th:src="@{'/profile-pictures/' + ${profilePicture}}"/>
@@ -18,7 +18,8 @@
 <h2 id="settingsClickable" th:if="${isSelf}">▶ Settings</h2>
 
 <div id="settings" th:if="${isSelf}" style="display:none;">
-    <h3>Upload Profile Picture</h3>
+    <hr>
+    <h3>Upload Profile Picture:</h3>
     <form method="post" th:action="@{'/profile/' + ${profileUsername} + '/upload-profile-picture'}" enctype="multipart/form-data">
         <div class="form-group">
             <input type="file" name="file" id="chooseFileButton">
@@ -35,6 +36,7 @@
             <option value="Watermelon">Watermelon</option>
         </select>
         <button type="submit">Submit</button>
+        <hr>
     </form>
 </div>
 

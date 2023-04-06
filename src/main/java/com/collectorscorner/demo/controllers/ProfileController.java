@@ -48,10 +48,9 @@ public class ProfileController {
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = optUser.get();
-            model.addAttribute("username", user.getUsername());
-            String userUsername = user.getUsername();
-            boolean isSelf = userUsername.equals(profileUsername);
-            model.addAttribute("userUsername", userUsername);
+            String username = user.getUsername();
+            model.addAttribute("username", username);
+            boolean isSelf = username.equals(profileUsername);
             model.addAttribute("screenMode", user.getScreenMode());
             model.addAttribute("isSelf", isSelf);
         }
@@ -60,7 +59,6 @@ public class ProfileController {
 
     @PostMapping("/profile/{profileUsername}/upload-profile-picture")
     public String uploadSheetMusic(@RequestParam("file") MultipartFile file, RedirectAttributes attributes, @PathVariable String profileUsername, @CookieValue(name = "userId") String myCookie) {
-        System.out.println(profileUsername);
         // check if file is empty
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
@@ -76,6 +74,7 @@ public class ProfileController {
             user.setProfilePicturePath(fileName);
             userRepository.save(user);
         }
+
         // save the file on the local file system
         try {
             Path path = Paths.get(profilePictureDirectory + fileName);
