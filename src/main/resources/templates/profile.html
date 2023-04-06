@@ -7,8 +7,6 @@
 
 <body class="container body-content profile">
 
-<div th:replace="fragments :: page-header"></div>
-
 <h1 th:text="'Profile Page - ' + ${profileUsername}"></h1>
 
 <div th:if="${profilePicture != null}">
