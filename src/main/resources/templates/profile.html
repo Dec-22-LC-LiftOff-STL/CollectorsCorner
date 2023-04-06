@@ -3,14 +3,28 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
+<script type="text/javascript" th:src="@{/javascript/profile.js}"></script>
 
-<body>
+<body class="container body-content profile">
 
-<div th:replace="fragments :: page-header"></div>
+<h1 th:text="'Profile Page - ' + ${profileUsername}"></h1>
 
-<h1>Profile Page</h1>
+<div th:if="${profilePicture != null}">
+    <img id="profilePicture" th:src="@{'/profile-pictures/' + ${profilePicture}}"/>
+</div>
 
-<th:block th:if="${isSelf}">
+<h2 id="settingsClickable" th:if="${isSelf}">▶ Settings</h2>
+
+<div id="settings" th:if="${isSelf}" style="display:none;">
+    <hr>
+    <h3>Upload Profile Picture:</h3>
+    <form method="post" th:action="@{'/profile/' + ${profileUsername} + '/upload-profile-picture'}" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" name="file" id="chooseFileButton">
+        </div>
+        <button type="submit" class="btn btn-primary">Upload File</button>
+    </form>
+    <br>
     <h3>Screen Mode:</h3>
     <form th:action="@{/update-theme}" method="post">
         <select name="theme">
@@ -20,8 +34,9 @@
             <option value="Watermelon">Watermelon</option>
         </select>
         <button type="submit">Submit</button>
+        <hr>
     </form>
-</th:block>
+</div>
 
 </body>
 
