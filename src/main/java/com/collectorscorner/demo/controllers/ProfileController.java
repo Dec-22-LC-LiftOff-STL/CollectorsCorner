@@ -50,15 +50,15 @@ public class ProfileController {
             User user = optUser.get();
             String username = user.getUsername();
             model.addAttribute("username", username);
-            boolean isSelf = username.equals(profileUsername);
             model.addAttribute("screenMode", user.getScreenMode());
+            boolean isSelf = username.equals(profileUsername);
             model.addAttribute("isSelf", isSelf);
         }
         return "profile.html";
     }
 
     @PostMapping("/profile/{profileUsername}/upload-profile-picture")
-    public String uploadSheetMusic(@RequestParam("file") MultipartFile file, RedirectAttributes attributes, @PathVariable String profileUsername, @CookieValue(name = "userId") String myCookie) {
+    public String processProfilePictureUpload(@RequestParam("file") MultipartFile file, RedirectAttributes attributes, @PathVariable String profileUsername, @CookieValue(name = "userId") String myCookie) {
         // check if file is empty
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
