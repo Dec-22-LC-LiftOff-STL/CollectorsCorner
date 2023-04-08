@@ -236,31 +236,55 @@
     background-color: transparent;
 }
 
-.delete-movie-collections .directorHeader {
+.delete-from-book-collections .authorHeader {
     text-align: left;
     cursor: pointer;
 }
 
-.delete-movie-collections .primaryGenreHeader {
+.delete-from-book-collections .primaryGenreHeader {
     text-align: left;
     cursor: pointer;
 }
 
-.delete-movie-collections .secondaryGenreHeader {
+.delete-from-book-collections .titleHeader {
     text-align: left;
     cursor: pointer;
 }
 
-.delete-movie-collections .titleHeader {
-    text-align: left;
-    cursor: pointer;
-}
-
-.delete-movie-collections tr:nth-child(odd) {
+.delete-from-book-collections tr:nth-child(odd) {
     background-color: transparent;
 }
 
-.delete-movie-collections .yearHeader {
+.delete-from-book-collections .yearHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections .directorHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections .primaryGenreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections .secondaryGenreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections .titleHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.delete-from-movie-collections .yearHeader {
     text-align: left;
     cursor: pointer;
 }
