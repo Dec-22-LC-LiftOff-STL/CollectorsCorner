@@ -260,6 +260,35 @@
     cursor: pointer;
 }
 
+.delete-from-game-collections .creatorHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .genreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .minPlayersHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .maxPlayersHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .titleHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections tr:nth-child(odd) {
+    background-color: transparent;
+}
+
 .delete-from-movie-collections .directorHeader {
     text-align: left;
     cursor: pointer;
