@@ -16,11 +16,11 @@
 <form method="post" th:action="@{/collections/delete-movies}">
     <table id="moviesTable" class="table">
         <thead>
-        <tr>
-            <th class="deleteColumn">Delete</th>
-            <th onclick="sortTable('moviesTable', 1)" class="collectionNameHeader">Collection Name</th>
-            <th onclick="sortTable('moviesTable', 2)" class="collectionDescriptionHeader">Collection Description</th>
-        </tr>
+            <tr>
+                <th class="deleteColumn">Delete</th>
+                <th onclick="sortTable('moviesTable', 1)" class="collectionNameHeader">Collection Name</th>
+                <th onclick="sortTable('moviesTable', 2)" class="collectionDescriptionHeader">Collection Description</th>
+            </tr>
         </thead>
         <tbody>
             <tr th:each="collection : ${thisUserMovieCollections}">

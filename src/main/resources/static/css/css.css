@@ -236,6 +236,35 @@
     background-color: transparent;
 }
 
+.delete-movie-collections .directorHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-movie-collections .primaryGenreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-movie-collections .secondaryGenreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-movie-collections .titleHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-movie-collections tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.delete-movie-collections .yearHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
 .games-search #creatorCheckboxes {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
