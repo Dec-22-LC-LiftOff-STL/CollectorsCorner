@@ -4,49 +4,53 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
-<body class="container body-content">
-<br><br><br><br>
+<script type="text/javascript" th:src="@{/javascript/collections-delete.js}"></script>
+<body class="container body-content delete-from-book-collections">
 
 <a href="/collections/delete">Back</a>
 <h1 th:text="'Book Collection: ' + ${collection.name}"></h1>
 
 <form method="post" th:action="@{/collections/delete/books/{collectionId}(collectionId=${collectionId})}">
-    <table class="table table-striped" id="bookTable">
+    <table class="table" id="booksTable">
         <thead>
             <tr>
                 <th class="text-center">Delete</th>
-                <th onclick="sortTable(1, 'bookTable')" class="titleHeader">Title</th>
-                <th onclick="sortTable(2, 'bookTable')" class="yearHeader">Year</th>
-                <th onclick="sortTable(3, 'bookTable')" class="authorHeader">Author</th>
-                <th onclick="sortTable(4, 'bookTable')" class="primaryGenreHeader">Genre</th>
+                <th onclick="sortTable('booksTable', 1)" class="titleHeader">Title</th>
+                <th onclick="sortTable('booksTable', 2)" class="yearHeader">Year</th>
+                <th onclick="sortTable('booksTable', 3)" class="authorHeader">Author</th>
+                <th onclick="sortTable('booksTable', 4)" class="primaryGenreHeader">Genre</th>
             </tr>
         </thead>
-        <tr th:each="book : ${books}">
-            <td class="text-center">
-                <input type="checkbox" name="bookIds" th:value="${book.id}">
-            </td>
-            <td>
-                <a th:href="@{/books/details/{bookTitle}(bookTitle=${book.title})}"><p th:text="${book.title}"></p></a>
-            </td>
-            <td>
-                <span th:text="${book.year}"></span>
-            </td>
-            <td>
-                <span th:text="${book.author}"></span>
-            </td>
-            <td>
-                <span th:text="${book.genre}"></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table><hr>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td class="text-center">
+                    <input type="checkbox" name="bookIds" th:value="${book.id}">
+                </td>
+                <td>
+                    <a th:text="${book.title}" th:href="@{/books/details/{bookTitle}(bookTitle=${book.title})}"></a>
+                </td>
+                <td>
+                    <span th:text="${book.year}"></span>
+                </td>
+                <td>
+                    <span th:text="${book.author}"></span>
+                </td>
+                <td>
+                    <span th:text="${book.genre}"></span>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
 </form>
 
 </body>

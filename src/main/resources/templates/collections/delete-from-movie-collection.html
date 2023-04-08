@@ -4,30 +4,31 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
-<body class="container body-content">
-<br><br><br><br>
+<script type="text/javascript" th:src="@{/javascript/collections-delete.js}"></script>
+<body class="container body-content delete-from-movie-collections">
 
 <a href="/collections/delete">Back</a>
 <h1 th:text="'Movie Collection: ' + ${collection.name}"></h1>
 
 <form method="post" th:action="@{/collections/delete/movies/{collectionId}(collectionId=${collectionId})}">
-    <table class="table table-striped" id="movieTable">
+    <table class="table" id="moviesTable">
         <thead>
             <tr>
                 <th class="text-center">Delete</th>
-                <th onclick="sortTable(1, 'movieTable')" class="titleHeader">Title</th>
-                <th onclick="sortTable(2, 'movieTable')" class="yearHeader">Year</th>
-                <th onclick="sortTable(3, 'movieTable')" class="directorHeader">Director</th>
-                <th onclick="sortTable(4, 'movieTable')" class="primaryGenreHeader">Primary Genre</th>
-                <th onclick="sortTable(5, 'movieTable')" class="secondaryGenreHeader">Secondary Genre</th>
+                <th onclick="sortTable('moviesTable', 1)" class="titleHeader">Title</th>
+                <th onclick="sortTable('moviesTable', 2)" class="yearHeader">Year</th>
+                <th onclick="sortTable('moviesTable', 3)" class="directorHeader">Director</th>
+                <th onclick="sortTable('moviesTable', 4)" class="primaryGenreHeader">Primary Genre</th>
+                <th onclick="sortTable('moviesTable', 5)" class="secondaryGenreHeader">Secondary Genre</th>
             </tr>
         </thead>
+        <tbody>
             <tr th:each="movie : ${movies}">
                 <td class="text-center">
                     <input type="checkbox" name="movieIds" th:value="${movie.id}">
                 </td>
                 <td>
-                    <a th:href="@{/movies/details/{movieTitle}(movieTitle=${movie.title})}"><p th:text="${movie.title}"></p></a>
+                    <a th:text="${movie.title}" th:href="@{/movies/details/{movieTitle}(movieTitle=${movie.title})}"></a>
                 </td>
                 <td>
                     <span th:text="${movie.year}"></span>
@@ -42,6 +43,8 @@
                     <span th:text="${movie.genre2}"></span>
                 </td>
             </tr>
+        </tbody>
+        <tfoot>
             <tr>
                 <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
                 <td></td>
@@ -50,8 +53,10 @@
                 <td></td>
                 <td></td>
             </tr>
-    </table><hr>
+        </tfoot>
+    </table>
 </form>
 
 </body>
+
 </html>

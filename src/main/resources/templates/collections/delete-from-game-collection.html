@@ -4,54 +4,59 @@
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
-<body class="container body-content">
-<br><br><br><br>
+<script type="text/javascript" th:src="@{/javascript/collections-delete.js}"></script>
+<body class="container body-content delete-from-game-collections">
 
 <a href="/collections/delete">Back</a>
 <h1 th:text="'Game Collection: ' + ${collection.name}"></h1>
 
 <form method="post" th:action="@{/collections/delete/games/{collectionId}(collectionId=${collectionId})}">
-    <table class="table table-striped" id="gameTable">
+    <table class="table" id="gamesTable">
         <thead>
             <tr>
                 <th class="text-center">Delete</th>
-                <th onclick="sortTable(1, 'gameTable')" class="titleHeader">Title</th>
-                <th onclick="sortTable(2, 'gameTable')" class="creatorHeader">Creator</th>
-                <th onclick="sortTable(3, 'gameTable')" class="genreHeader">Genre</th>
-                <th onclick="sortTable(4, 'gameTable')" class="minPlayersHeader">Min. Players</th>
-                <th onclick="sortTable(5, 'gameTable')" class="maxPlayersHeader">Max. Players</th>
+                <th onclick="sortTable('gamesTable', 1)" class="titleHeader">Title</th>
+                <th onclick="sortTable('gamesTable', 2)" class="creatorHeader">Creator</th>
+                <th onclick="sortTable('gamesTable', 3)" class="genreHeader">Genre</th>
+                <th onclick="sortTable('gamesTable', 4)" class="minPlayersHeader">Min. Players</th>
+                <th onclick="sortTable('gamesTable', 5)" class="maxPlayersHeader">Max. Players</th>
             </tr>
         </thead>
-        <tr th:each="game : ${games}">
-            <td class="text-center">
-                <input type="checkbox" name="gameIds" th:value="${game.id}">
-            </td>
-            <td>
-                <a th:href="@{/games/details/{gameTitle}(gameTitle=${game.title})}"><p th:text="${game.title}"></p></a>
-            </td>
-            <td>
-                <span th:text="${game.creator}"></span>
-            </td>
-            <td>
-                <span th:text="${game.genre}"></span>
-            </td>
-            <td>
-                <span th:text="${game.minPlayers}"></span>
-            </td>
-            <td>
-                <span th:text="${game.maxPlayers}"></span>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table><hr>
+        <tbody>
+            <tr th:each="game : ${games}">
+                <td class="text-center">
+                    <input type="checkbox" name="gameIds" th:value="${game.id}">
+                </td>
+                <td>
+                    <a th:text="${game.title}" th:href="@{/games/details/{gameTitle}(gameTitle=${game.title})}"></a>
+                </td>
+                <td>
+                    <span th:text="${game.creator}"></span>
+                </td>
+                <td>
+                    <span th:text="${game.genre}"></span>
+                </td>
+                <td>
+                    <span th:text="${game.minPlayers}"></span>
+                </td>
+                <td>
+                    <span th:text="${game.maxPlayers}"></span>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="text-center"><input type="submit" value="Delete" class="btn btn-danger"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
 </form>
 
 </body>
+
 </html>
