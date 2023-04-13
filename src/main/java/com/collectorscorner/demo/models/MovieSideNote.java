@@ -2,24 +2,25 @@ package com.collectorscorner.demo.models;
 
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 @Entity
 @IdClass(MovieCollectedItemId.class)
 //@Component
 public class MovieSideNote{
     @Id
-    private String movieCollectionId;
+    private int movieCollectionId;
 
     @Id
-    private String moviesId;
-    @Column
+    private int moviesId;
+    @Column(name = "movieSideNote", length = 20000)
     private String movieSideNote;
 
     public MovieSideNote(){
 
     }
 
-    public MovieSideNote(String movieCollectionId, String moviesId, String movieSideNote){
+    public MovieSideNote(int movieCollectionId, int moviesId, String movieSideNote){
         this.movieCollectionId = movieCollectionId;
         this.moviesId = moviesId;
         this.movieSideNote = movieSideNote;
@@ -27,19 +28,19 @@ public class MovieSideNote{
     }
 
 
-    public String getMovieCollectionId() {
+    public int getMovieCollectionId() {
         return movieCollectionId;
     }
 
-    public void setMovieCollectionId(String movieCollectionId) {
+    public void setMovieCollectionId(int movieCollectionId) {
         this.movieCollectionId = movieCollectionId;
     }
 
-    public String getMoviesId() {
+    public int getMoviesId() {
         return moviesId;
     }
 
-    public void setMoviesId(String moviesId) {
+    public void setMoviesId(int moviesId) {
         this.moviesId = moviesId;
     }
 
