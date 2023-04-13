@@ -6,13 +6,13 @@ import java.util.Objects;
 
 public class MovieCollectedItemId implements Serializable {
 
-    private String movieCollectionId;
-    private String moviesId;
+    private int movieCollectionId;
+    private int moviesId;
 
     public MovieCollectedItemId() {
     }
 
-    public MovieCollectedItemId(String movieCollectionId, String moviesId){
+    public MovieCollectedItemId(int movieCollectionId, int moviesId){
         this.movieCollectionId = movieCollectionId;
         this.moviesId=moviesId;
     }

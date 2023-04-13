@@ -22,9 +22,9 @@
 
 
 <div th:if="${movieCollection.description != ''}" class="container" style="width: 40rem;">
-    <H4 class="text-center" th:text="Description"></H4>
+    <H2 class="text-center" th:text="Description"></H2>
     <i>
-        <h5 class="card text-center" th:text="${movieCollection.description}"></h5>
+        <H3 class="card text-center" th:text="${movieCollection.description}"></H3>
     </i>
 </div>
 
@@ -33,18 +33,22 @@
     <br>
 </div>
 
+<div style="background-color:firebrick">
 <table class="table" id="table">
     <thead>
         <tr>
+            <th class="col-lg-2 text-center" id="movieImageHeader">Image</th>
             <th class="col-lg-2 text-center" id="movieTitleHeader">Movie</th>
             <th class="col-lg-2 text-center" id="movieYearHeader">Year</th>
             <th class="col-lg-2 text-center" id="movieDirectorHeader">Director</th>
             <th class="col-lg-2 text-center" id="movieGenreHeader">Genre(s)</th>
-            <th class="col-lg-2 text-center" id="movieImageHeader">Image</th>
         </tr>
     </thead>
     <span th:each="movie : ${movieCollection.movies}">
         <tr>
+            <td class="text-center" rowspan="2">
+                <img height="170px" th:src="${movie.imageURL}" alt="movie image">
+            </td>
             <td  class="text-center">
                 <span th:text="${movie.title}"></span>
             </td>
@@ -59,32 +63,74 @@
                 <span th:text="${movie.genre2}"></span><br/>
                 <span th:text="${movie.genre3}"></span>
             </td>
-            <td class="text-center">
-                <img height="150px" th:src="${movie.imageURL}" alt="movie image">
-            </td>
-        </tr>
-        <tr id="movieSidenote">
-            <td class="text-center" colspan="5">
-                <form method="post">
-                    <input type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
-                    <input type="text" name="movieCollectionId" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}" hidden>
-                    <input type="text" name="movieSideNote" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}">
-                    <input type="submit" value="Add SideNote">
-                </form>
-            </td>
         </tr>
         <tr>
-            <td class="text-center" colspan="5">
-                <p th:text="${movie.id}"></p>
-                <p th:text="${movieCollection.id}"></p>
-                <p th:text="${movie.title}"></p>
-                <p th:text="${allMovieSideNotes}"></p>
+            <td td class="text-left" colspan="4" th:each="movieSideNote : ${allMovieSideNotes}" th:if="${movieSideNote.moviesId == movie.id and movieSideNote.movieCollectionId == movieCollection.id}">
+                <i>
+                    <H4 th:text="${movieSideNote.movieSideNote}"></H4>
+                </i>
             </td>
         </tr>
+        <span th:if="${movieCollection.user.id == userId}">
+            <tr class="addNoteRow" >
+                <td class="text-center" colspan="5">
+                    <form method="post">
+                        <input id="movieAddId" class="movieAdd" type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
+<!--                        <input type="text" name="movieCollectionId" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}" hidden>-->
+                        <input type="text" name="movieSideNote">
+                        <input type="submit" value="Add SideNote">
+                    </form>
+                </td>
+            </tr>
+            <tr id="movieSideNoteEdit" class="sideNoteRow" th:each="movieSideNote : ${allMovieSideNotes}" th:if="${movieSideNote.moviesId == movie.id and movieSideNote.movieCollectionId == movieCollection.id}">
+                    <td id="movieSideNoteEdit2" class="text-center" colspan="5">
+                        <form method="post">
+                            <input id="movieEditId" class="movieEdit" type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
+<!--                            <input type="text" name="movieCollectionId" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}" hidden>-->
+                            <input type="text" name="movieSideNote" th:value="${movieSideNote.movieSideNote}">
+                            <input type="submit" value="Update SideNote">
+                        </form>
+                    </td>
+            </tr>
+        </span>
     </span>
 </table>
+</div>
 
 </body>
+
+
+<script>
+function toggleAddMovieSideNoteDisplay(){
+    const sideNoteRows = document.getElementsByClassName("sideNoteRow");
+    const addNoteRows = document.getElementsByClassName("addNoteRow");
+    const movieEdits = document.getElementsByClassName("movieEdit");
+    const movieAdds = document.getElementsByClassName("movieAdd");
+
+    for (let i =0; i < sideNoteRows.length; i++){
+        if (sideNoteRows[i].innerHTML){
+            console.log(sideNoteRows[i].innerHTML);
+            console.log(addNoteRows[i].innerHTML);
+            console.log(movieEdits[i].value);
+            console.log(movieAdds[i].value);
+
+            sideNoteRows[i].style.backgroundColor = "FireBrick";
+
+            for (let j = 0; j < addNoteRows.length; j++){
+                for(let k = 0; k < sideNoteRows.length; k++){
+                    if(sideNoteRows[k].innerHTML.includes(movieAdds[j].value)){
+                        console.log ("THIS MOVIE HAS A SIDENOTE");
+                        addNoteRows[j].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+}
+toggleAddMovieSideNoteDisplay();
+</script>
+
+
 
 </html>
 

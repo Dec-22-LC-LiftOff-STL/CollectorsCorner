@@ -410,10 +410,18 @@ public class CollectionController {
 
 
     @PostMapping("/view-movie-collection/{movieCollectionId}")
-    public String processCreateMovieSideNote(@PathVariable("movieCollectionId") String movieCollectionId,
-                                             @RequestParam("moviesId") String moviesId,
+    public String processCreateMovieSideNote(@PathVariable("movieCollectionId") int movieCollectionId, @CookieValue("userId") String myCookie,
+                                             @RequestParam("moviesId") int moviesId,
                                              @RequestParam("movieSideNote") String movieSideNote,
                                              Model model) {
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            model.addAttribute("user", optionalUser.get());
+        }
 
         MovieSideNote newMovieSideNote = new MovieSideNote(movieCollectionId, moviesId, movieSideNote);
         movieSideNoteRepository.save(newMovieSideNote);
@@ -424,6 +432,7 @@ public class CollectionController {
     @GetMapping("view-movie-collection/{movieCollectionId}")
     public String displayViewMovieCollection(Model model, @PathVariable int movieCollectionId, @CookieValue(name = "userId") String myCookie) {
         Integer userId = Integer.parseInt(myCookie);
+        model.addAttribute("userId", userId);
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = optUser.get();
