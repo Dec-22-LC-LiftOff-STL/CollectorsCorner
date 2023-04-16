@@ -18,7 +18,14 @@
     <br><br>
 </div>
 
-<swiper-container class="mySwiper" effect="cards" grab-cursor="true">
+<!-- Card if user has no movie collections -->
+<swiper-container class="mySwiper" effect="cards" grab-cursor="true" th:if="${movieCollections.size == 0}">
+    <swiper-slide class="movieCard" >
+        <li>No movie collections yet!</li>
+    </swiper-slide>
+</swiper-container>
+<!-- Dynamically create cards with 3 movie collections each, up to 10 cards/30 collections -->
+<swiper-container class="mySwiper" effect="cards" grab-cursor="true" th:if="${movieCollections.size > 1}">
     <swiper-slide class="movieCard">
         <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index < 3}">
             <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
@@ -26,7 +33,47 @@
     </swiper-slide>
     <swiper-slide class="movieCard" th:if="${movieCollections.size > 3}">
         <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 3 and stat.index < 6}">
-            <li><a class="collectionNameLi" th:text="${collection.name}"></a></li><br>
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 6}">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 6 and stat.index < 9}">
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 9}">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 9 and stat.index < 12}">
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 12}">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 12 and stat.index < 15}">
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 15}">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 15 and stat.index < 18}">
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 18}">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 18 and stat.index < 21}">
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 21}">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 21 and stat.index < 24}">
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 24}">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 24 and stat.index < 27}">
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 27}">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 27 and stat.index < 30}">
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
         </span>
     </swiper-slide>
 </swiper-container>

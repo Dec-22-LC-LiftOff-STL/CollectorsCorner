@@ -1,6 +1,7 @@
 package com.collectorscorner.demo.controllers;
 
 import com.collectorscorner.demo.data.UserRepository;
+import com.collectorscorner.demo.models.MovieCollection;
 import com.collectorscorner.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -44,7 +48,10 @@ public class ProfileController {
     @GetMapping("/profile/{profileUsername}")
     public String getUserById(@CookieValue(name = "userId") String myCookie, @PathVariable String profileUsername, Model model) {
         model.addAttribute("profilePicture", userRepository.findByUsername(profileUsername).getProfilePicturePath());
-        model.addAttribute("movieCollections", userRepository.findByUsername(profileUsername).getUserMovieCollection());
+        List<MovieCollection> movieCollections = userRepository.findByUsername(profileUsername).getUserMovieCollection();
+        // Sort the list alphabetically in ascending order by the name property of MovieCollection objects
+        Collections.sort(movieCollections, Comparator.comparing(mc -> mc.getName().trim().toLowerCase()));
+        model.addAttribute("movieCollections", movieCollections);
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
