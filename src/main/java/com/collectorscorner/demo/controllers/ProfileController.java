@@ -29,6 +29,29 @@ public class ProfileController {
 
     private final String profilePictureDirectory = "src/main/resources/static/profile-pictures/";
 
+    @GetMapping("/profile/{profileUsername}")
+    public String renderUserProfilePage(@CookieValue(name = "userId") String myCookie, @PathVariable String profileUsername, Model model) {
+        //Retrieve the profile picture of the user profile being viewed
+        model.addAttribute("profilePicture", userRepository.findByUsername(profileUsername).getProfilePicturePath());
+        //Retrieve the movie collection names of the user whose profile is being viewed & sort A-Z
+        List<MovieCollection> movieCollections = userRepository.findByUsername(profileUsername).getUserMovieCollection();
+        Collections.sort(movieCollections, Comparator.comparing(mc -> mc.getName().trim().toLowerCase()));
+        model.addAttribute("movieCollections", movieCollections);
+        //Retrieve User class of logged in user
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            String username = user.getUsername();
+            model.addAttribute("username", username);
+            model.addAttribute("screenMode", user.getScreenMode());
+            //Check logged-in User against user's profile being viewed
+            boolean isSelf = username.equals(profileUsername);
+            model.addAttribute("isSelf", isSelf);
+        }
+        return "profile.html";
+    }
+
     @PostMapping("/update-theme")
     public String updateTheme(@CookieValue(name = "userId") String myCookie, @RequestParam String theme) {
         if ("null".equals(myCookie)) {
@@ -43,26 +66,6 @@ public class ProfileController {
             return "redirect:/search-collections";
         }
         return "redirect:/search-collections";
-    }
-
-    @GetMapping("/profile/{profileUsername}")
-    public String getUserById(@CookieValue(name = "userId") String myCookie, @PathVariable String profileUsername, Model model) {
-        model.addAttribute("profilePicture", userRepository.findByUsername(profileUsername).getProfilePicturePath());
-        List<MovieCollection> movieCollections = userRepository.findByUsername(profileUsername).getUserMovieCollection();
-        // Sort the list alphabetically in ascending order by the name property of MovieCollection objects
-        Collections.sort(movieCollections, Comparator.comparing(mc -> mc.getName().trim().toLowerCase()));
-        model.addAttribute("movieCollections", movieCollections);
-        Integer userId = Integer.parseInt(myCookie);
-        Optional<User> optUser = userRepository.findById(userId);
-        if (optUser.isPresent()) {
-            User user = optUser.get();
-            String username = user.getUsername();
-            model.addAttribute("username", username);
-            model.addAttribute("screenMode", user.getScreenMode());
-            boolean isSelf = username.equals(profileUsername);
-            model.addAttribute("isSelf", isSelf);
-        }
-        return "profile.html";
     }
 
     @PostMapping("/profile/{profileUsername}/upload-profile-picture")
