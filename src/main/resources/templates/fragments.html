@@ -186,7 +186,7 @@
                 <li class="dropdown">
                     <a>
                         <form>
-                            <select id="collectionNamesDropdown">
+                            <select id="collectionNamesDropdown" style="width: 150px;">
                                 <option value="">Movie Collections:</option>
                                 <th:block th:each="collection : ${movieCollections}">
                         <span th:if="${collection.user.id == cookie}">

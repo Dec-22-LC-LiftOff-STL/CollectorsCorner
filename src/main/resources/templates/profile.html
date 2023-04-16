@@ -7,11 +7,29 @@
 
 <body class="container body-content profile">
 
-<h1 th:text="'Profile Page - ' + ${profileUsername}"></h1>
+<h1 id="profileAndUsernameText">
+    <span th:text="'Profile Page'"></span>
+    <br>
+    <span th:text="${profileUsername}"></span>
+</h1>
 
-<div th:if="${profilePicture != null}">
+<div id="profilePictureDiv" th:if="${profilePicture != null}">
     <img id="profilePicture" th:src="@{'/profile-pictures/' + ${profilePicture}}"/>
+    <br><br>
 </div>
+
+<swiper-container class="mySwiper" effect="cards" grab-cursor="true">
+    <swiper-slide class="movieCard">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index < 3}">
+            <li class="collectionNameLi" th:text="${collection.name}"></li><br>
+        </span>
+    </swiper-slide>
+    <swiper-slide class="movieCard">
+        <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 3 and stat.index < 6}">
+            <li class="collectionNameLi" th:text="${collection.name}"></li><br>
+        </span>
+    </swiper-slide>
+</swiper-container>
 
 <h2 id="settingsClickable" th:if="${isSelf}">▶ Settings</h2>
 

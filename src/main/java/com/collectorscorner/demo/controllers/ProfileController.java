@@ -51,6 +51,7 @@ public class ProfileController {
             String username = user.getUsername();
             model.addAttribute("username", username);
             model.addAttribute("screenMode", user.getScreenMode());
+            model.addAttribute("movieCollections", user.getUserMovieCollection());
             boolean isSelf = username.equals(profileUsername);
             model.addAttribute("isSelf", isSelf);
         }

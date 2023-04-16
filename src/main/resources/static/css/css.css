@@ -746,14 +746,43 @@
     color: rgb(157, 157, 157) !important;
 }
 
+.profile .collectionNameLi {
+    text-align: center;
+}
+
+.profile .movieCard {
+    background-color: #b50a0a !important;
+}
+
 .profile #profilePicture {
     max-height: 400px;
     max-width: 400px;
     border: 1px solid black;
 }
 
+.profile #profileAndUsernameText {
+    text-align: center;
+}
+
+.profile #profilePictureDiv {
+    text-align: center;
+}
+
 .profile #settingsClickable {
     cursor: pointer;
+}
+
+.profile swiper-container {
+    width: 240px;
+    height: 320px;
+}
+
+.profile swiper-slide {
+    align-items: center;
+    border-radius: 18px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
 }
 
 .search-collections #movieCollectionColumn {
