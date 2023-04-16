@@ -44,6 +44,7 @@ public class ProfileController {
     @GetMapping("/profile/{profileUsername}")
     public String getUserById(@CookieValue(name = "userId") String myCookie, @PathVariable String profileUsername, Model model) {
         model.addAttribute("profilePicture", userRepository.findByUsername(profileUsername).getProfilePicturePath());
+        model.addAttribute("movieCollections", userRepository.findByUsername(profileUsername).getUserMovieCollection());
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
@@ -51,7 +52,6 @@ public class ProfileController {
             String username = user.getUsername();
             model.addAttribute("username", username);
             model.addAttribute("screenMode", user.getScreenMode());
-            model.addAttribute("movieCollections", user.getUserMovieCollection());
             boolean isSelf = username.equals(profileUsername);
             model.addAttribute("isSelf", isSelf);
         }

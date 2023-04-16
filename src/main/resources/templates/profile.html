@@ -21,12 +21,12 @@
 <swiper-container class="mySwiper" effect="cards" grab-cursor="true">
     <swiper-slide class="movieCard">
         <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index < 3}">
-            <li class="collectionNameLi" th:text="${collection.name}"></li><br>
+            <li><a class="collectionNameLi" th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a></li><br>
         </span>
     </swiper-slide>
-    <swiper-slide class="movieCard">
+    <swiper-slide class="movieCard" th:if="${movieCollections.size > 3}">
         <span th:each="collection, stat : ${movieCollections}" th:if="${stat.index >= 3 and stat.index < 6}">
-            <li class="collectionNameLi" th:text="${collection.name}"></li><br>
+            <li><a class="collectionNameLi" th:text="${collection.name}"></a></li><br>
         </span>
     </swiper-slide>
 </swiper-container>

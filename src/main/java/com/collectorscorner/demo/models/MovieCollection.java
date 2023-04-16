@@ -19,7 +19,6 @@ public class MovieCollection extends AbstractEntity {
     @ManyToMany
     private List<Movie> movies = new ArrayList<>();
     @Column(name = "name")
-    @Size(max = 70)
     private String name;
     @Column(name = "description")
     private String description;

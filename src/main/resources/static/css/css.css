@@ -748,6 +748,7 @@
 
 .profile .collectionNameLi {
     text-align: center;
+    color: white;
 }
 
 .profile .movieCard {
@@ -780,9 +781,13 @@
 .profile swiper-slide {
     align-items: center;
     border-radius: 18px;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }
 
 .search-collections #movieCollectionColumn {
