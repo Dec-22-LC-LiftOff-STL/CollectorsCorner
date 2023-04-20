@@ -46,7 +46,7 @@ public class SearchController {
 
 
 
-    @PostMapping("results")
+    @PostMapping("")
     public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm, @CookieValue(name = "userId") String myCookie) {
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> optUser = userRepository.findById(userId);

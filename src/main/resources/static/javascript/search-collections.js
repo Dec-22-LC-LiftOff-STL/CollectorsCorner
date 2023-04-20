@@ -164,6 +164,26 @@ let gameTable = document.getElementById("gameCollectionTable");
     }
 }
 
+//Only show pagination controls while the Movie Collections table is visible
+window.onload = function() {
+    if (document.getElementById("movieCollectionTable").style.display === '') {
+        $(document).ready(function() {
+            $('#movieCollectionTable').DataTable({
+                "paging": true,
+                lengthChange: true,
+                searching: false,
+                info: false,
+                "ordering": true,
+                "order": [],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 },
+                    { "sorting": false, "targets": '_all' }
+                ]
+            });
+        });
+    }
+};
+
 
 
 
