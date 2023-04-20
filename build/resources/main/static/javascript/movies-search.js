@@ -199,6 +199,12 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
     fetch(url)
         .then(function(response) {
         response.json().then(function(json) {
+        console.log(json)
+        if (!json.results.US || !json.results.US.flatrate) {
+            console.log(json)
+            document.getElementById(streamingDivId.id).innerHTML = `<br><p>Not available on stream.</p>`;
+            return;
+        }
 
         let streamingServicesHTML = "";
 
