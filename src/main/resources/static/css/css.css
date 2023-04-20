@@ -659,6 +659,7 @@
     width: 20%;
     cursor: pointer;
     text-align: center;
+    font-size: 16px;
 }
 
 .movies-search .hidden {
@@ -726,6 +727,7 @@
     cursor: pointer;
     text-align: center;
     padding: 10px;
+    font-size: 16px;
 }
 
 .movies-search tr:nth-child(odd) {
@@ -742,6 +744,7 @@
     width: 5%;
     cursor: pointer;
     text-align: center;
+    font-size: 16px;
 }
 
 .profile .bookCard {
