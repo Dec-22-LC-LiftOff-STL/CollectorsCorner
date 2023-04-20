@@ -839,6 +839,17 @@
     color: 'orange';
 }
 
+.search-collections .movieCollectionLink {
+    color: orange;
+    text-shadow: #FC0 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .movieCollectionStrip {
+    text-align: center;
+    background: #b50a0a;
+}
+
 .search-collections tr:nth-child(odd) {
     background-color: transparent;
 }

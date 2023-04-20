@@ -46,17 +46,12 @@
 
         <span id="movieColumnBlock">
             <th id="movieCollectionColumn">Movie Collections</th>
-            <th id="movieColDirectorColumn" style="display:none">Director: ></th>
-            <th id="movieColGenreColumn" style="display:none">Genre: ></th>
-            <th id="movieColGenre2Column" style="display:none">Genre: ></th>
-            <th id="movieColGenre3Column" style="display:none">Genre: ></th>
-            <th id="movieColCollectorColumn" style="display:none">Collector: ></th>
         </span>
 
         <tr th:each="movieCollection : ${movieCollections}">
             <td>
-                <h3 style="text-align: center; background: #b50a0a" onclick="toggleCollectionDetails(event, this)">
-                    <a  style="color: orange; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="${movieCollection.name}"></a>
+                <h3 class="movieCollectionStrip" onclick="toggleCollectionDetails(event, this)">
+                    <a class="movieCollectionLink" th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="${movieCollection.name}"></a>
                 </h3>
 
                 <div style="display:none;">
@@ -74,34 +69,6 @@
                         <a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${'Created by: ' + movieCollection.getUser().getScreenName()}"></a>
                     </p>
                 </div>
-            </td>
-            <td id="movieColDirectors", style="display:none">Directors in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li id="directorFilterString", style="display:none" th:text="${movie.director}"></li>
-                </ul>
-            </td>
-            <td id="movieColGenre", style="display:none">Genres in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li id="genreFilterString", style="display:none" th:text="${movie.genre}"></li>
-                </ul>
-            </td>
-            <td id="movieColGenre2", style="display:none">Genre2s in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li id="genre2FilterString", style="display:none" th:text="${movie.genre2}"></li>
-                </ul>
-            </td>
-            <td id="movieColGenre3", style="display:none">Genre3s in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li id="genre3FilterString", style="display:none" th:text="${movie.genre3}"></li>
-                </ul>
-            </td>
-            <td id="movieColCollector", style="display:none">Collector in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-
-                    <li id="movieCollectorFilterString", style="display:none"
-                        th:text="${movieCollection.getUser().getScreenName}">
-                    </li>
-                </ul>
             </td>
         </tr>
     </table>
