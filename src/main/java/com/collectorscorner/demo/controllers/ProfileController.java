@@ -1,6 +1,8 @@
 package com.collectorscorner.demo.controllers;
 
 import com.collectorscorner.demo.data.UserRepository;
+import com.collectorscorner.demo.models.BookCollection;
+import com.collectorscorner.demo.models.GameCollection;
 import com.collectorscorner.demo.models.MovieCollection;
 import com.collectorscorner.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,14 @@ public class ProfileController {
         List<MovieCollection> movieCollections = userRepository.findByUsername(profileUsername).getUserMovieCollection();
         Collections.sort(movieCollections, Comparator.comparing(mc -> mc.getName().trim().toLowerCase()));
         model.addAttribute("movieCollections", movieCollections);
+        //Retrieve the book collection names of the user whose profile is being viewed & sort A-Z
+        List<BookCollection> bookCollections = userRepository.findByUsername(profileUsername).getUserBookCollection();
+        Collections.sort(bookCollections, Comparator.comparing(mc -> mc.getName().trim().toLowerCase()));
+        model.addAttribute("bookCollections", bookCollections);
+        //Retrieve the game collection names of the user whose profile is being viewed & sort A-Z
+        List<GameCollection> gameCollections = userRepository.findByUsername(profileUsername).getUserGameCollection();
+        Collections.sort(gameCollections, Comparator.comparing(mc -> mc.getName().trim().toLowerCase()));
+        model.addAttribute("gameCollections", gameCollections);
         //Retrieve User class of logged in user
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> optUser = userRepository.findById(userId);

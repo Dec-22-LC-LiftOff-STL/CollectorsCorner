@@ -742,6 +742,16 @@
     text-align: center;
 }
 
+.profile .bookCard {
+    background-color: #005d85 !important;
+}
+
+.profile .cardContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .profile #chooseFileButton {
     color: rgb(157, 157, 157) !important;
 }
@@ -749,6 +759,24 @@
 .profile .collectionNameLi {
     text-align: center;
     color: white;
+}
+
+.profile .column {
+    width: 30%;
+    padding: 10px;
+    text-align: center;
+}
+
+.profile .gameCard {
+    background-color: #57a65f !important;
+}
+
+.profile .left {
+    order: 1;
+}
+
+.profile .middle {
+    order: 2;
 }
 
 .profile .movieCard {
@@ -767,6 +795,10 @@
 
 .profile #profilePictureDiv {
     text-align: center;
+}
+
+.profile .right {
+    order: 3;
 }
 
 .profile #settingsClickable {
