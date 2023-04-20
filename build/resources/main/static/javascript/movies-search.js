@@ -37,8 +37,7 @@ function buildHTMLResultsTable(url) {
                 <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
                 <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
                 <th id="genre1ColumnHeader" onclick="sortTableByGenre1()">Genre</th>
-                <th id="synopsisColumnHeader">Synopsis</th>
-                <th id="addToCollectionHeader"></th>
+                <th id="streamingPlatformsColumnHeader"></th>
             </tr>
         </thead>
         <tbody>
@@ -66,10 +65,10 @@ function buildHTMLResultsTable(url) {
                 <th class="posterCell">
                     <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
                     <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
-                    <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
+                    <button id="addToCollectionButton${i}" class="btn btn-primary addToCollectionButton" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
                     <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
                     <form id="confirmButtonDropdown${i}" style="display:none;"><br>
-                        <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();">Confirm</button>
+                        <button type="button" class="btn btn-success confirmButton" onclick="addNewMovieToDatabase();">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell">
@@ -82,13 +81,8 @@ function buildHTMLResultsTable(url) {
                     <p id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                     <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                 </th>
-                <th class="synopsisCell">
-                    <swiper-container class="mySwiper" scrollbar="true" direction="vertical" slides-per-view="auto" free-mode="true" mousewheel="true">
-                        <swiper-slide>
-                            <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
-                        </swiper-slide>
-                    </swiper-container>
-                    <a href="/movies/details/${movie.title}" class="readMore">Read more</a>
+                <th class="synopsisCell" hidden>
+                    <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
                 </th>
                 <th class="streamingPlatformsCell">
                     <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
@@ -205,6 +199,12 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
     fetch(url)
         .then(function(response) {
         response.json().then(function(json) {
+        console.log(json)
+        if (!json.results.US || !json.results.US.flatrate) {
+            console.log(json)
+            document.getElementById(streamingDivId.id).innerHTML = `<br><p>Not available on stream.</p>`;
+            return;
+        }
 
         let streamingServicesHTML = "";
 
@@ -214,7 +214,7 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
             }
             let streamingService = json.results.US.flatrate[i];
             if (streamingService.provider_name !== "HBO Max Amazon Channel" && streamingService.provider_name !== "Starz Amazon Channel") {
-                let html = `<img src="https://www.themoviedb.org/t/p/original/${streamingService.logo_path}" alt="${streamingService.display_name}"/>`;
+                let html = `<img src="https://www.themoviedb.org/t/p/original/${streamingService.logo_path}" alt="${streamingService.display_name}" class="streamingServiceIcon"/>`;
                 streamingServicesHTML += html;
             }
         }
