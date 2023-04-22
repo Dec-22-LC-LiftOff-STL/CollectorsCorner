@@ -41,6 +41,7 @@ public class SearchController {
             model.addAttribute("screenMode", user.getScreenMode());
         }
         model.addAttribute("columns", columnChoices);
+        model.addAttribute("mainTitle", "Search Collections:");
         return "search-collections";
     }
 
@@ -64,7 +65,7 @@ public class SearchController {
             gameCollections = gameCollectionRepository.findAll();
 
             model.addAttribute("columns", columnChoices);
-            model.addAttribute("mainTitle", "All Collections:");
+            model.addAttribute("mainTitle", "Search Collections:");
             model.addAttribute("movieCollections", movieCollections);
             model.addAttribute("bookCollections", bookCollections);
             model.addAttribute("gameCollections", gameCollections);

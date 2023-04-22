@@ -827,16 +827,47 @@
     text-align: center;
 }
 
-.search-collections #movieCollectionColumn {
+.search-collections #bookCollectionColumnHeader {
+    font-size: 36px;
+    background-color: #005d85;
+    text-align: center;
+}
+
+.search-collections .bookCollectionLink {
+    color: WhiteSmoke;
+    text-shadow: white 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .bookCollectionStrip {
+    text-align: center;
+    background: #005d85;
+    margin-top: 3px;
+}
+
+.search-collections #gameCollectionColumnHeader {
+    font-size: 36px;
+    background-color: #57a65f;
+    text-align: center;
+}
+
+.search-collections .gameCollectionLink {
+    color: WhiteSmoke;
+    text-shadow: #FC0 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .gameCollectionStrip {
+    text-align: center;
+    background-color: #57a65f;
+    margin-top: 3px;
+}
+
+.search-collections #movieCollectionColumnHeader {
     background-color: #b50a0a;
     color: orange;
     font-size: 36px;
-}
-
-.search-collections #movieCollectionHeader {
-    font-size: 36px;
     text-align: center;
-    color: 'orange';
 }
 
 .search-collections .movieCollectionLink {
@@ -848,6 +879,7 @@
 .search-collections .movieCollectionStrip {
     text-align: center;
     background: #b50a0a;
+    margin-top: 3px;
 }
 
 .search-collections tr:nth-child(odd) {

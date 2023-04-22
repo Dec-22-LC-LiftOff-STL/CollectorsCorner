@@ -153,6 +153,7 @@ let bookTable = document.getElementById("bookCollectionTable");
     if (bookTable.rows.length < 2) {
         document.getElementById("bookCollectionTable").style.display = "none";
         document.getElementById("bookFilterBlock").style.display = "none";
+        document.getElementById("bookDivider").style.display = "none";
     }
 }
 
@@ -164,26 +165,56 @@ let gameTable = document.getElementById("gameCollectionTable");
     }
 }
 
-//Only show pagination controls while the Movie Collections table is visible
 window.onload = function() {
     if (document.getElementById("movieCollectionTable").style.display === '') {
         $(document).ready(function() {
-            $('#movieCollectionTable').DataTable({
+        $('#movieCollectionTable').DataTable({
+            "paging": true,
+            lengthChange: false, // disable length change
+            searching: false,
+            info: false,
+            "ordering": true,
+            "order": [],
+            "columnDefs": [
+            { "orderable": false, "targets": 0 },
+            { "sorting": false, "targets": '_all' }
+            ]
+        });
+    });
+    }
+    if (document.getElementById("bookCollectionTable").style.display === '') {
+            $(document).ready(function() {
+            $('#bookCollectionTable').DataTable({
                 "paging": true,
-                lengthChange: true,
+                lengthChange: false, // disable length change
                 searching: false,
                 info: false,
                 "ordering": true,
                 "order": [],
                 "columnDefs": [
-                    { "orderable": false, "targets": 0 },
-                    { "sorting": false, "targets": '_all' }
+                { "orderable": false, "targets": 0 },
+                { "sorting": false, "targets": '_all' }
                 ]
             });
         });
-    }
+        }
+    if (document.getElementById("gameCollectionTable").style.display === '') {
+            $(document).ready(function() {
+            $('#gameCollectionTable').DataTable({
+                "paging": true,
+                lengthChange: false, // disable length change
+                searching: false,
+                info: false,
+                "ordering": true,
+                "order": [],
+                "columnDefs": [
+                { "orderable": false, "targets": 0 },
+                { "sorting": false, "targets": '_all' }
+                ]
+            });
+        });
+        }
 };
-
 
 
 
