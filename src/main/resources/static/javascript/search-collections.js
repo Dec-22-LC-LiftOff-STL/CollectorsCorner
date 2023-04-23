@@ -171,6 +171,7 @@ window.onload = function() {
         $('#movieCollectionTable').DataTable({
             "paging": true,
             lengthChange: false, // disable length change
+            "stateSave": true,
             searching: false,
             info: false,
             "ordering": true,
@@ -187,6 +188,7 @@ window.onload = function() {
             $('#bookCollectionTable').DataTable({
                 "paging": true,
                 lengthChange: false, // disable length change
+                "stateSave": true,
                 searching: false,
                 info: false,
                 "ordering": true,
@@ -203,6 +205,7 @@ window.onload = function() {
             $('#gameCollectionTable').DataTable({
                 "paging": true,
                 lengthChange: false, // disable length change
+                "stateSave": true,
                 searching: false,
                 info: false,
                 "ordering": true,
