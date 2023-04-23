@@ -143,9 +143,9 @@
         </thead>
         <tbody>
             <tr th:each="gameCollection : ${gameCollections}">
-                <td><span onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.gameCollectionStrip'))">+</span></td>
+                <td><span onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.gameCollectionStrip')); toggleIcon(this)">▶</span></td>
                 <td id="gameDataFilter">
-                    <h3 class="gameCollectionStrip" onclick="toggleCollectionDetails(event, this)">
+                    <h3 class="gameCollectionStrip">
                         <a class="gameCollectionLink" th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="${gameCollection.name}"></a>
                     </h3>
 

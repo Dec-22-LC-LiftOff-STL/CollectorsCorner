@@ -52,6 +52,14 @@ function toggleCollectionDetails(event, element) {
   }
 }
 
+function toggleIcon(span) {
+  if (span.innerText === "▶") {
+    span.innerText = "▼";
+  } else {
+    span.innerText = "▶";
+  }
+}
+
 function bookCollectionFilter() {
     let choice = "keyword"
     let choiceList = document.getElementsByName('bookFilter');
