@@ -137,11 +137,13 @@
     <table id="gameCollectionTable" class="collection-listing">
         <thead>
             <tr id="gameColumnBlock">
+                <th id="addCollectionColumnHeader"></th>
                 <th id="gameCollectionColumnHeader">Game Collections</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="gameCollection : ${gameCollections}">
+                <td><span onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.gameCollectionStrip'))">+</span></td>
                 <td id="gameDataFilter">
                     <h3 class="gameCollectionStrip" onclick="toggleCollectionDetails(event, this)">
                         <a class="gameCollectionLink" th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="${gameCollection.name}"></a>

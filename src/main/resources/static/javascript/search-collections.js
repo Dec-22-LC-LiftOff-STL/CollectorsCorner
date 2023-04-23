@@ -42,18 +42,14 @@ function movieCollectionFilter() {
     }
 }
 
-function toggleCollectionDetails(event, button) {
-    if (event.target.nodeName === 'A') {
-        event.stopPropagation();
-        return;
-    }
-
-    const collectionDetails = button.nextElementSibling;
-    if (collectionDetails.style.display === 'none') {
-        collectionDetails.style.display = 'block';
-    } else {
-    collectionDetails.style.display = 'none';
-    }
+function toggleCollectionDetails(event, element) {
+  event.preventDefault();
+  var collectionDetails = element.nextElementSibling;
+  if (collectionDetails.style.display === "none") {
+    collectionDetails.style.display = "block";
+  } else {
+    collectionDetails.style.display = "none";
+  }
 }
 
 function bookCollectionFilter() {
@@ -218,6 +214,7 @@ window.onload = function() {
         });
         }
 };
+
 
 
 

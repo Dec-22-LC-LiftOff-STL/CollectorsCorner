@@ -863,6 +863,11 @@
     margin-top: 3px;
 }
 
+.search-collections .collection-listing td:first-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
 .search-collections #movieCollectionColumnHeader {
     background-color: #b50a0a;
     color: orange;
