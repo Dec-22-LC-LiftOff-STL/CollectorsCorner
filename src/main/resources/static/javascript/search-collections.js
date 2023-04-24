@@ -1,7 +1,3 @@
-//See: Rich's commented out JavaScript at the bottom
-
-
-//This is the refactored version of the function above that allows for us to add new filters as needed by adding a row to the map
 function movieCollectionFilter() {
     // Retrieves the selected radio button
     let choice = "keyword"
@@ -17,10 +13,10 @@ function movieCollectionFilter() {
 
     //Creates a map of possible columns tied to filter choices
     const movieFilterDataByValueMap = new Map([
-        ['keyword', [0]],
-        ['director', [1]],
-        ['genre', [2, 3, 4]],
-        ['collector', [5]]
+        ['keyword', [1]],
+        ['director', [2]],
+        ['genre', [3, 4, 5]],
+        ['collector', [6]]
     ]);
 
     //for each row (beginning after the table header) we check the columns that match the chosen filter contains the data that our user has input
@@ -42,20 +38,6 @@ function movieCollectionFilter() {
     }
 }
 
-function toggleCollectionDetails(event, button) {
-    if (event.target.nodeName === 'A') {
-        event.stopPropagation();
-        return;
-    }
-
-    const collectionDetails = button.nextElementSibling;
-    if (collectionDetails.style.display === 'none') {
-        collectionDetails.style.display = 'block';
-    } else {
-    collectionDetails.style.display = 'none';
-    }
-}
-
 function bookCollectionFilter() {
     let choice = "keyword"
     let choiceList = document.getElementsByName('bookFilter');
@@ -70,9 +52,10 @@ function bookCollectionFilter() {
 
 //Creates a map of possible columns corresponding to the filter choices
     const bookFilterDataByValueMap = new Map([
-        ['keyword', [0]],
-        ['author', [1]],
-        ['genre', [2]]
+        ['keyword', [1]],
+        ['author', [2]],
+        ['genre', [3]],
+        ['collector', [4]]
     ]);
 
 //for each row (beginning after the table header at row [0]) we check if the selected column(s) contains the search term data that our user has input
@@ -97,7 +80,6 @@ function bookCollectionFilter() {
 
 function gameCollectionFilter() {
     // Retrieves the selected radio button
-
     let choice = "keyword"
     let choiceList = document.getElementsByName('gameFilter');
     for(i = 0; i < choiceList.length; i++){
@@ -112,9 +94,10 @@ function gameCollectionFilter() {
     //Creates a map of possible columns corresponding to the filter choices
 
     const gameFilterDataByValueMap = new Map([
-        ['keyword', [0]],
-        ['creator', [1]],
-        ['genre', [2]]
+        ['keyword', [1]],
+        ['creator', [2]],
+        ['genre', [3]],
+        ['collector', [4]]
     ]);
 
     //for each row (beginning after the table header at row [0]) we check if the selected column(s) contains the search term data that our user has input
@@ -138,31 +121,78 @@ function gameCollectionFilter() {
     }
 }
 
-function toggleMovieTableDisplay(){
-let movieTable = document.getElementById("movieCollectionTable");
-    if (movieTable.rows.length < 2) {
-        document.getElementById("movieCollectionTable").style.display = "none";
-        document.getElementById("movieFilterBlock").style.display = "none";
-        document.getElementById("movieColumnBlock").style.display = "none";
-        document.getElementById("movieDivider").style.display = "none";
+function toggleCollectionDetails(event, element) {
+    event.preventDefault();
+    const collectionDetails = element.nextElementSibling;
+    if (collectionDetails.style.display === "none") {
+            collectionDetails.style.display = "block";
+    } else {
+    collectionDetails.style.display = "none";
     }
 }
 
-function toggleBookTableDisplay(){
-let bookTable = document.getElementById("bookCollectionTable");
-    if (bookTable.rows.length < 2) {
-        document.getElementById("bookCollectionTable").style.display = "none";
-        document.getElementById("bookFilterBlock").style.display = "none";
+function toggleIcon(span) {
+    if (span.innerText === "▶") {
+        span.innerText = "▼";
+    } else {
+        span.innerText = "▶";
     }
 }
 
-function toggleGameTableDisplay(){
-let gameTable = document.getElementById("gameCollectionTable");
-    if (gameTable.rows.length < 2) {
-        document.getElementById("gameCollectionTable").style.display = "none";
-        document.getElementById("gameFilterBlock").style.display = "none";
+//DataTables external library jQuery
+window.onload = function() {
+    if (document.getElementById("movieCollectionTable").style.display === '') {
+        $(document).ready(function() {
+            $('#movieCollectionTable').DataTable({
+                "paging": true,
+                "lengthChange": false, // disable length change
+                "stateSave": true,
+                "searching": false,
+                "info": false,
+                "ordering": true,
+                "order": [],
+                "columnDefs": [
+                { "orderable": false, "targets": 0 },
+                { "sorting": false, "targets": '_all' }
+                ]
+            });
+        });
     }
-}
+    if (document.getElementById("bookCollectionTable").style.display === '') {
+        $(document).ready(function() {
+            $('#bookCollectionTable').DataTable({
+                "paging": true,
+                "lengthChange": false, // disable length change
+                "stateSave": true,
+                "searching": false,
+                "info": false,
+                "ordering": true,
+                "order": [],
+                "columnDefs": [
+                { "orderable": false, "targets": 0 },
+                { "sorting": false, "targets": '_all' }
+                ]
+            });
+        });
+    }
+    if (document.getElementById("gameCollectionTable").style.display === '') {
+        $(document).ready(function() {
+            $('#gameCollectionTable').DataTable({
+                "paging": true,
+                "lengthChange": false, // disable length change
+                "stateSave": true,
+                "searching": false,
+                "info": false,
+                "ordering": true,
+                "order": [],
+                "columnDefs": [
+                { "orderable": false, "targets": 0 },
+                { "sorting": false, "targets": '_all' }
+                ]
+            });
+        });
+    }
+};
 
 
 

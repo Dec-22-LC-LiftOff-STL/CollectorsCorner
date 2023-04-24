@@ -13,7 +13,15 @@ function screenMode () {
         if (document.getElementById("profilePicture")) {
             document.getElementById("profilePicture").style.border = '1px solid white';
         }
-
+        if (document.getElementById('movieCollectionTable')) {
+            document.getElementById('movieCollectionTable').style.borderBottom = '1px solid white';
+        }
+        if (document.getElementById('bookCollectionTable')) {
+            document.getElementById('bookCollectionTable').style.borderBottom = '1px solid white';
+        }
+        if (document.getElementById('gameCollectionTable')) {
+            document.getElementById('gameCollectionTable').style.borderBottom = '1px solid white';
+        }
         const buttons = document.querySelectorAll("button")
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].style.color = 'black';

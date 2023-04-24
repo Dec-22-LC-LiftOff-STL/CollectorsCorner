@@ -9,235 +9,247 @@
 
     <h1 th:text="${mainTitle}"></h1>
 
-    <form th:action="@{/search-collections/results}" method="post">
-        <h2>Search by:</h2>
-        <p>
-            <span th:each="column : ${columns}">
-                <input
-                    type="radio"
-                    name="searchType"
-                    th:id="${column.key}"
-                    th:value="${column.key}"
-                    th:checked="${column.key == 'all'}"/>
-                <label th:for="${column.key}" th:text="${column.value}"></label>
-            </span>
-        </p>
-        <p>
-            <label for="searchTerm">Keyword:</label>
-            <input name="searchTerm" id="searchTerm"/>
-        </p>
-        <input type="submit" value="Search" />
-    </form>
-
     <hr>
 
+    <span id="movieFilterBlock">
+        <input type="text" id="movieInput" onkeyup="movieCollectionFilter()" placeholder="Filter Movie Collections By:" title="Enter Filter Term">
+        <input type="radio" id="keyword" name="movieFilter" value="keyword">
+        <label for="keyword">Keyword</label>
+        <input type="radio" id="director" name="movieFilter" value="director">
+        <label for="director">Director</label>
+        <input type="radio" id="genre" name="movieFilter" value="genre">
+        <label for="genre">Genre</label>
+        <input type="radio" id="collector" name="movieFilter" value="collector">
+        <label for="collector">Collector</label>
+    </span>
+
     <table id="movieCollectionTable" class="collection-listing">
-        <span id="movieFilterBlock">
-            <input type="text" id="movieInput" onkeyup="movieCollectionFilter()" placeholder="Filter Movie Collections By:" title="Enter Filter Term">
-            <input type="radio" id="keyword" name="movieFilter" value="keyword">
-            <label for="keyword">Keyword</label>
-            <input type="radio" id="director" name="movieFilter" value="director">
-            <label for="director">Director</label>
-            <input type="radio" id="genre" name="movieFilter" value="genre">
-            <label for="genre">Genre</label>
-            <input type="radio" id="collector" name="movieFilter" value="collector">
-            <label for="collector">Collector</label>
-        </span>
+        <thead>
+            <tr id="movieColumnBlock">
+                <th class="hiddenColumnHeader"></th>
+                <th id="movieCollectionColumnHeader">Movie Collections</th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="movieCollection : ${movieCollections}">
+                <td>
+                    <span class="toggleIcon" onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.movieCollectionStrip')); toggleIcon(this)">▶</span>
+                </td>
+                <td>
+                    <h3 class="movieCollectionStrip">
+                        <a class="movieCollectionLink" th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="${movieCollection.name}"></a>
+                    </h3>
 
-        <span id="movieColumnBlock">
-            <th id="movieCollectionColumn">Movie Collections</th>
-            <th id="movieColDirectorColumn" style="display:none">Director: ></th>
-            <th id="movieColGenreColumn" style="display:none">Genre: ></th>
-            <th id="movieColGenre2Column" style="display:none">Genre: ></th>
-            <th id="movieColGenre3Column" style="display:none">Genre: ></th>
-            <th id="movieColCollectorColumn" style="display:none">Collector: ></th>
-        </span>
-
-        <tr th:each="movieCollection : ${movieCollections}">
-            <td>
-                <h3 style="text-align: center; background: #b50a0a" onclick="toggleCollectionDetails(event, this)">
-                    <a  style="color: orange; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="${movieCollection.name}"></a>
-                </h3>
-
-                <div style="display:none;">
-                    <i>
-                        <p th:text="${movieCollection.description}"></p>
-                    </i>
-                    <br>
+                    <div style="display:none;">
+                        <i>
+                            <p th:text="${movieCollection.description}"></p>
+                        </i>
+                        <br>
+                        <ul th:each="movie : ${movieCollection.movies}">
+                            <li>
+                                <a class="collectionItemLink" th:href="@{'/movies/details/' + ${movie.title} + '-' + ${movie.year}}" th:text="${movie.title} + ' -  Directed by: ' + ${movie.director} + ', ' + ${movie.year}"></a>
+                            </li>
+                        </ul>
+                        <br>
+                        <p>
+                            <a class="createdBy" th:href="@{'/profile/' + ${movieCollection.getUser().getUsername()}}" th:text="${'Created by: ' + movieCollection.getUser().getUsername()}"></a>
+                        </p>
+                    </div>
+                </td>
+                <td id="movieColDirectors" style="display:none;">Directors in Collection:>
                     <ul th:each="movie : ${movieCollection.movies}">
-                        <li>
-                            <a th:href="@{'/movies/details/' + ${movie.title} + '-' + ${movie.year}}" th:text="${movie.title} + ' -  Directed by: ' + ${movie.director} + ', ' + ${movie.year}"></a>
+                        <li id="directorFilterString", style="display:none"
+                            th:text="${movie.director}">
                         </li>
                     </ul>
-                    <br>
-                    <p>
-                        <a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${'Created by: ' + movieCollection.getUser().getScreenName()}"></a>
-                    </p>
-                </div>
-            </td>
-            <td id="movieColDirectors", style="display:none">Directors in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li id="directorFilterString", style="display:none" th:text="${movie.director}"></li>
-                </ul>
-            </td>
-            <td id="movieColGenre", style="display:none">Genres in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li id="genreFilterString", style="display:none" th:text="${movie.genre}"></li>
-                </ul>
-            </td>
-            <td id="movieColGenre2", style="display:none">Genre2s in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li id="genre2FilterString", style="display:none" th:text="${movie.genre2}"></li>
-                </ul>
-            </td>
-            <td id="movieColGenre3", style="display:none">Genre3s in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-                    <li id="genre3FilterString", style="display:none" th:text="${movie.genre3}"></li>
-                </ul>
-            </td>
-            <td id="movieColCollector", style="display:none">Collector in Collection:>
-                <ul th:each="movie : ${movieCollection.movies}">
-
-                    <li id="movieCollectorFilterString", style="display:none"
-                        th:text="${movieCollection.getUser().getScreenName}">
-                    </li>
-                </ul>
-            </td>
-        </tr>
+                </td>
+                <td id="movieColGenre" style="display:none">Genres in Collection:>
+                    <ul th:each="movie : ${movieCollection.movies}">
+                        <li id="genreFilterString" style="display:none"
+                            th:text="${movie.genre}">
+                        </li>
+                    </ul>
+                </td>
+                <td id="movieColGenre2" style="display:none">Genre2s in Collection:>
+                    <ul th:each="movie : ${movieCollection.movies}">
+                        <li id="genre2FilterString" style="display:none"
+                            th:text="${movie.genre2}">
+                        </li>
+                    </ul>
+                <td id="movieColGenre3" style="display:none">Genre3s in Collection:>
+                    <ul th:each="movie : ${movieCollection.movies}">
+                        <li id="genre3FilterString" style="display:none"
+                            th:text="${movie.genre3}">
+                        </li>
+                    </ul>
+                </td>
+                <td id="movieColCollector" style="display:none">Collector in Collection:>
+                    <ul th:each="movie : ${movieCollection.movies}">
+                        <li id="movieCollectorFilterString" style="display:none"
+                            th:text="${movieCollection.getUser().getUsername()}">
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
     </table>
 
-    <hr id="movieDivider" />
+    <br id="movieDivider" /><br>
+
+    <span id="bookFilterBlock">
+        <input type="text" id="bookInput" onkeyup="bookCollectionFilter()" placeholder="Filter Book Collections By.." title="Enter Filter Term">
+        <input type="radio" id="book-keyword" name="bookFilter" value="keyword">
+        <label for="keyword">Keyword</label>
+        <input type="radio" id="author" name="bookFilter" value="author">
+        <label for="author">Author</label>
+        <input type="radio" id="book-genre" name="bookFilter" value="genre">
+        <label for="genre">Genre</label>
+        <input type="radio" id="book-collector" name="bookFilter" value="collector">
+        <label for="collector">Collector</label>
+    </span>
 
     <table id="bookCollectionTable" class="collection-listing">
-        <span id="bookFilterBlock">
-            <input type="text" id="bookInput" onkeyup="bookCollectionFilter()" placeholder="Filter Book Collections By.." title="Enter Filter Term">
-            <input type="radio" id="book-keyword" name="bookFilter" value="keyword">
-            <label for="keyword">Keyword</label>
-            <input type="radio" id="author" name="bookFilter" value="author">
-            <label for="author">Author</label>
-            <input type="radio" id="book-genre" name="bookFilter" value="genre">
-            <label for="genre">Genre</label>
-            <input type="radio" id="book-collector" name="bookFilter" value="collector">
-            <label for="collector">Collector</label>
-        </span>
-        <span id="bookColumnBlock">
-            <th id="bookCollectionColumn", style="font-size:36px; background-color: #005d85;">Book Collections</th>
-            <th id="bookColAuthorColumn", style="display:none">Author: ></th>
-            <th id="bookColGenreColumn", style="display:none">Genre: ></th>
-        </span>
+        <thead>
+            <tr id="bookColumnBlock">
+                <th class="hiddenColumnHeader"></th>
+                <th id="bookCollectionColumnHeader">Book Collections</th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="bookCollection : ${bookCollections}">
+                <td>
+                    <span class="toggleIcon" onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.bookCollectionStrip')); toggleIcon(this)">▶</span>
+                </td>
+                <td>
+                    <h3 class="bookCollectionStrip">
+                        <a class="bookCollectionLink" th:href="@{'/collections/view-book-collection/' + ${bookCollection.id}}" th:text="${bookCollection.name}"></a>
+                    </h3>
 
-        <tr th:each="bookCollection : ${bookCollections}">
-            <td id="bookDataFilter">
-                <h3 style="text-align: center; background: #005d85" onclick="toggleCollectionDetails(event, this)">
-                    <a  style="color: WhiteSmoke; text-shadow: white 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-book-collection/' + ${bookCollection.id}}" th:text="${bookCollection.name}"></a>
-                </h3>
-
-                <div style="display:none;">
-                    <i>
-                        <p  th:text="${bookCollection.description}"></p>
-                    </i>
-                    <br>
+                    <div style="display:none;">
+                        <i>
+                            <p th:text="${bookCollection.description}"></p>
+                        </i>
+                        <br>
+                        <ul th:each="book : ${bookCollection.books}">
+                            <li>
+                                <a class="collectionItemLink" th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
+                            </li>
+                        </ul>
+                        <br>
+                        <p>
+                            <a class="createdBy" th:href="@{'/profile/' + ${bookCollection.getUser().getUsername()}}" th:text="${'Created by: ' + bookCollection.getUser().getUsername()}"></a>
+                        </p>
+                    </div>
+                </td>
+                <td id="bookColDirectors" style="display:none">Authors in Collection:>
                     <ul th:each="book : ${bookCollection.books}">
-                        <li>
-                            <a th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
+                        <li id="authorFilterString" style="display:none"
+                            th:text="${book.author}">
                         </li>
                     </ul>
-                    <br>
-                    <a th:href="@{'/collector/' + ${bookCollection.getUser().getId()}}" th:text="${'Created by: ' + bookCollection.getUser().getScreenName()}"></a>
-                </div>
-            </td>
-            <td id="bookColDirectors" style="display:none">Authors in Collection:>
-                <ul th:each="book : ${bookCollection.books}">
-                    <li id="authorFilterString" style="display:none"
-                        th:text="${book.author}">
-                    </li>
-                </ul>
-            </td>
-            <td id="bookColGenre", style="display:none">Genres in Collection:>
-                <ul th:each="book : ${bookCollection.books}">
-                    <li id="bookFilterString", style="display:none"
-                        th:text="${book.genre}">
-                    </li>
-                </ul>
-            </td>
-            <td id="bookColCollector", style="display:none">Collector in Collection:>
-                <ul th:each="book : ${bookCollection.books}">
-
-                    <li id="bookCollectorFilterString", style="display:none"
-                        th:text="${bookCollection.getUser().getScreenName}">
-                    </li>
-                </ul>
-            </td>
-        </tr>
+                </td>
+                <td id="bookColGenre" style="display:none">Genres in Collection:>
+                    <ul th:each="book : ${bookCollection.books}">
+                        <li id="bookFilterString" style="display:none"
+                            th:text="${book.genre}">
+                        </li>
+                    </ul>
+                </td>
+                <td id="bookColCollector" style="display:none">Collector in Collection:>
+                    <ul th:each="book : ${bookCollection.books}">
+                        <li id="bookCollectorFilterString" style="display:none"
+                            th:text="${bookCollection.getUser().getUsername()}">
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
     </table>
+
+    <br id="bookDivider" /><br>
+
+    <span id="gameFilterBlock">
+        <input type="text" id="gameInput" onkeyup="gameCollectionFilter()" placeholder="Filter Game Collections By.." title="Enter Filter Term">
+        <input type="radio" id="game-keyword" name="gameFilter" value="keyword">
+        <label for="keyword">Keyword</label>
+        <input type="radio" id="creator" name="gameFilter" value="creator">
+        <label for="creator">Creator</label>
+        <input type="radio" id="game-genre" name="gameFilter" value="genre">
+        <label for="genre">Genre</label>
+        <input type="radio" id="game-collector" name="gameFilter" value="collector">
+        <label for="collector">Collector</label>
+    </span>
 
     <table id="gameCollectionTable" class="collection-listing">
-        <span id="gameFilterBlock">
-            <input type="text" id="gameInput" onkeyup="gameCollectionFilter()" placeholder="Filter Game Collections By.." title="Enter Filter Term">
-            <input type="radio" id="game-keyword" name="gameFilter" value="keyword">
-            <label for="keyword">Keyword</label>
-            <input type="radio" id="creator" name="gameFilter" value="creator">
-            <label for="creator">Creator</label>
-            <input type="radio" id="game-genre" name="gameFilter" value="genre">
-            <label for="genre">Genre</label>
-            <input type="radio" id="game-collector" name="gameFilter" value="collector">
-            <label for="collector">Collector</label>
-        </span>
+        <thead>
+            <tr id="gameColumnBlock">
+                <th class="hiddenColumnHeader"></th>
+                <th id="gameCollectionColumnHeader">Game Collections</th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="gameCollection : ${gameCollections}">
+                <td>
+                    <span class="toggleIcon" onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.gameCollectionStrip')); toggleIcon(this)">▶</span>
+                </td>
+                <td>
+                    <h3 class="gameCollectionStrip">
+                        <a class="gameCollectionLink" th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="${gameCollection.name}"></a>
+                    </h3>
 
-        <span id="gameColumnBlock">
-            <th id="gameCollectionColumn", style="font-size:36px; background-color: #57a65f">Game Collections: </th>
-            <th id="gameColCreatorColumn", style="display:none">Creator: ></th>
-            <th id="gameColGenreColumn", style="display:none">Genre: ></th>
-        </span>
-
-        <tr th:each="gameCollection : ${gameCollections}">
-            <td id="gameDataFilter">
-                <h3 style="text-align: center; background-color: #57a65f;" onclick="toggleCollectionDetails(event, this)">
-                    <a  style="color: WhiteSmoke; text-shadow: #FC0 1px 0 12px; text-shadow: black 1px 0 4px;" th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="${gameCollection.name}"></a>
-                </h3>
-
-                <div style="display:none;">
-                    <i>
-                        <p  th:text="${gameCollection.description}"></p>
-                    </i>
-
-                    <br>
-
+                    <div style="display:none;">
+                        <i>
+                            <p  th:text="${gameCollection.description}"></p>
+                        </i>
+                        <br>
+                        <ul th:each="game : ${gameCollection.games}">
+                            <li>
+                                <a class="collectionItemLink" th:href="@{'/games/details/' + ${game.title}}" th:text="${game.title}"></a>
+                            </li>
+                        </ul>
+                        <br>
+                        <p>
+                            <a class="createdBy" th:href="@{'/profile/' + ${gameCollection.getUser().getUsername()}}" th:text="${'Created by: ' + gameCollection.getUser().getUsername()}"></a>
+                        </p>
+                    </div>
+                </td>
+                <td id="gameColCreators" style="display:none">Creators in Collection:>
                     <ul th:each="game : ${gameCollection.games}">
-                        <li>
-                            <a th:href="@{'/games/details/' + ${game.title}}" th:text="${game.title}"></a>
+                        <li id="creatorFilterString" style="display:none"
+                            th:text="${game.creator}">
                         </li>
                     </ul>
-                    <br>
-                    <p>
-                        <a th:href="@{'/collector/' + ${gameCollection.getUser().getId()}}" th:text="${'Created by: ' + gameCollection.getUser().getScreenName()}"></a>
-                    </p>
-                </div>
-            </td>
-
-            <td id="gameColCreators", style="display:none">Creators in Collection:>
-                <ul th:each="game : ${gameCollection.games}">
-                    <li id="creatorFilterString", style="display:none"
-                        th:text="${game.creator}">
-                    </li>
-                </ul>
-            </td>
-
-            <td id="gameColGenres", style="display:none">Genres in Collection:>
-                <ul th:each="game : ${gameCollection.games}">
-                    <li id="gameGenreFilterString", style="display:none"
-                        th:text="${game.genre}">
-                    </li>
-                </ul>
-            </td>
-        </tr>
+                </td>
+                <td id="gameColGenres" style="display:none">Genres in Collection:>
+                    <ul th:each="game : ${gameCollection.games}">
+                        <li id="gameGenreFilterString" style="display:none"
+                            th:text="${game.genre}">
+                        </li>
+                    </ul>
+                </td>
+                <td id="gameColCollector" style="display:none">Collectors in Collection:>
+                    <ul th:each="game : ${gameCollection.games}">
+                        <li id="gameCollectorFilterString" style="display:none"
+                            th:text="${gameCollection.getUser().getUsername()}">
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
     </table>
 
-    <script>
-        toggleMovieTableDisplay();
-        toggleBookTableDisplay();
-        toggleGameTableDisplay();
-    </script>
+<br>
 
 </body>
 </html>
