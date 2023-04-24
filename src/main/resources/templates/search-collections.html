@@ -66,12 +66,12 @@
                         <br>
                         <ul th:each="movie : ${movieCollection.movies}">
                             <li>
-                                <a th:href="@{'/movies/details/' + ${movie.title} + '-' + ${movie.year}}" th:text="${movie.title} + ' -  Directed by: ' + ${movie.director} + ', ' + ${movie.year}"></a>
+                                <a class="movieInfo" th:href="@{'/movies/details/' + ${movie.title} + '-' + ${movie.year}}" th:text="${movie.title} + ' -  Directed by: ' + ${movie.director} + ', ' + ${movie.year}"></a>
                             </li>
                         </ul>
                         <br>
                         <p>
-                            <a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${'Created by: ' + movieCollection.getUser().getScreenName()}"></a>
+                            <a class="createdBy" th:href="@{'/profile/' + ${movieCollection.getUser().getUsername()}}" th:text="${'Created by: ' + movieCollection.getUser().getUsername()}"></a>
                         </p>
                     </div>
                 </td>
@@ -79,7 +79,7 @@
         </tbody>
     </table>
 
-    <hr id="movieDivider" />
+    <br id="movieDivider" /><br>
 
     <span id="bookFilterBlock">
         <input type="text" id="bookInput" onkeyup="bookCollectionFilter()" placeholder="Filter Book Collections By.." title="Enter Filter Term">
@@ -117,18 +117,18 @@
                         <br>
                         <ul th:each="book : ${bookCollection.books}">
                             <li>
-                                <a th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
+                                <a class="bookInfo" th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
                             </li>
                         </ul>
                         <br>
-                        <a th:href="@{'/collector/' + ${bookCollection.getUser().getId()}}" th:text="${'Created by: ' + bookCollection.getUser().getScreenName()}"></a>
+                        <a class="createdBy" th:href="@{'/collector/' + ${bookCollection.getUser().getUsername()}}" th:text="${'Created by: ' + bookCollection.getUser().getUsername()}"></a>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <hr id="bookDivider" />
+    <br id="bookDivider" /><br>
 
     <span id="gameFilterBlock">
         <input type="text" id="gameInput" onkeyup="gameCollectionFilter()" placeholder="Filter Game Collections By.." title="Enter Filter Term">
@@ -171,7 +171,7 @@
                         </ul>
                         <br>
                         <p>
-                            <a th:href="@{'/collector/' + ${gameCollection.getUser().getId()}}" th:text="${'Created by: ' + gameCollection.getUser().getScreenName()}"></a>
+                            <a class="createdBy" th:href="@{'/collector/' + ${gameCollection.getUser().getUsername()}}" th:text="${'Created by: ' + gameCollection.getUser().getUsername()}"></a>
                         </p>
                     </div>
                 </td>
