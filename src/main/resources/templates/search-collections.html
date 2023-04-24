@@ -145,7 +145,7 @@
                         </ul>
                         <br>
                         <p>
-                            <a class="createdBy" th:href="@{'/collector/' + ${bookCollection.getUser().getUsername()}}" th:text="${'Created by: ' + bookCollection.getUser().getUsername()}"></a>
+                            <a class="createdBy" th:href="@{'/profile/' + ${bookCollection.getUser().getUsername()}}" th:text="${'Created by: ' + bookCollection.getUser().getUsername()}"></a>
                         </p>
                     </div>
                 </td>
@@ -220,7 +220,7 @@
                         </ul>
                         <br>
                         <p>
-                            <a class="createdBy" th:href="@{'/collector/' + ${gameCollection.getUser().getUsername()}}" th:text="${'Created by: ' + gameCollection.getUser().getUsername()}"></a>
+                            <a class="createdBy" th:href="@{'/profile/' + ${gameCollection.getUser().getUsername()}}" th:text="${'Created by: ' + gameCollection.getUser().getUsername()}"></a>
                         </p>
                     </div>
                 </td>
