@@ -35,7 +35,7 @@ public class SearchController {
             model.addAttribute("username", user.getUsername());
             model.addAttribute("screenMode", user.getScreenMode());
         }
-        model.addAttribute("mainTitle", "Browse Collections");
+        model.addAttribute("mainTitle", "Search Collections");
 
         Iterable<MovieCollection> movieCollections = movieCollectionRepository.findAll();
         Iterable<BookCollection> bookCollections = bookCollectionRepository.findAll();
