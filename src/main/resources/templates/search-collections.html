@@ -45,13 +45,17 @@
     <table id="movieCollectionTable" class="collection-listing">
         <thead>
             <tr id="movieColumnBlock">
+                <th></th>
                 <th id="movieCollectionColumnHeader">Movie Collections</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="movieCollection : ${movieCollections}">
                 <td>
-                    <h3 class="movieCollectionStrip" onclick="toggleCollectionDetails(event, this)">
+                    <span class="toggleIcon" onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.movieCollectionStrip')); toggleIcon(this)">▶</span>
+                </td>
+                <td>
+                    <h3 class="movieCollectionStrip">
                         <a class="movieCollectionLink" th:href="@{'/collections/view-movie-collection/' + ${movieCollection.id}}" th:text="${movieCollection.name}"></a>
                     </h3>
 
@@ -92,13 +96,17 @@
     <table id="bookCollectionTable" class="collection-listing">
         <thead>
             <tr id="bookColumnBlock">
+                <th></th>
                 <th id="bookCollectionColumnHeader">Book Collections</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="bookCollection : ${bookCollections}">
                 <td>
-                    <h3 class="bookCollectionStrip" onclick="toggleCollectionDetails(event, this)">
+                    <span class="toggleIcon" onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.bookCollectionStrip')); toggleIcon(this)">▶</span>
+                </td>
+                <td>
+                    <h3 class="bookCollectionStrip">
                         <a class="bookCollectionLink" th:href="@{'/collections/view-book-collection/' + ${bookCollection.id}}" th:text="${bookCollection.name}"></a>
                     </h3>
 
@@ -137,14 +145,16 @@
     <table id="gameCollectionTable" class="collection-listing">
         <thead>
             <tr id="gameColumnBlock">
-                <th id="addCollectionColumnHeader"></th>
+                <th></th>
                 <th id="gameCollectionColumnHeader">Game Collections</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="gameCollection : ${gameCollections}">
-                <td><span onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.gameCollectionStrip')); toggleIcon(this)">▶</span></td>
-                <td id="gameDataFilter">
+                <td>
+                    <span class="toggleIcon" onclick="toggleCollectionDetails(event, this.parentElement.nextElementSibling.querySelector('.gameCollectionStrip')); toggleIcon(this)">▶</span>
+                </td>
+                <td>
                     <h3 class="gameCollectionStrip">
                         <a class="gameCollectionLink" th:href="@{'/collections/view-game-collection/' + ${gameCollection.id}}" th:text="${gameCollection.name}"></a>
                     </h3>

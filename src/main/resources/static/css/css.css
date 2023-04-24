@@ -833,6 +833,10 @@
     text-align: center;
 }
 
+.search-collections #bookColumnBlock {
+    background: #005d85;
+}
+
 .search-collections .bookCollectionLink {
     color: WhiteSmoke;
     text-shadow: white 1px 0 12px;
@@ -845,14 +849,19 @@
     margin-top: 3px;
 }
 
-.search-collections #gameColumnBlock {
-    background: #57a65f;
+.search-collections #bookCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
 }
 
 .search-collections #gameCollectionColumnHeader {
     font-size: 36px;
     background-color: #57a65f;
     text-align: center;
+}
+
+.search-collections #gameColumnBlock {
+    background: #57a65f;
 }
 
 .search-collections .gameCollectionLink {
@@ -867,9 +876,9 @@
     margin-top: 3px;
 }
 
-.search-collections .collection-listing td:first-child {
-  width: 1%;
-  white-space: nowrap;
+.search-collections #gameCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
 }
 
 .search-collections #movieCollectionColumnHeader {
@@ -877,6 +886,10 @@
     color: orange;
     font-size: 36px;
     text-align: center;
+}
+
+.search-collections #movieColumnBlock {
+    background: #b50a0a;
 }
 
 .search-collections .movieCollectionLink {
@@ -889,6 +902,16 @@
     text-align: center;
     background: #b50a0a;
     margin-top: 3px;
+}
+
+.search-collections #movieCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
+}
+
+.search-collections .toggleIcon {
+    font-size: 25px;
+    cursor: pointer;
 }
 
 .search-collections tr:nth-child(odd) {

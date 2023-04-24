@@ -1,6 +1,3 @@
-//See: Rich's commented out JavaScript at the bottom
-
-
 //This is the refactored version of the function above that allows for us to add new filters as needed by adding a row to the map
 function movieCollectionFilter() {
     // Retrieves the selected radio button
