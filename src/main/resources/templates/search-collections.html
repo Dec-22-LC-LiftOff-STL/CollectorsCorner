@@ -9,25 +9,6 @@
 
     <h1 th:text="${mainTitle}"></h1>
 
-    <form th:action="@{/search-collections}" method="post">
-        <p>
-            <span th:each="column : ${columns}">
-                <input
-                    type="radio"
-                    name="searchType"
-                    th:id="${column.key}"
-                    th:value="${column.key}"
-                    th:checked="${column.key == 'all'}"/>
-                <label th:for="${column.key}" th:text="${column.value}"></label>
-            </span>
-        </p>
-        <p>
-            <label for="searchTerm">Keyword:</label>
-            <input name="searchTerm" id="searchTerm"/>
-            <input type="submit" value="Search" />
-        </p>
-    </form>
-
     <hr>
 
     <span id="movieFilterBlock">
@@ -45,13 +26,13 @@
     <table id="movieCollectionTable" class="collection-listing">
         <thead>
             <tr id="movieColumnBlock">
-                <th id="movieTriangleColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
                 <th id="movieCollectionColumnHeader">Movie Collections</th>
-                <th id="directorStrings" style="width: 0px; padding: 0px"></th>
-                <th id="genre1Strings" style="width: 0px; padding: 0px"></th>
-                <th id="genre2Strings" style="width: 0px; padding: 0px"></th>
-                <th id="genre3Strings" style="width: 0px; padding: 0px"></th>
-                <th id="movieCollectorStrings" style="width: 0px; padding: 0px"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
             </tr>
         </thead>
         <tbody>
@@ -135,11 +116,11 @@
     <table id="bookCollectionTable" class="collection-listing">
         <thead>
             <tr id="bookColumnBlock">
-                <th id="bookTriangleColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
                 <th id="bookCollectionColumnHeader">Book Collections</th>
-                <th id="authorStrings" style="width: 0px; padding: 0px"></th>
-                <th id="bookGenreStrings" style="width: 0px; padding: 0px"></th>
-                <th id="bookCollectorStrings" style="width: 0px; padding: 0px"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
             </tr>
         </thead>
         <tbody>
@@ -208,11 +189,11 @@
     <table id="gameCollectionTable" class="collection-listing">
         <thead>
             <tr id="gameColumnBlock">
-                <th></th>
+                <th class="hiddenColumnHeader"></th>
                 <th id="gameCollectionColumnHeader">Game Collections</th>
-                <th id="gameCreatorStrings" style="width: 0px; padding: 0px"></th>
-                <th id="gameGenreStrings" style="width: 0px; padding: 0px"></th>
-                <th id="gameCollectorStrings" style="width: 0px; padding: 0px"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
+                <th class="hiddenColumnHeader"></th>
             </tr>
         </thead>
         <tbody>
@@ -265,12 +246,8 @@
             </tr>
         </tbody>
     </table>
-    <br>
-    <script>
-        toggleMovieTableDisplay();
-        toggleBookTableDisplay();
-        toggleGameTableDisplay();
-    </script>
+
+<br>
 
 </body>
 </html>

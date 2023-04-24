@@ -881,6 +881,11 @@
     white-space: nowrap;
 }
 
+.search-collections .hiddenColumnHeader {
+    width: 0px;
+    padding: 0px;
+}
+
 .search-collections #movieCollectionColumnHeader {
     background-color: #b50a0a;
     color: orange;

@@ -1,4 +1,3 @@
-//This is the refactored version of the function above that allows for us to add new filters as needed by adding a row to the map
 function movieCollectionFilter() {
     // Retrieves the selected radio button
     let choice = "keyword"
@@ -36,24 +35,6 @@ function movieCollectionFilter() {
         } else {
             row[i].style.display = "none";
         }
-    }
-}
-
-function toggleCollectionDetails(event, element) {
-    event.preventDefault();
-    const collectionDetails = element.nextElementSibling;
-    if (collectionDetails.style.display === "none") {
-            collectionDetails.style.display = "block";
-    } else {
-    collectionDetails.style.display = "none";
-    }
-}
-
-function toggleIcon(span) {
-    if (span.innerText === "▶") {
-        span.innerText = "▼";
-    } else {
-        span.innerText = "▶";
     }
 }
 
@@ -140,30 +121,21 @@ function gameCollectionFilter() {
     }
 }
 
-function toggleMovieTableDisplay(){
-let movieTable = document.getElementById("movieCollectionTable");
-    if (movieTable.rows.length < 2) {
-        document.getElementById("movieCollectionTable").style.display = "none";
-        document.getElementById("movieFilterBlock").style.display = "none";
-        document.getElementById("movieColumnBlock").style.display = "none";
-        document.getElementById("movieDivider").style.display = "none";
+function toggleCollectionDetails(event, element) {
+    event.preventDefault();
+    const collectionDetails = element.nextElementSibling;
+    if (collectionDetails.style.display === "none") {
+            collectionDetails.style.display = "block";
+    } else {
+    collectionDetails.style.display = "none";
     }
 }
 
-function toggleBookTableDisplay(){
-let bookTable = document.getElementById("bookCollectionTable");
-    if (bookTable.rows.length < 2) {
-        document.getElementById("bookCollectionTable").style.display = "none";
-        document.getElementById("bookFilterBlock").style.display = "none";
-        document.getElementById("bookDivider").style.display = "none";
-    }
-}
-
-function toggleGameTableDisplay(){
-let gameTable = document.getElementById("gameCollectionTable");
-    if (gameTable.rows.length < 2) {
-        document.getElementById("gameCollectionTable").style.display = "none";
-        document.getElementById("gameFilterBlock").style.display = "none";
+function toggleIcon(span) {
+    if (span.innerText === "▶") {
+        span.innerText = "▼";
+    } else {
+        span.innerText = "▶";
     }
 }
 
@@ -173,10 +145,10 @@ window.onload = function() {
         $(document).ready(function() {
             $('#movieCollectionTable').DataTable({
                 "paging": true,
-                lengthChange: false, // disable length change
+                "lengthChange": false, // disable length change
                 "stateSave": true,
-                searching: false,
-                info: false,
+                "searching": false,
+                "info": false,
                 "ordering": true,
                 "order": [],
                 "columnDefs": [
@@ -187,30 +159,30 @@ window.onload = function() {
         });
     }
     if (document.getElementById("bookCollectionTable").style.display === '') {
-            $(document).ready(function() {
-                $('#bookCollectionTable').DataTable({
-                    "paging": true,
-                    lengthChange: false, // disable length change
-                    "stateSave": true,
-                    searching: false,
-                    info: false,
-                    "ordering": true,
-                    "order": [],
-                    "columnDefs": [
-                    { "orderable": false, "targets": 0 },
-                    { "sorting": false, "targets": '_all' }
-                    ]
-                });
+        $(document).ready(function() {
+            $('#bookCollectionTable').DataTable({
+                "paging": true,
+                "lengthChange": false, // disable length change
+                "stateSave": true,
+                "searching": false,
+                "info": false,
+                "ordering": true,
+                "order": [],
+                "columnDefs": [
+                { "orderable": false, "targets": 0 },
+                { "sorting": false, "targets": '_all' }
+                ]
+            });
         });
     }
     if (document.getElementById("gameCollectionTable").style.display === '') {
-            $(document).ready(function() {
+        $(document).ready(function() {
             $('#gameCollectionTable').DataTable({
                 "paging": true,
-                lengthChange: false, // disable length change
+                "lengthChange": false, // disable length change
                 "stateSave": true,
-                searching: false,
-                info: false,
+                "searching": false,
+                "info": false,
                 "ordering": true,
                 "order": [],
                 "columnDefs": [
