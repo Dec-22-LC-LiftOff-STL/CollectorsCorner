@@ -113,9 +113,10 @@ function gameCollectionFilter() {
     //Creates a map of possible columns corresponding to the filter choices
 
     const gameFilterDataByValueMap = new Map([
-        ['keyword', [0]],
-        ['creator', [1]],
-        ['genre', [2]]
+        ['keyword', [1]],
+        ['creator', [2]],
+        ['genre', [3]],
+        ['collector', [4]]
     ]);
 
     //for each row (beginning after the table header at row [0]) we check if the selected column(s) contains the search term data that our user has input

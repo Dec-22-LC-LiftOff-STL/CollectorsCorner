@@ -210,6 +210,9 @@
             <tr id="gameColumnBlock">
                 <th></th>
                 <th id="gameCollectionColumnHeader">Game Collections</th>
+                <th id="gameCreatorStrings" style="width: 0px; padding: 0px"></th>
+                <th id="gameGenreStrings" style="width: 0px; padding: 0px"></th>
+                <th id="gameCollectorStrings" style="width: 0px; padding: 0px"></th>
             </tr>
         </thead>
         <tbody>
@@ -238,7 +241,27 @@
                         </p>
                     </div>
                 </td>
-
+                <td id="gameColCreators" style="display:none">Creators in Collection:>
+                    <ul th:each="game : ${gameCollection.games}">
+                        <li id="creatorFilterString" style="display:none"
+                            th:text="${game.creator}">
+                        </li>
+                    </ul>
+                </td>
+                <td id="gameColGenres" style="display:none">Genres in Collection:>
+                    <ul th:each="game : ${gameCollection.games}">
+                        <li id="gameGenreFilterString" style="display:none"
+                            th:text="${game.genre}">
+                        </li>
+                    </ul>
+                </td>
+                <td id="gameColCollector" style="display:none">Collectors in Collection:>
+                    <ul th:each="game : ${gameCollection.games}">
+                        <li id="gameCollectorFilterString" style="display:none"
+                            th:text="${gameCollection.getUser().getUsername()}">
+                        </li>
+                    </ul>
+                </td>
             </tr>
         </tbody>
     </table>
