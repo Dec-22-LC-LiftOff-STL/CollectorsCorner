@@ -14,10 +14,10 @@ function movieCollectionFilter() {
 
     //Creates a map of possible columns tied to filter choices
     const movieFilterDataByValueMap = new Map([
-        ['keyword', [0]],
-        ['director', [1]],
-        ['genre', [2, 3, 4]],
-        ['collector', [5]]
+        ['keyword', [1]],
+        ['director', [2]],
+        ['genre', [3, 4, 5]],
+        ['collector', [6]]
     ]);
 
     //for each row (beginning after the table header) we check the columns that match the chosen filter contains the data that our user has input
@@ -40,21 +40,21 @@ function movieCollectionFilter() {
 }
 
 function toggleCollectionDetails(event, element) {
-  event.preventDefault();
-  var collectionDetails = element.nextElementSibling;
-  if (collectionDetails.style.display === "none") {
-    collectionDetails.style.display = "block";
-  } else {
+    event.preventDefault();
+    const collectionDetails = element.nextElementSibling;
+    if (collectionDetails.style.display === "none") {
+            collectionDetails.style.display = "block";
+    } else {
     collectionDetails.style.display = "none";
-  }
+    }
 }
 
 function toggleIcon(span) {
-  if (span.innerText === "▶") {
-    span.innerText = "▼";
-  } else {
-    span.innerText = "▶";
-  }
+    if (span.innerText === "▶") {
+        span.innerText = "▼";
+    } else {
+        span.innerText = "▶";
+    }
 }
 
 function bookCollectionFilter() {
@@ -98,7 +98,6 @@ function bookCollectionFilter() {
 
 function gameCollectionFilter() {
     // Retrieves the selected radio button
-
     let choice = "keyword"
     let choiceList = document.getElementsByName('gameFilter');
     for(i = 0; i < choiceList.length; i++){
@@ -166,27 +165,11 @@ let gameTable = document.getElementById("gameCollectionTable");
     }
 }
 
+//DataTables external library jQuery
 window.onload = function() {
     if (document.getElementById("movieCollectionTable").style.display === '') {
         $(document).ready(function() {
-        $('#movieCollectionTable').DataTable({
-            "paging": true,
-            lengthChange: false, // disable length change
-            "stateSave": true,
-            searching: false,
-            info: false,
-            "ordering": true,
-            "order": [],
-            "columnDefs": [
-            { "orderable": false, "targets": 0 },
-            { "sorting": false, "targets": '_all' }
-            ]
-        });
-    });
-    }
-    if (document.getElementById("bookCollectionTable").style.display === '') {
-            $(document).ready(function() {
-            $('#bookCollectionTable').DataTable({
+            $('#movieCollectionTable').DataTable({
                 "paging": true,
                 lengthChange: false, // disable length change
                 "stateSave": true,
@@ -200,7 +183,24 @@ window.onload = function() {
                 ]
             });
         });
-        }
+    }
+    if (document.getElementById("bookCollectionTable").style.display === '') {
+            $(document).ready(function() {
+                $('#bookCollectionTable').DataTable({
+                    "paging": true,
+                    lengthChange: false, // disable length change
+                    "stateSave": true,
+                    searching: false,
+                    info: false,
+                    "ordering": true,
+                    "order": [],
+                    "columnDefs": [
+                    { "orderable": false, "targets": 0 },
+                    { "sorting": false, "targets": '_all' }
+                    ]
+                });
+        });
+    }
     if (document.getElementById("gameCollectionTable").style.display === '') {
             $(document).ready(function() {
             $('#gameCollectionTable').DataTable({
@@ -217,7 +217,7 @@ window.onload = function() {
                 ]
             });
         });
-        }
+    }
 };
 
 
