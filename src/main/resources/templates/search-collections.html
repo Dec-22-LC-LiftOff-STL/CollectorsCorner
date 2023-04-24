@@ -52,7 +52,7 @@
                         <br>
                         <ul th:each="movie : ${movieCollection.movies}">
                             <li>
-                                <a class="movieInfo" th:href="@{'/movies/details/' + ${movie.title} + '-' + ${movie.year}}" th:text="${movie.title} + ' -  Directed by: ' + ${movie.director} + ', ' + ${movie.year}"></a>
+                                <a class="collectionItemLink" th:href="@{'/movies/details/' + ${movie.title} + '-' + ${movie.year}}" th:text="${movie.title} + ' -  Directed by: ' + ${movie.director} + ', ' + ${movie.year}"></a>
                             </li>
                         </ul>
                         <br>
@@ -140,11 +140,13 @@
                         <br>
                         <ul th:each="book : ${bookCollection.books}">
                             <li>
-                                <a class="bookInfo" th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
+                                <a class="collectionItemLink" th:href="@{'/books/details/' + ${book.title}}" th:text="${book.title} + ' -  Author: ' + ${book.author} + ', ' + ${book.year}"></a>
                             </li>
                         </ul>
                         <br>
-                        <a class="createdBy" th:href="@{'/collector/' + ${bookCollection.getUser().getUsername()}}" th:text="${'Created by: ' + bookCollection.getUser().getUsername()}"></a>
+                        <p>
+                            <a class="createdBy" th:href="@{'/collector/' + ${bookCollection.getUser().getUsername()}}" th:text="${'Created by: ' + bookCollection.getUser().getUsername()}"></a>
+                        </p>
                     </div>
                 </td>
                 <td id="bookColDirectors" style="display:none">Authors in Collection:>
@@ -213,7 +215,7 @@
                         <br>
                         <ul th:each="game : ${gameCollection.games}">
                             <li>
-                                <a th:href="@{'/games/details/' + ${game.title}}" th:text="${game.title}"></a>
+                                <a class="collectionItemLink" th:href="@{'/games/details/' + ${game.title}}" th:text="${game.title}"></a>
                             </li>
                         </ul>
                         <br>

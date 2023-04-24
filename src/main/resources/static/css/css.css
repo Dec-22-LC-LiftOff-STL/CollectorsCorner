@@ -854,6 +854,16 @@
     white-space: nowrap;
 }
 
+.search-collections .collectionItemLink {
+    color: white;
+    font-weight: bold;
+}
+
+.search-collections .createdBy {
+    color: white;
+    font-weight: bold;
+}
+
 .search-collections #gameCollectionColumnHeader {
     font-size: 36px;
     background-color: #57a65f;
