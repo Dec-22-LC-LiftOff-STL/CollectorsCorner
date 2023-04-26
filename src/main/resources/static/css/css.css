@@ -1,3 +1,16 @@
+.book-details .content-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.book-details .left-column {
+    width: 40%
+}
+
+.book-details .right-column {
+    width: 60%;
+}
+
 .books-search .authorCell {
     width: 10%;
 }
