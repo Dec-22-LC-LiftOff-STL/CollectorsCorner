@@ -355,6 +355,10 @@
     cursor: pointer;
 }
 
+.games-search .addToCollectionButton {
+    width: 200px;
+}
+
 .games-search #creatorCheckboxes {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
@@ -371,11 +375,13 @@
     width: 15%;
     vertical-align: middle;
     text-align: center;
+    font-size: 16px;
 }
 
 .games-search #genre1ColumnHeader {
     width: 15%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .games-search #genreCheckboxes {
@@ -395,40 +401,45 @@
 .games-search .maxPlayersCell {
     width: 10%;
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .games-search #maxPlayersColumnHeader {
     width: 10%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .games-search .minPlayersCell {
     width: 10%
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .games-search #minPlayersColumnHeader {
     width: 10%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .games-search p {
     text-align: center !important;
-    margin-left: 10px !important;
+    margin-left: 0px !important;
     margin-bottom: 0 !important;
 }
 
 .games-search .poster {
-    width:55%;
+    width: 200px;
 }
 
 .games-search .posterCell {
-    width: 15%;
+    text-align: left;
     width: 225px;
+    width: 10%;
 }
 
 .games-search #posterColumnHeader {
-    width: 15%;
+    width: 10%;
 }
 
 .games-search #showFiltersButton {
@@ -450,14 +461,16 @@
 }
 
 .games-search .titleCell {
-    width: 15%;
+    width: 20%;
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .games-search #titleColumnHeader {
-    width: 15%;
+    width: 20%;
     cursor: pointer;
     padding: 10px;
+    font-size: 16px;
 }
 
 .games-search tr:nth-child(odd) {
@@ -467,11 +480,13 @@
 .games-search .yearCell {
     width: 5%;
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .games-search #yearColumnHeader {
     width: 5%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .movie-details .actorDiv {
