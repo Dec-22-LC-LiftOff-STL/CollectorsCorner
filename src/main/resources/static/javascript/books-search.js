@@ -76,7 +76,7 @@ function buildHTMLResultsTable(url) {
                         <th id="authorColumnHeader" onclick="sortTableByAuthor()">Author</th>
                         <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
                         <th id="genreColumnHeader" onclick="sortTableByGenre()">Genre</th>
-                        <th id="synopsisColumnHeader">Synopsis</th>
+                        <th id="synopsisColumnHeader" hidden>Synopsis</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,7 +101,7 @@ function buildHTMLResultsTable(url) {
             <tr id="rowIndex${i}" class="booksResultsTableRows">
                 <th class="posterCell">
                     <img class="poster" src="${book.volumeInfo.imageLinks.thumbnail}"><br>
-                    <p id="bookImageURL${i}" hidden> ${book.volumeInfo.imageLinks.thumbnail}</p><br>
+                    <p id="bookImageURL${i}" hidden> ${book.volumeInfo.imageLinks.thumbnail}</p>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
                     <form id="userCollectionDropdown${i}" style="display:none;"><br>
                         <button class="btn btn-success confirmButton" onclick="addNewBookToDatabase(event);">Confirm</button>
@@ -120,7 +120,7 @@ function buildHTMLResultsTable(url) {
                 <th class="genre1Cell">
                     <p id="bookGenres${i}" class="bookGenres">${book.volumeInfo.categories}</p>
                 </th>
-                <th class="synopsisCell">
+                <th class="synopsisCell" hidden>
                     <p id="bookSynopsis${i}" class="synopsisText">${book.volumeInfo.description}</p>
                     <a href="/books/details/${book.volumeInfo.title}" class="readMore">Read more</a>
                 </th>
