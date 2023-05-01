@@ -7,8 +7,24 @@
     width: 40%
 }
 
+.book-details #pages {
+    margin-left: 0;
+}
+
+.book-details #publisher {
+    margin-left: 0;
+}
+
 .book-details .right-column {
     width: 60%;
+}
+
+.book-details #synopsis {
+    margin-left: 0;
+}
+
+.book-details #title {
+    margin-top: 0;
 }
 
 .books-search .authorCell {
