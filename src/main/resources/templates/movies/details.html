@@ -19,7 +19,7 @@
     <ol>
         <span th:each="collection: ${collectionsWithThisMovie}">
             <li>
-                <a th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
+                <a th:href="@{'/collections/view-movie-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/profile/' + ${collection.getUser().getUsername()}}" th:text="${collection.getUser().getUsername()}"></a>
             </li>
         </span>
     </ol>

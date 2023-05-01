@@ -9,7 +9,6 @@
 <p id="bookAuthor" style="display:none" th:text="${foundBookAuthor}"> </p>
 <p id="bookYear" style="display:none" th:text="${foundBookYear}"></p>
 
-
 <div id="bookInfo"></div>
 
 <a id="shopNowLink">
@@ -17,19 +16,24 @@
 </a>
 
 <h3>Collections With This Book:</h3>
-<ol >
-    <span th:each="collection: ${collectionsWithThisBook}">
-        <li>
-            <a th:href="@{'/collections/view-book-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
-        </li>
 
-    </span>
-</ol>
+<th:block th:if="${#lists.size(collectionsWithThisBook) > 0}">
+    <ol>
+        <span th:each="collection: ${collectionsWithThisBook}">
+            <li>
+                <a th:href="@{'/collections/view-book-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/profile/' + ${collection.getUser().getUsername()}}" th:text="${collection.getUser().getUsername()}"></a>
+            </li>
+        </span>
+    </ol>
+</th:block>
+
+<th:block th:unless="${#lists.size(collectionsWithThisBook) > 0}">
+    <i>No collections found with this book. Be the first!</i>
+</th:block>
 
 </body>
 
 </html>
-
 
 <script>
 window.onload = function() {
@@ -58,7 +62,6 @@ window.onload = function() {
                             <img id="bookCover" src=${thumbnail} width=125px>
                             <h4 id="synopsis">${json.items[0].volumeInfo.description}</h4>
                             <p id="publisher">Published by ${json.items[0].volumeInfo.publisher}, ${json.items[0].volumeInfo.publishedDate}</p>
-                            <p id="pages">${json.items[0].volumeInfo.pageCount} pages</p>
                         </div>
                     </div> `
                 } else {
@@ -73,7 +76,6 @@ window.onload = function() {
                         <h3>Author(s): ${json.items[0].volumeInfo.authors}</h3>
                         <h4 id="synopsis">${json.items[0].volumeInfo.description}</h4>
                         <p id="publisher">Published by ${json.items[0].volumeInfo.publisher}, ${json.items[0].volumeInfo.publishedDate}</p>
-                        <p id="pages">${json.items[0].volumeInfo.pageCount} pages</p>
                     </div>
                 </div>`
                 }
