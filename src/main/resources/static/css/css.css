@@ -985,12 +985,16 @@
     background-color: transparent;
 }
 
+.view-book-collection .linkToBookDetails {
+    color: inherit;
+}
+
 .view-book-collection .swiper-button-next {
     left: 200px;
 }
 
 .view-book-collection swiper-container {
-    width: 100%;
+    width: 725px;
     height: 100%;
     }
 
@@ -1006,8 +1010,8 @@
 
 .view-book-collection swiper-slide img {
     display: block;
-    width: 125px;
-    height: 160px;
+    width: 127px;
+    height: 195px;
     object-fit: cover;
 }
 
