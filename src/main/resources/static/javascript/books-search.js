@@ -1,10 +1,3 @@
-//For toggling sort asc/desc
-let isAscendingTitle = true;
-let isAscendingAuthor = true;
-let isAscendingYear = true;
-let isAscendingGenre = true;
-
-window.addEventListener("scroll", limitSynopsisTextHeight());
 window.onload = function() {
     document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
         const selectedValue = this.value;
@@ -12,17 +5,7 @@ window.onload = function() {
     });
 }
 
-function limitSynopsisTextHeight() {
-    const elements = document.getElementsByClassName("synopsisText");
-    for (let i = 0; i < elements.length; i++) {
-        if (elements[i].scrollHeight <= 150) {
-            elements[i].classList.remove("synopsisText");
-        }
-    }
-}
-
 //SEARCH AND BUILD HTML
-
 function searchTitle() {
     const searchTerm = document.getElementById("userSearchTerm").value;
     let url = "https://www.googleapis.com/books/v1/volumes?q=" + searchTerm + "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
@@ -72,10 +55,10 @@ function buildHTMLResultsTable(url) {
                 <thead>
                     <tr class="booksResultsHeaderRow">
                         <th id="posterColumnHeader"></th>
-                        <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
-                        <th id="authorColumnHeader" onclick="sortTableByAuthor()">Author</th>
-                        <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
-                        <th id="genreColumnHeader" onclick="sortTableByGenre()">Genre</th>
+                        <th id="titleColumnHeader" onclick="sortTable('booksResultsTable', 1)">Title</th>
+                        <th id="authorColumnHeader" onclick="sortTable('booksResultsTable', 2)">Author</th>
+                        <th id="yearColumnHeader" onclick="sortTable('booksResultsTable', 3)">Year</th>
+                        <th id="genreColumnHeader" onclick="sortTable('booksResultsTable', 4)">Genre</th>
                         <th id="synopsisColumnHeader" hidden>Synopsis</th>
                     </tr>
                 </thead>
@@ -158,8 +141,8 @@ function toggleShowHideFilters() {
     }
 }
 
-//DATABASE INTERACTION
 
+//DATABASE INTERACTION
 function prepareDatabaseInformationForm(i) {
     const googleBooksApiIdApiId = document.getElementById(`googleBooksApiId${i}`).textContent;
     const bookTitle = document.getElementById(`bookTitle${i}`).textContent;
@@ -206,114 +189,42 @@ function addNewBookToDatabase() {
     document.getElementById("databaseInformation").submit();
 }
 
+
 //SORTING
+function sortTable(tableId, column) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.tBodies[0].rows);
+    var sortOrder = table.getAttribute('data-sort-order') || 'asc';
+    var sortDirection = sortOrder === 'asc' ? 1 : -1;
 
-function sortTableByTitle() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+    rows.sort(function(rowA, rowB) {
+        var cellA = rowA.cells[column].textContent.trim().toLowerCase();
+        var cellB = rowB.cells[column].textContent.trim().toLowerCase();
 
-    rows.sort((rowA, rowB) => {
-    const titleA = rowA.querySelector('[id^="bookTitle"]').textContent;
-    const titleB = rowB.querySelector('[id^="bookTitle"]').textContent;
-    if (titleA < titleB) {
-        return -1;
-    } else if (titleA > titleB) {
-        return 1;
-    } else {
-        return 0;
-    }
+        if (column === 2) {
+            // Extract the last word (surname) for other tables and column 2
+            var lastWordA = cellA.split(' ').pop();
+            var lastWordB = cellB.split(' ').pop();
+
+            cellA = lastWordA;
+            cellB = lastWordB;
+        }
+
+        if (cellA === cellB) {
+            return 0;
+        }
+
+        return cellA < cellB ? -1 * sortDirection : sortDirection;
     });
 
-    if (!isAscendingTitle) {
-        rows.reverse();
-    }
-
-    isAscendingTitle = !isAscendingTitle;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
     table.tBodies[0].append(...rows);
+
+    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    table.setAttribute('data-sort-order', sortOrder);
 }
 
-function sortTableByAuthor() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const nameArrayAuthorA = rowA.querySelector('[id^="bookAuthor"]').textContent.split(' ');
-    const authorA = nameArrayAuthorA[nameArrayAuthorA.length - 1]
-    console.log(typeof authorA)
-
-    const nameArrayAuthorB = rowB.querySelector('[id^="bookAuthor"]').textContent.split(' ');
-    const authorB = nameArrayAuthorB[nameArrayAuthorB.length - 1]
-    if (authorA < authorB) {
-        return -1;
-    } else if (authorA > authorB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingAuthor) {
-        rows.reverse();
-    }
-
-    isAscendingAuthor = !isAscendingAuthor;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
-} //sorts by author last name
-
-function sortTableByYear() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const yearA = rowA.querySelector('[id^="bookDate"]').textContent;
-    const yearB = rowB.querySelector('[id^="bookDate"]').textContent;
-    if (yearA < yearB) {
-        return -1;
-    } else if (yearA > yearB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingYear) {
-        rows.reverse();
-    }
-
-    isAscendingYear = !isAscendingYear;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
-}
-
-function sortTableByGenre() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const genreA = rowA.querySelector('[id^="bookGenre"]').textContent;
-    const genreB = rowB.querySelector('[id^="bookGenre"]').textContent;
-    if (genreA < genreB) {
-        return -1;
-    } else if (genreA > genreB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingGenre) {
-        rows.reverse();
-    }
-
-    isAscendingGenre = !isAscendingGenre;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
-}
 
 //FILTERS - CHECKBOXES
-
 function generateAuthorCheckboxHTML() {
     let authors = [];
     let authorsWithCheckbox = "";
@@ -435,11 +346,12 @@ function toggleCheckUncheckGenreBoxes() {
     });
 }
 
+
 //Fixes a bug that requires two clicks of the Unselect All button for Genres
 window.addEventListener('load', toggleCheckUncheckGenreBoxes);
 
-//FILTERS - YEARS
 
+//FILTERS - YEARS
 function filterYears (userYearMin, userYearMax) {
     let yearMin = userYearMin.value;
     let yearMax = userYearMax.value;
