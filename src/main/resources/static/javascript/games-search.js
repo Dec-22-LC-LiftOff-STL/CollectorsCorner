@@ -34,7 +34,7 @@ function buildHTMLResultsTable(url) {
                 <th id="genre1ColumnHeader" onclick="sortTableByGenre1()">Genre</th>
                 <th id="minPlayersColumnHeader" onclick="sortTableByMinPlayers()">Min. Players</th>
                 <th id="maxPlayersColumnHeader" onclick="sortTableByMaxPlayers()">Max. Players</th>
-                <th id="synopsisColumnHeader">Synopsis</th>
+                <th id="synopsisColumnHeader" hidden>Synopsis</th>
             </tr>
         </thead>
         <tbody>
@@ -60,9 +60,9 @@ function buildHTMLResultsTable(url) {
         tableRows += `
             <tr id="rowIndex${i}" class="gamesResultsTableRows">
                 <th class="posterCell">
-                    <img class="poster" src="${game.thumb_url}"><br><br>
+                    <img class="poster" src="${game.thumb_url}">
                     <p id="gameImageURL${i}" hidden> ${game.thumb_url}</p><br>
-                    <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
+                    <button id="dropdown-button${i}" class="btn btn-primary addToCollectionButton" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i});">Add to Collection</button>
                     <form id="userCollectionDropdown${i}" style="display:none;"><br>
                         <button type="button" class="btn btn-success" onclick="addNewGameToDatabase(event);">Confirm</button>
                     </form>
@@ -76,7 +76,7 @@ function buildHTMLResultsTable(url) {
                     <p id="gameDate${i}">${game.year_published}</p>
                 </th>
                 <th class="genre1Cell">
-                    <p id="primaryGenre${i}">${game.categories[0].id.replace('eX8uuNlQkQ', 'Card Game').replace('wTLJSVEbm6', 'Word War I').replace('fl3TogdUzX', 'World War II').replace('ZTneo8TaIO', 'Fantasy').replace('N0TkEGfEsF', 'Economic').replace('3B3QpKvXD3', 'Sci-Fi').replace('ODWOjWAJj3', 'City Building').replace('QAYkTHK1Dd', 'Medieval').replace('KUBCKBkGxV', 'Adventure').replace('upXZ8vNfNO', 'Fighting').replace('buDTYyPw4D', 'Territory Building').replace('X8J7RM6dxX', 'Party Game').replace('a8NM5cugJX', 'Ancient').replace('PinhJrhnxU', 'Bluffing').replace('MHkqIVxwtx', 'Mythology').replace('bCBXJy9qDw', 'Deduction').replace('Wr8uXcoR9p', 'Farming').replace('mavSOM8vjH', 'Dice').replace('MWoxgHrOJD', 'Animals').replace('yq6hVlbM2R', 'Exploration').replace('329DxyFL9D', 'Civilization').replace('jZEDOpx07e', 'Negotiation').replace('zyj9ZK3mHB', 'Resource Management').replace('TKQncFVX74', 'Political').replace('hBqZ3Ar4RJ', 'Abstract').replace('cAIkk5aLdQ', 'Horror').replace('TYnxiuiI3X', 'Humor').replace('7rV11PKqME', 'Family Game').replace('WVMOS3s2pb', 'Puzzle').replace('gsekjrPJz0', 'Environmental').replace('v4SfYtS2Lr', 'Expansion').replace('ge8pIhEUGE', 'Cooperative').replace('dO9HVl2TW7', 'Novel-based').replace('jX8asGGR6o', 'Wargame').replace('FC6ElKI9tk', 'Miniatures').replace('0MdRqhkNpw', 'Space Exploration').replace('4mOtRRwSoj', 'American West').replace('AeWXMxbm91', 'Medical').replace('tQGLgwdbYH', 'Racing').replace('JwHcKqxh33', 'Trains').replace('85OKv8p5Ow', '4x').replace('Hc6vcim5DS', 'Spies/Secret Agents').replace('ZhlfIPxYsw', 'Adult').replace('Sod2YBWMKi', 'TV & Movies').replace('TR4CiP8Huj', 'Travel').replace('zqFmdU4Fp2', 'Industry/Manufacturing').replace('Kk70K0524Z', 'Murder/Mystery').replace('CWYOF9xu7O', 'Transportation').replace('rrvd68LjOR', 'Kickstarter').replace('B3NRLMK4xD', 'Educational').replace('VzyslQJGrG', 'Solo/Solitaire').replace('9EIayX6n5a', 'Pirates').replace('vqZ5XzGWQD', 'Nautical').replace('djokexoK0U', 'Video Game').replace('PzWI2uaif0', 'Real-Time').replace('nuHYRFmMjU', 'Renaissance').replace('bKrxqD9mYc', 'Dexterity').replace('HKaYVNIxAJ', "Children's Game").replace('rHvAx4hH2f', 'Word Game')}</p>
+                    <p id="primaryGenre${i}">${game.categories[0].id.replace('eX8uuNlQkQ', 'Card Game').replace('wTLJSVEbm6', 'Word War I').replace('fl3TogdUzX', 'World War II').replace('ZTneo8TaIO', 'Fantasy').replace('N0TkEGfEsF', 'Economic').replace('3B3QpKvXD3', 'Sci-Fi').replace('ODWOjWAJj3', 'City Building').replace('QAYkTHK1Dd', 'Medieval').replace('KUBCKBkGxV', 'Adventure').replace('upXZ8vNfNO', 'Fighting').replace('buDTYyPw4D', 'Territory Building').replace('X8J7RM6dxX', 'Party Game').replace('a8NM5cugJX', 'Ancient').replace('PinhJrhnxU', 'Bluffing').replace('MHkqIVxwtx', 'Mythology').replace('bCBXJy9qDw', 'Deduction').replace('Wr8uXcoR9p', 'Farming').replace('mavSOM8vjH', 'Dice').replace('MWoxgHrOJD', 'Animals').replace('yq6hVlbM2R', 'Exploration').replace('329DxyFL9D', 'Civilization').replace('jZEDOpx07e', 'Negotiation').replace('zyj9ZK3mHB', 'Resource Management').replace('TKQncFVX74', 'Political').replace('hBqZ3Ar4RJ', 'Abstract').replace('cAIkk5aLdQ', 'Horror').replace('TYnxiuiI3X', 'Humor').replace('7rV11PKqME', 'Family Game').replace('WVMOS3s2pb', 'Puzzle').replace('gsekjrPJz0', 'Environmental').replace('v4SfYtS2Lr', 'Expansion').replace('ge8pIhEUGE', 'Cooperative').replace('dO9HVl2TW7', 'Novel-based').replace('jX8asGGR6o', 'Wargame').replace('FC6ElKI9tk', 'Miniatures').replace('0MdRqhkNpw', 'Space Exploration').replace('4mOtRRwSoj', 'American West').replace('AeWXMxbm91', 'Medical').replace('tQGLgwdbYH', 'Racing').replace('JwHcKqxh33', 'Trains').replace('85OKv8p5Ow', '4x').replace('Hc6vcim5DS', 'Spies/Secret Agents').replace('ZhlfIPxYsw', 'Adult').replace('Sod2YBWMKi', 'TV & Movies').replace('TR4CiP8Huj', 'Travel').replace('zqFmdU4Fp2', 'Industry/Manufacturing').replace('Kk70K0524Z', 'Murder/Mystery').replace('CWYOF9xu7O', 'Transportation').replace('rrvd68LjOR', 'Kickstarter').replace('B3NRLMK4xD', 'Educational').replace('VzyslQJGrG', 'Solo/Solitaire').replace('9EIayX6n5a', 'Pirates').replace('vqZ5XzGWQD', 'Nautical').replace('djokexoK0U', 'Video Game').replace('PzWI2uaif0', 'Real-Time').replace('nuHYRFmMjU', 'Renaissance').replace('bKrxqD9mYc', 'Dexterity').replace('HKaYVNIxAJ', "Children's Game").replace('rHvAx4hH2f', 'Word Game').replace('eFaACC6y2c', 'Apocalyptic').replace('QB4sEpx1Uu', 'Aviation').replace('G5kfqnPBP6', 'Comics').replace('fW5vusE96B', 'Campaign').replace('k0dglq5j6N', 'Art').replace('KSBdPfxs6F', 'Roman Empire')}</p>
                     <p id="gameGenres${i}" hidden>${game.categories}</p>
                 </th>
                 <th class="minPlayersCell">
@@ -85,7 +85,7 @@ function buildHTMLResultsTable(url) {
                 <th class="maxPlayersCell">
                     <p id="gameMaxPlayers${i}">${game.max_players}</p>
                 </th>
-                <th class="synopsisCell">
+                <th class="synopsisCell" hidden>
                     <p id="gameSynopsis${i}" class="synopsisText">${game.description_preview}</p>
                     <a href="/game/details/${game.name}" class="readMore">Read more</a>
                 </th>
