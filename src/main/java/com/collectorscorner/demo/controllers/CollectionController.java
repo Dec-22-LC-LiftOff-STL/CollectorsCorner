@@ -448,7 +448,6 @@ public class CollectionController {
         } else {
             return "redirect:../";
         }
-
     }
 
 

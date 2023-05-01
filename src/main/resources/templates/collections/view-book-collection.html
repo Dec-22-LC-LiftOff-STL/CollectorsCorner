@@ -8,10 +8,11 @@
 
 <h1 class="text-center" th:text="${bookCollection.name}"></h1>
 <h4 class="text-center">
-    <span th:text="'This Book Collection Belongs To: '"></span><a th:href="@{'/collector/' + ${bookCollection.getUser().getId()}}" th:text="${bookCollection.getUser().getScreenName()}"></a>
+    <span th:text="'This Book Collection Belongs To: '"></span><a th:href="@{'/profile/' + ${bookCollection.getUser().getUsername()}}" th:text="${bookCollection.getUser().getUsername()}"></a>
 </h4>
 
-<th:block th:if="${bookCollection.books.size() > 3}">
+<th:block th:if="${bookCollection.books.size() > 4}">
+    <swiper-container navigation="true" slides-per-view="4" space-between="10" free-mode="true">
         <swiper-slide th:each="book : ${bookCollection.books}">
             <img th:src="${book.imageURL}">
         </swiper-slide>
@@ -44,7 +45,9 @@
     </thead>
     <tr th:each="book : ${bookCollection.books}">
         <td  class="text-center">
-            <span th:text="${book.title}"></span>
+            <a class="linkToBookDetails" th:href="@{/books/details/{title}-{author}(title=${book.title}, author=${book.author}) }">
+                <span th:text="${book.title}"></span>
+            </a>
         </td>
         <td  class="text-center">
             <span th:text="${book.year}"></span>
@@ -56,7 +59,9 @@
             <span th:text="${book.genre}"></span> <br/>
         </td>
         <td class="text-center">
-            <img height="150px" width="100px" th:src="${book.imageURL}" alt="book image">
+            <a th:href="@{/books/details/{title}-{author}(title=${book.title}, author=${book.author}) }">
+                <img height="150px" width="100px" th:src="${book.imageURL}" alt="book image">
+            </a>
         </td>
     </tr>
 </table>
