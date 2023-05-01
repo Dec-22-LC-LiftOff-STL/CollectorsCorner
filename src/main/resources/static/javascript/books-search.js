@@ -108,7 +108,7 @@ function buildHTMLResultsTable(url) {
                     </form>
                 </th>
                 <th class="titleCell">
-                    <a id="bookTitle${i}" href="/books/details/${book.volumeInfo.title}">${book.volumeInfo.title}</a>
+                    <a id="bookTitle${i}" href="/books/details/${book.volumeInfo.title}-${book.volumeInfo.authors[0]}">${book.volumeInfo.title}</a>
                     <p id="googleBooksApiId${i}" hidden>${book.id}</p>
                 </th>
                 <th class="authorCell">
