@@ -19,34 +19,36 @@ function buildHTMLResultsTable(url) {
     const arrayOfGameObjects = json.games;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
     let tableBeginning = `
-    <table id="gamesTable">
-        <thead>
-            <tr class="gamesResultsHeaderRow">
-                <th id="posterColumnHeader"></th>
-                <th id="titleColumnHeader" onclick="sortTable('gamesTable', 1)">Title</th>
-                <th id="yearColumnHeader" onclick="sortTable('gamesTable', 2)">Year</th>
-                <th id="genre1ColumnHeader" onclick="sortTable('gamesTable', 3)">Genre</th>
-                <th id="minPlayersColumnHeader" onclick="sortTable('gamesTable', 4)">Min. Players</th>
-                <th id="maxPlayersColumnHeader" onclick="sortTable('gamesTable', 5)">Max. Players</th>
-                <th id="synopsisColumnHeader" hidden>Synopsis</th>
-            </tr>
-        </thead>
-        <tbody>
+        <table id="gamesTable">
+            <thead>
+                <tr class="gamesResultsHeaderRow">
+                    <th id="posterColumnHeader"></th>
+                    <th id="titleColumnHeader" onclick="sortTable('gamesTable', 1)">Title</th>
+                    <th id="yearColumnHeader" onclick="sortTable('gamesTable', 2)">Year</th>
+                    <th id="genre1ColumnHeader" onclick="sortTable('gamesTable', 3)">Genre</th>
+                    <th id="minPlayersColumnHeader" onclick="sortTable('gamesTable', 4)">Min. Players</th>
+                    <th id="maxPlayersColumnHeader" onclick="sortTable('gamesTable', 5)">Max. Players</th>
+                    <th id="synopsisColumnHeader" hidden>Synopsis</th>
+                </tr>
+            </thead>
+            <tbody>
     `;
     let tableRows = "";
     const arrayOfValidatedGameObjects = [];
     for (let i = 0; i < arrayOfGameObjects.length; i++) {
         const unvalidatedGame = arrayOfGameObjects[i];
         if (unvalidatedGame.thumb_url !== "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box.jpg"
-            && unvalidatedGame.thumb_url !== "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box+thumb.jpg" && !arrayOfValidatedGameObjects.includes(unvalidatedGame)
-            && unvalidatedGame.primary_publisher !== undefined && unvalidatedGame.primary_publisher.name !== undefined
+            && unvalidatedGame.thumb_url !== "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box+thumb.jpg"
+            && !arrayOfValidatedGameObjects.includes(unvalidatedGame)
+            && unvalidatedGame.primary_publisher !== undefined
+            && unvalidatedGame.primary_publisher.name !== undefined
             && unvalidatedGame.description !== ""
             && unvalidatedGame.min_players !== null
             && unvalidatedGame.max_players !== null
             && unvalidatedGame.year_published !== null
             && unvalidatedGame.categories.length !== 0) {
                 arrayOfValidatedGameObjects.push(unvalidatedGame);
-            }
+        }
     }
 
     for (let i = 0; i < arrayOfValidatedGameObjects.length; i++) {
@@ -84,7 +86,7 @@ function buildHTMLResultsTable(url) {
                     <a href="/game/details/${game.name}" class="readMore">Read more</a>
                 </th>
             </tr>
-            `;
+        `;
     }
     let tableEnding = `</tbody></table>`;
     resultsTable.innerHTML = tableBeginning + tableRows + tableEnding;
@@ -118,8 +120,9 @@ function toggleShowHideFilters() {
         document.getElementById("filtersSection").style.display = "block";
     }
 }
-//DATABASE INTERACTION
 
+
+//DATABASE INTERACTION
 function prepareDatabaseInformationForm(i) {
     const boardGameAtlasApiId = document.getElementById(`boardGameAtlasApiId${i}`).textContent;
     const gameTitle = document.getElementById(`gameTitle${i}`).textContent;
@@ -139,8 +142,8 @@ function prepareDatabaseInformationForm(i) {
     //Fills in the date the game was first added to the database on the form on search.html
     document.getElementById("dateSubmission").value = new Date();
 
-      //Fills in the imageURL on the form on search.html
-        document.getElementById("imageURLSubmission").value = gameImageURL;
+    //Fills in the imageURL on the form on search.html
+    document.getElementById("imageURLSubmission").value = gameImageURL;
 
     //Fills in the genres on the form on search.html
     document.getElementById("genreSubmission").value = primaryGenre;
@@ -160,30 +163,31 @@ function addNewGameToDatabase() {
     let collectionDropdown = document.getElementById("collectionNamesDropdown");
     let collectionIdsAndGames = document.getElementById("collectionIdsAndGames");
     let collectionIdsAndGamesArray = collectionIdsAndGames.innerHTML.split('}],');
-        if (collectionDropdown.value === '') {
-            alert("Don't forget to select the collection you want to add to!")
-            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
-            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (collectionDropdown.value === '') {
+        alert("Don't forget to select the collection you want to add to!")
+        const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
+        collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+    }
+    for (let i=0; i<collectionIdsAndGamesArray.length; i++) {
+        //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all games in that collection
+        let id = collectionIdsAndGamesArray[i].split('=[Game{')[0];
+        let text = collectionIdsAndGamesArray[i].split('=[Game{')[1];
+        //If the collection is empty, allow any addition.
+        if (text === undefined) {
+            break;
+        }
+        // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
+        // text for an exact match of the game the user is attempting to add to that collection. If there is already an exact match,
+        // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the game to the collection)
+        if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
+            alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
             return;
         }
-        for (let i=0; i<collectionIdsAndGamesArray.length; i++) {
-            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all games in that collection
-            let id = collectionIdsAndGamesArray[i].split('=[Game{')[0];
-            let text = collectionIdsAndGamesArray[i].split('=[Game{')[1];
-            //If the collection is empty, allow any addition.
-            if (text === undefined) {
-                break;
-            }
-            // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
-            // text for an exact match of the game the user is attempting to add to that collection. If there is already an exact match,
-            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the game to the collection)
-            if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
-                alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
-                return;
-            }
-        }
+    }
     document.getElementById("databaseInformation").submit();
 }
+
 
 //SORTING
 function sortTable(tableId, column) {
@@ -209,29 +213,26 @@ function sortTable(tableId, column) {
     table.setAttribute('data-sort-order', sortOrder);
 }
 
+
+//FILTERING
 function generateCreatorCheckboxHTML() {
-    console.log('Generate Creator Checkbox HTML being called')
     let creators = [];
     let creatorsWithCheckbox = "";
     let i = 0;
     while (document.getElementById(`rowIndex${i}`) !== null) {
         if (document.getElementById(`rowIndex${i}`).style.display !== "none") {
             creator = document.getElementById(`gameCreator${i}`).innerHTML;
-            console.log('Creator: ' + creator)
             if (!creators.includes(creator)) {
                 creators.push(creator);
-                console.log(creators);
                 creatorsWithCheckbox += `<label><input type="checkbox" name="creator" value="${creator}" checked> ${creator}</label>`;
             }
         }
         i++;
     }
     document.getElementById("creatorCheckboxes").innerHTML = creatorsWithCheckbox;
-
 }
 
 function generateGenreCheckboxHTML() {
-
     let genres = [];
     let genresWithCheckbox = "";
 
@@ -250,7 +251,6 @@ function generateGenreCheckboxHTML() {
 }
 
 function showOrHideRowsBasedOnCreatorCheckboxFilters() {
-
     let selectedCreators = [];
     const checkboxContainer = document.querySelector('#creatorCheckboxes');
     const checkboxes = checkboxContainer.querySelectorAll('input[type=checkbox]');
@@ -272,7 +272,6 @@ function showOrHideRowsBasedOnCreatorCheckboxFilters() {
 }
 
 function showOrHideRowsBasedOnGenreCheckboxFilters() {
-
     let selectedGenres = [];
     const checkboxContainer = document.querySelector('#genreCheckboxes');
     const checkboxes = checkboxContainer.querySelectorAll('input[type=checkbox]');
@@ -294,7 +293,6 @@ function showOrHideRowsBasedOnGenreCheckboxFilters() {
 }
 
 function toggleCheckUncheckCreatorBoxes() {
-
     const selectAllCreatorsButton = document.getElementById('selectAllCreatorsButton');
     const unselectAllCreatorsButton = document.getElementById('unselectAllCreatorsButton');
     const creatorCheckboxes = document.getElementById('creatorCheckboxes');
@@ -318,7 +316,6 @@ function toggleCheckUncheckCreatorBoxes() {
 }
 
 function toggleCheckUncheckGenreBoxes() {
-
     const selectAllGenresButton = document.getElementById('selectAllGenresButton');
     const unselectAllGenresButton = document.getElementById('unselectAllGenresButton');
     const genreCheckboxes = document.getElementById('genreCheckboxes');
@@ -341,7 +338,6 @@ function toggleCheckUncheckGenreBoxes() {
 window.addEventListener('load', toggleCheckUncheckGenreBoxes);
 
 function filterYears (userYearMin, userYearMax) {
-
     let yearMin = userYearMin.value;
     let yearMax = userYearMax.value;
 
