@@ -1,8 +1,3 @@
-// Boolean switch variables. Used when alternating between ASC/DESC sorting.
-let isAscendingMovieTitle = true;
-let isAscendingMovieYear= true;
-let isAscendingMovieGenre = true;
-
 // Listens for changes in the "User Collection" dropdown menu. Collection names are displayed, but
 // the value for each option is linked to the Collection's ID.
 window.onload = function() {
@@ -34,9 +29,9 @@ function buildHTMLResultsTable(url) {
         <thead>
             <tr>
                 <th id="posterColumnHeader"></th>
-                <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
-                <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
-                <th id="genre1ColumnHeader" onclick="sortTableByGenre1()">Genre</th>
+                <th id="titleColumnHeader" onclick="sortTable('movieTable', 1)">Title</th>
+                <th id="yearColumnHeader" onclick="sortTable('movieTable', 2)">Year</th>
+                <th id="genre1ColumnHeader" onclick="sortTable('movieTable', 3)">Genre</th>
                 <th id="streamingPlatformsColumnHeader"></th>
             </tr>
         </thead>
@@ -241,89 +236,26 @@ function toggleConfirmButtonDropdownForm(i) {
     }
 }
 
-function sortTableByTitle() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+//SORTING
+function sortTable(tableId, column) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.tBodies[0].rows);
+    var sortOrder = table.getAttribute('data-sort-order') || 'asc';
+    var sortDirection = sortOrder === 'asc' ? 1 : -1;
 
-    rows.sort((rowA, rowB) => {
-    const titleA = rowA.querySelector('[id^="movieTitle"]').textContent;
-    const titleB = rowB.querySelector('[id^="movieTitle"]').textContent;
-    if (titleA < titleB) {
-        return -1;
-    } else if (titleA > titleB) {
-        return 1;
-    } else {
-        return 0;
-    }
+    rows.sort(function(rowA, rowB) {
+        var cellA = rowA.cells[column].textContent.trim().toLowerCase();
+        var cellB = rowB.cells[column].textContent.trim().toLowerCase();
+
+        if (cellA === cellB) {
+            return 0;
+        }
+
+        return cellA < cellB ? -1 * sortDirection : sortDirection;
     });
 
-    if (!isAscendingMovieTitle) {
-        rows.reverse();
-    }
-
-    isAscendingMovieTitle = !isAscendingMovieTitle;
     table.tBodies[0].append(...rows);
+
+    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    table.setAttribute('data-sort-order', sortOrder);
 }
-
-function sortTableByYear() {
-    const table = document.querySelector('table');
-    const rows = Array.from(table.querySelectorAll('tr')).slice(1);
-
-    rows.sort((rowA, rowB) => {
-        const yearA = rowA.querySelector('[id^="movieDate"]').textContent;
-        const yearB = rowB.querySelector('[id^="movieDate"]').textContent;
-
-    if (yearA < yearB) {
-        return -1;
-    } else if (yearA > yearB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingMovieYear) {
-        rows.reverse();
-    }
-
-    isAscendingMovieYear = !isAscendingMovieYear;
-    table.tBodies[0].append(...rows);
-}
-
-function sortTableByGenre1() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const genreA = rowA.querySelector('[id^="primaryGenre"]').textContent;
-    const genreB = rowB.querySelector('[id^="primaryGenre"]').textContent;
-    if (genreA < genreB) {
-        return -1;
-    } else if (genreA > genreB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingMovieGenre) {
-        rows.reverse();
-    }
-
-    isAscendingMovieGenre = !isAscendingMovieGenre;
-    table.tBodies[0].append(...rows);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
