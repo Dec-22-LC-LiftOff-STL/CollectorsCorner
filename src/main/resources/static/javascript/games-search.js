@@ -1,9 +1,3 @@
-let isAscendingGameTitle = true;
-let isAscendingGameYear= true;
-let isAscendingGameGenre = true;
-let isAscendingMinPlayers = true;
-let isAscendingMaxPlayers = true;
-
 window.onload = function() {
     document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
         const selectedValue = this.value;
@@ -25,15 +19,15 @@ function buildHTMLResultsTable(url) {
     const arrayOfGameObjects = json.games;
     const resultsTable = document.getElementById("resultsTable"); //See search.html template
     let tableBeginning = `
-    <table>
+    <table id="gamesTable">
         <thead>
             <tr class="gamesResultsHeaderRow">
                 <th id="posterColumnHeader"></th>
-                <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
-                <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
-                <th id="genre1ColumnHeader" onclick="sortTableByGenre1()">Genre</th>
-                <th id="minPlayersColumnHeader" onclick="sortTableByMinPlayers()">Min. Players</th>
-                <th id="maxPlayersColumnHeader" onclick="sortTableByMaxPlayers()">Max. Players</th>
+                <th id="titleColumnHeader" onclick="sortTable('gamesTable', 1)">Title</th>
+                <th id="yearColumnHeader" onclick="sortTable('gamesTable', 2)">Year</th>
+                <th id="genre1ColumnHeader" onclick="sortTable('gamesTable', 3)">Genre</th>
+                <th id="minPlayersColumnHeader" onclick="sortTable('gamesTable', 4)">Min. Players</th>
+                <th id="maxPlayersColumnHeader" onclick="sortTable('gamesTable', 5)">Max. Players</th>
                 <th id="synopsisColumnHeader" hidden>Synopsis</th>
             </tr>
         </thead>
@@ -192,130 +186,27 @@ function addNewGameToDatabase() {
 }
 
 //SORTING
+function sortTable(tableId, column) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.tBodies[0].rows);
+    var sortOrder = table.getAttribute('data-sort-order') || 'asc';
+    var sortDirection = sortOrder === 'asc' ? 1 : -1;
 
-function sortTableByTitle() {
+    rows.sort(function(rowA, rowB) {
+        var cellA = rowA.cells[column].textContent.trim().toLowerCase();
+        var cellB = rowB.cells[column].textContent.trim().toLowerCase();
 
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+        if (cellA === cellB) {
+            return 0;
+        }
 
-    rows.sort((rowA, rowB) => {
-    const titleA = rowA.querySelector('[id^="gameTitle"]').textContent;
-    const titleB = rowB.querySelector('[id^="gameTitle"]').textContent;
-    if (titleA < titleB) {
-        return -1;
-    } else if (titleA > titleB) {
-        return 1;
-    } else {
-        return 0;
-    }
+        return cellA < cellB ? -1 * sortDirection : sortDirection;
     });
 
-    if (!isAscendingGameTitle) {
-        rows.reverse();
-    }
-
-    isAscendingGameTitle = !isAscendingGameTitle;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
     table.tBodies[0].append(...rows);
-}
 
-function sortTableByYear() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const yearA = rowA.querySelector('[id^="gameDate"]').textContent;
-    const yearB = rowB.querySelector('[id^="gameDate"]').textContent;
-    if (yearA < yearB) {
-        return -1;
-    } else if (yearA > yearB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingGameYear) {
-        rows.reverse();
-    }
-
-    isAscendingGameYear = !isAscendingGameYear;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
-}
-
-function sortTableByGenre1() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const genreA = rowA.querySelector('[id^="primaryGenre"]').textContent;
-    const genreB = rowB.querySelector('[id^="primaryGenre"]').textContent;
-    if (genreA < genreB) {
-        return -1;
-    } else if (genreA > genreB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingGameGenre) {
-        rows.reverse();
-    }
-
-    isAscendingGameGenre = !isAscendingGameGenre;
-    table.tBodies[0].append(...rows);
-}
-
-function sortTableByMinPlayers() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const minPlayersA = Number(rowA.querySelector('[id^="gameMinPlayers"]').textContent);
-    const minPlayersB = Number(rowB.querySelector('[id^="gameMinPlayers"]').textContent);
-    if (minPlayersA < minPlayersB) {
-        return -1;
-    } else if (minPlayersA > minPlayersB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingMinPlayers) {
-        rows.reverse();
-    }
-
-    isAscendingMinPlayers = !isAscendingMinPlayers;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
-}
-
-function sortTableByMaxPlayers() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const maxPlayersA = Number(rowA.querySelector('[id^="gameMaxPlayers"]').textContent);
-    const maxPlayersB = Number(rowB.querySelector('[id^="gameMaxPlayers"]').textContent);
-    if (maxPlayersA < maxPlayersB) {
-        return -1;
-    } else if (maxPlayersA > maxPlayersB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingMaxPlayers) {
-        rows.reverse();
-    }
-
-    isAscendingMaxPlayers = !isAscendingMaxPlayers;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
+    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    table.setAttribute('data-sort-order', sortOrder);
 }
 
 function generateCreatorCheckboxHTML() {

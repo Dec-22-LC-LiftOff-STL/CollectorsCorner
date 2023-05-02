@@ -259,17 +259,3 @@ function sortTable(tableId, column) {
     sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
     table.setAttribute('data-sort-order', sortOrder);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
