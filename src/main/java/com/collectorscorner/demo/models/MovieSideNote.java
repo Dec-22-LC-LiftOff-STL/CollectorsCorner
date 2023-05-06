@@ -1,6 +1,8 @@
 package com.collectorscorner.demo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -13,7 +15,9 @@ public class MovieSideNote{
 
     @Id
     private int moviesId;
-    @Column(name = "movieSideNote", length = 20000)
+    @Column(name = "movieSideNote", length = 2000)
+    @NotBlank
+    @Size(min = 3, max = 2000, message = "Must be between 3 and 2,000 characters in length.")
     private String movieSideNote;
 
     public MovieSideNote(){
