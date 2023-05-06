@@ -60,6 +60,7 @@ public class CollectionController {
     @Autowired
     MovieSideNoteRepository movieSideNoteRepository;
 
+
     @GetMapping("/create-movie-collection")
     public String displayCreateMovieCollection(@CookieValue("userId") String myCookie, Model model) {
         Integer userId = Integer.parseInt(myCookie);
@@ -425,6 +426,28 @@ public class CollectionController {
 
         MovieSideNote newMovieSideNote = new MovieSideNote(movieCollectionId, moviesId, movieSideNote);
         movieSideNoteRepository.save(newMovieSideNote);
+        return "redirect:/collections/view-movie-collection/{movieCollectionId}";
+    }
+
+    @PostMapping("/deleteMovieSideNote/{movieCollectionId}")
+    public String deleteMovieSideNote(@CookieValue("userId") String myCookie, @PathVariable("movieCollectionId") int movieCollectionId, @RequestParam("moviesId") int moviesId, Model model) {
+        System.out.println("Deleting movie side note for movieCollectionId: " + movieCollectionId + " and moviesId: " + moviesId);
+
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            model.addAttribute("user", optionalUser.get());
+        }
+
+        // Delete the movie side note
+
+        MovieSideNote movieSideNote = movieSideNoteRepository.findByMovieCollectionIdAndMoviesId(movieCollectionId, moviesId);
+        movieSideNoteRepository.delete(movieSideNote);
+        System.out.println("Deleting movie side note for movieCollectionId: " + movieCollectionId + " and moviesId: " + moviesId);
+
         return "redirect:/collections/view-movie-collection/{movieCollectionId}";
     }
 
