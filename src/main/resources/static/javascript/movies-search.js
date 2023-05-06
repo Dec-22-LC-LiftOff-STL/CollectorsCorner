@@ -62,8 +62,8 @@ function buildHTMLResultsTable(url) {
                     <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
                     <button id="addToCollectionButton${i}" class="btn btn-primary addToCollectionButton" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
                     <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
-                    <form id="confirmButtonDropdown${i}" style="display:none;"><br>
-                        <button type="button" class="btn btn-success confirmButton" onclick="addNewMovieToDatabase();">Confirm</button>
+                    <form>
+                        <button style="display:none;" id="confirmButton${i}" type="button" class="btn btn-success confirmButton" onclick="addNewMovieToDatabase(this);">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell">
@@ -156,8 +156,7 @@ function prepareDatabaseInformationForm(i) {
 
 //Includes alerts if the movie already exists in the collection, or if the user
 //forgot to select a collection.
-function addNewMovieToDatabase() {
-
+function addNewMovieToDatabase(clickedConfirmButton) {
         let collectionDropdown = document.getElementById("collectionNamesDropdown");
         let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
         let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
@@ -178,10 +177,22 @@ function addNewMovieToDatabase() {
             // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
             if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
                 alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
+                clickedConfirmButton.style.display = "none";
                 return;
             }
         }
-    document.getElementById("databaseInformation").submit();
+        document.getElementById("databaseInformation").submit();
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost:8080/movies/search",
+            data: $('#databaseInformation').serialize(),
+            success: function(data) {
+                clickedConfirmButton.style.display = "none";
+            },
+            error: function(xhr, status, error) {
+                // Handle error response here
+            }
+        });
 }
 
 function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
@@ -228,7 +239,8 @@ function toggleStreamingServicesDiv(chosenMovie) {
 }
 
 function toggleConfirmButtonDropdownForm(i) {
-    const dropdownForm = document.getElementById(`confirmButtonDropdown${i}`);
+    document.getElementById(`addToCollectionButton${i}`).style.display = 'none';
+    const dropdownForm = document.getElementById(`confirmButton${i}`);
     if (dropdownForm.style.display === "none") {
         dropdownForm.style.display = "block";
     } else {
@@ -259,3 +271,27 @@ function sortTable(tableId, column) {
     sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
     table.setAttribute('data-sort-order', sortOrder);
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const dropdown = document.getElementById('collectionNamesDropdown');
+    let prevValue = dropdown.value;
+
+    dropdown.addEventListener('change', function() {
+        if (prevValue === "") {
+            prevValue = dropdown.value;
+            return;
+        }
+
+        const confirmButtons = document.querySelectorAll(".confirmButton");
+        confirmButtons.forEach(button => {
+            button.style.display = "none";
+        });
+
+        const addToCollectionButtons = document.querySelectorAll(".addToCollectionButton");
+        addToCollectionButtons.forEach(button => {
+            button.style.display = "block";
+        });
+
+        prevValue = dropdown.value;
+    });
+});
