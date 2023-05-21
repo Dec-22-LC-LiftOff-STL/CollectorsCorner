@@ -181,7 +181,6 @@ function addNewMovieToDatabase(clickedConfirmButton) {
                 return;
             }
         }
-        document.getElementById("databaseInformation").submit();
         $.ajax({
             type: 'POST',
             url: "http://localhost:8080/movies/search",
