@@ -31,11 +31,14 @@ public class Game extends AbstractEntity {
     private Integer maxPlayers;
     @Column(name = "description", length = 20000)
     private String description;
+    @Column(name = "imageURL", length = 500)
+    private String imageURL;
+
 
 
     public Game() { }
 
-    public Game(List<GameCollection> collectionsWithThisGame, Date dateAdded, String creator, String title, String genre, Integer minPlayers, Integer maxPlayers, String description) {
+    public Game(List<GameCollection> collectionsWithThisGame, Date dateAdded, String creator, String title, String genre, Integer minPlayers, Integer maxPlayers, String description, String imageURL)  {
         this.collectionsWithThisGame = collectionsWithThisGame;
         this.dateAdded = dateAdded;
         this.creator = creator;
@@ -44,6 +47,7 @@ public class Game extends AbstractEntity {
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.description = description;
+        this.imageURL = imageURL;
     }
 
     public List<GameCollection> getCollectionsWithThisGame() {
@@ -109,7 +113,13 @@ public class Game extends AbstractEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+    public String getImageURL() {
+        return imageURL;
+    }
 
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
     @Override
     public String toString() {
         return "Game{" +
@@ -121,6 +131,7 @@ public class Game extends AbstractEntity {
                 ", minPlayers=" + minPlayers +
                 ", maxPlayers=" + maxPlayers +
                 ", description='" + description + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 '}';
     }
 }

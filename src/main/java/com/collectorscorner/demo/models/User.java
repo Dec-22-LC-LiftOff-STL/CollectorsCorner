@@ -27,6 +27,10 @@ public class User extends AbstractEntity{
 
     private String aboutMe;
 
+    private String screenMode = "Light";
+
+    private String profilePicturePath;
+
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -65,7 +69,6 @@ public class User extends AbstractEntity{
         return encoder.matches(password, pwHash);
     }
 
-
     public String getFirstName() {
         return firstName;
     }
@@ -90,12 +93,35 @@ public class User extends AbstractEntity{
         this.screenName = screenName;
     }
 
+    public String getScreenMode() {
+        return screenMode;
+    }
+
+    public void setScreenMode(String screenMode) {
+        this.screenMode = screenMode;
+    }
+
+    public String getProfilePicturePath() {
+        return profilePicturePath;
+    }
+
+    public void setProfilePicturePath(String profilePicturePath) {
+        this.profilePicturePath = profilePicturePath;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "firstName='" + firstName + '\'' +
+                "screenName='" + screenName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
+                ", aboutMe='" + aboutMe + '\'' +
+                ", screenMode='" + screenMode + '\'' +
+                ", profilePicturePath'" + profilePicturePath + '\'' +
+                ", userMovieCollection=" + userMovieCollection +
+                ", userBookCollection=" + userBookCollection +
+                ", userGameCollection=" + userGameCollection +
                 '}';
     }
 

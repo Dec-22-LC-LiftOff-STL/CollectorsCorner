@@ -1,9 +1,3 @@
-//For toggling sort asc/desc
-let isAscendingTitle = true;
-let isAscendingAuthor = true;
-let isAscendingYear = true;
-let isAscendingGenre = true;
-
 window.onload = function() {
     document.getElementById("collectionNamesDropdown").addEventListener("change", function(){
         const selectedValue = this.value;
@@ -12,43 +6,24 @@ window.onload = function() {
 }
 
 //SEARCH AND BUILD HTML
-
 function searchTitle() {
-    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=";
-    let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
-
-    searchTerm = document.getElementById("userSearchTerm").value;
-
-    let url = urlBeginning + searchTerm + urlEnding;
+    const searchTerm = document.getElementById("userSearchTerm").value;
+    let url = "https://www.googleapis.com/books/v1/volumes?q=" + searchTerm + "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
     buildHTMLResultsTable(url);
-    //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
 }
 
 function searchAuthor() {
-
-    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=inauthor:";
-    let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
-
-    searchTerm = document.getElementById("userSearchTerm").value;
-
-    let url = urlBeginning + searchTerm + urlEnding;
+    let searchTerm = document.getElementById("userSearchTerm").value;
+    let url = "https://www.googleapis.com/books/v1/volumes?q=inauthor:" + searchTerm + "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=30&langRestrict=en";
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
 }
 
 function searchIsbn() {
-
-    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
-    let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=10";
-
-    searchTerm = document.getElementById("userSearchTerm").value.replace("-","");
-
-    let url = urlBeginning + searchTerm + urlEnding;
+    let searchTerm = document.getElementById("userSearchTerm").value.replace("-","");
+    let url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + searchTerm + "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY&maxResults=10";
     buildHTMLResultsTable(url);
     //Only display the "Show Filters" button after someone searches
     document.getElementById("showFiltersButton").style.display = "block";
@@ -59,13 +34,13 @@ function handleSearch() {
     if (searchTerm === 'title') {
         searchTitle();
         event.preventDefault();
-     } else if (searchTerm === 'author') {
+    } else if (searchTerm === 'author') {
         searchAuthor();
         event.preventDefault();
-     } else if (searchTerm === 'isbn') {
+    } else if (searchTerm === 'isbn') {
         searchIsbn();
         event.preventDefault();
-     }
+    }
 }
 
 function buildHTMLResultsTable(url) {
@@ -80,11 +55,11 @@ function buildHTMLResultsTable(url) {
                 <thead>
                     <tr class="booksResultsHeaderRow">
                         <th id="posterColumnHeader"></th>
-                        <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
-                        <th id="authorColumnHeader" onclick="sortTableByAuthor()">Author</th>
-                        <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
-                        <th id="genreColumnHeader" onclick="sortTableByGenre()">Genre</th>
-                        <th id="synopsisColumnHeader">Synopsis</th>
+                        <th id="titleColumnHeader" onclick="sortTable('booksResultsTable', 1)">Title</th>
+                        <th id="authorColumnHeader" onclick="sortTable('booksResultsTable', 2)">Author</th>
+                        <th id="yearColumnHeader" onclick="sortTable('booksResultsTable', 3)">Year</th>
+                        <th id="genreColumnHeader" onclick="sortTable('booksResultsTable', 4)">Genre</th>
+                        <th id="synopsisColumnHeader" hidden>Synopsis</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,26 +84,27 @@ function buildHTMLResultsTable(url) {
             <tr id="rowIndex${i}" class="booksResultsTableRows">
                 <th class="posterCell">
                     <img class="poster" src="${book.volumeInfo.imageLinks.thumbnail}"><br>
+                    <p id="bookImageURL${i}" hidden> ${book.volumeInfo.imageLinks.thumbnail}</p>
                     <button id="dropdown-button${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleAddToCollectionDropdownForm(${i})">Add to Collection</button>
                     <form id="userCollectionDropdown${i}" style="display:none;"><br>
-                        <button type="button" class="btn btn-success" onclick="addNewBookToDatabase();" style="width:131.84px">Confirm</button>
+                        <button class="btn btn-success confirmButton" onclick="addNewBookToDatabase(event);">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell">
-                    <a id="bookTitle${i}" href="/books/details/${book.volumeInfo.title}">${book.volumeInfo.title}</a>
+                    <a id="bookTitle${i}" href="/books/details/${book.volumeInfo.title}-${book.volumeInfo.authors[0]}">${book.volumeInfo.title}</a>
                     <p id="googleBooksApiId${i}" hidden>${book.id}</p>
                 </th>
                 <th class="authorCell">
-                    <p id="bookAuthor${i}" style="margin-left:0px;">${book.volumeInfo.authors[0]}</p>
+                    <p id="bookAuthor${i}" class="bookAuthor">${book.volumeInfo.authors[0]}</p>
                 </th>
                 <th class="yearCell">
-                    <p id="bookDate${i}" style="margin-left:0px;">${year}</p>
+                    <p id="bookDate${i}" class="bookDate">${year}</p>
                 </th>
                 <th class="genre1Cell">
-                    <p id="bookGenres${i}" style="margin-left:0px;">${book.volumeInfo.categories}</p>
+                    <p id="bookGenres${i}" class="bookGenres">${book.volumeInfo.categories}</p>
                 </th>
-                <th class="synopsisCell">
-                    <p id="bookSynopsis${i}" style="margin-left:0px;" class="synopsisText">${book.volumeInfo.description}</p>
+                <th class="synopsisCell" hidden>
+                    <p id="bookSynopsis${i}" class="synopsisText">${book.volumeInfo.description}</p>
                     <a href="/books/details/${book.volumeInfo.title}" class="readMore">Read more</a>
                 </th>
             </tr>
@@ -136,6 +112,7 @@ function buildHTMLResultsTable(url) {
         }
         let tableEnding = `</tbody></table>`;
         resultsTableDiv.innerHTML = tableBeginning + tableRows + tableEnding;
+        screenModeTable();
     });
     });
 }
@@ -150,7 +127,6 @@ function toggleAddToCollectionDropdownForm(i) {
 }
 
 function toggleShowHideFilters() {
-    //Toggle button text between Show Filters & Hide Filters
     if (document.getElementById("showFiltersButton").innerHTML === "Show Filters") {
         document.getElementById("showFiltersButton").innerHTML = "Hide Filters";
         document.getElementById("showFiltersButton").className = "btn btn-danger";
@@ -158,7 +134,6 @@ function toggleShowHideFilters() {
         document.getElementById("showFiltersButton").innerHTML = "Show Filters"
         document.getElementById("showFiltersButton").className = "btn btn-primary";
     }
-    //Toggle between showing/hiding <div id="filtersSection"> on search.html
     if (document.getElementById("filtersSection").style.display === "block") {
         document.getElementById("filtersSection").style.display = "none";
     } else {
@@ -166,8 +141,8 @@ function toggleShowHideFilters() {
     }
 }
 
-//DATABASE INTERACTION
 
+//DATABASE INTERACTION
 function prepareDatabaseInformationForm(i) {
     const googleBooksApiIdApiId = document.getElementById(`googleBooksApiId${i}`).textContent;
     const bookTitle = document.getElementById(`bookTitle${i}`).textContent;
@@ -175,38 +150,28 @@ function prepareDatabaseInformationForm(i) {
     const bookDate = document.getElementById(`bookDate${i}`).textContent.slice(0,4);
     const bookSynopsis = document.getElementById(`bookSynopsis${i}`).textContent;
     const bookGenres = document.getElementById(`bookGenres${i}`).textContent;
+    const bookImageURL = document.getElementById(`bookImageURL${i}`).textContent;
 
-    //Fills in the title on the form on search.html
     document.getElementById("titleSubmission").value = bookTitle;
-
-    //Fills in the author on the form on search.html form
     document.getElementById("authorSubmission").value = bookAuthor;
-
-    //Fills in the date the book was first added to the database on the form on search.html
     document.getElementById("dateSubmission").value = new Date();
-
-    //Fills in the genres on the form on search.html
+    document.getElementById("imageURLSubmission").value = bookImageURL;
     document.getElementById("genreSubmission").value = bookGenres.split(",")[0]
-
-    //Fills in the release year on the form on search.html form
     document.getElementById("yearSubmission").value = bookDate.slice(0,4);
-
-    //Fills in the release year on the form on search.html form
     document.getElementById("synopsisSubmission").value = bookSynopsis
 }
 
 function addNewBookToDatabase() {
+    event.preventDefault();
     let collectionDropdown = document.getElementById("collectionNamesDropdown");
     let collectionIdsAndBooks = document.getElementById("collectionIdsAndBooks");
     let collectionIdsAndBooksArray = collectionIdsAndBooks.innerHTML.split('}],');
         if (collectionDropdown.value === '') {
             alert("Don't forget to select the collection you want to add to!")
-            const collectionNameDropdownLabel = document.getElementById('collectionNameDropdownLabel');
-            collectionNameDropdownLabel.scrollIntoView({ behavior: "smooth", block: "start" });
             return;
         }
         for (let i=0; i<collectionIdsAndBooksArray.length; i++) {
-            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all movies in that collection
+            //Split each iteration into array with length 2. First index = collectionId, Second index = .toString() of all books in that collection
             let id = collectionIdsAndBooksArray[i].split('=[Book{')[0];
             let text = collectionIdsAndBooksArray[i].split('=[Book{')[1];
             //If the collection is empty, allow any addition.
@@ -214,8 +179,8 @@ function addNewBookToDatabase() {
                 break;
             }
             // If the id matches the id of the Collection the user chose in the collection dropdown below the search bar, check the .toString()
-            // text for an exact match of the movie the user is attempting to add to that collection. If there is already an exact match,
-            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
+            // text for an exact match of the book the user is attempting to add to that collection. If there is already an exact match,
+            // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the book to the collection)
             if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
                 alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
                 return;
@@ -224,114 +189,42 @@ function addNewBookToDatabase() {
     document.getElementById("databaseInformation").submit();
 }
 
+
 //SORTING
+function sortTable(tableId, column) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.tBodies[0].rows);
+    var sortOrder = table.getAttribute('data-sort-order') || 'asc';
+    var sortDirection = sortOrder === 'asc' ? 1 : -1;
 
-function sortTableByTitle() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+    rows.sort(function(rowA, rowB) {
+        var cellA = rowA.cells[column].textContent.trim().toLowerCase();
+        var cellB = rowB.cells[column].textContent.trim().toLowerCase();
 
-    rows.sort((rowA, rowB) => {
-    const titleA = rowA.querySelector('[id^="bookTitle"]').textContent;
-    const titleB = rowB.querySelector('[id^="bookTitle"]').textContent;
-    if (titleA < titleB) {
-        return -1;
-    } else if (titleA > titleB) {
-        return 1;
-    } else {
-        return 0;
-    }
+        if (column === 2) {
+            // Extract the last word (surname) for other tables and column 2
+            var lastWordA = cellA.split(' ').pop();
+            var lastWordB = cellB.split(' ').pop();
+
+            cellA = lastWordA;
+            cellB = lastWordB;
+        }
+
+        if (cellA === cellB) {
+            return 0;
+        }
+
+        return cellA < cellB ? -1 * sortDirection : sortDirection;
     });
 
-    if (!isAscendingTitle) {
-        rows.reverse();
-    }
-
-    isAscendingTitle = !isAscendingTitle;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
     table.tBodies[0].append(...rows);
+
+    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    table.setAttribute('data-sort-order', sortOrder);
 }
 
-function sortTableByAuthor() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const nameArrayAuthorA = rowA.querySelector('[id^="bookAuthor"]').textContent.split(' ');
-    const authorA = nameArrayAuthorA[nameArrayAuthorA.length - 1]
-    console.log(typeof authorA)
-
-    const nameArrayAuthorB = rowB.querySelector('[id^="bookAuthor"]').textContent.split(' ');
-    const authorB = nameArrayAuthorB[nameArrayAuthorB.length - 1]
-    if (authorA < authorB) {
-        return -1;
-    } else if (authorA > authorB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingAuthor) {
-        rows.reverse();
-    }
-
-    isAscendingAuthor = !isAscendingAuthor;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
-} //sorts by author last name
-
-function sortTableByYear() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const yearA = rowA.querySelector('[id^="bookDate"]').textContent;
-    const yearB = rowB.querySelector('[id^="bookDate"]').textContent;
-    if (yearA < yearB) {
-        return -1;
-    } else if (yearA > yearB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingYear) {
-        rows.reverse();
-    }
-
-    isAscendingYear = !isAscendingYear;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
-}
-
-function sortTableByGenre() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const genreA = rowA.querySelector('[id^="bookGenre"]').textContent;
-    const genreB = rowB.querySelector('[id^="bookGenre"]').textContent;
-    if (genreA < genreB) {
-        return -1;
-    } else if (genreA > genreB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingGenre) {
-        rows.reverse();
-    }
-
-    isAscendingGenre = !isAscendingGenre;
-    //Same thing as using:  table.tBodies[0].append(rows[0], rows[1], rows[2], ...)
-    table.tBodies[0].append(...rows);
-}
 
 //FILTERS - CHECKBOXES
-
 function generateAuthorCheckboxHTML() {
     let authors = [];
     let authorsWithCheckbox = "";
@@ -453,11 +346,12 @@ function toggleCheckUncheckGenreBoxes() {
     });
 }
 
+
 //Fixes a bug that requires two clicks of the Unselect All button for Genres
 window.addEventListener('load', toggleCheckUncheckGenreBoxes);
 
-//FILTERS - YEARS
 
+//FILTERS - YEARS
 function filterYears (userYearMin, userYearMax) {
     let yearMin = userYearMin.value;
     let yearMax = userYearMax.value;

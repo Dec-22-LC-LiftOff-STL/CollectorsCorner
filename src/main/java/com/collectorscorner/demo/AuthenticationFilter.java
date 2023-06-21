@@ -23,7 +23,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     @Autowired
     private AuthenticationController authenticationController;
 
-    private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/css", "/images", "/collector");
+    private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/css", "/images", "/collector", "/search-collections", "/movies");
 
 
     // Override prehandle method to see if a user is logged in and in a session before allowing get/post requests

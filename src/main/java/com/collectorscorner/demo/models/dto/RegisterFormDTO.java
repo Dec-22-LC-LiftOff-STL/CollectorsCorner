@@ -30,6 +30,8 @@ public class RegisterFormDTO extends LoginFormDTO {
 
     private String aboutMe;
 
+    private String screenMode = "Light";
+
     public String getAboutMe() {
         return aboutMe;
     }
@@ -68,5 +70,13 @@ public class RegisterFormDTO extends LoginFormDTO {
 
     public void setVerifyPassword(String verifyPassword) {
         this.verifyPassword = verifyPassword;
+    }
+
+    public String getScreenMode() {
+        return screenMode;
+    }
+
+    public void setScreenMode(String screenMode) {
+        this.screenMode = screenMode;
     }
 }

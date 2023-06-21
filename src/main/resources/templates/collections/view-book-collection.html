@@ -1,15 +1,82 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head th:replace="~{fragments :: head}">
-</head>
-
+<head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
+<script>window.onload = screenMode()</script>
 
-<body class="container body-content">
+<body class="container body-content view-book-collection">
 
-<h1>Hello World!</h1>
-Hello World!
+<h1 class="text-center" th:text="${bookCollection.name}"></h1>
+<h4 class="text-center">
+    <span th:text="'This Book Collection Belongs To: '"></span><a th:href="@{'/profile/' + ${bookCollection.getUser().getUsername()}}" th:text="${bookCollection.getUser().getUsername()}"></a>
+</h4>
 
+<th:block th:if="${bookCollection.books.size() > 4}">
+    <swiper-container navigation="true" slides-per-view="4" space-between="10" free-mode="true">
+        <swiper-slide th:each="book : ${bookCollection.books}">
+            <img th:src="${book.imageURL}">
+        </swiper-slide>
+    </swiper-container>
+</th:block>
+
+<div th:if="${bookCollection.description != ''}" class="container" style="width: 40rem;">
+    <h4 class="text-center" th:text="Description"></h4>
+    <i>
+        <h5 class="card" style="text-center" th:text="${bookCollection.description}"></h5>
+    </i>
+</div>
+
+<div th:else>
+    <br>
+    <br>
+</div>
+
+
+
+<table class="table" id="table">
+    <thead>
+    <tr>
+        <th class="col-lg-2" id="bookTitleHeader">Book</th>
+        <th class="col-lg-2" id="bookYearHeader">Year</th>
+        <th class="col-lg-2" id="bookAuthorHeader">Author</th>
+        <th class="col-lg-2" id="bookGenreHeader">Genre</th>
+        <th class="col-lg-2" id="bookImageHeader">Image</th>
+    </tr>
+    </thead>
+    <tr th:each="book : ${bookCollection.books}">
+        <td  class="text-center">
+            <a class="linkToBookDetails" th:href="@{/books/details/{title}-{author}(title=${book.title}, author=${book.author}) }">
+                <span th:text="${book.title}"></span>
+            </a>
+        </td>
+        <td  class="text-center">
+            <span th:text="${book.year}"></span>
+        </td>
+        <td class="text-center">
+            <span th:text="${book.author}"></span>
+        </td>
+        <td class="text-center">
+            <span th:text="${book.genre}"></span> <br/>
+        </td>
+        <td class="text-center">
+            <a th:href="@{/books/details/{title}-{author}(title=${book.title}, author=${book.author}) }">
+                <img height="150px" width="100px" th:src="${book.imageURL}" alt="book image">
+            </a>
+        </td>
+    </tr>
+</table>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      freeMode: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+</script>
 
 </body>
 </html>

@@ -29,7 +29,6 @@ public class Movie extends AbstractEntity {
     private String genre3;
     @Column(name = "synopsis", length = 20000)
     private String synopsis;
-
     @Column(name = "imageURL", length = 500)
     private String imageURL;
 

@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8">
-    <link th:href="@{/css/collector.css}" rel="stylesheet" />
-    <title>Collector's Page</title>
-    <head th:replace="~{fragments :: head}"></head>
-
-    <div th:replace="fragments :: page-header"></div>
-
-<body class="container body-content">
+<head th:replace="~{fragments :: head}"></head>
+<div th:replace="fragments :: page-header"></div>
+<title>Collector's Page</title>
+<script>window.onload = screenMode()</script>
+<body class="container body-content collector">
 
 <br><br><br><br>
 
-<h2 th:text="${user.screenName} + ' \'s Collections'"></h2><br><br>
+<h2 th:text="${user.screenName} + '\'s Collections'"></h2><br><br>
 <label>About Me:</label>
 <h3 th:text="${user.aboutMe}"></h3>
 <br><br><br><br>

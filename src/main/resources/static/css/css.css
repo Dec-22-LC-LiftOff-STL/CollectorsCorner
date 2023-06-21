@@ -1,0 +1,1079 @@
+.book-details .content-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.book-details .left-column {
+    width: 40%
+}
+
+.book-details #pages {
+    margin-left: 0;
+}
+
+.book-details #publisher {
+    margin-left: 0;
+}
+
+.book-details .right-column {
+    width: 60%;
+}
+
+.book-details #synopsis {
+    margin-left: 0;
+}
+
+.book-details #title {
+    margin-top: 0;
+}
+
+.books-search .authorCell {
+    width: 15%;
+    font-size: 16px;
+}
+
+.books-search #authorCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+}
+
+.books-search #authorColumnHeader {
+    width: 15%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.books-search .bookAuthor {
+    margin-left: 0px;
+    font-size: 16px;
+}
+
+.books-search .bookDate {
+    margin-left: 0px;
+}
+
+.books-search .bookGenres {
+    margin-left: 0px;
+    font-size: 16px;
+}
+
+.books-search .booksResultsHeaderRow {
+    border: 2px solid black;
+}
+
+.books-search .booksResultsTableRows {
+    border: 1px solid black;
+}
+
+.books-search .confirmButton {
+    width: 131.65px;
+}
+
+.books-search .genreCell {
+    width: 15%;
+    font-size: 16px;
+}
+
+.books-search #genreCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+}
+
+.books-search #genreColumnHeader {
+    width: 15%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.books-search #headerPhoto {
+    width: 235px;
+    height: 120px;
+}
+
+.books-search .hidden {
+    display: none;
+}
+
+
+.books-search p {
+    margin-bottom: 0 !important;
+}
+
+.books-search .poster {
+    width: 131.65px;
+}
+
+.books-search .posterCell {
+    width: 5%;
+    text-align: left;
+}
+
+.books-search #posterColumnHeader {
+    width: 5%;
+}
+
+.books-search #searchTypeDropdown {
+    height: 26px;
+}
+
+.books-search #showFiltersButton {
+    color: white !important;
+}
+
+.books-search .synopsisCell {
+    width: 40%
+}
+
+.books-search .synopsisText {
+    height: 145px;
+    overflow: hidden;
+    margin-left: 0px;
+}
+
+.books-search #synopsisColumnHeader {
+    width: 40%;
+}
+
+.books-search .titleCell {
+    width: 20%;
+    font-size: 16px;
+}
+
+.books-search #titleColumnHeader {
+    width: 20%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.books-search tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.books-search .yearCell {
+    width: 5%;
+    font-size: 16px;
+}
+
+.books-search #yearColumnHeader {
+    width: 5%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.collections-delete .authorHeader {
+    cursor: pointer;
+}
+
+.collections-delete .collectionDescriptionHeader {
+    cursor: pointer;
+    width: 45%;
+}
+
+.collections-delete .collectionNameHeader {
+    cursor: pointer;
+    width: 45%;
+}
+
+.collections-delete .creatorHeader {
+    cursor: pointer;
+}
+
+.collections-delete .deleteColumn {
+    width: 10%;
+}
+
+.collections-delete .directorHeader {
+    cursor: pointer;
+}
+
+.collections-delete .genreHeader {
+    cursor: pointer;
+}
+
+.collections-delete .maxPlayersHeader {
+    cursor: pointer;
+}
+
+.collections-delete .minPlayersHeader {
+    cursor: pointer;
+}
+
+.collections-delete .primaryGenreHeader {
+    cursor: pointer;
+}
+
+.collections-delete .secondaryGenreHeader {
+    cursor: pointer;
+}
+
+.collections-delete .titleHeader {
+    cursor: pointer;
+}
+
+.collections-delete .yearHeader {
+    cursor: pointer;
+}
+
+.collector {
+    box-sizing: border-box;
+}
+
+.collector .column {
+    flex: 50%;
+    padding: 5px;
+}
+
+.collector .row {
+    display: flex;
+    margin-left:-5px;
+    margin-right:-5px;
+}
+
+.collector table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.collector th, td {
+    text-align: left;
+    padding: 16px;
+}
+
+.collector tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.delete #booksTable {
+    width: 100%;
+}
+
+.delete .checkboxes {
+    text-align: center;
+}
+
+.delete .collectionDescriptionHeader {
+    text-align: left;
+}
+
+.delete .collectionNameHeader {
+    text-align: left;
+}
+
+.delete #gamesTable {
+    width: 100%;
+}
+
+.delete #moviesTable {
+    width: 100%;
+}
+
+.delete tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.delete-from-book-collections .authorHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-book-collections .primaryGenreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-book-collections .titleHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-book-collections tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.delete-from-book-collections .yearHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .creatorHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .genreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .minPlayersHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .maxPlayersHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections .titleHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-game-collections tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.delete-from-movie-collections .directorHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections .primaryGenreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections .secondaryGenreHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections .titleHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.delete-from-movie-collections tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.delete-from-movie-collections .yearHeader {
+    text-align: left;
+    cursor: pointer;
+}
+
+.games-search .addToCollectionButton {
+    width: 200px;
+}
+
+.games-search #creatorCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
+}
+.games-search .gamesResultsHeaderRow {
+    border: 2px solid black;
+}
+
+.games-search .gamesResultsTableRows {
+    border: 1px solid black;
+}
+
+.games-search .genre1Cell {
+    width: 15%;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 16px;
+}
+
+.games-search #genre1ColumnHeader {
+    width: 15%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.games-search #genreCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
+}
+
+.games-search #headerPhoto {
+    width: 235px;
+    height: 120px;
+}
+
+.games-search .hidden {
+    display: none;
+}
+
+.games-search .maxPlayersCell {
+    width: 10%;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.games-search #maxPlayersColumnHeader {
+    width: 10%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.games-search .minPlayersCell {
+    width: 10%
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.games-search #minPlayersColumnHeader {
+    width: 10%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.games-search p {
+    text-align: center !important;
+    margin-left: 0px !important;
+    margin-bottom: 0 !important;
+}
+
+.games-search .poster {
+    width: 200px;
+}
+
+.games-search .posterCell {
+    text-align: left;
+    width: 225px;
+    width: 10%;
+}
+
+.games-search #posterColumnHeader {
+    width: 10%;
+}
+
+.games-search #showFiltersButton {
+    color: white !important;
+}
+
+.games-search .synopsisCell {
+    width: 30%;
+    vertical-align: middle;
+}
+
+.games-search #synopsisColumnHeader {
+    width: 30%;
+}
+
+.games-search .synopsisText {
+    max-height: 145px;
+    overflow: hidden;
+}
+
+.games-search .titleCell {
+    width: 20%;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.games-search #titleColumnHeader {
+    width: 20%;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.games-search tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.games-search .yearCell {
+    width: 5%;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.games-search #yearColumnHeader {
+    width: 5%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.movie-details .actorDiv {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.movie-details .actorPhoto {
+    width: 165px;
+}
+
+.movie-details .actorText {
+    margin: 0;
+}
+
+.movie-details .actorTextDiv {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.movie-details .actorsSlide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.movie-details .buttonContentContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.movie-details .characterNameText {
+    margin: 0;
+}
+
+.movie-details .imageWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.movie-details .imageWrapper img {
+    margin-right: 10px;
+}
+
+.movie-details .left-column {
+    width: 40%;
+}
+
+.movie-details #movieGenres {
+    margin: 0;
+}
+
+.movie-details #movieInfoTitle {
+    padding: 0;
+    margin: 0;
+}
+
+.movie-details .right-column {
+    width: 60%;
+    margin-left: 10px;
+}
+
+.movie-details #tmdbRating {
+    margin: 0px;
+}
+
+.movies-browse .actorNameText {
+    text-align: center;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.movies-browse .actorPhoto {
+    width: 140px;
+    padding: 5%;
+}
+
+.movies-browse .castDiv {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    padding-top: 15px;
+    padding-left: 3px;
+}
+
+.movies-browse .castMember { }
+
+.movies-browse .characterNameText {
+    text-align: center;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+.movies-browse .confirmButton {
+    width:131.84px;
+}
+
+.movies-browse .container-fluid {
+    width: 70%;
+}
+
+.movies-browse .flagButton {
+    padding: 0px;
+}
+
+.movies-browse .flagIcon {
+    width: 50px;
+}
+
+.movies-browse .posterColumn {
+    flex: 33%;
+    padding: 10px;
+}
+
+.movies-browse .infoColumn {
+    flex: 66%;
+    padding: 10px;
+}
+
+.movies-browse .movieDate {
+    font-size: 22px;
+}
+
+.movies-browse .movieSynopsis {
+    font-size:16px;
+}
+
+.movies-browse .movieTitle {
+    font-size: 36px;
+}
+
+.movies-browse p {
+    margin-left: 0;
+}
+
+.movies-browse #pageHeader {
+    text-align: center;
+}
+
+.movies-browse .posterCell {
+    vertical-align: middle;
+    display: flex;
+}
+
+.movies-browse .primaryGenre {
+    font-size: 16px;
+}
+
+.movies-browse #resultsTable {
+    border: none;
+}
+
+.movies-browse .row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.movies-browse .slideCategory {
+    position: relative;
+    top: 5%;
+    margin: 8px;
+}
+
+.movies-browse .streamingDiv {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    padding-top: 15px;
+}
+
+.movies-browse swiper-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.movies-browse swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.movies-browse swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.movies-browse .synopsisText {
+    font-size: 16px;
+}
+
+.movies-browse tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.movies-search .addToCollectionButton {
+    width: 160px;
+}
+
+.movies-search .confirmButton {
+    width: 160px;
+}
+
+.movies-search .genre1Cell {
+    width: 20%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.movies-search #genre1ColumnHeader {
+    width: 20%;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+}
+
+.movies-search .hidden {
+    display: none;
+}
+
+.movies-search p {
+    margin-bottom: 0 !important;
+    margin-left: 0 !important;
+    text-align: center !important;
+}
+
+.movies-search .poster {
+    width:160px;
+}
+
+.movies-search .posterCell {
+    width: 12.5%;
+    padding: 10px;
+    text-align: left;
+}
+
+.movies-search #posterColumnHeader {
+    width: 12.5%;
+    padding: 10px;
+}
+
+.movies-search #showFiltersButton {
+    color: white !important;
+}
+
+.movies-search .streamingDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.movies-search #streamingPlatformsColumnHeader {
+    width: 25%;
+}
+
+.movies-search .streamingPlatformsCell {
+    width: 25%;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+.movies-search .streamingServiceIcon {
+    width: 65px;
+}
+
+.movies-search #theaterPhoto {
+    width: 235px;
+    height: 120px;
+}
+
+.movies-search .titleCell {
+    width: 32.5%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.movies-search #titleColumnHeader {
+    width: 32.5%;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.movies-search tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.movies-search .yearCell {
+    width: 5%;
+    text-align: center;
+    font-size: 16px;
+}
+
+.movies-search #yearColumnHeader {
+    width: 5%;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+}
+
+.profile .bookCard {
+    background-color: #005d85 !important;
+}
+
+.profile .cardContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile #chooseFileButton {
+    color: rgb(157, 157, 157) !important;
+}
+
+.profile .collectionNameLi {
+    text-align: center;
+    color: white;
+}
+
+.profile .column {
+    width: 30%;
+    padding: 10px;
+    text-align: center;
+}
+
+.profile .gameCard {
+    background-color: #57a65f !important;
+}
+
+.profile .left {
+    order: 1;
+}
+
+.profile .middle {
+    order: 2;
+}
+
+.profile .movieCard {
+    background-color: #b50a0a !important;
+}
+
+.profile #profilePicture {
+    max-height: 400px;
+    max-width: 400px;
+    border: 1px solid black;
+}
+
+.profile #profileAndUsernameText {
+    text-align: center;
+}
+
+.profile #profilePictureDiv {
+    text-align: center;
+}
+
+.profile .right {
+    order: 3;
+}
+
+.profile #settingsClickable {
+    cursor: pointer;
+}
+
+.profile swiper-container {
+    width: 240px;
+    height: 320px;
+}
+
+.profile swiper-slide {
+    align-items: center;
+    border-radius: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.search-collections #bookCollectionColumnHeader {
+    font-size: 36px;
+    background-color: #005d85;
+    text-align: center;
+}
+
+.search-collections #bookColumnBlock {
+    background: #005d85;
+}
+
+.search-collections .bookCollectionLink {
+    color: WhiteSmoke;
+    text-shadow: white 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .bookCollectionStrip {
+    text-align: center;
+    background: #005d85;
+    margin-top: 3px;
+}
+
+.search-collections #bookCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
+}
+
+.search-collections .collectionItemLink {
+    color: white;
+    font-weight: bold;
+}
+
+.search-collections .createdBy {
+    color: white;
+    font-weight: bold;
+}
+
+.search-collections #gameCollectionColumnHeader {
+    font-size: 36px;
+    background-color: #57a65f;
+    text-align: center;
+}
+
+.search-collections #gameColumnBlock {
+    background: #57a65f;
+}
+
+.search-collections .gameCollectionLink {
+    color: WhiteSmoke;
+    text-shadow: #FC0 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .gameCollectionStrip {
+    text-align: center;
+    background-color: #57a65f;
+    margin-top: 3px;
+}
+
+.search-collections #gameCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
+}
+
+.search-collections .hiddenColumnHeader {
+    width: 0px;
+    padding: 0px;
+}
+
+.search-collections #movieCollectionColumnHeader {
+    background-color: #b50a0a;
+    color: orange;
+    font-size: 36px;
+    text-align: center;
+}
+
+.search-collections #movieColumnBlock {
+    background: #b50a0a;
+}
+
+.search-collections .movieCollectionLink {
+    color: orange;
+    text-shadow: #FC0 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .movieCollectionStrip {
+    text-align: center;
+    background: #b50a0a;
+    margin-top: 3px;
+}
+
+.search-collections #movieCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
+}
+
+.search-collections .toggleIcon {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.search-collections tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.view-book-collection .linkToBookDetails {
+    color: inherit;
+}
+
+.view-book-collection .swiper-button-next {
+    left: 200px;
+}
+
+.view-book-collection swiper-container {
+    width: 725px;
+    height: 100%;
+    }
+
+.view-book-collection swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none !important;
+}
+
+.view-book-collection swiper-slide img {
+    display: block;
+    width: 127px;
+    height: 195px;
+    object-fit: cover;
+}
+
+.view-book-collection tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.view-movie-collection .addNoteRow {
+    box-shadow: 4px 4px 8px 4px grey;
+    border: none 0px;
+    padding: 10px;
+    border-bottom-left-radius: 50px 20px;
+    background-image: radial-gradient(circle, #5c0067 5%, #00d4ff 95%)
+}
+
+.view-movie-collection .sideNoteRow {
+    /*background-image: linear-gradient(30deg, #020024 0%, #090979 35%, #00d4ff 100%);*/
+
+    /*background-image: linear-gradient(to right, #434343 0%, black 100%);*/
+    background-image: radial-gradient( circle 815px at 23.4% -21.8%,  rgba(9,29,85,1) 0.2%, rgba(0,0,0,1) 100.2% );
+    background-clip: content-box;
+    background-bottom-left-radius: 50px 20px;
+    box-shadow: 4px 4px 8px 4px grey;
+    border: 2px transparent;
+    padding: 10px;
+    border-bottom-left-radius: 50px 20px;
+
+}
+
+.view-movie-collection .swiper-button-next {
+    left: 200px;
+}
+
+.view-movie-collection swiper-container {
+    width: 100%;
+    height: 100%;
+    }
+
+.view-movie-collection swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.view-movie-collection swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.view-movie-collection table {
+    box-shadow: 20px 20px 80px 15px grey;
+    border: transparent;
+
+}
+
+.view-movie-collection tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+
