@@ -1,8 +1,3 @@
-// Boolean switch variables. Used when alternating between ASC/DESC sorting.
-let isAscendingMovieTitle = true;
-let isAscendingMovieYear= true;
-let isAscendingMovieGenre = true;
-
 // Listens for changes in the "User Collection" dropdown menu. Collection names are displayed, but
 // the value for each option is linked to the Collection's ID.
 window.onload = function() {
@@ -34,11 +29,10 @@ function buildHTMLResultsTable(url) {
         <thead>
             <tr>
                 <th id="posterColumnHeader"></th>
-                <th id="titleColumnHeader" onclick="sortTableByTitle()">Title</th>
-                <th id="yearColumnHeader" onclick="sortTableByYear()">Year</th>
-                <th id="genre1ColumnHeader" onclick="sortTableByGenre1()">Genre</th>
-                <th id="synopsisColumnHeader">Synopsis</th>
-                <th id="addToCollectionHeader"></th>
+                <th id="titleColumnHeader" onclick="sortTable('movieTable', 1)">Title</th>
+                <th id="yearColumnHeader" onclick="sortTable('movieTable', 2)">Year</th>
+                <th id="genre1ColumnHeader" onclick="sortTable('movieTable', 3)">Genre</th>
+                <th id="streamingPlatformsColumnHeader"></th>
             </tr>
         </thead>
         <tbody>
@@ -66,10 +60,10 @@ function buildHTMLResultsTable(url) {
                 <th class="posterCell">
                     <img class="poster" src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
                     <p id="movieImageURL${i}" hidden> ${'https://image.tmdb.org/t/p/w500' + movie.poster_path}</p><br>
-                    <button id="addToCollectionButton${i}" class="btn btn-primary" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
+                    <button id="addToCollectionButton${i}" class="btn btn-primary addToCollectionButton" onclick="prepareDatabaseInformationForm(${i}); toggleConfirmButtonDropdownForm(${i});">Add to Collection</button>
                     <p id="themoviedbApiId${i}" hidden>${movie.id}</p>
-                    <form id="confirmButtonDropdown${i}" style="display:none;"><br>
-                        <button type="button" class="btn btn-success" onclick="addNewMovieToDatabase();">Confirm</button>
+                    <form>
+                        <button style="display:none;" id="confirmButton${i}" type="button" class="btn btn-success confirmButton" onclick="addNewMovieToDatabase(this);">Confirm</button>
                     </form>
                 </th>
                 <th class="titleCell">
@@ -82,13 +76,8 @@ function buildHTMLResultsTable(url) {
                     <p id="primaryGenre${i}">${movie.genre_ids[0].toString().replace("28", "Action").replace("12", "Adventure").replace("16", "Animation").replace("35", "Comedy").replace("80", "Crime").replace("99", "Documentary").replace("18", "Drama").replace("10751", "Family").replace("14", "Fantasy").replace("36", "History").replace("27", "Horror").replace("10402", "Music").replace("9648", "Mystery").replace("10749", "Romance").replace("878", "Science Fiction").replace("10770", "TV Movie").replace("53", "Thriller").replace("10752", "War").replace("37", "Western")}</p>
                     <p id="movieGenres${i}" hidden>${movie.genre_ids}</p>
                 </th>
-                <th class="synopsisCell">
-                    <swiper-container class="mySwiper" scrollbar="true" direction="vertical" slides-per-view="auto" free-mode="true" mousewheel="true">
-                        <swiper-slide>
-                            <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
-                        </swiper-slide>
-                    </swiper-container>
-                    <a href="/movies/details/${movie.title}" class="readMore">Read more</a>
+                <th class="synopsisCell" hidden>
+                    <p id="movieSynopsis${i}" class="synopsisText">${movie.overview}</p>
                 </th>
                 <th class="streamingPlatformsCell">
                     <button class="btn btn-primary" onclick="buildStreamingServicesHTMLDiv(themoviedbApiId${i}, streamingDiv${i}); toggleStreamingServicesDiv(streamingDiv${i})">Streaming Platforms</button>
@@ -167,8 +156,7 @@ function prepareDatabaseInformationForm(i) {
 
 //Includes alerts if the movie already exists in the collection, or if the user
 //forgot to select a collection.
-function addNewMovieToDatabase() {
-
+function addNewMovieToDatabase(clickedConfirmButton) {
         let collectionDropdown = document.getElementById("collectionNamesDropdown");
         let collectionIdsAndMovies = document.getElementById("collectionIdsAndMovies");
         let collectionIdsAndMoviesArray = collectionIdsAndMovies.innerHTML.split('}],');
@@ -189,10 +177,21 @@ function addNewMovieToDatabase() {
             // prevent the addition by presenting an alert warning and return (preventing a duplicate addition of the movie to the collection)
             if (id.includes(collectionDropdown.value) && text.includes(document.getElementById('synopsisSubmission').value)) {
                 alert(collectionNamesDropdown.options[collectionNamesDropdown.selectedIndex].text + ' already contains ' + document.getElementById('titleSubmission').value + '!');
+                clickedConfirmButton.style.display = "none";
                 return;
             }
         }
-    document.getElementById("databaseInformation").submit();
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost:8080/movies/search",
+            data: $('#databaseInformation').serialize(),
+            success: function(data) {
+                clickedConfirmButton.style.display = "none";
+            },
+            error: function(xhr, status, error) {
+                // Handle error response here
+            }
+        });
 }
 
 function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
@@ -206,6 +205,11 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
         .then(function(response) {
         response.json().then(function(json) {
 
+        if (!json.results.US || !json.results.US.flatrate) {
+            document.getElementById(streamingDivId.id).innerHTML = `<br><p>Not available on stream.</p>`;
+            return;
+        }
+
         let streamingServicesHTML = "";
 
         for (let i = 0; i < json.results.US.flatrate.length; i++) {
@@ -214,7 +218,7 @@ function buildStreamingServicesHTMLDiv(apiClientMovieId, streamingDivId) {
             }
             let streamingService = json.results.US.flatrate[i];
             if (streamingService.provider_name !== "HBO Max Amazon Channel" && streamingService.provider_name !== "Starz Amazon Channel") {
-                let html = `<img src="https://www.themoviedb.org/t/p/original/${streamingService.logo_path}" alt="${streamingService.display_name}"/>`;
+                let html = `<img src="https://www.themoviedb.org/t/p/original/${streamingService.logo_path}" alt="${streamingService.display_name}" class="streamingServiceIcon"/>`;
                 streamingServicesHTML += html;
             }
         }
@@ -234,7 +238,8 @@ function toggleStreamingServicesDiv(chosenMovie) {
 }
 
 function toggleConfirmButtonDropdownForm(i) {
-    const dropdownForm = document.getElementById(`confirmButtonDropdown${i}`);
+    document.getElementById(`addToCollectionButton${i}`).style.display = 'none';
+    const dropdownForm = document.getElementById(`confirmButton${i}`);
     if (dropdownForm.style.display === "none") {
         dropdownForm.style.display = "block";
     } else {
@@ -242,89 +247,50 @@ function toggleConfirmButtonDropdownForm(i) {
     }
 }
 
-function sortTableByTitle() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
+//SORTING
+function sortTable(tableId, column) {
+    var table = document.getElementById(tableId);
+    var rows = Array.from(table.tBodies[0].rows);
+    var sortOrder = table.getAttribute('data-sort-order') || 'asc';
+    var sortDirection = sortOrder === 'asc' ? 1 : -1;
 
-    rows.sort((rowA, rowB) => {
-    const titleA = rowA.querySelector('[id^="movieTitle"]').textContent;
-    const titleB = rowB.querySelector('[id^="movieTitle"]').textContent;
-    if (titleA < titleB) {
-        return -1;
-    } else if (titleA > titleB) {
-        return 1;
-    } else {
-        return 0;
-    }
+    rows.sort(function(rowA, rowB) {
+        var cellA = rowA.cells[column].textContent.trim().toLowerCase();
+        var cellB = rowB.cells[column].textContent.trim().toLowerCase();
+
+        if (cellA === cellB) {
+            return 0;
+        }
+
+        return cellA < cellB ? -1 * sortDirection : sortDirection;
     });
 
-    if (!isAscendingMovieTitle) {
-        rows.reverse();
-    }
-
-    isAscendingMovieTitle = !isAscendingMovieTitle;
     table.tBodies[0].append(...rows);
+
+    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    table.setAttribute('data-sort-order', sortOrder);
 }
 
-function sortTableByYear() {
-    const table = document.querySelector('table');
-    const rows = Array.from(table.querySelectorAll('tr')).slice(1);
+document.addEventListener("DOMContentLoaded", function() {
+    const dropdown = document.getElementById('collectionNamesDropdown');
+    let prevValue = dropdown.value;
 
-    rows.sort((rowA, rowB) => {
-        const yearA = rowA.querySelector('[id^="movieDate"]').textContent;
-        const yearB = rowB.querySelector('[id^="movieDate"]').textContent;
+    dropdown.addEventListener('change', function() {
+        if (prevValue === "") {
+            prevValue = dropdown.value;
+            return;
+        }
 
-    if (yearA < yearB) {
-        return -1;
-    } else if (yearA > yearB) {
-        return 1;
-    } else {
-        return 0;
-    }
+        const confirmButtons = document.querySelectorAll(".confirmButton");
+        confirmButtons.forEach(button => {
+            button.style.display = "none";
+        });
+
+        const addToCollectionButtons = document.querySelectorAll(".addToCollectionButton");
+        addToCollectionButtons.forEach(button => {
+            button.style.display = "block";
+        });
+
+        prevValue = dropdown.value;
     });
-
-    if (!isAscendingMovieYear) {
-        rows.reverse();
-    }
-
-    isAscendingMovieYear = !isAscendingMovieYear;
-    table.tBodies[0].append(...rows);
-}
-
-function sortTableByGenre1() {
-    const table = document.querySelector("table");
-    const rows = Array.from(table.rows).slice(1); // skip the first row (header)
-
-    rows.sort((rowA, rowB) => {
-    const genreA = rowA.querySelector('[id^="primaryGenre"]').textContent;
-    const genreB = rowB.querySelector('[id^="primaryGenre"]').textContent;
-    if (genreA < genreB) {
-        return -1;
-    } else if (genreA > genreB) {
-        return 1;
-    } else {
-        return 0;
-    }
-    });
-
-    if (!isAscendingMovieGenre) {
-        rows.reverse();
-    }
-
-    isAscendingMovieGenre = !isAscendingMovieGenre;
-    table.tBodies[0].append(...rows);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});

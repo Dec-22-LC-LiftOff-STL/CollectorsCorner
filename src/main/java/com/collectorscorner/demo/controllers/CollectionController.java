@@ -75,7 +75,7 @@ public class CollectionController {
     }
 
     @PostMapping("/create-movie-collection")
-    public String processCreateMovieCollection(@ModelAttribute @Valid CreateMovieCollectionDTO createMovieCollectionDTO, @CookieValue("userId") String myCookie, Errors errors, HttpServletRequest request, Model model) {
+    public String processCreateMovieCollection(@ModelAttribute("createMovieCollectionDTO") @Valid CreateMovieCollectionDTO createMovieCollectionDTO, @CookieValue("userId") String myCookie) {
         Integer userId = Integer.parseInt(myCookie);
         Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isPresent()) {
@@ -483,7 +483,6 @@ public class CollectionController {
         } else {
             return "redirect:../";
         }
-
     }
 
 

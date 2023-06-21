@@ -8,7 +8,7 @@
 
 <h1 class="text-center" th:text="${movieCollection.name}"></h1>
 <h4 class="text-center">
-    <span th:text="'This Movie Collection Belongs To: '"></span><a th:href="@{'/collector/' + ${movieCollection.getUser().getId()}}" th:text="${movieCollection.getUser().getScreenName()}"></a>
+    <span th:text="'This Movie Collection Belongs To: '"></span><a th:href="@{'/profile/' + ${movieCollection.getUser().getUsername()}}" th:text="${movieCollection.getUser().getUsername()}"></a>
 </h4>
 <br>
 

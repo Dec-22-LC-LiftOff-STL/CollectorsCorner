@@ -1,5 +1,35 @@
+.book-details .content-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.book-details .left-column {
+    width: 40%
+}
+
+.book-details #pages {
+    margin-left: 0;
+}
+
+.book-details #publisher {
+    margin-left: 0;
+}
+
+.book-details .right-column {
+    width: 60%;
+}
+
+.book-details #synopsis {
+    margin-left: 0;
+}
+
+.book-details #title {
+    margin-top: 0;
+}
+
 .books-search .authorCell {
-    width: 10%;
+    width: 15%;
+    font-size: 16px;
 }
 
 .books-search #authorCheckboxes {
@@ -8,12 +38,14 @@
 }
 
 .books-search #authorColumnHeader {
-    width: 10%;
+    width: 15%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .books-search .bookAuthor {
     margin-left: 0px;
+    font-size: 16px;
 }
 
 .books-search .bookDate {
@@ -22,6 +54,7 @@
 
 .books-search .bookGenres {
     margin-left: 0px;
+    font-size: 16px;
 }
 
 .books-search .booksResultsHeaderRow {
@@ -33,11 +66,12 @@
 }
 
 .books-search .confirmButton {
-
+    width: 131.65px;
 }
 
 .books-search .genreCell {
     width: 15%;
+    font-size: 16px;
 }
 
 .books-search #genreCheckboxes {
@@ -48,6 +82,7 @@
 .books-search #genreColumnHeader {
     width: 15%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .books-search #headerPhoto {
@@ -59,24 +94,22 @@
     display: none;
 }
 
-.books-search #newSearchButton {
-
-}
 
 .books-search p {
     margin-bottom: 0 !important;
 }
 
 .books-search .poster {
-    width:131.89 px;
+    width: 131.65px;
 }
 
 .books-search .posterCell {
-    width: 15%
+    width: 5%;
+    text-align: left;
 }
 
 .books-search #posterColumnHeader {
-    width: 15%;
+    width: 5%;
 }
 
 .books-search #searchTypeDropdown {
@@ -102,12 +135,14 @@
 }
 
 .books-search .titleCell {
-    width: 15%;
+    width: 20%;
+    font-size: 16px;
 }
 
 .books-search #titleColumnHeader {
-    width: 15%;
+    width: 20%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .books-search tr:nth-child(odd) {
@@ -116,11 +151,13 @@
 
 .books-search .yearCell {
     width: 5%;
+    font-size: 16px;
 }
 
 .books-search #yearColumnHeader {
     width: 5%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .collections-delete .authorHeader {
@@ -318,6 +355,10 @@
     cursor: pointer;
 }
 
+.games-search .addToCollectionButton {
+    width: 200px;
+}
+
 .games-search #creatorCheckboxes {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 4 columns with equal width */
@@ -334,11 +375,13 @@
     width: 15%;
     vertical-align: middle;
     text-align: center;
+    font-size: 16px;
 }
 
 .games-search #genre1ColumnHeader {
     width: 15%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .games-search #genreCheckboxes {
@@ -358,40 +401,45 @@
 .games-search .maxPlayersCell {
     width: 10%;
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .games-search #maxPlayersColumnHeader {
     width: 10%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .games-search .minPlayersCell {
     width: 10%
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .games-search #minPlayersColumnHeader {
     width: 10%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .games-search p {
     text-align: center !important;
-    margin-left: 10px !important;
+    margin-left: 0px !important;
     margin-bottom: 0 !important;
 }
 
 .games-search .poster {
-    width:55%;
+    width: 200px;
 }
 
 .games-search .posterCell {
-    width: 15%;
+    text-align: left;
     width: 225px;
+    width: 10%;
 }
 
 .games-search #posterColumnHeader {
-    width: 15%;
+    width: 10%;
 }
 
 .games-search #showFiltersButton {
@@ -413,14 +461,16 @@
 }
 
 .games-search .titleCell {
-    width: 15%;
+    width: 20%;
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .games-search #titleColumnHeader {
-    width: 15%;
+    width: 20%;
     cursor: pointer;
     padding: 10px;
+    font-size: 16px;
 }
 
 .games-search tr:nth-child(odd) {
@@ -430,11 +480,13 @@
 .games-search .yearCell {
     width: 5%;
     vertical-align: middle;
+    font-size: 16px;
 }
 
 .games-search #yearColumnHeader {
     width: 5%;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .movie-details .actorDiv {
@@ -640,20 +692,26 @@
     background-color: transparent;
 }
 
-.movies-search #addToCollectionHeader {
-    width: 15%;
+.movies-search .addToCollectionButton {
+    width: 160px;
+}
+
+.movies-search .confirmButton {
+    width: 160px;
 }
 
 .movies-search .genre1Cell {
-    width: 15%;
+    width: 20%;
     text-align: center;
-    vertical-align: middle
+    vertical-align: middle;
+    font-size: 16px;
 }
 
 .movies-search #genre1ColumnHeader {
-    width: 15%;
+    width: 20%;
     cursor: pointer;
     text-align: center;
+    font-size: 16px;
 }
 
 .movies-search .hidden {
@@ -662,23 +720,23 @@
 
 .movies-search p {
     margin-bottom: 0 !important;
+    margin-left: 0 !important;
     text-align: center !important;
 }
 
 .movies-search .poster {
-    width:131.84px
+    width:160px;
 }
 
 .movies-search .posterCell {
-    width: 15%;
+    width: 12.5%;
     padding: 10px;
-    vertical-align: middle;
+    text-align: left;
 }
 
 .movies-search #posterColumnHeader {
-    width: 15%;
+    width: 12.5%;
     padding: 10px;
-    text-align: center;
 }
 
 .movies-search #showFiltersButton {
@@ -687,25 +745,21 @@
 
 .movies-search .streamingDiv {
     display: flex;
-    align-items: left;
-    justify-content: left;
+    justify-content: center;
+}
+
+.movies-search #streamingPlatformsColumnHeader {
+    width: 25%;
 }
 
 .movies-search .streamingPlatformsCell {
-    width: 15%;
+    width: 25%;
     padding: 10px;
-    vertical-align: middle
+    vertical-align: middle;
 }
 
-.movies-search .synopsisCell {
-    width: 40%;
-    text-align: center;
-    vertical-align: middle
-}
-
-.movies-search #synopsisColumnHeader {
-    width: 40%;
-    text-align: center;
+.movies-search .streamingServiceIcon {
+    width: 65px;
 }
 
 .movies-search #theaterPhoto {
@@ -714,16 +768,18 @@
 }
 
 .movies-search .titleCell {
-    width: 20%;
+    width: 32.5%;
     text-align: center;
-    vertical-align: middle
+    vertical-align: middle;
+    font-size: 16px;
 }
 
 .movies-search #titleColumnHeader {
-    width: 20%;
+    width: 32.5%;
     cursor: pointer;
     text-align: center;
     padding: 10px;
+    font-size: 16px;
 }
 
 .movies-search tr:nth-child(odd) {
@@ -733,17 +789,55 @@
 .movies-search .yearCell {
     width: 5%;
     text-align: center;
-    vertical-align: middle
+    font-size: 16px;
 }
 
 .movies-search #yearColumnHeader {
     width: 5%;
     cursor: pointer;
     text-align: center;
+    font-size: 16px;
+}
+
+.profile .bookCard {
+    background-color: #005d85 !important;
+}
+
+.profile .cardContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .profile #chooseFileButton {
     color: rgb(157, 157, 157) !important;
+}
+
+.profile .collectionNameLi {
+    text-align: center;
+    color: white;
+}
+
+.profile .column {
+    width: 30%;
+    padding: 10px;
+    text-align: center;
+}
+
+.profile .gameCard {
+    background-color: #57a65f !important;
+}
+
+.profile .left {
+    order: 1;
+}
+
+.profile .middle {
+    order: 2;
+}
+
+.profile .movieCard {
+    background-color: #b50a0a !important;
 }
 
 .profile #profilePicture {
@@ -752,25 +846,145 @@
     border: 1px solid black;
 }
 
+.profile #profileAndUsernameText {
+    text-align: center;
+}
+
+.profile #profilePictureDiv {
+    text-align: center;
+}
+
+.profile .right {
+    order: 3;
+}
+
 .profile #settingsClickable {
     cursor: pointer;
 }
 
-.search-collections #movieCollectionColumn {
+.profile swiper-container {
+    width: 240px;
+    height: 320px;
+}
+
+.profile swiper-slide {
+    align-items: center;
+    border-radius: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.search-collections #bookCollectionColumnHeader {
+    font-size: 36px;
+    background-color: #005d85;
+    text-align: center;
+}
+
+.search-collections #bookColumnBlock {
+    background: #005d85;
+}
+
+.search-collections .bookCollectionLink {
+    color: WhiteSmoke;
+    text-shadow: white 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .bookCollectionStrip {
+    text-align: center;
+    background: #005d85;
+    margin-top: 3px;
+}
+
+.search-collections #bookCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
+}
+
+.search-collections .collectionItemLink {
+    color: white;
+    font-weight: bold;
+}
+
+.search-collections .createdBy {
+    color: white;
+    font-weight: bold;
+}
+
+.search-collections #gameCollectionColumnHeader {
+    font-size: 36px;
+    background-color: #57a65f;
+    text-align: center;
+}
+
+.search-collections #gameColumnBlock {
+    background: #57a65f;
+}
+
+.search-collections .gameCollectionLink {
+    color: WhiteSmoke;
+    text-shadow: #FC0 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .gameCollectionStrip {
+    text-align: center;
+    background-color: #57a65f;
+    margin-top: 3px;
+}
+
+.search-collections #gameCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
+}
+
+.search-collections .hiddenColumnHeader {
+    width: 0px;
+    padding: 0px;
+}
+
+.search-collections #movieCollectionColumnHeader {
     background-color: #b50a0a;
     color: orange;
     font-size: 36px;
+    text-align: center;
 }
 
-.search-collections #movieCollectionHeader {
-    font-size: 36px;
+.search-collections #movieColumnBlock {
+    background: #b50a0a;
+}
+
+.search-collections .movieCollectionLink {
+    color: orange;
+    text-shadow: #FC0 1px 0 12px;
+    text-shadow: black 1px 0 4px;
+}
+
+.search-collections .movieCollectionStrip {
     text-align: center;
-    color: 'orange';
+    background: #b50a0a;
+    margin-top: 3px;
+}
+
+.search-collections #movieCollectionTable td:first-child {
+    width: 0%;
+    white-space: nowrap;
+}
+
+.search-collections .toggleIcon {
+    font-size: 25px;
+    cursor: pointer;
 }
 
 .search-collections tr:nth-child(odd) {
     background-color: transparent;
 }
+
 
 .view-movie-collection .addNoteRow {
     box-shadow: 4px 4px 8px 4px grey;
@@ -778,6 +992,10 @@
     padding: 10px;
     border-bottom-left-radius: 50px 20px;
     background-image: radial-gradient(circle, #5c0067 5%, #00d4ff 95%)
+
+.view-book-collection .linkToBookDetails {
+    color: inherit;
+
 }
 
 .view-book-collection .swiper-button-next {
@@ -785,7 +1003,7 @@
 }
 
 .view-book-collection swiper-container {
-    width: 100%;
+    width: 725px;
     height: 100%;
     }
 
@@ -801,8 +1019,8 @@
 
 .view-book-collection swiper-slide img {
     display: block;
-    width: 125px;
-    height: 160px;
+    width: 127px;
+    height: 195px;
     object-fit: cover;
 }
 
