@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments :: head}"></head>
 <div th:replace="fragments :: page-header"></div>
 <script>window.onload = screenMode()</script>
@@ -21,24 +21,11 @@
 </div>
 
 
-<div th:if="${movieCollection.description != ''}" class="container" style="width: 75rem;">
+<div th:if="${movieCollection.description != ''}" class="container" style="width: 40rem;">
     <H2 class="text-center" th:text="Description"></H2>
     <i>
         <H3 class="card text-center" th:text="${movieCollection.description}"></H3>
     </i>
-</div>
-<div th:id="editMovieDescriptionToolbox" th:if="${movieCollection.user.id == userId}" class="container" style="width: 40rem;">
-    <H4 class="text-center">▶ Edit Collection Description</H4>
-        <form method="post" th:action="@{/collections/edit-movie-collection/{movieCollectionId}(movieCollectionId=${movieCollectionId})}">
-            <div th:display="hidden">
-                <textarea style="color:black" class="movieAddText" name="description"  th:text="${movieCollection.description}"  th:id="movieDescriptionText" rows="5" cols="50" oninput="validateAddSideNote(this)"></textarea>
-            </div>
-            <div>
-                <br>
-                <input type="submit" value="Update Description">
-                <button th:id="moveDescriptionClear" type="button">Clear input</button>
-            </div>
-        </form>
 </div>
 
 <div th:else>
@@ -46,24 +33,18 @@
     <br>
 </div>
 
-<div style="background-color:transparent">
+<div style="background-color:firebrick">
 <table class="table" id="table">
     <thead>
         <tr>
-            <th class="col-lg-2 text-center" id="movieImageHeader">Movie</th>
-            <th class="col-lg-2 text-center" id="movieTitleHeader">Title</th>
+            <th class="col-lg-2 text-center" id="movieImageHeader">Image</th>
+            <th class="col-lg-2 text-center" id="movieTitleHeader">Movie</th>
             <th class="col-lg-2 text-center" id="movieYearHeader">Year</th>
             <th class="col-lg-2 text-center" id="movieDirectorHeader">Director</th>
             <th class="col-lg-2 text-center" id="movieGenreHeader">Genre(s)</th>
         </tr>
     </thead>
     <span th:each="movie : ${movieCollection.movies}">
-         <tr>
-            <td td class="text-left" colspan="5" bgcolor="transparent" border-color="transparent" >
-
-            </td>
-        </tr>
-
         <tr>
             <td class="text-center" rowspan="2">
                 <img height="170px" th:src="${movie.imageURL}" alt="movie image">
@@ -86,60 +67,38 @@
         <tr>
             <td td class="text-left" colspan="4" th:each="movieSideNote : ${allMovieSideNotes}" th:if="${movieSideNote.moviesId == movie.id and movieSideNote.movieCollectionId == movieCollection.id}">
                 <i>
-                    <H4 style="white-space: pre-wrap;" th:text="${movieSideNote.movieSideNote}"></H4>
+                    <H4 th:text="${movieSideNote.movieSideNote}"></H4>
                 </i>
             </td>
         </tr>
         <span th:if="${movieCollection.user.id == userId}">
             <tr class="addNoteRow" >
                 <td class="text-center" colspan="5">
-                     <div onclick="showCreateToolbox(this)">
-                         <h4 th:id="'Movie Sidenote Label ' + ${movie.id}">▶ Create a Sidenote</h4>
-                     </div>
-                     <div style="display: none" th:id="'Movie Sidenote Create Form ' + ${movie.id}">
                     <form method="post">
-                        <div th:display="hidden">
-                            <input th:id="movieAddId" class="movieAdd" type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
-                            <textarea style="color:black" class="movieAddText" name="movieSideNote"  th:id="'Movie Sidenote Text ' + ${movie.id}" rows="5" cols="50" oninput="validateAddSideNote(this)"></textarea>
-                        </div>
-                            <div>
-                                <br>
-                                <input type="hidden" th:id="'Movie Sidenote Submit ' + ${movie.id}" value="Add SideNote" th:display="hidden">
-                                <button th:id="'Clear Button ' + ${movie.id}" type="button">Clear input</button>
-                            </div>
+                        <input id="movieAddId" class="movieAdd" type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
+<!--                        <input type="text" name="movieCollectionId" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}" hidden>-->
+                        <input type="text" name="movieSideNote">
+                        <input type="submit" value="Add SideNote">
                     </form>
-                     </div>
                 </td>
             </tr>
-
             <tr id="movieSideNoteEdit" class="sideNoteRow" th:each="movieSideNote : ${allMovieSideNotes}" th:if="${movieSideNote.moviesId == movie.id and movieSideNote.movieCollectionId == movieCollection.id}">
-                <td id="movieSideNoteEdit2" class="text-center" colspan="5">
-                    <div onclick="showEditToolbox(this)">
-                        <h4 th:id="'Movie Sidenote Update Label ' + ${movie.id}" >▶ Edit Sidenote </h4>
-                    </div>
-                    <div style="display: none" th:id="'Movie Sidenote Edit Form ' + ${movie.id}">
-                    <form method="post">
-                        <input id="movieEditId" class="movieEdit" type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
-                        <textarea style="color:black" class="movieEditText" th:text="${movieSideNote.movieSideNote}" name="movieSideNote" th:value="${movieSideNote.movieSideNote}" th:id="'Movie Sidenote Text To Edit ' + ${movie.id}" rows="5" cols="50" oninput="validateSideNoteEdit(this)"></textarea>
-                    <div>
-                        <br>
-                        <input type="hidden" th:id="'Movie Sidenote Update ' + ${movie.id}" value="Update Sidenote" th:display="hidden">
-                        <button th:id="'Clear Button ' + ${movie.id}" type="button">Clear input</button>
-                    </div>
-                    </form>
-                    <form method="post" th:action="@{/collections/deleteMovieSideNote/{movieCollectionId}(movieCollectionId=${movieCollectionId})}">
-                        <input id="movieDeleteId" class="movieDelete" type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
-                        <br>
-                        <input type="submit" value="Delete this Sidenote">
-                    </form>
-                    </div>
-                 </td>
+                    <td id="movieSideNoteEdit2" class="text-center" colspan="5">
+                        <form method="post">
+                            <input id="movieEditId" class="movieEdit" type="text" name="moviesId" th:value="${movie.id}" th:attr="value=${movie.id}" hidden>
+<!--                            <input type="text" name="movieCollectionId" th:value="${movieCollection.id}" th:attr="value=${movieCollection.id}" hidden>-->
+                            <input type="text" name="movieSideNote" th:value="${movieSideNote.movieSideNote}">
+                            <input type="submit" value="Update SideNote">
+                        </form>
+                    </td>
             </tr>
-
         </span>
     </span>
 </table>
 </div>
+
+</body>
+
 
 <script>
 function toggleAddMovieSideNoteDisplay(){
@@ -150,9 +109,17 @@ function toggleAddMovieSideNoteDisplay(){
 
     for (let i =0; i < sideNoteRows.length; i++){
         if (sideNoteRows[i].innerHTML){
+            console.log(sideNoteRows[i].innerHTML);
+            console.log(addNoteRows[i].innerHTML);
+            console.log(movieEdits[i].value);
+            console.log(movieAdds[i].value);
+
+            sideNoteRows[i].style.backgroundColor = "FireBrick";
+
             for (let j = 0; j < addNoteRows.length; j++){
                 for(let k = 0; k < sideNoteRows.length; k++){
-                    if (sideNoteRows[k].innerHTML.includes(movieAdds[j].value)){
+                    if(sideNoteRows[k].innerHTML.includes(movieAdds[j].value)){
+                        console.log ("THIS MOVIE HAS A SIDENOTE");
                         addNoteRows[j].style.display = "none";
                     }
                 }
@@ -163,162 +130,8 @@ function toggleAddMovieSideNoteDisplay(){
 toggleAddMovieSideNoteDisplay();
 </script>
 
-<script>
-function validateAddSideNote(inputElement){
-    const movieId = inputElement.parentElement.querySelector('.movieAdd').value;
-
-    if (inputElement.value.length === 0) {
-        document.getElementById('Movie Sidenote Text ' + movieId).style.backgroundColor = "white";
-        document.getElementById('Movie Sidenote Label ' + movieId).style.display = "";
-        document.getElementById('Movie Sidenote Label ' + movieId).innerHTML = "Create a Sidenote";
-        document.getElementById('Movie Sidenote Submit ' + movieId).type="hidden";
-    }
-     else if(inputElement.value.length < 10) {
-        document.getElementById('Movie Sidenote Text ' + movieId).style.backgroundColor = "LightGray";
-        document.getElementById('Movie Sidenote Label ' + movieId).style.display = "";
-        document.getElementById('Movie Sidenote Label ' + movieId).innerHTML = "Keep Typing!";
-        document.getElementById('Movie Sidenote Submit ' + movieId).type="hidden";
-    }
-    else if (inputElement.value.length > 2000) {
-        document.getElementById('Movie Sidenote Text ' + movieId).style.backgroundColor = "red";
-        document.getElementById('Movie Sidenote Label ' + movieId).style.display = "";
-        document.getElementById('Movie Sidenote Label ' + movieId).innerHTML = "Sidenotes cannot exceed 2000 Characters";
-        document.getElementById('Movie Sidenote Submit ' + movieId).type="hidden";
-    }
-    else {
-        document.getElementById('Movie Sidenote Text ' + movieId).style.backgroundColor = "white";
-        document.getElementById('Movie Sidenote Submit ' + movieId).type="submit";
-        document.getElementById('Movie Sidenote Label ' + movieId).innerHTML = "Let your visitors know how this movie fits your collection.";
-    }
-}
-
-function clearInputField(inputField){
-    inputField.value = "";
-}
-
-const clearButtons = document.querySelectorAll('[id^="Clear Button"]');
-clearButtons.forEach((button) => {
-    const movieId = button.id.split(" ")[2];
-    const inputField = document.getElementById('Movie Sidenote Text ' + movieId);
-    button.addEventListener("click", () => {
-        clearInputField(inputField);
-        document.getElementById('Movie Sidenote Text ' + movieId).style.backgroundColor = "white";
-        document.getElementById('Movie Sidenote Label ' + movieId).style.display = "";
-        document.getElementById('Movie Sidenote Label ' + movieId).innerHTML = "Create a Sidenote";
-    });
-});
-</script>
-
-<script>
-function validateSideNoteEdit(inputElement){
-    const movieId = inputElement.parentElement.querySelector('.movieEdit').value;
-
-    if (inputElement.value.length === 0) {
-        document.getElementById('Movie Sidenote Text To Edit ' + movieId).style.backgroundColor = "white";
-        document.getElementById('Movie Sidenote Update Label ' + movieId).style.display = "";
-        document.getElementById('Movie Sidenote Update Label ' + movieId).innerHTML = "Edit Sidenote";
-        document.getElementById('Movie Sidenote Update ' + movieId).type="hidden";
-    }
-     else if(inputElement.value.length < 10) {
-        document.getElementById('Movie Sidenote Text To Edit ' + movieId).style.backgroundColor = "LightGray";
-        document.getElementById('Movie Sidenote Update Label ' + movieId).style.display = "";
-        document.getElementById('Movie Sidenote Update Label ' + movieId).innerHTML = "Keep Typing!";
-        document.getElementById('Movie Sidenote Update ' + movieId).type="hidden";
-    }
-    else if (inputElement.value.length > 2000) {
-        document.getElementById('Movie Sidenote Text To Edit ' + movieId).style.backgroundColor = "red";
-        document.getElementById('Movie Sidenote Update Label ' + movieId).style.display = "";
-        document.getElementById('Movie Sidenote Update Label ' + movieId).innerHTML = "Sidenotes cannot exceed 2000 Characters";
-        document.getElementById('Movie Sidenote Update ' + movieId).type="hidden";
-    }
-    else {
-        document.getElementById('Movie Sidenote Text To Edit ' + movieId).style.backgroundColor = "white";
-        document.getElementById('Movie Sidenote Update Label ' + movieId).type="submit";
-        document.getElementById('Movie Sidenote Update Label ' + movieId).innerHTML = 'When you are finished, hit "Update Sidenote" below.';
-        document.getElementById('Movie Sidenote Update ' + movieId).type="submit";
-    }
-}
-
-function clearInputField(inputField){
-    inputField.value = "";
-}
-
-clearButton = document.querySelectorAll('[id^="Clear Button"]');
-clearButton.forEach((button) => {
-    const movieId = button.id.split(" ")[2];
-    const inputField = document.getElementById('Movie Sidenote Text To Edit ' + movieId);
-    button.addEventListener("click", () => {
-        clearInputField(inputField);
-    document.getElementById('Movie Sidenote Text To Edit ' + movieId).style.backgroundColor = "white";
-    document.getElementById('Movie Sidenote Update Label ' + movieId).style.display = "";
-    document.getElementById('Movie Sidenote Update Label ' + movieId).innerHTML = "Edit your Sidenote";
-    });
-});
-</script>
 
 
-<script>
-function showEditToolbox(thisElement){
-
-    const movieSideNoteLabel = document.querySelectorAll('[id^="Movie Sidenote Update Label "]');
-    movieSideNoteLabel.forEach((label) => {
-        const movieId = label.id.split(" ")[4];
-        const editClickable = document.getElementById('Movie Sidenote Update Label ' + movieId);
-        const editTools = document.getElementById('Movie Sidenote Edit Form ' + movieId);
-
-        if(thisElement.innerHTML.includes(label.id)){
-            if (editTools.style.display === 'none') {
-                editTools.style.display = 'block';
-                editClickable.innerText = '▼ Edit Sidenote';
-            } else {
-                editTools.style.display = 'none';
-                editClickable.innerText = '▶ Edit Sidenote';
-            }
-        };
-    });
-}
-</script>
-
-<script>
-function showCreateToolbox(thisElement){
-
-    const addMovieSideNoteLabel = document.querySelectorAll('[id^="Movie Sidenote Label "]');
-    addMovieSideNoteLabel.forEach((label) => {
-        const movieId = label.id.split(" ")[3];
-        const editClickable = document.getElementById('Movie Sidenote Label ' + movieId);
-        const editTools = document.getElementById('Movie Sidenote Create Form ' + movieId);
-        if (thisElement.innerHTML.includes(label.id)) {
-            if (editTools.style.display === 'none') {
-                editTools.style.display = 'block';
-                editClickable.innerText = '▼ Create Sidenote';
-            } else {
-                editTools.style.display = 'none';
-                editClickable.innerText = '▶ Create Sidenote';
-            }
-        };
-    });
-}
-</script>
-
-<!--<script>-->
-<!--function showEditDescriptionToolbox(thisElement){-->
-<!--        const editClickable = document.getElementById(editMovieDescription);-->
-<!--        const editTools = document.getElementById('Movie Sidenote Create Form ' + movieId);-->
-<!--        if (thisElement.innerHTML.includes(label.id)) {-->
-<!--            if (editTools.style.display === 'none') {-->
-<!--                editTools.style.display = 'block'; -->
-<!--                editClickable.innerText = '▼ Create Sidenote';-->
-<!--            } else {-->
-<!--                editTools.style.display = 'none';-->
-<!--                editClickable.innerText = '▶ Create Sidenote';-->
-<!--            }-->
-<!--        };-->
-<!--    });-->
-<!--}-->
-<!--</script>-->
-
-
-</body>
 </html>
 
 
