@@ -20,7 +20,6 @@ import com.collectorscorner.demo.models.*;
 
 
 import com.collectorscorner.demo.models.dto.CreateMovieCollectionDTO;
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Optional;
 
 @Controller
@@ -409,7 +407,6 @@ public class CollectionController {
         return "redirect:/collections/delete/games/{collectionId}";
     }
 
-
     @PostMapping("/view-movie-collection/{movieCollectionId}")
     public String processCreateMovieSideNote(@PathVariable("movieCollectionId") int movieCollectionId, @CookieValue("userId") String myCookie,
                                              @RequestParam("moviesId") int moviesId,
@@ -423,15 +420,31 @@ public class CollectionController {
         if (optionalUser.isPresent()) {
             model.addAttribute("user", optionalUser.get());
         }
-
         MovieSideNote newMovieSideNote = new MovieSideNote(movieCollectionId, moviesId, movieSideNote);
         movieSideNoteRepository.save(newMovieSideNote);
         return "redirect:/collections/view-movie-collection/{movieCollectionId}";
     }
 
+    // POST METHOD TO HANDLE EDITING COLLECTION DESCRIPTION
+    @PostMapping("/edit-movie-collection/{movieCollectionId}")
+    public String createMovieCollection(
+            @PathVariable("movieCollectionId") int movieCollectionId,
+            @ModelAttribute("createMovieCollectionDTO") CreateMovieCollectionDTO createMovieCollectionDTO,
+            Model model
+    ) {
+        MovieCollection movieCollection = movieCollectionRepository.findById(movieCollectionId).orElse(null);
+        if (movieCollection == null) {
+            // Handle the case when the movie collection is not found
+            return "redirect:/collections";
+        }
+        movieCollection.setDescription(createMovieCollectionDTO.getDescription());
+        movieCollectionRepository.save(movieCollection);
+        return "redirect:/collections/view-movie-collection/{movieCollectionId}";
+    }
+
+
     @PostMapping("/deleteMovieSideNote/{movieCollectionId}")
     public String deleteMovieSideNote(@CookieValue("userId") String myCookie, @PathVariable("movieCollectionId") int movieCollectionId, @RequestParam("moviesId") int moviesId, Model model) {
-        System.out.println("Deleting movie side note for movieCollectionId: " + movieCollectionId + " and moviesId: " + moviesId);
 
         if ("null".equals(myCookie)) {
             return "redirect:/login";
@@ -446,7 +459,6 @@ public class CollectionController {
 
         MovieSideNote movieSideNote = movieSideNoteRepository.findByMovieCollectionIdAndMoviesId(movieCollectionId, moviesId);
         movieSideNoteRepository.delete(movieSideNote);
-        System.out.println("Deleting movie side note for movieCollectionId: " + movieCollectionId + " and moviesId: " + moviesId);
 
         return "redirect:/collections/view-movie-collection/{movieCollectionId}";
     }
