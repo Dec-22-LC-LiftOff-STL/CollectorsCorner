@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MovieSideNoteRepository extends CrudRepository<MovieSideNote, MovieCollectedItemId> {
-    MovieSideNote findByMovieSideNote(String movieSideNote);
+                MovieSideNote findByMovieSideNote(String movieSideNote);
+                MovieSideNote findByMovieCollectionIdAndMoviesId(int movieCollectionId, int moviesId);
+
 }
