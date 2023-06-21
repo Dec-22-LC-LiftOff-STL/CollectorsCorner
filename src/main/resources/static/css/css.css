@@ -1019,6 +1019,14 @@
     background-color: transparent;
 }
 
+.view-movie-collection .addNoteRow {
+    box-shadow: 4px 4px 8px 4px grey;
+    border: none 0px;
+    padding: 10px;
+    border-bottom-left-radius: 50px 20px;
+    background-image: radial-gradient(circle, #5c0067 5%, #00d4ff 95%)
+}
+
 .view-movie-collection .sideNoteRow {
     /*background-image: linear-gradient(30deg, #020024 0%, #090979 35%, #00d4ff 100%);*/
 
@@ -1063,7 +1071,6 @@
     border: transparent;
 
 }
-
 
 .view-movie-collection tr:nth-child(odd) {
     background-color: transparent;
