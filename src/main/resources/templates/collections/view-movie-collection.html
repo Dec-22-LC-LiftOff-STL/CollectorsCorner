@@ -29,16 +29,16 @@
 </div>
 <div th:id="editMovieDescriptionToolbox" th:if="${movieCollection.user.id == userId}" class="container" style="width: 40rem;">
     <H4 class="text-center">▶ Edit Collection Description</H4>
-        <form method="post" th:action="@{/collections/edit-movie-collection/{movieCollectionId}(movieCollectionId=${movieCollectionId})}">
-            <div th:display="hidden">
-                <textarea style="color:black" class="movieAddText" name="description"  th:text="${movieCollection.description}"  th:id="movieDescriptionText" rows="5" cols="50" oninput="validateAddSideNote(this)"></textarea>
-            </div>
-            <div>
-                <br>
-                <input type="submit" value="Update Description">
-                <button th:id="moveDescriptionClear" type="button">Clear input</button>
-            </div>
-        </form>
+    <form method="post" th:action="@{/collections/edit-movie-collection/{movieCollectionId}(movieCollectionId=${movieCollectionId})}">
+        <div th:display="hidden">
+            <textarea style="color:black" class="movieAddText" name="description"  th:text="${movieCollection.description}"  th:id="movieDescriptionText" rows="5" cols="50" oninput="validateAddSideNote(this)"></textarea>
+        </div>
+        <div>
+            <br>
+            <input type="submit" value="Update Description">
+            <button th:id="moveDescriptionClear" type="button">Clear input</button>
+        </div>
+    </form>
 </div>
 
 <div th:else>
@@ -47,8 +47,8 @@
 </div>
 
 <div style="background-color:transparent">
-<table class="table" id="table">
-    <thead>
+    <table class="table" id="table">
+        <thead>
         <tr>
             <th class="col-lg-2 text-center" id="movieImageHeader">Movie</th>
             <th class="col-lg-2 text-center" id="movieTitleHeader">Title</th>
@@ -56,8 +56,8 @@
             <th class="col-lg-2 text-center" id="movieDirectorHeader">Director</th>
             <th class="col-lg-2 text-center" id="movieGenreHeader">Genre(s)</th>
         </tr>
-    </thead>
-    <span th:each="movie : ${movieCollection.movies}">
+        </thead>
+        <span th:each="movie : ${movieCollection.movies}">
          <tr>
             <td td class="text-left" colspan="5" bgcolor="transparent" border-color="transparent" >
 
@@ -138,7 +138,7 @@
 
         </span>
     </span>
-</table>
+    </table>
 </div>
 
 <script>
@@ -320,5 +320,4 @@ function showCreateToolbox(thisElement){
 
 </body>
 </html>
-
 
