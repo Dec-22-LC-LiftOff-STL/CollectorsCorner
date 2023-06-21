@@ -17,10 +17,6 @@ public class MovieCollectedItemId implements Serializable {
         this.moviesId=moviesId;
     }
 
-    public int getMovieCollectionId() {
-        return movieCollectionId;
-    }
-
     @Override
     public String toString() {
         return super.toString();
