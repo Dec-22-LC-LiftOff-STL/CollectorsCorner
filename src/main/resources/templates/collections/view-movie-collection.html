@@ -30,8 +30,8 @@
 <div th:id="editMovieDescriptionToolbox" th:if="${movieCollection.user.id == userId}" class="container" style="width: 40rem;">
     <H4 class="text-center">▶ Edit Collection Description</H4>
     <form method="post" th:action="@{/collections/edit-movie-collection/{movieCollectionId}(movieCollectionId=${movieCollectionId})}">
-        <div th:display="hidden">
-            <textarea style="color:black" class="movieAddText" name="description"  th:text="${movieCollection.description}"  th:id="movieDescriptionText" rows="5" cols="50" oninput="validateAddSideNote(this)"></textarea>
+        <div>
+            <textarea style="color:black" class="movieAddText" name="description"  th:text="${movieCollection.description}"  th:id="movieDescriptionText" rows="5" cols="50"></textarea>
         </div>
         <div>
             <br>

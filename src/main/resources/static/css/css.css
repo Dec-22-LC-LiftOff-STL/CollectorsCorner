@@ -1024,7 +1024,7 @@
     border: none 0px;
     padding: 10px;
     border-bottom-left-radius: 50px 20px;
-    background-image: radial-gradient(circle, #5c0067 5%, #00d4ff 95%)
+    background-image: radial-gradient( circle 815px at 23.4% -21.8%,  rgb(108, 123, 134) 0.2%, rgba(0,0,0,1) 100.2% );
 }
 
 .view-movie-collection .sideNoteRow {
@@ -1032,10 +1032,10 @@
 
     /*background-image: linear-gradient(to right, #434343 0%, black 100%);*/
     background-image: radial-gradient( circle 815px at 23.4% -21.8%,  rgba(9,29,85,1) 0.2%, rgba(0,0,0,1) 100.2% );
-    background-clip: content-box;
-    background-bottom-left-radius: 50px 20px;
+    /*background-clip: content-box;
+    background-bottom-left-radius: 50px 20px;*/
     box-shadow: 4px 4px 8px 4px grey;
-    border: 2px transparent;
+    border: none 0px;
     padding: 10px;
     border-bottom-left-radius: 50px 20px;
 
