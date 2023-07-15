@@ -7,6 +7,21 @@
 <body class="container body-content view-movie-collection">
 
 <h1 class="text-center" th:text="${movieCollection.name}"></h1>
+<div th:id="editMovieNameToolbox" th:if="${movieCollection.user.id == userId}" class="container" style="width: 44rem;">
+    <H4 class="text-center">▶ Edit Collection Name</H4>
+    <form method="post" th:action="@{/collections/edit-movie-collection/{movieCollectionId}(movieCollectionId=${movieCollectionId})}">
+        <div>
+            <input type="text" name="description" th:value="${movieCollection.description}" hidden>
+            <textarea style="color:black" class="movieAddText" name="name"  th:text="${movieCollection.name}"  th:id="movieCollectionNameText" rows="1" cols="50"></textarea>
+        </div>
+        <div>
+            <br>
+            <input type="submit" value="Update Name">
+            <button th:id="moveNameClear" type="button">Clear input</button>
+        </div>
+    </form>
+</div>
+
 <h4 class="text-center">
     <span th:text="'This Movie Collection Belongs To: '"></span><a th:href="@{'/profile/' + ${movieCollection.getUser().getUsername()}}" th:text="${movieCollection.getUser().getUsername()}"></a>
 </h4>
@@ -27,7 +42,7 @@
         <H3 class="card text-center" th:text="${movieCollection.description}"></H3>
     </i>
 </div>
-<div th:id="editMovieDescriptionToolbox" th:if="${movieCollection.user.id == userId}" class="container" style="width: 40rem;">
+<div th:id="editMovieDescriptionToolbox" th:if="${movieCollection.user.id == userId}" class="container" style="width: 44rem;">
     <H4 class="text-center">▶ Edit Collection Description</H4>
     <form method="post" th:action="@{/collections/edit-movie-collection/{movieCollectionId}(movieCollectionId=${movieCollectionId})}">
         <div>

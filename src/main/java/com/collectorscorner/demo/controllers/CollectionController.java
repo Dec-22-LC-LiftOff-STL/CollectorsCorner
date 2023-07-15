@@ -429,9 +429,9 @@ public class CollectionController {
     }
 
     @PostMapping("/edit-movie-collection/{movieCollectionId}")
-    public String processCreateMovieSideNote(@PathVariable("movieCollectionId") int movieCollectionId, @CookieValue("userId") String myCookie,
+    public String updateMovieCollectionDescriptionOrName(@PathVariable("movieCollectionId") int movieCollectionId, @CookieValue("userId") String myCookie,
                                              @RequestParam("description") String description,
-//                                             @RequestParam("name") String name,
+                                             @RequestParam("name") String name,
                                              Model model) {
         if ("null".equals(myCookie)) {
             return "redirect:/login";
@@ -447,7 +447,7 @@ public class CollectionController {
             MovieCollection movieCollection = optionalMovieCollection.get();
             // Update the description
             movieCollection.setDescription(description);
-//            movieCollection.setName(name);
+            movieCollection.setName(name);
             movieCollectionRepository.save(movieCollection);
         }
         return "redirect:/collections/view-movie-collection/{movieCollectionId}";
