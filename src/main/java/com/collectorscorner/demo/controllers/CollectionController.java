@@ -428,6 +428,31 @@ public class CollectionController {
         return "redirect:/collections/view-movie-collection/{movieCollectionId}";
     }
 
+    @PostMapping("/edit-movie-collection/{movieCollectionId}")
+    public String updateMovieCollectionDescriptionOrName(@PathVariable("movieCollectionId") int movieCollectionId, @CookieValue("userId") String myCookie,
+                                             @RequestParam("description") String description,
+                                             @RequestParam("name") String name,
+                                             Model model) {
+        if ("null".equals(myCookie)) {
+            return "redirect:/login";
+        }
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            model.addAttribute("user", optionalUser.get());
+        }
+
+        Optional<MovieCollection> optionalMovieCollection = movieCollectionRepository.findById(movieCollectionId);
+        if (optionalMovieCollection.isPresent()) {
+            MovieCollection movieCollection = optionalMovieCollection.get();
+            // Update the description
+            movieCollection.setDescription(description);
+            movieCollection.setName(name);
+            movieCollectionRepository.save(movieCollection);
+        }
+        return "redirect:/collections/view-movie-collection/{movieCollectionId}";
+    }
+
 
     @GetMapping("view-movie-collection/{movieCollectionId}")
     public String displayViewMovieCollection(Model model, @PathVariable int movieCollectionId, @CookieValue(name = "userId") String myCookie) {
