@@ -46,6 +46,7 @@
     <H4 class="text-center">▶ Edit Collection Description</H4>
     <form method="post" th:action="@{/collections/edit-movie-collection/{movieCollectionId}(movieCollectionId=${movieCollectionId})}">
         <div>
+            <input type="text" name="name" th:value="${movieCollection.name}" hidden>
             <textarea style="color:black" class="movieAddText" name="description"  th:text="${movieCollection.description}"  th:id="movieDescriptionText" rows="5" cols="50"></textarea>
         </div>
         <div>
