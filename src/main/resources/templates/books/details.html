@@ -1,62 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments :: head}"></head>
-
 <div th:replace="fragments :: page-header"></div>
+<script>window.onload = screenMode()</script>
+<script type="text/javascript" th:src="@{/javascript/book-details.js}"></script>
+<body class="container body-content book-details">
 
-
-<body class="container body-content">
-
-<h1 th:href="@{'/books/details/'}" th:text="${bookTitle}" id="bookTitle"></h1>
+<p id="bookTitle" th:href="@{'/books/details/'}" th:text="${bookTitle}" hidden></p>
+<p id="bookAuthor" th:text="${foundBookAuthor}" hidden></p>
+<p id="bookYear" th:text="${foundBookYear}" hidden></p>
 
 <div id="bookInfo"></div>
 
+<a id="shopNowLink">
+    <img id="shopNowImg" th:src="@{/images/google-play-store.png}" hidden>
+</a>
+
 <h3>Collections With This Book:</h3>
-<ol >
-    <span th:each="collection: ${collectionsWithThisBook}">
-        <li>
-         <a th:href="@{'/collections/view-book-collection/' + ${collection.id}}" th:text="${collection.name}"></a> <span th:text="'Created by: '"></span> <a th:href="@{'/collector/' + ${collection.getUser().getId()}}" th:text="${collection.getUser().getScreenName()}"></a>
-        </li>
 
-    </span>
-</ol>
+<th:block th:if="${#lists.size(collectionsWithThisBook) > 0}">
+    <ol>
+        <span th:each="collection: ${collectionsWithThisBook}">
+            <li>
+                <a th:href="@{'/collections/view-book-collection/' + ${collection.id}}" th:text="${collection.name}"></a>
+                <span th:text="'Created by: '"></span>
+                <a th:href="@{'/profile/' + ${collection.getUser().getUsername()}}" th:text="${collection.getUser().getUsername()}"></a>
+            </li>
+        </span>
+    </ol>
+</th:block>
+
+<th:block th:unless="${#lists.size(collectionsWithThisBook) > 0}">
+    <i>No collections found with this book. Be the first!</i>
+</th:block>
+
 </body>
+
 </html>
-
-
-<script>
-window.onload = function() {
-
-    bookTitle = document.getElementById("bookTitle").innerHTML;
-    console.log(bookTitle);
-
-    let urlBeginning = "https://www.googleapis.com/books/v1/volumes?q=";
-    let searchTerm;
-    let urlEnding = "&key=AIzaSyA_fNlN4nm1Dkba-D2XE1smV04vA5_42zY";
-
-    searchTerm = bookTitle;
-
-    let url = urlBeginning + searchTerm + urlEnding;
-
-
-    fetch(url).then(function(response) {
-        response.json().then( function(json) {
-            console.log(json.items);
-
-            const div = document.getElementById("bookInfo");
-            div.innerHTML = `
-            <h3>Author(s): ${json.items[0].volumeInfo.authors}</h3>
-            <h4>Synopsis: ${json.items[0].volumeInfo.description}</h4>
-            <img src=${json.items[0].volumeInfo.imageLinks.thumbnail} width=200px>
-            <h3>Published By: ${json.items[0].volumeInfo.publisher}, ${json.items[0].volumeInfo.publishedDate}</h3>
-            `
-            shoplink = document.createElement('a');
-                shoplink.innerHTML = 'Shop Now';
-                shoplink.setAttribute('title', 'Shop Now');
-                shoplink.setAttribute('href', json.items[0].saleInfo.buyLink);
-                document.body.appendChild(shoplink);
-
-        })
-    });
-};
-</script>

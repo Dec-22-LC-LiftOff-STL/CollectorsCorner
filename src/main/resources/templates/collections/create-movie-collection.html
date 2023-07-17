@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-
 <head th:replace="~{fragments :: head}"></head>
-
 <div th:replace="fragments :: page-header"></div>
-
+<script>window.onload = screenMode()</script>
 <body class="container body-content">
 
 <div class="vh=100" style="background-image: url('http://localhost:8080/images/movieCollection.jpg'); background-size: cover;">
@@ -13,22 +11,37 @@
     <form method="post">
         <div class="center">
             <label class="btn btn-movies" >Name This Movie Collection:
-                <p><input class="control" th:field="${createMovieCollectionDTO.name}" /></p>
-
+                <p><input class="control" th:field="${createMovieCollectionDTO.name}" oninput="checkInputLength(this)"/></p>
                 <p> Create a description that will draw the interest of other users.</p>
-
                 <p>
                     <textarea name="textarea" style="width:250px;height:150px;" th:field="${createMovieCollectionDTO.description}"></textarea></p>
-
                 <p class="error" th:errors="${createMovieCollectionDTO.description}"></p>
             </label>
         </div>
 
         <div class="center">
-            <input type="submit" class="btn btn-primary" value="Create Movie Collection"/>
+            <input type="submit" class="btn btn-primary" value="Create Movie Collection" onclick="return checkFormSubmission()"/>
         </div>
-
     </form>
+
+    <script>
+        function checkInputLength(input) {
+            if (input.value.length > 50) {
+                input.setCustomValidity('Name must be less than 50 characters.');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+
+        function checkFormSubmission() {
+            var nameInput = document.querySelector('.control');
+            if (nameInput.value.length > 50) {
+                alert('Name must be less than 50 characters. Currently: ' + nameInput.value.length + ' characters.');
+                return false;
+            }
+            return true;
+        }
+</script>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>
 

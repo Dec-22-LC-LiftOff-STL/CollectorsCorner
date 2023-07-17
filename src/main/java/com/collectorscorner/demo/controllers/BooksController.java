@@ -24,13 +24,10 @@ public class BooksController {
 
     @Autowired
     private BookRepository bookRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private BookCollectionRepository bookCollectionRepository;
-
     @Autowired
     private BookCollectionService bookCollectionService;
 
@@ -53,6 +50,8 @@ public class BooksController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
+            model.addAttribute("screenMode", thisUser.getScreenMode());
             List<BookCollection> thisUsersCollections = thisUser.getUserBookCollection();
             for (BookCollection bookCollection : thisUsersCollections){
                 keys.add(bookCollection.getId());
@@ -88,11 +87,18 @@ public class BooksController {
 
 
     @GetMapping("details/{bookTitle}")
-    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle/*,@CookieValue(name = "userId") String myCookie*/) {
-//        Integer userId = Integer.parseInt(myCookie);
+    public String displayViewBookDetailsPage(Model model, @PathVariable String bookTitle,@CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("username", user.getUsername());
+            model.addAttribute("screenMode", user.getScreenMode());
+        }
 
         Iterable<BookCollection> allBookCollections = bookCollectionRepository.findAll();
         int foundBookYear = 0;
+        String foundBookAuthor = "";
         String collectorName = "";
         ArrayList<BookCollection> foundBooks = new ArrayList<>();
         for (BookCollection collection : allBookCollections){
@@ -100,15 +106,16 @@ public class BooksController {
                 if (collection.getBooks().get(i).getTitle().equals(bookTitle)){
                     foundBooks.add(collection);
                     foundBookYear = collection.getBooks().get(i).getYear();
+                    foundBookAuthor = collection.getBooks().get(i).getAuthor();
                     collectorName = collection.getUser().getUsername();
                 }
             }
-
         }
         model.addAttribute("collectionsWithThisBook", foundBooks);
         model.addAttribute("bookTitle", bookTitle);
         model.addAttribute("books", bookRepository.findAll());
         model.addAttribute("foundBookYear", foundBookYear);
+        model.addAttribute("foundBookAuthor", foundBookAuthor);
         model.addAttribute("collectorName", collectorName);
 
         return "books/details";

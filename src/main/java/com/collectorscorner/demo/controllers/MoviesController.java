@@ -24,38 +24,62 @@ public class MoviesController {
 
     @Autowired
     private MovieRepository movieRepository;
-
     @Autowired
     private MovieCollectionRepository movieCollectionRepository;
-
     @Autowired
     private MovieCollectionService movieCollectionService;
-
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("feed")
-    private String displayFeedPage(Model model) {
-        model.addAttribute("movies", movieRepository.findAll());
-        return "movies/feed";
-    }
-
-    @GetMapping("list")
-    public String displayListPage (Model model, @CookieValue(name = "userId") String myCookie) {
+    @GetMapping("browse")
+    public String displayMoviesListPage(@CookieValue(name = "userId") String myCookie, Model model) {
         model.addAttribute(new Movie());
-//        Integer userId = Integer.parseInt(myCookie);
+        Integer userId = Integer.parseInt(myCookie);
         Iterable<MovieCollection> iterableMovieCollection = movieCollectionRepository.findAll();
-//        Iterable<User> iterableUsers = userRepository.findAll();
+        Iterable<User> iterableUsers = userRepository.findAll();
         model.addAttribute("movieCollections", iterableMovieCollection);
-//        model.addAttribute("cookie", userId);
-//        model.addAttribute("iterableUsers", iterableUsers);
-        return "movies/list";
+        model.addAttribute("cookie", userId);
+        model.addAttribute("iterableUsers", iterableUsers);
+        //Create HashMap to be interpreted by JS as an object. Key = collectionId, Value = Movies in that collection
+        List<Integer> keys = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+        HashMap<Integer, String> collectionIdsAndMovies = new HashMap<>();
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
+            model.addAttribute("screenMode", thisUser.getScreenMode());
+            List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
+            for (MovieCollection movieCollection : thisUsersCollections){
+                keys.add(movieCollection.getId());
+                String moviesString = movieCollection.getMovies().toString();
+                values.add(moviesString);
+            }
+            for (int i=0; i<keys.size(); i++) {
+                collectionIdsAndMovies.put(keys.get(i), values.get(i));
+            }
+            model.addAttribute("collectionIdsAndMovies", collectionIdsAndMovies);
+        }
+        return "movies/browse";
     }
 
-    @PostMapping("list")
-    public String processAddMovieFormOnListPage(@ModelAttribute Movie movie) {
-        movieRepository.save(movie);
-        return "redirect:/movies/list";
+    @PostMapping("browse")
+    public String processAddMovieFormOnListPage(@ModelAttribute Movie movie, @RequestParam("collectionId") Integer collectionId) {
+        Optional<Movie> existingMovie = movieRepository.findByTitleAndYearAndDirector(movie.getTitle(), movie.getYear(), movie.getDirector());
+        if (existingMovie.isPresent()) {
+            Optional<MovieCollection> optionalMovieCollection = movieCollectionRepository.findById(collectionId);
+            if (optionalMovieCollection.isPresent()) {
+                MovieCollection movieCollection = (MovieCollection) optionalMovieCollection.get();
+                movieCollectionService.addMovie(movieCollection, existingMovie.get());
+            }
+        } else {
+            Optional<MovieCollection> optionalMovieCollection = movieCollectionRepository.findById(collectionId);
+            if (optionalMovieCollection.isPresent()) {
+                MovieCollection movieCollection = (MovieCollection) optionalMovieCollection.get();
+                movieCollectionService.addMovie(movieCollection, movie);
+            }
+        }
+        return "redirect:/movies/browse";
     }
 
     @GetMapping("search")
@@ -77,6 +101,8 @@ public class MoviesController {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User thisUser = optionalUser.get();
+            model.addAttribute("username", thisUser.getUsername());
+            model.addAttribute("screenMode", thisUser.getScreenMode());
             List<MovieCollection> thisUsersCollections = thisUser.getUserMovieCollection();
             for (MovieCollection movieCollection : thisUsersCollections){
                 keys.add(movieCollection.getId());
@@ -87,9 +113,7 @@ public class MoviesController {
                 collectionIdsAndMovies.put(keys.get(i), values.get(i));
             }
             model.addAttribute("collectionIdsAndMovies", collectionIdsAndMovies);
-
         }
-
         return "movies/search";
     }
 
@@ -112,9 +136,15 @@ public class MoviesController {
         return "redirect:/movies/search";
     }
 
-    @GetMapping("details/{movieTitle}")
-    public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle/*,@CookieValue(name = "userId") String myCookie*/) {
-//        Integer userId = Integer.parseInt(myCookie);
+    @GetMapping("details/{movieTitle}-{movieYear}")
+    public String displayViewMovieDetailsPage(Model model, @PathVariable String movieTitle, @CookieValue(name = "userId") String myCookie) {
+        Integer userId = Integer.parseInt(myCookie);
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            model.addAttribute("screenMode", user.getScreenMode());
+            model.addAttribute("username", user.getUsername());
+        }
 
         Iterable<MovieCollection> allMovieCollections = movieCollectionRepository.findAll();
         int foundMovieYear = 0;
@@ -128,7 +158,6 @@ public class MoviesController {
                     collectorName = collection.getUser().getUsername();
                 }
             }
-
         }
         model.addAttribute("collectionsWithThisMovie", foundMovies);
         model.addAttribute("movieTitle", movieTitle);
